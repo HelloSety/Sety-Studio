@@ -49,27 +49,167 @@ function FloatingIcon({ slug, hex, name, style, delay, size }: FI) {
   );
 }
 
-/* ── Sparkline ───────────────────────────────────────────── */
+/* ── Monotone cubic bezier (Fritsch-Carlson) ─────────────── */
+function monoPath(pts: [number, number][]): string {
+  const n = pts.length;
+  if (n < 2) return `M${pts[0]?.[0] ?? 0},${pts[0]?.[1] ?? 0}`;
+  const dx = pts.slice(1).map((p, i) => p[0] - pts[i][0]);
+  const dy = pts.slice(1).map((p, i) => p[1] - pts[i][1]);
+  const s  = dx.map((d, i) => (d === 0 ? 0 : dy[i] / d));
+  const t: number[] = new Array(n);
+  t[0] = s[0]; t[n-1] = s[n-2];
+  for (let i = 1; i < n - 1; i++)
+    t[i] = s[i-1] * s[i] <= 0 ? 0 : (s[i-1] + s[i]) / 2;
+  for (let i = 0; i < n - 1; i++) {
+    if (Math.abs(s[i]) < 1e-8) { t[i] = t[i+1] = 0; continue; }
+    const a = t[i] / s[i], b = t[i+1] / s[i], r = Math.sqrt(a*a + b*b);
+    if (r > 3) { t[i] *= 3/r; t[i+1] *= 3/r; }
+  }
+  let d = `M${pts[0][0].toFixed(2)},${pts[0][1].toFixed(2)}`;
+  for (let i = 0; i < n - 1; i++) {
+    const h = dx[i] / 3;
+    d += ` C${(pts[i][0]+h).toFixed(2)},${(pts[i][1]+t[i]*h).toFixed(2)} ${(pts[i+1][0]-h).toFixed(2)},${(pts[i+1][1]-t[i+1]*h).toFixed(2)} ${pts[i+1][0].toFixed(2)},${pts[i+1][1].toFixed(2)}`;
+  }
+  return d;
+}
+
+/* ── Sparkline (usa monoPath) ────────────────────────────── */
 function Sparkline({ data, color, id }: { data: number[]; color: string; id: string }) {
-  const max = Math.max(...data); const min = Math.min(...data); const range = max - min || 1;
+  const min = Math.min(...data); const max = Math.max(...data); const range = max - min || 1;
   const W = 44; const H = 18;
-  const pts = data.map((v, i) => [
+  const pts: [number, number][] = data.map((v, i) => [
     (i / (data.length - 1)) * W,
-    H - ((v - min) / range) * H * 0.82 + H * 0.09,
+    H - 2 - ((v - min) / range) * (H - 4),
   ]);
-  const line = pts.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+  const line = monoPath(pts);
   const fill = `${line} L${W},${H} L0,${H}Z`;
   return (
     <svg width={W} height={H} style={{ overflow: "visible", flexShrink: 0 }}>
       <defs>
         <linearGradient id={`sg-${id}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
       <path d={fill} fill={`url(#sg-${id})`} />
-      <path d={line} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r="2" fill={color} />
+      <path d={line} fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r="1.8" fill={color} />
+    </svg>
+  );
+}
+
+/* ── LiveChart — gráfico premium com dados ao vivo ───────── */
+const CHART_DATA = [32, 36, 40, 39, 45, 48, 54, 58, 56, 62, 69, 75];
+const WIN = 7; // pontos visíveis
+
+function LiveChart() {
+  const [winStart, setWinStart] = useState(0);
+  const [showTip,  setShowTip]  = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowTip(true), 2200);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() =>
+      setWinStart(s => s < CHART_DATA.length - WIN ? s + 1 : 0), 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const visible = CHART_DATA.slice(winStart, winStart + WIN);
+  const W = 160; const H = 64;
+  const yMin = 26; const yMax = 80;
+  const sx = (i: number) => (i / (WIN - 1)) * W;
+  const sy = (v: number) => H - 4 - ((v - yMin) / (yMax - yMin)) * (H - 8);
+  const pts: [number, number][] = visible.map((v, i) => [sx(i), sy(v)]);
+  const line = monoPath(pts);
+  const area = `${line} L${W},${H} L0,${H}Z`;
+  const lp   = pts[pts.length - 1];
+  const lv   = visible[visible.length - 1];
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ flex: 1, overflow: "visible" }} preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="lcGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="#7C3AED" stopOpacity="0.13" />
+          <stop offset="100%" stopColor="#7C3AED" stopOpacity="0.01" />
+        </linearGradient>
+        <filter id="lcGlow">
+          <feGaussianBlur stdDeviation="0.9" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="lcClip">
+          <motion.rect x={0} y={-4} height={H+8}
+            initial={{ width: 0 }}
+            animate={{ width: W }}
+            transition={{ duration: 1.8, delay: 0.8, ease: "easeOut" }}
+          />
+        </clipPath>
+      </defs>
+
+      {/* Grid horizontal — muito discreto */}
+      {[0.25, 0.5, 0.75].map((f) => {
+        const y = 4 + f * (H - 8);
+        return <line key={f} x1="0" y1={y} x2={W} y2={y}
+          stroke="rgba(255,255,255,0.032)" strokeWidth="1" strokeDasharray="4,4" />;
+      })}
+
+      {/* Conteúdo com clip de reveal */}
+      <g clipPath="url(#lcClip)">
+        <AnimatePresence mode="wait">
+          <motion.g key={winStart}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.45 }}
+          >
+            {/* Área */}
+            <path d={area} fill="url(#lcGrad)" />
+            {/* Linha — 1.5px, glow mínimo */}
+            <path d={line} fill="none" stroke="#7C3AED" strokeWidth="1.5"
+              strokeLinecap="round" filter="url(#lcGlow)" />
+            {/* Pontos intermediários */}
+            {pts.slice(0, -1).map(([x, y], i) => (
+              <circle key={i} cx={x} cy={y} r="1.8" fill="#7C3AED" fillOpacity="0.55" />
+            ))}
+          </motion.g>
+        </AnimatePresence>
+
+        {/* Último ponto — sempre visível, pulse suave */}
+        <motion.circle cx={lp[0]} cy={lp[1]}
+          animate={{ r: [2.2, 3.2, 2.2] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          fill="#7C3AED"
+        />
+        {/* Ring do último ponto */}
+        <circle cx={lp[0]} cy={lp[1]} r="5" fill="none"
+          stroke="#7C3AED" strokeWidth="0.5" strokeOpacity="0.25" />
+
+        {/* Tooltip auto no último ponto */}
+        <AnimatePresence>
+          {showTip && (
+            <motion.g
+              initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+            >
+              <rect
+                x={Math.min(lp[0] - 16, W - 35)} y={lp[1] - 26}
+                width={32} height={16} rx={3.5}
+                fill="rgba(16,16,20,0.92)" stroke="rgba(255,255,255,0.09)" strokeWidth="0.5"
+              />
+              <text
+                x={Math.min(lp[0] - 16, W - 35) + 16} y={lp[1] - 16.5}
+                fontSize="7.5" fill="white" textAnchor="middle" fontWeight="800"
+              >{lv}</text>
+              <text
+                x={Math.min(lp[0] - 16, W - 35) + 16} y={lp[1] - 9}
+                fontSize="5.5" fill="rgba(255,255,255,0.42)" textAnchor="middle"
+              >leads</text>
+              <line x1={lp[0]} y1={lp[1] - 10} x2={lp[0]} y2={lp[1] - 4}
+                stroke="rgba(124,58,237,0.35)" strokeWidth="0.5" />
+            </motion.g>
+          )}
+        </AnimatePresence>
+      </g>
     </svg>
   );
 }
@@ -326,47 +466,7 @@ function DashboardMockup() {
                   ))}
                 </div>
               </div>
-              <svg viewBox="0 0 160 70" style={{ flex: 1 }} preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.40" />
-                    <stop offset="100%" stopColor="#7C3AED" stopOpacity="0.02" />
-                  </linearGradient>
-                  <filter id="glow2">
-                    <feGaussianBlur stdDeviation="2.5" result="blur"/>
-                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
-                  <clipPath id="cc2">
-                    <motion.rect x={0} y={0} height={72}
-                      initial={{ width: 0 }}
-                      animate={{ width: 160 }}
-                      transition={{ duration: 2.0, delay: 0.9, ease: "easeOut" }}
-                    />
-                  </clipPath>
-                </defs>
-                {/* Grid lines */}
-                {[58,44,30,16].map((y) => (
-                  <line key={y} x1="0" y1={y} x2="160" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-                ))}
-                <g clipPath="url(#cc2)">
-                  <path
-                    d="M0,62 C8,62 15,52 23,52 C31,52 38,47 46,46 C54,45 61,37 70,36 C79,35 86,39 93,40 C100,41 108,25 116,24 C124,23 132,17 140,16 L150,10 L160,7"
-                    fill="url(#cg2)"
-                  />
-                  <path
-                    d="M0,62 C8,62 15,52 23,52 C31,52 38,47 46,46 C54,45 61,37 70,36 C79,35 86,39 93,40 C100,41 108,25 116,24 C124,23 132,17 140,16 L150,10 L160,7"
-                    fill="none" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round"
-                    filter="url(#glow2)"
-                  />
-                  {[[23,52],[46,46],[70,36],[93,40],[116,24],[140,16],[160,7]].map(([x,y],i) => (
-                    <motion.circle key={i} cx={x} cy={y} r={2.5} fill="#7C3AED"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.9 + i * 0.18 }}
-                    />
-                  ))}
-                </g>
-              </svg>
+              <LiveChart />
             </div>
 
             {/* WhatsApp panel */}
