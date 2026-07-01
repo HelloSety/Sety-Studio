@@ -12,13 +12,10 @@ import { Pricing }         from "./components/landing/Pricing";
 import { FAQ }             from "./components/landing/FAQ";
 import { CTA }             from "./components/landing/CTA";
 import { Footer }          from "./components/landing/Footer";
-import { VoiceAgent }      from "./components/landing/VoiceAgent";
-
 export default function Home() {
   return (
     <>
       <Navbar />
-      <VoiceAgent />
       <main>
         <Hero />
         <HeroDemo />

@@ -57,16 +57,17 @@ export function Navbar() {
         key="bar"
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: M.ease }}
+        transition={{ duration: 0.5, ease: M.ease }}
         style={{
           position: "fixed",
           top: 0, left: 0, right: 0,
           zIndex: 50,
           height: 64,
-          background: "rgba(255,255,255,0.70)",
-          backdropFilter: "blur(16px) saturate(160%)",
-          WebkitBackdropFilter: "blur(16px) saturate(160%)",
-          borderBottom: "1px solid rgba(0,0,0,0.06)",
+          background: "rgba(255,255,255,0.72)",
+          backdropFilter: "blur(28px) saturate(180%)",
+          WebkitBackdropFilter: "blur(28px) saturate(180%)",
+          borderBottom: "1px solid rgba(255,255,255,0.55)",
+          boxShadow: "0 1px 0 rgba(0,0,0,0.05)",
         }}
       >
         <div style={{
@@ -158,115 +159,139 @@ export function Navbar() {
     );
   }
 
-  /* ── ESTADO 2: Pill flutuante (após scroll) ── */
+  /* ── ESTADO 2: Pill flutuante (após scroll) ──
+     Separar posicionamento (wrapper div) da animação (motion.header)
+     para evitar que Framer Motion sobrescreva o translateX(-50%)        */
   return (
-    <motion.header
-      key="pill"
-      initial={{ opacity: 0, y: -12, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.3, ease: M.ease }}
+    <div
       style={{
         position: "fixed",
-        top: 16,
+        top: 20,
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 50,
         width: "max-content",
         maxWidth: "calc(100vw - 32px)",
-        borderRadius: radius.full,
-        background: "rgba(255,255,255,0.92)",
-        backdropFilter: "blur(20px) saturate(180%)",
-        WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        border: "1px solid rgba(0,0,0,0.09)",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.04)",
       }}
     >
-      <div style={{
-        height: 48, padding: "0 8px 0 16px",
-        display: "flex", alignItems: "center", gap: 4, minWidth: 0,
-      }}>
-        <Logo />
+      {/* Ambient glow atrás da pill */}
+      <div aria-hidden style={{
+        position: "absolute",
+        top: "50%", left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 500, height: 180,
+        background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%)",
+        filter: "blur(60px)",
+        opacity: 0.7,
+        zIndex: -1,
+        pointerEvents: "none",
+      }} />
 
-        <div style={{ width: 1, height: 16, background: "rgba(0,0,0,0.08)", margin: "0 8px", flexShrink: 0 }} />
+      <motion.header
+        key="pill"
+        initial={{ opacity: 0, y: -10, filter: "blur(8px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          borderRadius: radius.full,
+          background: "rgba(255,255,255,0.72)",
+          backdropFilter: "blur(28px) saturate(180%)",
+          WebkitBackdropFilter: "blur(28px) saturate(180%)",
+          border: "1px solid rgba(255,255,255,0.55)",
+          boxShadow: [
+            "0 12px 40px rgba(124,58,237,0.10)",
+            "0 4px 20px rgba(255,255,255,0.45)",
+            "0 0 0 1px rgba(255,255,255,0.40)",
+          ].join(", "),
+        }}
+      >
+        <div style={{
+          height: 48, padding: "0 8px 0 16px",
+          display: "flex", alignItems: "center", gap: 4, minWidth: 0,
+        }}>
+          <Logo />
 
-        <nav className="hidden md:flex" style={{ alignItems: "center", gap: 0 }}>
-          {NAV_LINKS.map((l) => (
-            <button key={l.id} onClick={() => scrollToSection(l.id)}
-              style={{
-                padding: "6px 12px", borderRadius: radius.md,
-                fontSize: 13, fontWeight: 500,
-                color: colors.textSecondary, background: "transparent",
-                border: "none", cursor: "pointer", whiteSpace: "nowrap",
-                transition: "color 0.15s, background 0.15s",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = colors.purple; e.currentTarget.style.background = "rgba(124,58,237,0.07)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary; e.currentTarget.style.background = "transparent"; }}
-            >
-              {l.label}
-            </button>
-          ))}
-        </nav>
+          <div style={{ width: 1, height: 16, background: "rgba(0,0,0,0.08)", margin: "0 8px", flexShrink: 0 }} />
 
-        <div className="hidden md:block" style={{ width: 1, height: 16, background: "rgba(0,0,0,0.08)", margin: "0 6px", flexShrink: 0 }} />
-
-        <div className="hidden md:flex" style={{ alignItems: "center", gap: 4, flexShrink: 0 }}>
-          <a href="/entrar" style={{
-            padding: "6px 14px", borderRadius: radius.full,
-            fontSize: 13, fontWeight: 500, color: colors.textSecondary, textDecoration: "none", whiteSpace: "nowrap",
-            transition: "color 0.2s, background 0.2s",
-          }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = colors.text; e.currentTarget.style.background = "rgba(0,0,0,0.05)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary; e.currentTarget.style.background = "transparent"; }}
-          >
-            Entrar
-          </a>
-          <motion.a href="/painel" style={{
-            display: "flex", alignItems: "center", gap: 5,
-            background: colors.text, color: colors.white,
-            padding: "7px 16px", borderRadius: radius.full,
-            fontSize: 13, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap",
-            boxShadow: shadow.sm,
-          }}
-            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-          >
-            Começar grátis <ChevronRight size={11} />
-          </motion.a>
-        </div>
-
-        <button className="md:hidden" onClick={() => setMobileOpen((v) => !v)}
-          style={{ padding: "6px 8px", borderRadius: radius.md, border: "none", background: "transparent", color: colors.textSecondary, cursor: "pointer", flexShrink: 0 }}>
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.18 }}
-            className="md:hidden"
-            style={{
-              borderTop: "1px solid rgba(0,0,0,0.07)",
-              padding: "8px 8px 10px", overflow: "hidden",
-              background: "rgba(255,255,255,0.97)",
-              borderRadius: `0 0 ${radius.xl}px ${radius.xl}px`,
-            }}
-          >
+          <nav className="hidden md:flex" style={{ alignItems: "center", gap: 0 }}>
             {NAV_LINKS.map((l) => (
-              <button key={l.id} onClick={() => { scrollToSection(l.id); setMobileOpen(false); }}
-                style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: radius.md, fontSize: 14, fontWeight: 500, color: colors.textSecondary, background: "transparent", border: "none", cursor: "pointer" }}>
+              <button key={l.id} onClick={() => scrollToSection(l.id)}
+                style={{
+                  padding: "6px 12px", borderRadius: radius.md,
+                  fontSize: 13, fontWeight: 500,
+                  color: colors.textSecondary, background: "transparent",
+                  border: "none", cursor: "pointer", whiteSpace: "nowrap",
+                  transition: "color 0.15s, background 0.15s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = colors.purple; e.currentTarget.style.background = "rgba(124,58,237,0.07)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary; e.currentTarget.style.background = "transparent"; }}
+              >
                 {l.label}
               </button>
             ))}
-            <div style={{ borderTop: "1px solid rgba(0,0,0,0.06)", marginTop: 6, paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
-              <a href="/entrar" style={{ padding: "10px 14px", textAlign: "center", borderRadius: radius.md, fontSize: 14, color: colors.textSecondary, background: colors.surface, textDecoration: "none", fontWeight: 500 }}>Entrar</a>
-              <a href="/painel" style={{ padding: "10px 14px", textAlign: "center", borderRadius: radius.md, fontSize: 14, color: colors.white, background: colors.text, textDecoration: "none", fontWeight: 700 }}>Começar grátis</a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+          </nav>
+
+          <div className="hidden md:block" style={{ width: 1, height: 16, background: "rgba(0,0,0,0.08)", margin: "0 6px", flexShrink: 0 }} />
+
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: 4, flexShrink: 0 }}>
+            <a href="/entrar" style={{
+              padding: "6px 14px", borderRadius: radius.full,
+              fontSize: 13, fontWeight: 500, color: colors.textSecondary, textDecoration: "none", whiteSpace: "nowrap",
+              transition: "color 0.2s, background 0.2s",
+            }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = colors.text; e.currentTarget.style.background = "rgba(0,0,0,0.05)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = colors.textSecondary; e.currentTarget.style.background = "transparent"; }}
+            >
+              Entrar
+            </a>
+            <motion.a href="/painel" style={{
+              display: "flex", alignItems: "center", gap: 5,
+              background: colors.text, color: colors.white,
+              padding: "7px 16px", borderRadius: radius.full,
+              fontSize: 13, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap",
+              boxShadow: shadow.sm,
+            }}
+              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+            >
+              Começar grátis <ChevronRight size={11} />
+            </motion.a>
+          </div>
+
+          <button className="md:hidden" onClick={() => setMobileOpen((v) => !v)}
+            style={{ padding: "6px 8px", borderRadius: radius.md, border: "none", background: "transparent", color: colors.textSecondary, cursor: "pointer", flexShrink: 0 }}>
+            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.18 }}
+              className="md:hidden"
+              style={{
+                borderTop: "1px solid rgba(0,0,0,0.07)",
+                padding: "8px 8px 10px", overflow: "hidden",
+                background: "rgba(255,255,255,0.97)",
+                borderRadius: `0 0 ${radius.xl}px ${radius.xl}px`,
+              }}
+            >
+              {NAV_LINKS.map((l) => (
+                <button key={l.id} onClick={() => { scrollToSection(l.id); setMobileOpen(false); }}
+                  style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: radius.md, fontSize: 14, fontWeight: 500, color: colors.textSecondary, background: "transparent", border: "none", cursor: "pointer" }}>
+                  {l.label}
+                </button>
+              ))}
+              <div style={{ borderTop: "1px solid rgba(0,0,0,0.06)", marginTop: 6, paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
+                <a href="/entrar" style={{ padding: "10px 14px", textAlign: "center", borderRadius: radius.md, fontSize: 14, color: colors.textSecondary, background: colors.surface, textDecoration: "none", fontWeight: 500 }}>Entrar</a>
+                <a href="/painel" style={{ padding: "10px 14px", textAlign: "center", borderRadius: radius.md, fontSize: 14, color: colors.white, background: colors.text, textDecoration: "none", fontWeight: 700 }}>Começar grátis</a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </div>
   );
 }

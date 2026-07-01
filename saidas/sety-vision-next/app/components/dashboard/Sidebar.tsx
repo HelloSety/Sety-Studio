@@ -68,14 +68,17 @@ export function Sidebar() {
               href={item.href}
               title={collapsed ? item.label : undefined}
               className={cn(
-                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 no-underline group",
+                "relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 no-underline group w-full",
                 isActive
                   ? "bg-white/[0.07] text-white"
                   : "text-[#52525B] hover:text-white hover:bg-white/[0.03]"
               )}
             >
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#7C3AED] rounded-r-full" />
+                <div
+                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#7C3AED] rounded-r-full"
+                  style={{ width: 3, height: 20, zIndex: 1 }}
+                />
               )}
               <Icon size={15} className="flex-shrink-0" />
               <AnimatePresence>

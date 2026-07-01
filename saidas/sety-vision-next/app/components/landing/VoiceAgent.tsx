@@ -55,8 +55,8 @@ export function VoiceAgent() {
 
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang  = "pt-BR";
-    utt.rate  = 1.05;
-    utt.pitch = 1.0;
+    utt.rate  = 0.95;
+    utt.pitch = 1.05;
 
     // Try to use a natural Brazilian voice
     const voices = window.speechSynthesis.getVoices();
