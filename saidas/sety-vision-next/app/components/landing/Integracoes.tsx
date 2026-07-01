@@ -47,23 +47,34 @@ interface Logo { name: string; slug: string; hex: string }
 
 function LogoItem({ logo }: { logo: Logo }) {
   const [hovered, setHovered] = useState(false);
+  const sz = 48;
+  const ico = Math.round(sz * 0.52);
+  const br = Math.round(sz * 0.24);
   return (
     <div
       style={{
         display: "flex", flexDirection: "column", alignItems: "center",
-        gap: 6, cursor: "default", userSelect: "none", flexShrink: 0,
-        transition: "transform 0.2s", transform: hovered ? "scale(1.12)" : "scale(1)",
+        gap: 8, cursor: "default", userSelect: "none", flexShrink: 0,
+        transition: "transform 0.22s", transform: hovered ? "scale(1.1)" : "scale(1)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`https://cdn.simpleicons.org/${logo.slug}/${hovered ? logo.hex : "CCCCCC"}`}
-        alt={logo.name} width={28} height={28}
-        style={{ width: 28, height: 28, objectFit: "contain", transition: "opacity 0.2s" }}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0"; }}
-      />
+      <div style={{
+        width: sz, height: sz, borderRadius: br,
+        background: `#${logo.hex}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: hovered ? "0 8px 24px rgba(0,0,0,0.16)" : "0 2px 8px rgba(0,0,0,0.10)",
+        transition: "box-shadow 0.22s",
+      }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/integrations/${logo.slug}.svg`}
+          alt={logo.name} width={ico} height={ico}
+          style={{ width: ico, height: ico, filter: "brightness(0) invert(1)" }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0"; }}
+        />
+      </div>
       <span style={{ fontSize: 10, color: colors.textMuted, whiteSpace: "nowrap", fontWeight: 500, lineHeight: 1 }}>
         {logo.name}
       </span>
@@ -74,7 +85,6 @@ function LogoItem({ logo }: { logo: Logo }) {
 const ROW1: Logo[] = [
   { name: "WhatsApp",   slug: "whatsapp",  hex: "25D366" },
   { name: "Instagram",  slug: "instagram", hex: "E4405F" },
-  { name: "Facebook",   slug: "facebook",  hex: "1877F2" },
   { name: "Gmail",      slug: "gmail",     hex: "EA4335" },
   { name: "Slack",      slug: "slack",     hex: "4A154B" },
   { name: "Meta Ads",   slug: "meta",      hex: "0467DF" },
@@ -82,7 +92,8 @@ const ROW1: Logo[] = [
   { name: "LinkedIn",   slug: "linkedin",  hex: "0A66C2" },
   { name: "Pinterest",  slug: "pinterest", hex: "E60023" },
   { name: "HubSpot",    slug: "hubspot",   hex: "FF7A59" },
-  { name: "RD Station", slug: "rdstation", hex: "0099FF" },
+  { name: "YouTube",    slug: "youtube",   hex: "FF0000" },
+  { name: "TikTok",     slug: "tiktok",    hex: "010101" },
 ];
 
 const ROW2: Logo[] = [
@@ -100,22 +111,22 @@ const ROW2: Logo[] = [
 ];
 
 const ROW3: Logo[] = [
-  { name: "Zoom",            slug: "zoom",           hex: "2D8CFF" },
-  { name: "Notion",          slug: "notion",         hex: "000000" },
-  { name: "Google Calendar", slug: "googlecalendar", hex: "4285F4" },
-  { name: "Google Drive",    slug: "googledrive",    hex: "4285F4" },
-  { name: "WooCommerce",     slug: "woocommerce",    hex: "96588A" },
-  { name: "TikTok",          slug: "tiktok",         hex: "010101" },
-  { name: "Docker",          slug: "docker",         hex: "2496ED" },
-  { name: "Cloudflare",      slug: "cloudflare",     hex: "F38020" },
-  { name: "Nuvemshop",       slug: "nuvemshop",      hex: "3FC3EE" },
-  { name: "Calendly",        slug: "calendly",       hex: "006BFF" },
+  { name: "Zoom",        slug: "zoom",        hex: "2D8CFF" },
+  { name: "Notion",      slug: "notion",      hex: "000000" },
+  { name: "WooCommerce", slug: "woocommerce", hex: "96588A" },
+  { name: "Docker",      slug: "docker",      hex: "2496ED" },
+  { name: "Cloudflare",  slug: "cloudflare",  hex: "F38020" },
+  { name: "Calendly",    slug: "calendly",    hex: "006BFF" },
+  { name: "Dropbox",     slug: "dropbox",     hex: "0061FF" },
+  { name: "Mailchimp",   slug: "mailchimp",   hex: "FFE01B" },
+  { name: "Figma",       slug: "figma",       hex: "F24E1E" },
+  { name: "Discord",     slug: "discord",     hex: "5865F2" },
 ];
 
 function MarqueeRow({ items, direction, speed }: { items: Logo[]; direction: "left" | "right"; speed: number }) {
   const tripled = [...items, ...items, ...items];
   return (
-    <div style={{ overflow: "hidden", position: "relative", width: "100%", height: 64, display: "flex", alignItems: "center" }}>
+    <div style={{ overflow: "hidden", position: "relative", width: "100%", height: 88, display: "flex", alignItems: "center" }}>
       <div style={{
         position: "absolute", left: 0, top: 0, bottom: 0, width: 120, zIndex: 10, pointerEvents: "none",
         background: `linear-gradient(to right, ${colors.background}, transparent)`,
@@ -170,10 +181,11 @@ function IntegrationCard({ card }: { card: Card }) {
           flexShrink: 0, boxShadow: "0 4px 12px rgba(0,0,0,0.14)",
         }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`https://cdn.simpleicons.org/${card.slug}/FFFFFF`}
+            src={`/integrations/${card.slug}.svg`}
             alt={card.name} width={ico} height={ico}
-            style={{ width: ico, height: ico }}
+            style={{ width: ico, height: ico, filter: "brightness(0) invert(1)" }}
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = "0"; }}
           />
         </div>
