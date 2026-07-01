@@ -1,57 +1,57 @@
-# [Seu Nome] — MazyOS
+﻿# [Seu Nome] â€” Sety Vision
 
-> Molde do CLAUDE.md aplicado a **criador solo** — uma pessoa, uma marca,
-> audiência como ativo principal. O sistema gira em torno do que você
+> Molde do CLAUDE.md aplicado a **criador solo** â€” uma pessoa, uma marca,
+> audiÃªncia como ativo principal. O sistema gira em torno do que vocÃª
 > produz e publica. O `/instalar` adapta esse molde com a sua realidade.
 
-## O que é esse workspace
+## O que Ã© esse workspace
 
-[Uma frase do que essa pasta representa. Ex: "Operação da minha marca
-pessoal e do meu negócio. Aqui eu produzo, publico, mantenho relação
-com audiência e fecho venda."]
+[Uma frase do que essa pasta representa. Ex: "OperaÃ§Ã£o da minha marca
+pessoal e do meu negÃ³cio. Aqui eu produzo, publico, mantenho relaÃ§Ã£o
+com audiÃªncia e fecho venda."]
 
 **Estrutura de pastas:**
-- `_memoria/` — quem eu sou, como falo, o que tá em foco
-- `identidade/` — cores, fontes, logo, padrão visual
-- `marketing/` — conteúdo, SEO, campanhas (saída das skills)
-- `saidas/` — análises, emails, documentos pontuais
-- `produtos/` — meus produtos próprios (cursos, ebooks, ofertas)
-- `audiencia/` — listas, dados, contatos da minha base
-- `dados/` — arquivos a analisar (CSV, PDF, planilha)
-- `scripts/` — utilitários (gerar imagem, postar, render)
-- `tarefas.md` — o que tá em jogo agora
+- `_memoria/` â€” quem eu sou, como falo, o que tÃ¡ em foco
+- `identidade/` â€” cores, fontes, logo, padrÃ£o visual
+- `marketing/` â€” conteÃºdo, SEO, campanhas (saÃ­da das skills)
+- `saidas/` â€” anÃ¡lises, emails, documentos pontuais
+- `produtos/` â€” meus produtos prÃ³prios (cursos, ebooks, ofertas)
+- `audiencia/` â€” listas, dados, contatos da minha base
+- `dados/` â€” arquivos a analisar (CSV, PDF, planilha)
+- `scripts/` â€” utilitÃ¡rios (gerar imagem, postar, render)
+- `tarefas.md` â€” o que tÃ¡ em jogo agora
 
 ## Quem sou
 
-Sou [nome]. [O que eu faço em uma frase].
-[O que diferencia o meu jeito — viés, ponto de vista, marca pessoal].
+Sou [nome]. [O que eu faÃ§o em uma frase].
+[O que diferencia o meu jeito â€” viÃ©s, ponto de vista, marca pessoal].
 
 ## O que produzo
 
-- [tipo de conteúdo 1: ex. vídeos no YouTube]
-- [tipo de conteúdo 2: ex. carrosséis no Instagram]
-- [produto próprio: ex. curso, mentoria, ebook]
+- [tipo de conteÃºdo 1: ex. vÃ­deos no YouTube]
+- [tipo de conteÃºdo 2: ex. carrossÃ©is no Instagram]
+- [produto prÃ³prio: ex. curso, mentoria, ebook]
 
-## Minha audiência
+## Minha audiÃªncia
 
-[Quem me acompanha hoje. Perfil real, não persona genérica. Tamanho da
+[Quem me acompanha hoje. Perfil real, nÃ£o persona genÃ©rica. Tamanho da
 base se for relevante.]
 
 ## Tom de voz
 
-[Como você escreve. Frase de exemplo é melhor que adjetivos abstratos.]
+[Como vocÃª escreve. Frase de exemplo Ã© melhor que adjetivos abstratos.]
 
-Evitar: [o que destoa de você]
+Evitar: [o que destoa de vocÃª]
 
 ## Posicionamento
 
-[O que você defende. Sua tese. Por que alguém te escolheria em vez do
-próximo criador do mesmo nicho.]
+[O que vocÃª defende. Sua tese. Por que alguÃ©m te escolheria em vez do
+prÃ³ximo criador do mesmo nicho.]
 
 ## Regras do sistema
 
-- Conteúdo novo salvar em `marketing/conteudo/<tipo>-<tema>-<data>/`
-- Cada lançamento de produto cria pasta em `produtos/<nome>/`
+- ConteÃºdo novo salvar em `marketing/conteudo/<tipo>-<tema>-<data>/`
+- Cada lanÃ§amento de produto cria pasta em `produtos/<nome>/`
 - [outras regras que aparecerem com o uso]
 
 ## Ferramentas conectadas

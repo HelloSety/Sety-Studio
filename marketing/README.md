@@ -1,44 +1,44 @@
-# marketing/ — saídas do MazyOS
+﻿# marketing/ â€” saÃ­das do Sety Vision
 
-Tudo que as skills de marketing produzem cai aqui. Skills do MazyOS já sabem onde salvar — você raramente precisa criar pasta manualmente.
+Tudo que as skills de marketing produzem cai aqui. Skills do Sety Vision jÃ¡ sabem onde salvar â€” vocÃª raramente precisa criar pasta manualmente.
 
-## Estrutura padrão
+## Estrutura padrÃ£o
 
 ```
 marketing/
-├── conteudo/                    saídas do /carrossel e /publicar-tema
-│   └── <tipo>-<tema>-<YYYY-MM-DD>/
-│       ├── carrossel.html
-│       ├── render.js
-│       ├── instagram/slide-XX.png
-│       ├── legenda.md
-│       └── legenda-linkedin.md
-│
-├── seo/                         saídas do /seo (8 passos)
-│   ├── 01-pesquisa-demanda.md
-│   ├── 02-analise-concorrencia.md
-│   ├── 03-google-meu-negocio.md
-│   ├── 04-otimizacao-on-page.md
-│   ├── 05-estrategia-conteudo.md
-│   ├── 06-google-ads.md
-│   ├── 07-checklist-monitoramento.md
-│   └── 08-geo-otimizacao-ia.md
-│
-├── campanhas/                   saídas do /anuncio-google e /relatorio-ads
-│   ├── google-ads-<YYYY-MM-DD>/  CSVs prontos pra importar
-│   └── relatorios/               relatórios semanais
-│
-└── avaliacoes-google/           histórico do /responder-avaliacoes (opcional)
+â”œâ”€â”€ conteudo/                    saÃ­das do /carrossel e /publicar-tema
+â”‚   â””â”€â”€ <tipo>-<tema>-<YYYY-MM-DD>/
+â”‚       â”œâ”€â”€ carrossel.html
+â”‚       â”œâ”€â”€ render.js
+â”‚       â”œâ”€â”€ instagram/slide-XX.png
+â”‚       â”œâ”€â”€ legenda.md
+â”‚       â””â”€â”€ legenda-linkedin.md
+â”‚
+â”œâ”€â”€ seo/                         saÃ­das do /seo (8 passos)
+â”‚   â”œâ”€â”€ 01-pesquisa-demanda.md
+â”‚   â”œâ”€â”€ 02-analise-concorrencia.md
+â”‚   â”œâ”€â”€ 03-google-meu-negocio.md
+â”‚   â”œâ”€â”€ 04-otimizacao-on-page.md
+â”‚   â”œâ”€â”€ 05-estrategia-conteudo.md
+â”‚   â”œâ”€â”€ 06-google-ads.md
+â”‚   â”œâ”€â”€ 07-checklist-monitoramento.md
+â”‚   â””â”€â”€ 08-geo-otimizacao-ia.md
+â”‚
+â”œâ”€â”€ campanhas/                   saÃ­das do /anuncio-google e /relatorio-ads
+â”‚   â”œâ”€â”€ google-ads-<YYYY-MM-DD>/  CSVs prontos pra importar
+â”‚   â””â”€â”€ relatorios/               relatÃ³rios semanais
+â”‚
+â””â”€â”€ avaliacoes-google/           histÃ³rico do /responder-avaliacoes (opcional)
 ```
 
 ## Como funciona
 
-- **`/carrossel` ou `/publicar-tema`** → cria pasta em `conteudo/<tipo>-<tema>-<data>/`
-- **`/seo`** → preenche os 8 arquivos numerados em `seo/`
-- **`/anuncio-google`** → cria pasta em `campanhas/google-ads-<data>/` com CSVs
-- **`/relatorio-ads`** → cria arquivo em `campanhas/relatorios/<data>-relatorio.md`
-- **`/responder-avaliacoes`** → opcionalmente salva histórico em `avaliacoes-google/`
+- **`/carrossel` ou `/publicar-tema`** â†’ cria pasta em `conteudo/<tipo>-<tema>-<data>/`
+- **`/seo`** â†’ preenche os 8 arquivos numerados em `seo/`
+- **`/anuncio-google`** â†’ cria pasta em `campanhas/google-ads-<data>/` com CSVs
+- **`/relatorio-ads`** â†’ cria arquivo em `campanhas/relatorios/<data>-relatorio.md`
+- **`/responder-avaliacoes`** â†’ opcionalmente salva histÃ³rico em `avaliacoes-google/`
 
 ## Versionamento
 
-Tudo aqui versiona no git pelo `/salvar`. Útil pra comparar evolução de SEO entre meses, rever copies antigas, ou recuperar peça depois de mexer no Insta.
+Tudo aqui versiona no git pelo `/salvar`. Ãštil pra comparar evoluÃ§Ã£o de SEO entre meses, rever copies antigas, ou recuperar peÃ§a depois de mexer no Insta.

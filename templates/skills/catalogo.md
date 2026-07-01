@@ -1,4 +1,4 @@
-# Catalogo de Skills
+﻿# Catalogo de Skills
 
 Skills externas prontas pra instalar. Use como referencia ao criar skills novas com `/mapear-rotinas` ou instale diretamente as que fizerem sentido pro seu negocio.
 
@@ -13,13 +13,13 @@ Skills externas prontas pra instalar. Use como referencia ao criar skills novas 
 **O que faz:** Escreve copy de vendas usando a metodologia de Eugene Schwartz (Breakthrough Advertising). Diagnostica o nivel de consciencia e sofisticacao do mercado antes de gerar qualquer texto.
 **Bom pra:** Landing pages, emails de venda, VSLs, cartas de venda, paginas de captura
 **Como instalar:** Ja vem como skill global. Chamar com `/schwartz-copy`
-**Fonte:** Skill validada pelo MazyOS
+**Fonte:** Skill validada pelo Sety Vision
 
 ### Ogilvy Copy (marca e posicionamento)
 **O que faz:** Gera copy institucional usando a metodologia de David Ogilvy. Pesquisa profunda, big idea, headlines informativas.
 **Bom pra:** Manifestos de marca, campanhas institucionais, taglines, brand voice, posicionamento
 **Como instalar:** Ja vem como skill global. Chamar com `/ogilvy-copy`
-**Fonte:** Skill validada pelo MazyOS
+**Fonte:** Skill validada pelo Sety Vision
 
 ---
 
@@ -88,7 +88,7 @@ Skills externas prontas pra instalar. Use como referencia ao criar skills novas 
 **Bom pra:** Criar conteudo a partir de videos (carrosseis, newsletters, posts)
 **Precisa de:** yt-dlp instalado (`brew install yt-dlp`)
 **Como instalar:** Ja vem como skill global. Chamar com `/yt-transcript`
-**Fonte:** Skill validada pelo MazyOS
+**Fonte:** Skill validada pelo Sety Vision
 
 ---
 
@@ -121,5 +121,5 @@ Se voce testou uma skill e quer adicionar aqui pra referencia futura:
 **O que faz:** [descricao em uma frase]
 **Bom pra:** [casos de uso praticos]
 **Como instalar:** [comando ou instrucao]
-**Fonte:** [de onde veio — skill nativa, criada por voce, ou de terceiros]
+**Fonte:** [de onde veio â€” skill nativa, criada por voce, ou de terceiros]
 ```
