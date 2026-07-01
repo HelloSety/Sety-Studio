@@ -1,0 +1,23 @@
+{
+  "skill_name": "mapeamento-decisores",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Preciso achar os decisores da Órulo. Quero os C-levels e algum diretor de vendas/comercial se tiver.",
+      "expected_output": "Pergunta (ou confirma) o perfil-alvo; ancora a empresa (CNPJ 13.470.518/0001-30, LinkedIn /company/orulobr); roda descoberta em 3 camadas paralelas; entrega relatório curto contendo no mínimo Felipe Pritsch Goettems (CEO/cofundador), Alejandro Olchik (CTO), Eduardo Stringhini (Diretor Cofundador) e Diego Diehl (Sócio Diretor Comercial). Fernando Goettems marcado como board/exterior. Sem despejar dossiês.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Quem decide na RD Station? Quero falar com quem manda no marketing e na área comercial.",
+      "expected_output": "Confirma o alvo (gestão de marketing + comercial); ancora a empresa (domínio rdstation.com, LinkedIn company); roda as 3 camadas em paralelo com filtros de função Marketing(15) e Sales(25); entrega relatório curto com diretores/heads de marketing e comercial classificados por papel no comitê, com ressalvas e lacunas honestas.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "mapeamento de decisores da Cobli",
+      "expected_output": "Como o alvo não foi especificado, PERGUNTA o perfil-alvo antes de buscar. Depois ancora a empresa e segue o pipeline padrão.",
+      "files": []
+    }
+  ]
+}

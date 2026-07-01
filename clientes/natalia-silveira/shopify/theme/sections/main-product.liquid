@@ -1,0 +1,331 @@
+{%- assign is_consult = false -%}
+{%- if product.tags contains 'consultar-preco' -%}
+  {%- assign is_consult = true -%}
+{%- endif -%}
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" aria-label="breadcrumb">
+  <a href="{{ routes.root_url }}">Casa</a>
+  <span aria-hidden="true">›</span>
+  <a href="{{ routes.all_products_collection_url }}">Comprar</a>
+  <span aria-hidden="true">›</span>
+  <span>{{ product.title }}</span>
+</nav>
+
+<div class="product-wrapper">
+  <!-- GALLERY -->
+  <div class="product-gallery">
+    <div class="gallery-main">
+      {%- if product.featured_image -%}
+        <img id="galleryMain"
+          src="{{ product.featured_image | image_url: width: 900 }}"
+          alt="{{ product.featured_image.alt | default: product.title }}"
+          width="900" height="1100">
+      {%- else -%}
+        <div class="product-card-placeholder" style="aspect-ratio:4/5;"></div>
+      {%- endif -%}
+    </div>
+    {%- if product.images.size > 1 -%}
+      <div class="gallery-thumbs">
+        {%- for image in product.images -%}
+          <div class="gallery-thumb{% if forloop.first %} active{% endif %}"
+            data-src="{{ image | image_url: width: 900 }}">
+            <img src="{{ image | image_url: width: 120 }}"
+              alt="{{ image.alt | default: product.title }}"
+              loading="lazy" width="120" height="150">
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+    <h1 class="product-title">{{ product.title }}</h1>
+    {%- if product.type != blank -%}
+      <p class="product-type">{{ product.type }}</p>
+    {%- endif -%}
+
+    {%- if is_consult -%}
+      <p class="product-price consult">Sob consulta</p>
+    {%- else -%}
+      <p class="product-price">{{ product.price | money }}</p>
+    {%- endif -%}
+
+    <hr class="product-divider">
+
+    {%- form 'product', product, id: 'productForm' -%}
+      <input type="hidden" name="id" id="variantId" value="{{ product.selected_or_first_available_variant.id }}">
+
+      <!-- TAMANHO -->
+      <p class="option-label">TAMANHO</p>
+      <div class="size-buttons">
+        {%- for variant in product.variants -%}
+          <button type="button"
+            class="size-btn{% if variant == product.selected_or_first_available_variant %} active{% endif %}{% unless variant.available %} unavailable{% endunless %}"
+            data-sz="{{ variant.option1 }}"
+            data-variant-id="{{ variant.id }}">
+            {{ variant.option1 }}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <!-- COR -->
+      <p class="option-label">
+        LINHA DE COR — <span id="colorSelected">Selecione uma cor</span>
+      </p>
+      <div class="color-tabs">
+        <button class="color-tab active" data-cp="premium">PREMIUM</button>
+        <button class="color-tab" data-cp="gold">LUREX DOURADO</button>
+        <button class="color-tab" data-cp="copper">LUREX COBRE</button>
+      </div>
+      <div class="color-panel active" id="cp-premium"></div>
+      <div class="color-panel" id="cp-gold"></div>
+      <div class="color-panel" id="cp-copper"></div>
+
+      <input type="hidden" name="properties[Cor]" id="selectedColorInput" value="">
+      <input type="hidden" name="properties[Linha de Cor]" id="selectedLineInput" value="">
+
+      <hr class="product-divider">
+
+      <!-- QUANTIDADE -->
+      {%- if section.settings.show_quantity -%}
+        <p class="option-label">QUANTIDADE</p>
+        <div class="qty-wrap">
+          <button type="button" class="qty-btn" id="qtyMinus">−</button>
+          <input type="number" class="qty-num" id="qtyNum" name="quantity" value="1" min="1" max="10" readonly>
+          <button type="button" class="qty-btn" id="qtyPlus">+</button>
+        </div>
+      {%- endif -%}
+
+      <!-- BOTÕES -->
+      <button type="submit" class="btn-add-cart">
+        {{ section.settings.cart_btn_text | default: 'ADICIONAR AO CARRINHO' }}
+      </button>
+    {%- endform -%}
+
+    {%- if section.settings.enable_wpp -%}
+      <a id="btnWpp" href="https://wa.me/{{ settings.wpp_number }}" target="_blank" class="btn-wpp">
+        {{ section.settings.wpp_btn_text | default: 'COMPRAR PELO WHATSAPP' }}
+      </a>
+    {%- endif -%}
+
+    <!-- FEITO SOB ENCOMENDA -->
+    {%- if section.settings.bespoke_title != blank -%}
+      <div class="bespoke-box">
+        <p class="bespoke-title">{{ section.settings.bespoke_title }}</p>
+        <p class="bespoke-body">{{ section.settings.bespoke_body }}</p>
+      </div>
+    {%- endif -%}
+
+    <!-- ACCORDION -->
+    <div class="accordion-item">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span>{{ section.settings.acc_details_label | default: 'DETALHES DA PEÇA' }}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-body">
+        {{ product.description }}
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span>{{ section.settings.acc_shipping_label | default: 'ENVIO E PRAZO' }}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-body">
+        <p>{{ section.settings.accordion_shipping }}</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span>{{ section.settings.acc_care_label | default: 'CUIDADOS COM A PEÇA' }}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-body">
+        <p>{{ section.settings.accordion_care }}</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span>{{ section.settings.acc_returns_label | default: 'TROCAS E DEVOLUÇÕES' }}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-body">
+        <p>{{ section.settings.accordion_returns }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUTOS RELACIONADOS -->
+{%- if section.settings.show_related -%}
+  <section class="recs-section">
+    <h2 class="recs-title">{{ section.settings.related_title | default: 'VOCÊ TAMBÉM VAI AMAR' }}</h2>
+    <div class="recs-grid">
+      {%- assign rec_count = 0 -%}
+      {%- assign limit = section.settings.related_count | default: 4 -%}
+      {%- for rec in collections.all.products -%}
+        {%- if rec.id != product.id and rec_count < limit -%}
+          <div class="rec-card" onclick="window.location='{{ rec.url }}'">
+            <div class="rec-card-image">
+              {%- if rec.featured_image -%}
+                <img src="{{ rec.featured_image | image_url: width: 400 }}"
+                  alt="{{ rec.title }}" loading="lazy" width="400" height="500">
+              {%- else -%}
+                <div class="product-card-placeholder" style="aspect-ratio:4/5;"></div>
+              {%- endif -%}
+            </div>
+            <p class="rec-card-name">{{ rec.title }}</p>
+            {%- if rec.tags contains 'consultar-preco' -%}
+              <p class="rec-card-price consult">Sob consulta</p>
+            {%- else -%}
+              <p class="rec-card-price">{{ rec.price | money }}</p>
+            {%- endif -%}
+          </div>
+          {%- assign rec_count = rec_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+<script>
+  document.querySelectorAll('.color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.getElementById('selectedColorInput').value = sw.title;
+      document.getElementById('selectedLineInput').value = sw.dataset.line || '';
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Produto",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Página do Produto"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "Mostrar seletor de quantidade",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Botões"
+    },
+    {
+      "type": "text",
+      "id": "cart_btn_text",
+      "label": "Texto botão carrinho",
+      "default": "ADICIONAR AO CARRINHO"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_wpp",
+      "label": "Mostrar botão WhatsApp",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wpp_btn_text",
+      "label": "Texto botão WhatsApp",
+      "default": "COMPRAR PELO WHATSAPP"
+    },
+    {
+      "type": "header",
+      "content": "Caixa Feito sob Encomenda"
+    },
+    {
+      "type": "text",
+      "id": "bespoke_title",
+      "label": "Título",
+      "default": "FEITO SOB ENCOMENDA"
+    },
+    {
+      "type": "textarea",
+      "id": "bespoke_body",
+      "label": "Texto",
+      "default": "Cada peça é produzida exclusivamente sob medida. Prazo: até 20 dias corridos além do envio."
+    },
+    {
+      "type": "header",
+      "content": "Labels do Accordion"
+    },
+    {
+      "type": "text",
+      "id": "acc_details_label",
+      "label": "Label: Detalhes",
+      "default": "DETALHES DA PEÇA"
+    },
+    {
+      "type": "text",
+      "id": "acc_shipping_label",
+      "label": "Label: Envio",
+      "default": "ENVIO E PRAZO"
+    },
+    {
+      "type": "text",
+      "id": "acc_care_label",
+      "label": "Label: Cuidados",
+      "default": "CUIDADOS COM A PEÇA"
+    },
+    {
+      "type": "text",
+      "id": "acc_returns_label",
+      "label": "Label: Trocas",
+      "default": "TROCAS E DEVOLUÇÕES"
+    },
+    {
+      "type": "header",
+      "content": "Conteúdo do Accordion"
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_shipping",
+      "label": "Texto: Envio e Prazo",
+      "default": "Enviamos para todo o Brasil e exterior. Frete calculado pelo endereço de destino. Origem: Maringá — Paraná, Brasil. Peso médio: 1,5 kg por peça."
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_care",
+      "label": "Texto: Cuidados",
+      "default": "Lavar à mão com água fria e sabão neutro. Não torcer. Secar à sombra, esticada. Guardar em local seco e arejado. Evitar exposição prolongada ao sol."
+    },
+    {
+      "type": "textarea",
+      "id": "accordion_returns",
+      "label": "Texto: Trocas e Devoluções",
+      "default": "Cada peça é feita exclusivamente sob medida. Não aceitamos trocas por arrependimento. Aceitamos análise de defeito de fabricação em até 7 dias do recebimento."
+    },
+    {
+      "type": "header",
+      "content": "Produtos Relacionados"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related",
+      "label": "Mostrar produtos relacionados",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_title",
+      "label": "Título dos produtos relacionados",
+      "default": "VOCÊ TAMBÉM VAI AMAR"
+    },
+    {
+      "type": "range",
+      "id": "related_count",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Quantidade de produtos relacionados"
+    }
+  ]
+}
+{% endschema %}

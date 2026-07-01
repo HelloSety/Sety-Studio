@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,700;0,800;0,900;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#06060D; }
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* Background profundo */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 50% 40% at 72% 46%, rgba(37,99,235,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 50% at 80% 60%, rgba(37,99,235,0.05) 0%, transparent 50%),
+    #06060D;
+}
+
+/* Grain */
+.grain {
+  position:absolute; inset:0; z-index:15; pointer-events:none; opacity:0.048;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* Linha fina topo */
+.line-top {
+  position:absolute; top:0; left:0; right:0; z-index:20; height:1px;
+  background:linear-gradient(to right, rgba(232,93,0,0.5) 0%, rgba(232,93,0,0.1) 60%, transparent 100%);
+}
+
+/* ── COLUNA DE TEXTO ── */
+.text-col {
+  position:absolute; left:64px; top:0; bottom:0; z-index:10;
+  width:520px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+/* Badge topo */
+.badge {
+  display:flex; align-items:center; gap:10px; margin-bottom:44px;
+}
+.badge-sq { width:6px; height:6px; background:#E85D00; }
+.badge-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+
+/* Stack tipográfico */
+.t-bonito {
+  font-family:'Barlow',sans-serif; font-weight:900;
+  font-size:186px; line-height:0.84;
+  color:#fff; letter-spacing:-5px; display:block;
+}
+.t-nao {
+  font-family:'Barlow',sans-serif; font-weight:700; font-style:italic;
+  font-size:90px; line-height:0.84;
+  color:#E85D00; letter-spacing:-2px;
+  display:block; padding-left:6px;
+}
+.t-vende {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:258px; line-height:0.8;
+  color:#fff; letter-spacing:-2px; display:block;
+}
+
+/* Separador */
+.rule {
+  width:48px; height:1px; background:#E85D00; opacity:0.7;
+  margin:40px 0 32px;
+}
+
+/* Copy */
+.copy {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:13px;
+  line-height:1.85; color:rgba(255,255,255,0.35); letter-spacing:0.3px;
+  max-width:340px; margin-bottom:48px;
+}
+.copy strong { color:rgba(255,255,255,0.6); font-weight:400; }
+
+/* CTA */
+.cta { display:flex; align-items:center; gap:12px; }
+.cta-arrow { color:#E85D00; font-size:14px; font-family:'Barlow',sans-serif; }
+.cta-txt {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:400;
+  letter-spacing:4px; color:rgba(255,255,255,0.4); text-transform:uppercase;
+}
+
+/* Handle */
+.handle {
+  position:absolute; bottom:44px; left:64px; z-index:20;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.15); text-transform:lowercase;
+}
+
+/* ── BROWSER MOCKUP ── */
+.browser-wrap {
+  position:absolute; right:-80px; top:50%;
+  transform:translateY(-50%) rotate(5.5deg);
+  z-index:5; width:660px;
+}
+
+/* Glow atrás */
+.b-glow {
+  position:absolute; inset:-80px; z-index:0; pointer-events:none;
+  background:radial-gradient(ellipse, rgba(37,99,235,0.14) 0%, transparent 65%);
+  filter:blur(40px);
+}
+
+.browser {
+  position:relative; z-index:1;
+  background:#0D0E1F;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px; overflow:hidden;
+  box-shadow:
+    0 80px 160px rgba(0,0,0,0.85),
+    0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+.b-bar {
+  height:38px; background:#141626;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex; align-items:center; padding:0 14px; gap:8px;
+}
+.b-dot { width:10px; height:10px; border-radius:50%; }
+.br { background:rgba(255,90,90,0.55); }
+.by { background:rgba(255,190,55,0.55); }
+.bg-d { background:rgba(55,200,90,0.55); }
+.b-url {
+  flex:1; margin:0 16px; height:22px;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+  border-radius:3px; display:flex; align-items:center; padding:0 10px;
+  font-family:'Barlow',sans-serif; font-size:10px; color:rgba(255,255,255,0.2);
+}
+
+/* WEBSITE BONITO DENTRO DO BROWSER */
+.w-hero {
+  position:relative; height:290px; overflow:hidden;
+  background:linear-gradient(135deg, #6366f1 0%, #8b5cf6 35%, #ec4899 70%, #f43f5e 100%);
+}
+.w-hero::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to bottom, transparent 25%, rgba(0,0,0,0.3) 100%);
+}
+
+/* Badge de métricas ruins — sobreposição */
+.bad-metrics {
+  position:absolute; top:18px; right:18px; z-index:20;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(12px);
+  border:1px solid rgba(239,68,68,0.35);
+  border-radius:10px; padding:16px 20px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.bm-row { display:flex; align-items:center; gap:10px; }
+.bm-dot { width:5px; height:5px; border-radius:50%; background:#EF4444; flex-shrink:0; }
+.bm-n {
+  font-family:'Bebas Neue',sans-serif; font-size:26px; line-height:1; color:#EF4444;
+}
+.bm-n.grey { color:rgba(255,255,255,0.4); }
+.bm-s {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:2px; color:rgba(255,255,255,0.35); text-transform:uppercase;
+}
+
+.w-content {
+  position:absolute; bottom:0; left:0; right:0; padding:28px 32px; z-index:10;
+}
+.w-label {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:3px; color:rgba(255,255,255,0.7); text-transform:uppercase;
+  margin-bottom:8px;
+}
+.w-title {
+  font-family:'Barlow',sans-serif; font-weight:800; font-size:30px;
+  color:#fff; line-height:1.1; margin-bottom:14px;
+}
+.w-btn {
+  display:inline-flex; align-items:center;
+  background:rgba(255,255,255,0.15); backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.25);
+  padding:9px 22px; border-radius:100px;
+  font-family:'Barlow',sans-serif; font-size:11px; font-weight:600;
+  color:#fff; letter-spacing:0.5px;
+}
+
+/* Bar de stats abaixo */
+.w-stats {
+  background:#090A18; padding:22px 28px;
+  display:flex; gap:0; border-top:1px solid rgba(255,255,255,0.05);
+}
+.stat { flex:1; display:flex; flex-direction:column; gap:4px; }
+.stat + .stat { border-left:1px solid rgba(255,255,255,0.06); padding-left:20px; }
+.stat-n {
+  font-family:'Bebas Neue',sans-serif; font-size:30px; line-height:1;
+}
+.stat-n.red { color:#EF4444; }
+.stat-n.dim { color:rgba(255,255,255,0.3); }
+.stat-s {
+  font-family:'Barlow',sans-serif; font-size:8px; font-weight:300;
+  letter-spacing:2px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="grain"></div>
+  <div class="line-top"></div>
+
+  <!-- TEXTO -->
+  <div class="text-col">
+    <div class="badge">
+      <div class="badge-sq"></div>
+      <div class="badge-txt">Sety Studio · Verdade</div>
+    </div>
+
+    <span class="t-bonito">BONITO</span>
+    <span class="t-nao">não</span>
+    <span class="t-vende">VENDE.</span>
+
+    <div class="rule"></div>
+
+    <div class="copy">
+      Um site pode ser lindo e ainda assim<br>
+      não converter <strong>um cliente sequer</strong>.
+    </div>
+
+    <div class="cta">
+      <span class="cta-arrow">→</span>
+      <span class="cta-txt">Fale com a Sety Studio</span>
+    </div>
+  </div>
+
+  <!-- BROWSER -->
+  <div class="browser-wrap">
+    <div class="b-glow"></div>
+    <div class="browser">
+      <div class="b-bar">
+        <div class="b-dot br"></div>
+        <div class="b-dot by"></div>
+        <div class="b-dot bg-d"></div>
+        <div class="b-url">meusite.com.br</div>
+      </div>
+      <div style="position:relative;">
+        <div class="w-hero">
+          <div class="bad-metrics">
+            <div class="bm-row">
+              <div class="bm-dot"></div>
+              <div>
+                <div class="bm-n">0.2%</div>
+                <div class="bm-s">Conversão</div>
+              </div>
+            </div>
+            <div class="bm-row">
+              <div class="bm-dot"></div>
+              <div>
+                <div class="bm-n grey">94%</div>
+                <div class="bm-s">Bounce rate</div>
+              </div>
+            </div>
+            <div class="bm-row">
+              <div class="bm-dot"></div>
+              <div>
+                <div class="bm-n">R$0</div>
+                <div class="bm-s">Receita hoje</div>
+              </div>
+            </div>
+          </div>
+          <div class="w-content">
+            <div class="w-label">Design Premiado</div>
+            <div class="w-title">O site mais bonito<br>da sua cidade.</div>
+            <div class="w-btn">Saiba mais</div>
+          </div>
+        </div>
+        <div class="w-stats">
+          <div class="stat">
+            <div class="stat-n red">↓ 94%</div>
+            <div class="stat-s">Bounce rate</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n dim">0</div>
+            <div class="stat-s">Vendas hoje</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n red">8.2s</div>
+            <div class="stat-s">Load time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="handle">@setystudio</div>
+</div>
+</body>
+</html>

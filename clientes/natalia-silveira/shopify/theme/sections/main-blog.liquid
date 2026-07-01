@@ -1,0 +1,68 @@
+<div class="collection-grid-wrap">
+  <div class="collection-header">
+    <h1 class="collection-title">{{ blog.title }}</h1>
+  </div>
+
+  {%- paginate blog.articles by section.settings.articles_per_page -%}
+    <div class="product-grid" style="grid-template-columns:repeat(3,1fr);">
+      {%- for article in blog.articles -%}
+        <article onclick="window.location='{{ article.url }}'" style="cursor:pointer;">
+          {%- if section.settings.show_image and article.image -%}
+            <img src="{{ article.image | image_url: width: 600 }}"
+              alt="{{ article.image.alt | default: article.title }}"
+              loading="lazy" width="600" height="400"
+              style="width:100%;aspect-ratio:3/2;object-fit:cover;margin-bottom:16px;">
+          {%- endif -%}
+          {%- if section.settings.show_date -%}
+            <p style="font-size:10px;letter-spacing:2px;color:#767676;margin-bottom:8px;">
+              {{ article.published_at | date: '%d/%m/%Y' }}
+            </p>
+          {%- endif -%}
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:18px;margin-bottom:8px;">
+            {{ article.title }}
+          </h2>
+          <p style="font-size:12px;color:#767676;line-height:1.7;">{{ article.excerpt | strip_html | truncate: 120 }}</p>
+        </article>
+      {%- else -%}
+        <p style="padding:60px;text-align:center;color:#767676;font-size:13px;">Nenhum artigo publicado ainda.</p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="pagination">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pagination-btn">← Anterior</a>{%- endif -%}
+        <span class="pagination-info">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="pagination-btn">Próxima →</a>{%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 12,
+      "label": "Artigos por página"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Mostrar imagem do artigo",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Mostrar data",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

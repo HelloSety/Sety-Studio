@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pack de Artes Esportivas — 70 Artes Editáveis no Canva por R$27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #00C851;
+      --green-dark: #009C3B;
+      --green-glow: rgba(0,200,81,0.15);
+      --bg: #060606;
+      --bg2: #0f0f0f;
+      --bg3: #161616;
+      --text: #ffffff;
+      --muted: #777;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── COUNTDOWN BAR ─── */
+    .top-bar {
+      background: #111;
+      border-bottom: 1px solid rgba(0,200,81,0.2);
+      padding: 10px 16px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .countdown {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .cd-block {
+      background: var(--green);
+      color: #000;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      min-width: 36px;
+      text-align: center;
+    }
+    .cd-sep { color: var(--green); font-weight: 900; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      background: rgba(6,6,6,0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--green); }
+    .nav-btn {
+      background: var(--green);
+      color: #000;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .nav-btn:hover { background: var(--green-dark); }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 72px 24px 80px;
+      text-align: center;
+      background: radial-gradient(ellipse 90% 50% at 50% 0%, var(--green-glow) 0%, transparent 70%);
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(0,200,81,0.35);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 68px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      max-width: 860px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero .lead {
+      font-size: clamp(15px, 2vw, 19px);
+      color: #aaa;
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-price-hint {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+    .hero-price-hint s { color: #555; }
+    .hero-price-hint strong { color: var(--green); font-size: 22px; }
+    .btn-hero {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-weight: 900;
+      font-size: 18px;
+      padding: 20px 52px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 6px 36px rgba(0,200,81,0.4);
+      transition: transform .15s, box-shadow .15s;
+      letter-spacing: 0.2px;
+    }
+    .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 10px 48px rgba(0,200,81,0.5); }
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hero-numbers {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .hn-item { text-align: center; }
+    .hn-item strong { display: block; font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--green); }
+    .hn-item span { font-size: 12px; color: var(--muted); }
+    .hn-div { width: 1px; height: 36px; background: var(--border); }
+
+    /* ─── GALLERY ─── */
+    .gallery-section { padding: 0 0 80px; }
+    .gallery-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      padding-top: 16px;
+    }
+
+    /* Grid 7 grupos × 10 */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px;
+      padding: 0 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /*
+      SUBSTITUA cada .img-slot por uma tag <img> com sua imagem real.
+      Exemplo: <img src="imagens/template1/preview1.jpg" alt="Template 1" class="img-slot">
+    */
+    .img-slot {
+      aspect-ratio: 1/1;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+    .img-slot:hover { transform: scale(1.03); border-color: var(--green); }
+    .img-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Placeholder visual enquanto sem imagem real */
+    .img-slot.ph { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+    .img-slot.ph .ph-icon { font-size: 28px; }
+    .img-slot.ph .ph-name { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; text-align: center; padding: 0 8px; }
+
+    /* Gradientes por template */
+    .t1 { background: linear-gradient(135deg, #003087 0%, #00C851 100%); }
+    .t2 { background: linear-gradient(135deg, #1a1a2e 0%, #e94560 100%); }
+    .t3 { background: linear-gradient(135deg, #000 0%, #FFD700 100%); }
+    .t4 { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); }
+    .t5 { background: linear-gradient(135deg, #1b1b2f 0%, #f5a623 100%); }
+    .t6 { background: linear-gradient(135deg, #2d6a4f 0%, #95d5b2 100%); }
+    .t7 { background: linear-gradient(135deg, #3a0000 0%, #ff4444 100%); }
+
+    /* ─── SECTION BASE ─── */
+    .section { padding: 80px 24px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .tag {
+      display: inline-block;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: clamp(26px, 4vw, 46px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .title em { font-style: normal; color: var(--green); }
+    .sub { font-size: 16px; color: #999; line-height: 1.7; max-width: 560px; }
+
+    /* ─── QUEM É PARA ─── */
+    .for-section { background: var(--bg2); }
+    .for-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .for-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color .2s;
+    }
+    .for-card:hover { border-color: rgba(0,200,81,0.3); }
+    .for-icon { font-size: 28px; flex-shrink: 0; }
+    .for-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .for-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── TEMPLATES ─── */
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .template-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform .2s, border-color .2s;
+    }
+    .template-card:hover { transform: translateY(-4px); border-color: var(--green); }
+    .tc-thumb {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      position: relative;
+    }
+    .tc-count {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 4px;
+      color: #fff;
+    }
+    .tc-body { background: var(--bg3); padding: 16px 18px; }
+    .tc-body h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .tc-body p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── COMO FUNCIONA ─── */
+    .steps-section { background: var(--bg2); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 40px; }
+    .step { text-align: center; }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--green);
+      color: #000;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900;
+      font-size: 22px;
+      margin: 0 auto 16px;
+    }
+    .step h4 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── DEPOIMENTOS ─── */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .testi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .testi .stars { color: #FFD700; font-size: 13px; margin-bottom: 10px; }
+    .testi p { font-size: 14px; color: #ddd; line-height: 1.7; font-style: italic; margin-bottom: 16px; }
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .ta-av {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      font-weight: 900;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ta-name { font-size: 13px; font-weight: 700; }
+    .ta-info { font-size: 11px; color: var(--muted); }
+
+    /* ─── BONUS ─── */
+    .bonus-section { background: var(--bg2); }
+    .bonus-stack { margin-top: 40px; display: grid; gap: 12px; }
+    .bonus-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--bg3);
+      border: 1px solid rgba(0,200,81,0.15);
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .bn { width: 40px; height: 40px; background: var(--green); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; flex-shrink: 0; }
+    .bc { flex: 1; }
+    .bc h4 { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+    .bc p { font-size: 12px; color: var(--muted); }
+    .bv { text-align: right; flex-shrink: 0; }
+    .bv span { font-size: 11px; color: var(--muted); }
+    .bv strong { display: block; font-size: 17px; font-weight: 900; color: var(--green); }
+
+    /* ─── OFERTA ─── */
+    .offer-section { background: var(--bg2); text-align: center; }
+    .offer-box {
+      max-width: 520px;
+      margin: 40px auto 0;
+      background: var(--bg3);
+      border: 1px solid rgba(0,200,81,0.25);
+      border-radius: 16px;
+      padding: 44px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green), var(--green-dark));
+    }
+    .off-badge {
+      display: inline-block;
+      background: rgba(0,200,81,0.1);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .off-from { font-size: 18px; color: var(--muted); text-decoration: line-through; margin-bottom: 2px; }
+    .off-price { font-size: 80px; font-weight: 900; letter-spacing: -4px; line-height: 1; }
+    .off-price sup { font-size: 30px; vertical-align: super; letter-spacing: 0; font-weight: 700; }
+    .off-installment { font-size: 15px; color: #aaa; margin: 8px 0 28px; }
+    .off-list { text-align: left; margin-bottom: 28px; display: grid; gap: 9px; }
+    .off-line {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: #ccc;
+    }
+    .off-line::before { content: '✓'; color: var(--green); font-weight: 900; font-size: 14px; flex-shrink: 0; }
+    .btn-buy {
+      display: block;
+      background: var(--green);
+      color: #000;
+      font-weight: 900;
+      font-size: 19px;
+      padding: 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 6px 36px rgba(0,200,81,0.4);
+      transition: transform .15s;
+      margin-bottom: 14px;
+    }
+    .btn-buy:hover { transform: translateY(-2px); }
+    .off-security { font-size: 12px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+    /* Countdown dentro da oferta */
+    .off-timer {
+      background: rgba(0,200,81,0.08);
+      border: 1px solid rgba(0,200,81,0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #bbb;
+    }
+    .off-timer .cd-inline {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .cd-n {
+      background: var(--green);
+      color: #000;
+      font-weight: 900;
+      font-size: 20px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    /* ─── GARANTIA ─── */
+    .guar-box {
+      max-width: 600px;
+      margin: 40px auto 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .guar-icon { font-size: 52px; flex-shrink: 0; }
+    .guar-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .guar-box p { color: #999; font-size: 14px; line-height: 1.7; }
+
+    /* ─── FAQ ─── */
+    .faq-section { background: var(--bg2); }
+    .faq-list { margin-top: 40px; max-width: 680px; display: grid; gap: 10px; }
+    details {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    details[open] { border-color: rgba(0,200,81,0.25); }
+    summary {
+      padding: 18px 22px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    summary::after { content: '+'; font-size: 20px; color: var(--green); flex-shrink: 0; transition: transform .2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { padding: 0 22px 18px; font-size: 14px; color: #999; line-height: 1.7; }
+
+    /* ─── FINAL CTA ─── */
+    .final {
+      padding: 100px 24px;
+      text-align: center;
+      background: radial-gradient(ellipse 60% 40% at 50% 100%, var(--green-glow) 0%, transparent 70%);
+    }
+    .final h2 { font-size: clamp(28px, 5vw, 56px); font-weight: 900; letter-spacing: -2px; margin-bottom: 14px; }
+    .final h2 em { font-style: normal; color: var(--green); }
+    .final p { color: #888; font-size: 16px; margin-bottom: 36px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .guar-box { flex-direction: column; }
+      .bonus-row { flex-wrap: wrap; }
+      .bv { width: 100%; text-align: left; }
+      .hero-numbers { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP COUNTDOWN -->
+<div class="top-bar">
+  <span>⚡ Oferta especial — preço sobe em:</span>
+  <div class="countdown">
+    <div class="cd-block" id="h">00</div>
+    <span class="cd-sep">:</span>
+    <div class="cd-block" id="m">14</div>
+    <span class="cd-sep">:</span>
+    <div class="cd-block" id="s">59</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Pack<span>Esportivo</span></div>
+  <a href="#oferta" class="nav-btn">Quero por R$27 →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">⚽ 70 Artes · 7 Templates · Canva Gratuito</div>
+    <h1>Artes esportivas<br>profissionais em<br><em>minutos</em></h1>
+    <p class="lead">
+      Sem Photoshop. Sem designer. Sem enrolação.<br>
+      Só você, o Canva e R$27.
+    </p>
+    <div class="hero-price-hint">
+      De <s>R$197</s> por apenas <strong>R$27</strong>
+    </div>
+    <a href="#oferta" class="btn-hero">QUERO MINHAS ARTES AGORA →</a>
+    <div class="hero-sub">Acesso imediato · Canva gratuito · Garantia de 7 dias</div>
+    <div class="hero-numbers">
+      <div class="hn-item"><strong>70</strong><span>artes editáveis</span></div>
+      <div class="hn-div"></div>
+      <div class="hn-item"><strong>7</strong><span>templates prontos</span></div>
+      <div class="hn-div"></div>
+      <div class="hn-item"><strong>10min</strong><span>do pagamento ao post</span></div>
+      <div class="hn-div"></div>
+      <div class="hn-item"><strong>R$0</strong><span>de Photoshop</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-label">Prévia do pack — 70 artes editáveis</div>
+  <div class="gallery-grid" id="gallery">
+
+    <!-- TEMPLATE 1 — 10 imagens -->
+    <!-- Para usar imagens reais, substitua cada .img-slot.ph por:
+         <div class="img-slot"><img src="SUA_IMAGEM.jpg" alt="Template 1"></div>  -->
+    <div class="img-slot ph t1"><div class="ph-icon">⚽</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🏆</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🎯</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🔥</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">⚡</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🌟</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🥅</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">👑</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">💥</div><div class="ph-name">Matchday</div></div>
+    <div class="img-slot ph t1"><div class="ph-icon">🎖️</div><div class="ph-name">Matchday</div></div>
+
+    <!-- TEMPLATE 2 -->
+    <div class="img-slot ph t2"><div class="ph-icon">📣</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">💸</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">🏷️</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">🔖</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">⚡</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">💰</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">🛒</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">📦</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">🎁</div><div class="ph-name">Promoção</div></div>
+    <div class="img-slot ph t2"><div class="ph-icon">🤑</div><div class="ph-name">Promoção</div></div>
+
+    <!-- TEMPLATE 3 -->
+    <div class="img-slot ph t3"><div class="ph-icon">🇧🇷</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇦🇷</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇵🇹</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇫🇷</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇩🇪</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇪🇸</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇳🇱</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇮🇹</div><div class="ph-name">Seleções</div></div>
+    <div class="img-slot ph t3"><div class="ph-icon">🇺🇾</div><div class="ph-name">Seleções</div></div>
+
+    <!-- TEMPLATE 4 -->
+    <div class="img-slot ph t4"><div class="ph-icon">📊</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">👥</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">🗺️</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">⚙️</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">🎮</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">📋</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">🏟️</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">🔢</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">🧩</div><div class="ph-name">Escalação</div></div>
+    <div class="img-slot ph t4"><div class="ph-icon">📌</div><div class="ph-name">Escalação</div></div>
+
+    <!-- TEMPLATE 5 -->
+    <div class="img-slot ph t5"><div class="ph-icon">🥇</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">📯</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">🎉</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">😤</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">📢</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">🔔</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">✅</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">🏅</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">🎊</div><div class="ph-name">Resultado</div></div>
+    <div class="img-slot ph t5"><div class="ph-icon">📸</div><div class="ph-name">Resultado</div></div>
+
+    <!-- TEMPLATE 6 -->
+    <div class="img-slot ph t6"><div class="ph-icon">🎯</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">✍️</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">📝</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">🤝</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">💼</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">🖊️</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">🏆</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">⭐</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">📄</div><div class="ph-name">Contratação</div></div>
+    <div class="img-slot ph t6"><div class="ph-icon">🔑</div><div class="ph-name">Contratação</div></div>
+
+    <!-- TEMPLATE 7 -->
+    <div class="img-slot ph t7"><div class="ph-icon">📣</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">📱</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">⬆️</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">💬</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">🔥</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">🎬</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">👆</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">💡</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">🌟</div><div class="ph-name">Stories</div></div>
+    <div class="img-slot ph t7"><div class="ph-icon">🏅</div><div class="ph-name">Stories</div></div>
+  </div>
+</section>
+
+<!-- QUEM É PARA -->
+<section class="section for-section">
+  <div class="container">
+    <div class="tag">Para quem é</div>
+    <h2 class="title">Qualquer pessoa que <em>posta</em><br>sobre futebol</h2>
+    <p class="sub">Você não precisa ter loja nem ser designer. Se você tem uma página, um perfil ou uma conta — isso é pra você.</p>
+    <div class="for-grid">
+      <div class="for-card">
+        <div class="for-icon">🏪</div>
+        <div>
+          <h4>Lojas de camisa</h4>
+          <p>Posts de promoção, lançamento e Copa que vendem de verdade.</p>
+        </div>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">📲</div>
+        <div>
+          <h4>Páginas esportivas</h4>
+          <p>Conteúdo visual profissional sem precisar de designer.</p>
+        </div>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🎤</div>
+        <div>
+          <h4>Influenciadores</h4>
+          <p>Artes que engajam e posicionam o perfil como referência.</p>
+        </div>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">🎨</div>
+        <div>
+          <h4>Designers iniciantes</h4>
+          <p>Base profissional para entregar projetos esportivos com qualidade.</p>
+        </div>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">⚽</div>
+        <div>
+          <h4>Times amadores</h4>
+          <p>Visual de time profissional para o seu clube do coração.</p>
+        </div>
+      </div>
+      <div class="for-card">
+        <div class="for-icon">💰</div>
+        <div>
+          <h4>Revendedores</h4>
+          <p>Vende as artes para clientes e lucra com o produto dos outros.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OS 7 TEMPLATES -->
+<section class="section">
+  <div class="container">
+    <div class="tag">O que está no pack</div>
+    <h2 class="title"><em>7 templates</em> prontos,<br>10 artes em cada</h2>
+    <p class="sub">Cada template é uma categoria completa. Você tem uma arte para cada situação.</p>
+    <div class="templates-grid">
+      <div class="template-card">
+        <div class="tc-thumb t1"><span>⚽</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Matchday</h3><p>Para o dia do jogo. Hype, escalação, torcida — visual que engaja antes do apito.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t2"><span>💸</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Promoções</h3><p>Oferta relâmpago, frete grátis, últimas unidades. Arte que empurra pra venda.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t3"><span>🌍</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Seleções</h3><p>Brasil, Argentina, Portugal e mais 7. Visual Copa para cada jogo da fase.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t4"><span>📊</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Escalação</h3><p>Montar o time antes do jogo. Engajamento garantido nos comentários.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t5"><span>🏆</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Resultado Final</h3><p>Arte para postar logo após o apito. Primeiro a postar, primeiro a engajar.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t6"><span>✍️</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Contratação</h3><p>Anunciar reforço, chegada de produto ou novidade. Gera expectativa.</p></div>
+      </div>
+      <div class="template-card">
+        <div class="tc-thumb t7"><span>📱</span><div class="tc-count">10 artes</div></div>
+        <div class="tc-body"><h3>Stories</h3><p>Formato vertical 1080×1920. Arrasta pra cima, cupom, urgência, Copa.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section steps-section">
+  <div class="container">
+    <div class="tag">Simples assim</div>
+    <h2 class="title">3 passos do <em>pagamento</em><br>ao primeiro post</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Compra e recebe o acesso</h4>
+        <p>Pagamento confirmado, link chega no e-mail em segundos. Sem espera.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Abre no Canva</h4>
+        <p>Clica no link, o template abre na sua conta do Canva. Canva gratuito funciona.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Edita em 10 minutos e posta</h4>
+        <p>Troca o texto, muda a cor se quiser, baixa e posta. Arte profissional no feed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="section">
+  <div class="container">
+    <div class="tag">Quem já usou</div>
+    <h2 class="title">O que estão <em>falando</em></h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"Comprei com medo, achei que ia ser difícil usar. Abri o Canva, cliquei no link e em 10 minutos já tinha postado a primeira arte. Minha página triplicou o engajamento na semana da Copa."</p>
+        <div class="testi-author">
+          <div class="ta-av" style="background:linear-gradient(135deg,#003087,#00C851)">T</div>
+          <div>
+            <div class="ta-name">Thiago R.</div>
+            <div class="ta-info">Página esportiva · 42k seguidores</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"Gastava R$80 por arte no designer. Agora pago R$27 uma vez e tenho 70 artes. Produto de loja de camisa com visual de grandes marcas. Não tem erro."</p>
+        <div class="testi-author">
+          <div class="ta-av" style="background:linear-gradient(135deg,#CC0000,#FFD700)">P</div>
+          <div>
+            <div class="ta-name">Paula M.</div>
+            <div class="ta-info">Loja Camisas do Rei · Goiânia/GO</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"Sou iniciante em design e nunca soube usar o Canva direito. Com os templates prontos eu entrego para clientes e cobro R$50 por arte. Já recuperei o investimento no primeiro cliente."</p>
+        <div class="testi-author">
+          <div class="ta-av" style="background:linear-gradient(135deg,#1d1d1d,#00C851)">L</div>
+          <div>
+            <div class="ta-name">Lucas F.</div>
+            <div class="ta-info">Designer freelancer · São Paulo/SP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BÔNUS -->
+<section class="section bonus-section">
+  <div class="container">
+    <div class="tag">Bônus inclusos</div>
+    <h2 class="title">Você leva mais <em>R$241</em><br>em bônus de graça</h2>
+    <div class="bonus-stack">
+      <div class="bonus-row">
+        <div class="bn">1</div>
+        <div class="bc">
+          <h4>Pack 200+ Camisas com Fundo Transparente</h4>
+          <p>PNG recortadas de seleções e clubes. Arrasta para qualquer template, fica perfeito.</p>
+        </div>
+        <div class="bv"><span>Valor</span><strong>R$97</strong></div>
+      </div>
+      <div class="bonus-row">
+        <div class="bn">2</div>
+        <div class="bc">
+          <h4>50 Legendas Prontas para Instagram</h4>
+          <p>Uma legenda para cada arte. Copia, cola e posta. Zero tempo pensando no que escrever.</p>
+        </div>
+        <div class="bv"><span>Valor</span><strong>R$47</strong></div>
+      </div>
+      <div class="bonus-row">
+        <div class="bn">3</div>
+        <div class="bc">
+          <h4>Calendário de Postagem Copa 2026</h4>
+          <p>Qual arte usar antes, durante e depois de cada jogo. Postagem automática no piloto.</p>
+        </div>
+        <div class="bv"><span>Valor</span><strong>R$47</strong></div>
+      </div>
+      <div class="bonus-row">
+        <div class="bn">4</div>
+        <div class="bc">
+          <h4>Acesso ao Grupo VIP no WhatsApp</h4>
+          <p>Estratégias de conteúdo, novas artes mensais e suporte direto.</p>
+        </div>
+        <div class="bv"><span>Valor</span><strong>R$50</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFERTA -->
+<section class="section offer-section" id="oferta">
+  <div class="container">
+    <div class="tag">Oferta por tempo limitado</div>
+    <h2 class="title">Tudo isso por<br>apenas <em>R$27</em></h2>
+
+    <div class="offer-box">
+      <div class="off-badge">⚡ Preço especial Copa 2026</div>
+
+      <div class="off-timer">
+        <span>Oferta expira em:</span>
+        <div class="cd-inline">
+          <div class="cd-n" id="oh">00</div>
+          <span style="color:var(--green);font-weight:900">:</span>
+          <div class="cd-n" id="om">14</div>
+          <span style="color:var(--green);font-weight:900">:</span>
+          <div class="cd-n" id="os">59</div>
+        </div>
+      </div>
+
+      <div class="off-from">De R$197</div>
+      <div class="off-price"><sup>R$</sup>27</div>
+      <div class="off-installment">ou 2× de R$14 sem juros</div>
+
+      <div class="off-list">
+        <div class="off-line">70 artes editáveis no Canva (7 templates × 10)</div>
+        <div class="off-line">Funciona no Canva gratuito</div>
+        <div class="off-line">Acesso vitalício + atualizações</div>
+        <div class="off-line">Bônus: Pack 200+ camisas PNG</div>
+        <div class="off-line">Bônus: 50 legendas prontas</div>
+        <div class="off-line">Bônus: Calendário de postagem Copa</div>
+        <div class="off-line">Bônus: Grupo VIP WhatsApp</div>
+      </div>
+
+      <a href="#" class="btn-buy">QUERO MINHAS ARTES POR R$27 →</a>
+      <div class="off-security">🔒 Pagamento seguro · Acesso imediato · Hotmart</div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="section" style="text-align:center">
+  <div class="container">
+    <div class="guar-box">
+      <div class="guar-icon">🛡️</div>
+      <div>
+        <h3>Garantia incondicional de 7 dias</h3>
+        <p>Entrou, viu e não gostou? Manda uma mensagem e devolvemos tudo, sem pergunta, sem burocracia. Você não tem nada a perder — o risco é 100% nosso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section">
+  <div class="container">
+    <div class="tag">Dúvidas</div>
+    <h2 class="title">Perguntas <em>frequentes</em></h2>
+    <div class="faq-list">
+      <details>
+        <summary>Precisa do Canva pago?</summary>
+        <p>Não. Todos os 70 templates funcionam no Canva gratuito. Você recebe o link, clica, e o template abre direto na sua conta. Zero custo extra.</p>
+      </details>
+      <details>
+        <summary>Funciona no celular?</summary>
+        <p>Sim. O Canva tem app para Android e iOS. Você edita e posta direto do celular, sem precisar de computador.</p>
+      </details>
+      <details>
+        <summary>Como recebo as artes?</summary>
+        <p>Após o pagamento, você recebe um e-mail com o link de acesso em menos de 5 minutos. Clica no link, os templates aparecem no seu Canva.</p>
+      </details>
+      <details>
+        <summary>Posso revender as artes para clientes?</summary>
+        <p>A licença básica é para uso pessoal. Para revender artes editadas para clientes como serviço (freelancer), funciona sem problema. Para revender o pack em si, fale comigo sobre licença comercial.</p>
+      </details>
+      <details>
+        <summary>Tenho acesso para sempre?</summary>
+        <p>Sim. Acesso vitalício. Você compra uma vez e usa para sempre. E ainda recebe as atualizações que a gente lançar.</p>
+      </details>
+      <details>
+        <summary>E se eu não souber usar o Canva?</summary>
+        <p>Os templates são feitos para quem nunca usou o Canva. Você abre o template, clica no texto, troca, baixa e posta. Leva menos de 10 minutos na primeira vez.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="container">
+    <h2>Chega de improvisar.<br>Posta como <em>profissional</em>.</h2>
+    <p>70 artes, 7 templates, R$27. Acesso em 5 minutos.</p>
+    <a href="#oferta" class="btn-hero" style="font-size:19px; padding:20px 52px;">GARANTIR MINHA VAGA POR R$27 →</a>
+    <div style="margin-top:16px; font-size:13px; color:var(--muted)">Canva gratuito · Acesso imediato · Garantia 7 dias</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Pack Artes Esportivas · Produto digital · Todos os direitos reservados</p>
+  <p style="margin-top:8px">Suporte: <a href="https://wa.me/55">WhatsApp</a> · <a href="#">Política de privacidade</a></p>
+</footer>
+
+<script>
+  // Countdown sincronizado entre top bar e oferta
+  let total = 14 * 60 + 59;
+
+  function tick() {
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+
+    ['h','m','s'].forEach((id, i) => {
+      const v = [h,m,s][i];
+      const els = document.querySelectorAll('#' + id + ', #o' + id);
+      els.forEach(el => el && (el.textContent = pad(v)));
+    });
+
+    if (total > 0) total--;
+    else total = 14 * 60 + 59; // reset
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>

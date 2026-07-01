@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criativo Premium — Ultra Boost X</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#030305;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;
+  font-family:'Inter',sans-serif;
+  gap:32px;padding:48px 24px;
+}
+.controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ctrl-btn{
+  padding:10px 20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .2s
+}
+.ctrl-btn:hover,.ctrl-btn.active{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#22C55E}
+.scale-note{font-size:12px;color:rgba(255,255,255,.25);text-align:center}
+
+.creative{
+  width:1080px;height:1350px;
+  position:relative;overflow:hidden;
+  background:#070709;
+  box-shadow:0 40px 120px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.04);
+  flex-shrink:0;
+}
+
+/* ── ATMOSFERA DE ESTÚDIO ── */
+.atm-key{
+  position:absolute;top:-180px;left:-120px;
+  width:820px;height:820px;
+  background:radial-gradient(circle,rgba(56,150,255,.14) 0%,rgba(14,90,200,.06) 35%,transparent 65%);
+  pointer-events:none
+}
+.atm-rim{
+  position:absolute;bottom:80px;right:-80px;
+  width:560px;height:560px;
+  background:radial-gradient(circle,rgba(255,120,30,.11) 0%,rgba(200,80,20,.04) 40%,transparent 70%);
+  pointer-events:none
+}
+.atm-fill{
+  position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);
+  width:900px;height:900px;
+  background:radial-gradient(circle,rgba(34,197,94,.03) 0%,transparent 60%);
+  pointer-events:none
+}
+.atm-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,transparent 45%,rgba(0,0,0,.55) 100%);
+  pointer-events:none;z-index:2
+}
+
+/* ── GRID DE FUNDO (sutil) ── */
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:54px 54px;
+  pointer-events:none
+}
+
+/* ── LINHAS DECORATIVAS ── */
+.deco-line-h{
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 5%,rgba(56,150,255,.18) 40%,rgba(34,197,94,.15) 60%,transparent 95%);
+}
+.deco-line-v{
+  position:absolute;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent 5%,rgba(56,150,255,.12) 50%,transparent 95%);
+}
+
+/* ── HEADER ── */
+.header{
+  position:absolute;top:54px;left:64px;right:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:10
+}
+.brand-id{display:flex;align-items:center;gap:12px}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 12px rgba(34,197,94,.6)}
+.brand-nm{font-size:13px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.55);text-transform:uppercase}
+.season-tag{
+  font-size:10px;font-weight:800;letter-spacing:2.5px;color:#22C55E;text-transform:uppercase;
+  padding:6px 14px;border:1px solid rgba(34,197,94,.28);border-radius:3px;
+  background:rgba(34,197,94,.06)
+}
+
+/* ── BADGE DESCONTO ── */
+.disc-badge{
+  position:absolute;top:124px;right:64px;
+  width:96px;height:96px;
+  background:linear-gradient(135deg,#DC2626,#991B1B);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:20;
+  box-shadow:0 0 0 3px rgba(220,38,38,.25),0 0 50px rgba(220,38,38,.35),0 12px 40px rgba(0,0,0,.6)
+}
+.disc-pct{font-size:32px;font-weight:900;color:#fff;line-height:1;letter-spacing:-1.5px}
+.disc-off{font-size:10px;font-weight:800;color:rgba(255,255,255,.9);letter-spacing:2px;margin-top:1px}
+
+/* ── ZONA DO PRODUTO ── */
+.product-zone{
+  position:absolute;top:50px;left:-80px;right:-80px;
+  height:860px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:5
+}
+
+/* ── GLOW DO CHÃO ── */
+.floor-glow{
+  position:absolute;bottom:100px;left:50%;transform:translateX(-50%);
+  width:900px;height:140px;
+  background:radial-gradient(ellipse,rgba(56,150,255,.1) 0%,transparent 70%);
+  pointer-events:none;z-index:4
+}
+.floor-reflect{
+  position:absolute;bottom:88px;left:50%;transform:translateX(-50%);
+  width:860px;height:32px;
+  background:radial-gradient(ellipse,rgba(255,255,255,.06) 0%,transparent 70%);
+  filter:blur(8px);
+  pointer-events:none;z-index:4
+}
+
+/* ── COPY ZONE ── */
+.copy-zone{
+  position:absolute;bottom:340px;left:64px;right:64px;
+  z-index:10
+}
+.copy-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:3.5px;color:#22C55E;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px
+}
+.copy-eyebrow::before{content:'';display:block;width:28px;height:2px;background:#22C55E;border-radius:1px}
+.copy-headline{
+  font-size:104px;font-weight:900;letter-spacing:-6px;line-height:.88;color:#fff;
+  margin-bottom:18px;
+  text-shadow:0 0 100px rgba(255,255,255,.07)
+}
+.copy-sub{
+  font-size:16px;color:rgba(255,255,255,.38);font-weight:500;letter-spacing:.3px;line-height:1.6
+}
+
+/* ── DIVISOR ── */
+.divider{
+  position:absolute;bottom:328px;left:64px;right:64px;
+  height:1px;
+  background:linear-gradient(90deg,rgba(34,197,94,.3),rgba(255,255,255,.06) 60%,transparent);
+  z-index:10
+}
+
+/* ── PREÇO + CTA ── */
+.commerce-zone{
+  position:absolute;bottom:144px;left:64px;right:64px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  z-index:10
+}
+.price-col{display:flex;flex-direction:column;gap:4px}
+.price-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase}
+.price-original{
+  font-size:18px;font-weight:600;color:rgba(255,255,255,.28);
+  text-decoration:line-through;letter-spacing:-.5px
+}
+.price-main{
+  font-size:84px;font-weight:900;color:#fff;line-height:1;letter-spacing:-5px;
+  text-shadow:0 0 60px rgba(255,255,255,.1)
+}
+.price-install{font-size:14px;color:rgba(255,255,255,.38);font-weight:500;margin-top:4px}
+.price-install strong{color:rgba(255,255,255,.65)}
+.cta-col{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.cta-main{
+  background:linear-gradient(135deg,#22C55E,#16A34A);
+  color:#000;border:none;padding:22px 52px;
+  font-size:17px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;
+  box-shadow:0 0 60px rgba(34,197,94,.28),0 12px 40px rgba(0,0,0,.5);
+  white-space:nowrap
+}
+.cta-sub{font-size:12px;color:rgba(255,255,255,.28);font-weight:500;text-align:right}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:absolute;bottom:0;left:0;right:0;height:130px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 64px;
+  z-index:10;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.3))
+}
+.trust-items{display:flex;gap:32px}
+.trust-item{display:flex;align-items:center;gap:8px}
+.trust-ico{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);
+  font-size:13px
+}
+.trust-txt{font-size:11px;color:rgba(255,255,255,.35);font-weight:500;line-height:1.4}
+.trust-txt strong{display:block;color:rgba(255,255,255,.65);font-size:12px;font-weight:700}
+.site-url{font-size:12px;font-weight:700;color:rgba(255,255,255,.2);letter-spacing:2px;text-transform:uppercase}
+
+@media(max-width:1140px){
+  .creative{
+    width:100%;
+    max-width:540px;height:auto;
+    aspect-ratio:1080/1350;
+    transform-origin:top center
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="ctrl-btn active" onclick="setColor('dark')">Dark Pro</button>
+  <button class="ctrl-btn" onclick="setColor('ultra')">Ultra Black</button>
+  <button class="ctrl-btn" onclick="setColor('light')">Light Edition</button>
+  <button class="ctrl-btn" onclick="window.print()">Exportar / Print</button>
+</div>
+
+<div class="creative" id="creative">
+
+  <!-- Atmosfera de estúdio -->
+  <div class="atm-key"></div>
+  <div class="atm-rim"></div>
+  <div class="atm-fill"></div>
+  <div class="bg-grid"></div>
+  <div class="atm-vignette"></div>
+
+  <!-- Linhas de design -->
+  <div class="deco-line-h" style="top:48px"></div>
+  <div class="deco-line-h" style="bottom:128px;opacity:.6"></div>
+  <div class="deco-line-v" style="left:64px"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-id">
+      <div class="brand-dot"></div>
+      <div class="brand-nm">Empório Norte · Belém</div>
+    </div>
+    <div class="season-tag">Coleção 2024</div>
+  </div>
+
+  <!-- Badge de Desconto -->
+  <div class="disc-badge">
+    <div class="disc-pct">-40%</div>
+    <div class="disc-off">OFF</div>
+  </div>
+
+  <!-- ─── TÊNIS SVG ─── -->
+  <div class="product-zone">
+    <svg viewBox="0 0 1240 760" xmlns="http://www.w3.org/2000/svg" style="width:1240px;height:760px;overflow:visible">
+      <defs>
+        <!-- Luz principal de estúdio (key light — azul-branco, topo-esquerda) -->
+        <linearGradient id="gUpper" x1="10%" y1="5%" x2="90%" y2="95%">
+          <stop offset="0%" stop-color="#1c2d42"/>
+          <stop offset="30%" stop-color="#111820"/>
+          <stop offset="70%" stop-color="#0a0b10"/>
+          <stop offset="100%" stop-color="#050507"/>
+        </linearGradient>
+
+        <!-- Specular (reflexo da luz de estúdio na lateral do tênis) -->
+        <radialGradient id="gSpec" cx="26%" cy="28%" r="48%">
+          <stop offset="0%" stop-color="rgba(130,190,255,.22)"/>
+          <stop offset="40%" stop-color="rgba(90,150,220,.08)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+        </radialGradient>
+
+        <!-- Rim light (laranja quente, atrás do calcanhar) -->
+        <linearGradient id="gRim" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255,110,30,.32)"/>
+          <stop offset="60%" stop-color="rgba(255,110,30,.05)"/>
+          <stop offset="100%" stop-color="rgba(255,110,30,0)"/>
+        </linearGradient>
+
+        <!-- Solado branco / midsole -->
+        <linearGradient id="gMid" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ebebed"/>
+          <stop offset="35%" stop-color="#d8d9db"/>
+          <stop offset="100%" stop-color="#a0a2a5"/>
+        </linearGradient>
+
+        <!-- Borracha outsole -->
+        <linearGradient id="gOut" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#222225"/>
+          <stop offset="100%" stop-color="#0c0c0e"/>
+        </linearGradient>
+
+        <!-- Verde accent stripe -->
+        <linearGradient id="gGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#22C55E"/>
+          <stop offset="100%" stop-color="#16A34A"/>
+        </linearGradient>
+
+        <!-- Sombra no chão -->
+        <filter id="fShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="22"/>
+        </filter>
+
+        <!-- Glow geral no tênis -->
+        <filter id="fGlow" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="8" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- ── SOMBRA NO CHÃO ── -->
+      <ellipse cx="620" cy="715" rx="420" ry="36" fill="rgba(0,0,0,.72)" filter="url(#fShadow)"/>
+
+      <!-- ── REFLEXO NO CHÃO (suave) ── -->
+      <g transform="translate(0,724) scale(1,-0.1)" opacity=".18">
+        <path d="M220,640 L240,660 L980,660 L1005,640Z" fill="#d8d9db"/>
+      </g>
+
+      <!-- ══════════════ OUTSOLE ══════════════ -->
+      <path d="
+        M 230,695
+        Q 230,718 268,728
+        L 870,728
+        Q 960,724 990,700
+        Q 1002,682 985,668
+        L 870,668
+        L 262,668
+        Q 230,672 230,695Z
+      " fill="url(#gOut)"/>
+
+      <!-- Sulcos da sola (grip pattern) -->
+      <g fill="rgba(0,0,0,.55)">
+        <rect x="270" y="710" width="48" height="10" rx="3"/>
+        <rect x="336" y="710" width="48" height="10" rx="3"/>
+        <rect x="402" y="710" width="48" height="10" rx="3"/>
+        <rect x="468" y="710" width="48" height="10" rx="3"/>
+        <rect x="534" y="710" width="48" height="10" rx="3"/>
+        <rect x="600" y="710" width="48" height="10" rx="3"/>
+        <rect x="666" y="710" width="48" height="10" rx="3"/>
+        <rect x="732" y="710" width="48" height="10" rx="3"/>
+        <!-- calcanhar -->
+        <rect x="820" y="704" width="38" height="14" rx="4"/>
+        <rect x="872" y="700" width="38" height="14" rx="4"/>
+        <rect x="924" y="694" width="38" height="14" rx="4"/>
+        <!-- bico -->
+        <rect x="242" y="702" width="28" height="14" rx="4"/>
+      </g>
+
+      <!-- ══════════════ MIDSOLE ══════════════ -->
+      <path d="
+        M 238,608
+        L 238,668
+        L 870,668
+        L 988,668
+        Q 1000,650 996,628
+        Q 990,608 964,602
+        L 870,598
+        L 250,598
+        Q 238,601 238,608Z
+      " fill="url(#gMid)"/>
+
+      <!-- Linha de textura do cushion -->
+      <line x1="252" y1="634" x2="958" y2="634" stroke="rgba(170,172,176,.5)" stroke-width="1.5"/>
+      <!-- Borda superior do midsole (reflexo de luz) -->
+      <path d="M 240,600 Q 480,592 620,591 Q 780,590 962,603" stroke="rgba(255,255,255,.55)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+      <!-- Pontos decorativos do midsole -->
+      <g fill="rgba(190,192,196,.4)">
+        <circle cx="320" cy="624" r="3.5"/>
+        <circle cx="390" cy="624" r="3.5"/>
+        <circle cx="460" cy="624" r="3.5"/>
+        <circle cx="530" cy="624" r="3.5"/>
+        <circle cx="600" cy="624" r="3.5"/>
+        <circle cx="670" cy="624" r="3.5"/>
+        <circle cx="740" cy="624" r="3.5"/>
+        <circle cx="810" cy="624" r="3.5"/>
+        <circle cx="880" cy="624" r="3.5"/>
+      </g>
+
+      <!-- Faixa verde na borda do midsole (accent de cor) -->
+      <path d="M 250,596 Q 480,588 620,587 Q 790,586 960,600 L 960,606 Q 790,592 620,593 Q 480,594 250,602Z" fill="url(#gGreen)" opacity=".7"/>
+
+      <!-- ══════════════ UPPER (CABEDAL PRINCIPAL) ══════════════ -->
+      <path d="
+        M 244,598
+        L 244,474
+        Q 248,440 274,414
+        Q 294,392 338,376
+        L 448,352
+        Q 532,330 592,310
+        Q 650,292 710,274
+        Q 768,258 824,260
+        Q 880,263 924,282
+        Q 966,302 980,340
+        L 990,406
+        Q 996,510 992,598
+        L 248,598Z
+      " fill="url(#gUpper)" filter="url(#fGlow)"/>
+
+      <!-- Specular highlight (luz de estúdio principal no cabedal) -->
+      <path d="
+        M 244,598
+        L 244,474
+        Q 248,440 274,414
+        Q 294,392 338,376
+        L 448,352
+        Q 532,330 592,310
+        Q 650,292 710,274
+        Q 768,258 824,260
+        Q 880,263 924,282
+        Q 966,302 980,340
+        L 990,406
+        Q 996,510 992,598
+        L 248,598Z
+      " fill="url(#gSpec)"/>
+
+      <!-- Rim light no calcanhar (aresta quente) -->
+      <path d="
+        M 244,474 L 244,598 L 296,598 L 292,474
+        Q 248,440 274,414
+        Q 258,442 244,474Z
+      " fill="url(#gRim)"/>
+
+      <!-- ══════════════ HEEL COUNTER ══════════════ -->
+      <path d="
+        M 244,474
+        Q 248,440 274,414
+        Q 294,392 338,376
+        Q 318,402 310,448
+        Q 302,492 300,554
+        L 300,598 L 248,598 L 244,554 L 244,474Z
+      " fill="rgba(15,24,38,.88)"/>
+
+      <!-- Costura do calcanhar -->
+      <path d="M 295,600 Q 290,540 298,456 Q 304,416 322,386" stroke="rgba(255,255,255,.06)" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+
+      <!-- ══════════════ ABERTURA DO COLARINHO ══════════════ -->
+      <path d="
+        M 248,472
+        Q 254,444 278,420
+        Q 300,398 340,378
+        Q 360,390 358,414
+        Q 336,414 318,430
+        Q 296,454 286,484
+        Q 276,512 274,556
+        L 254,556 Q 248,524 248,472Z
+      " fill="rgba(0,0,0,.75)"/>
+
+      <!-- Borda interna iluminada do colarinho -->
+      <path d="M 286,486 Q 298,456 320,432 Q 342,412 362,410 Q 360,396 340,380"
+            stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+      <!-- ══════════════ PAINEL DOS CADARÇOS ══════════════ -->
+      <path d="
+        M 362,412
+        Q 448,388 528,364
+        Q 598,342 652,322
+        Q 648,348 644,358
+        Q 588,376 518,398
+        Q 440,422 364,446
+        Q 360,430 362,412Z
+      " fill="rgba(255,255,255,.058)"/>
+
+      <!-- ══════════════ CADARÇOS ══════════════ -->
+      <!-- Ilhoses superiores -->
+      <g fill="rgba(255,255,255,.72)" stroke="rgba(0,0,0,.4)" stroke-width="1">
+        <circle cx="404" cy="414" r="5"/>
+        <circle cx="458" cy="400" r="5"/>
+        <circle cx="512" cy="387" r="5"/>
+        <circle cx="566" cy="374" r="5"/>
+        <circle cx="618" cy="362" r="5"/>
+      </g>
+      <!-- Ilhoses inferiores -->
+      <g fill="rgba(255,255,255,.5)" stroke="rgba(0,0,0,.35)" stroke-width="1">
+        <circle cx="408" cy="438" r="4.5"/>
+        <circle cx="462" cy="424" r="4.5"/>
+        <circle cx="516" cy="411" r="4.5"/>
+        <circle cx="570" cy="398" r="4.5"/>
+        <circle cx="622" cy="386" r="4.5"/>
+      </g>
+      <!-- Laçadas horizontais -->
+      <g stroke="rgba(240,242,245,.42)" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <line x1="404" y1="414" x2="458" y2="400"/>
+        <line x1="408" y1="438" x2="462" y2="424"/>
+        <line x1="458" y1="400" x2="512" y2="387"/>
+        <line x1="462" y1="424" x2="516" y2="411"/>
+        <line x1="512" y1="387" x2="566" y2="374"/>
+        <line x1="516" y1="411" x2="570" y2="398"/>
+        <line x1="566" y1="374" x2="618" y2="362"/>
+        <line x1="570" y1="398" x2="622" y2="386"/>
+      </g>
+      <!-- Laçadas verticais (as "cruzadas") -->
+      <g stroke="rgba(240,242,245,.55)" stroke-width="3" stroke-linecap="round" fill="none">
+        <line x1="404" y1="414" x2="408" y2="438"/>
+        <line x1="458" y1="400" x2="462" y2="424"/>
+        <line x1="512" y1="387" x2="516" y2="411"/>
+        <line x1="566" y1="374" x2="570" y2="398"/>
+        <line x1="618" y1="362" x2="622" y2="386"/>
+      </g>
+
+      <!-- ══════════════ LÍNGUA (TONGUE) ══════════════ -->
+      <path d="
+        M 364,444
+        Q 372,520 374,572
+        Q 374,592 372,598
+        L 346,598
+        Q 344,592 344,572
+        Q 344,520 338,446
+        Q 350,440 364,444Z
+      " fill="#141820"/>
+      <!-- Tag da língua -->
+      <rect x="349" y="492" width="20" height="26" rx="4" fill="rgba(34,197,94,.25)" stroke="rgba(34,197,94,.45)" stroke-width="1.2"/>
+      <text x="354" y="509" fill="rgba(34,197,94,.8)" font-size="8" font-weight="900" font-family="Inter,sans-serif">NT</text>
+
+      <!-- ══════════════ STRIPE / LOGO ══════════════ -->
+      <!-- Faixa lateral decorativa (área de logo) -->
+      <path d="
+        M 580,452
+        Q 665,428 758,424
+        Q 832,422 878,440
+        Q 915,454 926,476
+        Q 894,470 852,468
+        Q 778,466 698,474
+        Q 616,484 578,500
+        Q 573,482 580,452Z
+      " fill="url(#gGreen)" opacity=".14" stroke="rgba(34,197,94,.22)" stroke-width="1.5"/>
+
+      <!-- Símbolo de logo simplificado -->
+      <path d="M 720,442 L 736,458 L 752,442 L 748,438 L 736,450 L 724,438Z" fill="rgba(34,197,94,.5)"/>
+
+      <!-- ══════════════ BICO (TOE CAP) ══════════════ -->
+      <path d="
+        M 900,316
+        Q 948,338 966,378
+        Q 980,410 984,448
+        L 992,498
+        Q 974,474 952,452
+        Q 928,428 904,410
+        Q 882,394 862,382
+        Q 880,350 900,316Z
+      " fill="rgba(255,255,255,.03)"/>
+      <!-- Destaque da aresta do bico -->
+      <path d="M 900,318 Q 946,340 964,380 Q 978,412 982,450"
+            stroke="rgba(255,255,255,.14)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ══════════════ TEXTURA MESH (malha do cabedal) ══════════════ -->
+      <g stroke="rgba(255,255,255,1)" stroke-width="1.2" opacity=".028" fill="none">
+        <line x1="368" y1="450" x2="870" y2="392"/>
+        <line x1="368" y1="480" x2="872" y2="424"/>
+        <line x1="368" y1="510" x2="875" y2="456"/>
+        <line x1="368" y1="540" x2="876" y2="488"/>
+        <line x1="368" y1="570" x2="876" y2="524"/>
+        <line x1="410" y1="382" x2="405" y2="596"/>
+        <line x1="470" y1="364" x2="466" y2="596"/>
+        <line x1="530" y1="348" x2="527" y2="596"/>
+        <line x1="590" y1="332" x2="588" y2="596"/>
+        <line x1="650" y1="318" x2="648" y2="596"/>
+        <line x1="710" y1="308" x2="708" y2="596"/>
+        <line x1="770" y1="302" x2="769" y2="596"/>
+        <line x1="830" y1="300" x2="830" y2="596"/>
+        <line x1="890" y1="320" x2="890" y2="596"/>
+      </g>
+
+      <!-- ══════════════ CALCANHAR — DETALHE CROMADO ══════════════ -->
+      <path d="
+        M 260,490 Q 265,470 280,455 Q 262,472 258,494 Q 255,514 258,540 L 268,540 Q 264,516 260,490Z
+      " fill="rgba(150,200,255,.1)"/>
+
+      <!-- Hélio de luz (reflexo pequeno no bico do tênis) -->
+      <ellipse cx="970" cy="366" rx="14" ry="8" fill="rgba(255,255,255,.1)" transform="rotate(-30,970,366)"/>
+
+    </svg>
+  </div>
+
+  <!-- Glow do chão -->
+  <div class="floor-glow"></div>
+  <div class="floor-reflect"></div>
+
+  <!-- Copy zone -->
+  <div class="copy-zone">
+    <div class="copy-eyebrow">Tênis de Performance · Edição Limitada</div>
+    <div class="copy-headline">ULTRA<br>BOOST X</div>
+    <div class="copy-sub">Tecnologia de amortecimento de elite — para quem<br>joga no limite. Campo, quadra ou academia.</div>
+  </div>
+
+  <!-- Divisor -->
+  <div class="divider"></div>
+
+  <!-- Preço + CTA -->
+  <div class="commerce-zone">
+    <div class="price-col">
+      <div class="price-label">Preço especial</div>
+      <div class="price-original">R$499</div>
+      <div class="price-main">R$299</div>
+      <div class="price-install">ou <strong>10x de R$29,90</strong> sem juros</div>
+    </div>
+    <div class="cta-col">
+      <button class="cta-main">Comprar Agora</button>
+      <div class="cta-sub">Frete grátis · Estoque limitado</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-bar">
+    <div class="trust-items">
+      <div class="trust-item">
+        <div class="trust-ico">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="trust-txt"><strong>Entrega Grátis</strong>acima de R$200</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-ico">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 1 1 7 2M7 2L10 5M7 2L4 5" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="trust-txt"><strong>Troca Grátis</strong>em até 30 dias</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-ico">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="6" width="10" height="7" rx="2" stroke="#22C55E" stroke-width="1.8"/><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="trust-txt"><strong>Pagamento</strong>100% seguro</div>
+      </div>
+    </div>
+    <div class="site-url">empórionorte.com</div>
+  </div>
+
+</div>
+
+<div class="scale-note">Canvas original: 1080 × 1350px · Instagram Post 4:5 · Clique em "Exportar / Print" para salvar como PDF</div>
+
+<script>
+function setColor(theme){
+  const c = document.getElementById('creative');
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(theme==='dark'){
+    c.style.background='#070709';
+    document.querySelector('.copy-headline').style.color='#fff';
+    document.querySelector('.price-main').style.color='#fff';
+  }else if(theme==='ultra'){
+    c.style.background='#000000';
+    document.querySelector('.copy-headline').style.color='#fff';
+    document.querySelector('.price-main').style.color='#fff';
+  }else if(theme==='light'){
+    c.style.background='#f5f5f7';
+    document.querySelector('.copy-headline').style.color='#0a0a0a';
+    document.querySelector('.price-main').style.color='#0a0a0a';
+    document.querySelector('.brand-nm').style.color='rgba(0,0,0,.5)';
+  }
+}
+</script>
+</body>
+</html>

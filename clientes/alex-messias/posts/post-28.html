@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;200;300;700;900&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet"><style>
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;}
+body{width:1080px;height:1350px;overflow:hidden;background:#050505;}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;}
+.hdr{position:absolute;top:46px;left:58px;right:58px;z-index:20;display:flex;align-items:center;justify-content:space-between;}
+.hb{display:flex;align-items:center;gap:10px;}
+.hn{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;color:#fff;letter-spacing:4px;text-transform:uppercase;}
+.hp{color:rgba(255,255,255,.3);font-size:13px;margin:0 3px;}
+.hd{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;color:rgba(255,255,255,.6);letter-spacing:4px;text-transform:uppercase;}
+.hu{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;color:#E10613;font-style:normal;text-transform:lowercase;}
+.bot{position:absolute;bottom:0;left:0;right:0;z-index:25;padding:0 58px 42px;}
+.seal{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);margin-bottom:14px;}
+.s-bar{width:2.5px;height:40px;background:#E10613;flex-shrink:0;}
+.s-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:#fff;letter-spacing:3px;text-transform:uppercase;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.8);}
+.s-role{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.70);margin-top:4px;}
+.s-cta{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:2.5px;color:#E10613;text-transform:uppercase;white-space:nowrap;text-shadow:none;}
+.ftr{display:flex;align-items:center;justify-content:space-between;}
+.fc{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:11px;letter-spacing:4px;color:rgba(255,255,255,.58);text-transform:uppercase;}
+.ft{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;color:#E10613;text-transform:lowercase;}
+
+.car{position:absolute;inset:0;z-index:1;}
+.car img{width:100%;height:100%;object-fit:cover;filter:brightness(0.22) contrast(1.38) saturate(0);}
+.glow{position:absolute;bottom:0;left:0;right:0;height:500px;z-index:2;background:radial-gradient(ellipse 80% 55% at 50% 100%,rgba(225,6,19,.07) 0%,transparent 70%);}
+.lt{position:absolute;top:370px;left:58px;right:58px;z-index:5;height:1px;background:rgba(255,255,255,.08);}
+.lt-a{position:absolute;top:368px;left:58px;z-index:6;width:72px;height:3px;background:#E10613;}
+.lm{position:absolute;top:762px;left:58px;right:58px;z-index:5;height:1px;background:rgba(255,255,255,.07);}
+.eye{position:absolute;top:136px;left:58px;z-index:20;font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.58);}
+.stat-block{position:absolute;top:170px;left:48px;z-index:20;display:flex;align-items:flex-start;}
+.s-plus{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:260px;line-height:.82;color:#E10613;letter-spacing:-6px;margin-top:6px;text-shadow:0 0 40px rgba(225,6,19,.3);}
+.s-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:340px;line-height:.82;color:#fff;letter-spacing:-10px;text-shadow:0 2px 32px rgba(0,0,0,.9);}
+.s-unit{font-family:'Barlow Condensed',sans-serif;font-weight:200;font-size:68px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;margin-top:28px;margin-left:12px;}
+.stat-sub{position:absolute;top:490px;left:58px;z-index:20;}
+.ss-l{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:68px;text-transform:uppercase;letter-spacing:-1px;color:#fff;line-height:.94;text-shadow:0 2px 18px rgba(0,0,0,.8);}
+.ss-d{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:22px;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.68);margin-top:14px;}
+.mid{position:absolute;top:782px;left:58px;right:58px;z-index:20;display:flex;}
+.mi{flex:1;padding-right:28px;border-right:1px solid rgba(255,255,255,.08);}
+.mil{padding-left:28px;border-right:none;}
+.mv{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:38px;color:#fff;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.8);}
+.ml_{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:5px;}
+.copy-block{position:absolute;bottom:170px;left:58px;right:58px;z-index:20;border-left:2.5px solid #E10613;padding-left:22px;}
+.copy-t{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:34px;line-height:1.35;color:rgba(255,255,255,.78);}
+.copy-t strong{color:#fff;font-weight:700;}
+</style></head><body><div class="c">
+  <div class="car"><img src="../imagens/h6-phev-blue.jpg" alt="" style="object-position:55% 48%;"></div>
+  <div class="glow"></div><div class="lt"></div><div class="lt-a"></div><div class="lm"></div>
+  <div class="hdr"><div class="hb"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9.5" stroke="white" stroke-width="1.2"/><text x="11" y="15" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="5.5" font-weight="900" fill="white">GWM</text></svg><span class="hn">ALEX MESSIAS</span><span class="hp">·</span><span class="hd">Consultor GWM</span></div><div class="hu">@alexmessiasoficial</div></div>
+  <div class="eye">Test Drive · Experiência · Decisão</div>
+  <div class="stat-block">
+    
+    <span class="s-num">20</span>
+    <span class="s-unit">min</span>
+  </div>
+  <div class="stat-sub">
+    <div class="ss-l">MUDAM<br>TUDO.</div>
+    <div class="ss-d">Test drive sem compromisso · Jundiaí SP</div>
+  </div>
+  <div class="mid"><div class="mi"><div><span class="mv">H6</span></div><div class="ml_">Disponível</div></div><div class="mi mil"><div><span class="mv">H9</span></div><div class="ml_">Disponível</div></div><div class="mi mil"><div><span class="mv">Grátis</span></div><div class="ml_">Sem custo</div></div></div>
+  <div class="copy-block"><div class="copy-t"><strong>20 minutos</strong> ao volante valem mais que qualquer brochura. <strong>Chama o Alex.</strong></div></div>
+  <div class="bot"><div class="seal"><div class="s-bar"></div><div><div class="s-name">ALEX MESSIAS</div><div class="s-role">Atendimento Personalizado</div></div><div class="s-cta">↗ AGENDAR COM ALEX</div></div><div class="ftr"><span class="fc">Campinas • Jundiaí • São Paulo</span><span class="ft">@alexmessiasoficial</span></div></div>
+</div></body></html>

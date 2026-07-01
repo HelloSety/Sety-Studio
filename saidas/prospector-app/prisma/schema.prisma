@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  city        String
+  state       String?
+  neighborhood String?
+  address     String?
+  phone       String?
+  website     String?
+  instagram   String?
+  email       String?
+  score       Int      @default(0)
+  status      LeadStatus @default(ACTIVE)
+  source      String   @default("foursquare")
+  externalId  String?  @unique
+  lat         Float?
+  lng         Float?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  conversations Conversation[]
+  campaignLeads CampaignLead[]
+
+  @@index([status])
+  @@index([category])
+  @@index([city])
+  @@index([score])
+}
+
+enum LeadStatus {
+  ACTIVE
+  QUALIFIED
+  CONTACTED
+  ARCHIVED
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  message     String
+  status      CampaignStatus @default(DRAFT)
+  segment     String?
+  city        String?
+  neighborhood String?
+  limit       Int      @default(0)
+  delay       Int      @default(35)
+  varyDelay   Boolean  @default(true)
+  sent        Int      @default(0)
+  delivered   Int      @default(0)
+  replied     Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaignLeads CampaignLead[]
+}
+
+enum CampaignStatus {
+  DRAFT
+  RUNNING
+  PAUSED
+  COMPLETED
+}
+
+model CampaignLead {
+  id         String   @id @default(cuid())
+  campaignId String
+  leadId     String
+  status     String   @default("pending")
+  sentAt     DateTime?
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, leadId])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  leadId    String
+  lead      Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([leadId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  content        String
+  type           MessageType  @default(TEXT)
+  direction      Direction
+  status         String       @default("sent")
+  mediaUrl       String?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  DOCUMENT
+  AUDIO
+}
+
+enum Direction {
+  OUT
+  IN
+}
+
+model Script {
+  id        String     @id @default(cuid())
+  name      String
+  type      ScriptType @default(TEXT)
+  content   String
+  mediaUrl  String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum ScriptType {
+  TEXT
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+model Config {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}

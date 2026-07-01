@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsFlow AI — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06080E;
+  --surface:#0D1117;
+  --surface2:#161B22;
+  --surface3:#1C2128;
+  --border:#21262D;
+  --text:#E6EDF3;
+  --muted:#7D8590;
+  --indigo:#6366F1;
+  --indigo-dim:#6366F115;
+  --green:#22C55E;
+  --red:#F87171;
+  --amber:#FBBF24;
+  --blue:#38BDF8;
+  --purple:#A78BFA;
+  --orange:#FB923C;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+
+/* SIDEBAR */
+.sidebar{width:220px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+.sb-logo .brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.sb-logo .badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.05em}
+.sb-section{padding:8px 0}
+.sb-label{padding:4px 16px;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:.15s;border-left:2px solid transparent}
+.sb-item:hover{color:var(--text);background:var(--surface2)}
+.sb-item.active{color:var(--indigo);border-left-color:var(--indigo);background:var(--indigo-dim)}
+.sb-item svg{width:15px;height:15px;opacity:.8}
+.sb-item.active svg{opacity:1}
+.sb-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--border)}
+.admin-badge{display:flex;align-items:center;gap:8px;padding:10px;background:var(--red)18;border:1px solid var(--red)30;border-radius:8px}
+.admin-badge svg{width:14px;height:14px;color:var(--red)}
+.admin-badge span{font-size:11px;font-weight:600;color:var(--red)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;background:var(--surface)}
+.topbar-title{font-size:14px;font-weight:600;flex:1}
+.topbar input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;width:240px}
+.topbar input::placeholder{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s}
+.btn-primary{background:var(--indigo);color:#fff}
+.btn-primary:hover{background:#5254CC}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--text)40}
+.btn-red{background:var(--red)20;color:var(--red);border:1px solid var(--red)30}
+.btn-red:hover{background:var(--red)35}
+.btn-green{background:var(--green)20;color:var(--green);border:1px solid var(--green)30}
+
+.content{flex:1;overflow-y:auto;padding:24px}
+.page{display:none}
+.page.active{display:block}
+
+/* GRID KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.kpi-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+.kpi-sub{font-size:12px;color:var(--muted)}
+.kpi-sub span{font-weight:600}
+.kpi-sub .up{color:var(--green)}
+.kpi-sub .dn{color:var(--red)}
+
+/* CHART ROW */
+.chart-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:600}
+.card-sub{font-size:11px;color:var(--muted)}
+
+/* MRR CHART */
+.mrr-chart{display:flex;align-items:flex-end;gap:6px;height:100px}
+.mrr-bar{flex:1;border-radius:4px 4px 0 0;transition:.3s;cursor:pointer;position:relative}
+.mrr-bar:hover::after{content:attr(data-tip);position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#000;color:#fff;font-size:10px;padding:3px 7px;border-radius:4px;white-space:nowrap;pointer-events:none}
+
+/* PIE DONUT */
+.donut{position:relative;width:90px;height:90px;margin:0 auto 12px}
+.donut svg{transform:rotate(-90deg)}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-center strong{font-size:18px;font-weight:700}
+.donut-center small{font-size:10px;color:var(--muted)}
+.legend{display:flex;flex-direction:column;gap:6px}
+.legend-item{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.legend-dot{width:8px;height:8px;border-radius:50%;margin-right:6px;flex-shrink:0}
+.legend-name{display:flex;align-items:center;color:var(--muted)}
+.legend-val{font-weight:600}
+
+/* TABLES */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;font-weight:600;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{font-size:13px;padding:11px 12px;border-bottom:1px solid var(--border)10}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:var(--green)20;color:var(--green)}
+.badge-red{background:var(--red)20;color:var(--red)}
+.badge-amber{background:var(--amber)20;color:var(--amber)}
+.badge-blue{background:var(--blue)20;color:var(--blue)}
+.badge-purple{background:var(--purple)20;color:var(--purple)}
+.badge-muted{background:var(--surface3);color:var(--muted)}
+
+/* PLAN PILL */
+.plan-starter{background:#22C55E20;color:#22C55E}
+.plan-pro{background:#6366F120;color:#6366F1}
+.plan-scale{background:#FBBF2420;color:#FBBF24}
+.plan-enterprise{background:#A78BFA20;color:#A78BFA}
+
+/* USAGE BAR */
+.usage-bar{width:100px;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.usage-fill{height:100%;border-radius:3px;transition:.4s}
+
+/* SEARCH + FILTER ROW */
+.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.filter-row input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;flex:1}
+.filter-row input::placeholder{color:var(--muted)}
+.select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:inherit;outline:none;cursor:pointer}
+
+/* PAGE HEADER */
+.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.page-header h2{font-size:18px;font-weight:700}
+.page-header p{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--surface2);border-radius:8px;padding:3px;margin-bottom:20px;width:fit-content}
+.tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:.15s}
+.tab.active{background:var(--surface);color:var(--text)}
+
+/* METRIC ROW */
+.metrics-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.metric-mini{background:var(--surface2);border-radius:8px;padding:14px 16px;border:1px solid var(--border)}
+.metric-mini .label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.metric-mini .val{font-size:20px;font-weight:700}
+
+/* LOG */
+.log-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)50}
+.log-item:last-child{border-bottom:none}
+.log-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.log-icon svg{width:13px;height:13px}
+.log-body{flex:1}
+.log-msg{font-size:12px;margin-bottom:2px}
+.log-meta{font-size:11px;color:var(--muted)}
+.log-time{font-size:11px;color:var(--muted);flex-shrink:0}
+
+/* USER DETAIL DRAWER SIMULATION */
+.drawer-overlay{position:fixed;inset:0;background:#00000080;z-index:100;display:none;align-items:stretch;justify-content:flex-end}
+.drawer-overlay.open{display:flex}
+.drawer{width:460px;background:var(--surface);border-left:1px solid var(--border);overflow-y:auto;padding:24px;animation:slideIn .2s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.drawer-head h3{font-size:16px;font-weight:700}
+.drawer-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;line-height:1}
+.drawer-section{margin-bottom:20px}
+.drawer-section h4{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.drawer-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)50;font-size:13px}
+.drawer-row:last-child{border-bottom:none}
+.drawer-row .key{color:var(--muted)}
+.drawer-actions{display:flex;gap:8px;margin-top:20px}
+
+/* NOTIFICATION */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect width="20" height="20" rx="6" fill="#6366F1"/>
+        <path d="M5 14L7.5 7L10 12L12.5 9L15 14" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      WhatsFlow
+      <span class="badge">ADMIN</span>
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Visão Geral</div>
+    <div class="sb-item active" onclick="nav(this,'overview')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/>
+        <rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/>
+      </svg>
+      Dashboard
+    </div>
+    <div class="sb-item" onclick="nav(this,'mrr')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="1,12 5,7 8,10 11,5 15,9"/>
+      </svg>
+      Receita (MRR)
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Clientes</div>
+    <div class="sb-item" onclick="nav(this,'workspaces')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="4" width="14" height="10" rx="2"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/>
+      </svg>
+      Workspaces
+    </div>
+    <div class="sb-item" onclick="nav(this,'users')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6" cy="5" r="3"/><path d="M1 14c0-3 2-5 5-5M10 11l1.5 1.5L14 9"/>
+      </svg>
+      Usuários
+    </div>
+    <div class="sb-item" onclick="nav(this,'subscriptions')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="3" width="14" height="10" rx="2"/><path d="M1 7h14M5 11h2M9 11h2"/>
+      </svg>
+      Assinaturas
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Infraestrutura</div>
+    <div class="sb-item" onclick="nav(this,'ai-usage')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 1L10 6H15L11 9.5L12.5 15L8 11.5L3.5 15L5 9.5L1 6H6L8 1Z"/>
+      </svg>
+      Consumo de IA
+    </div>
+    <div class="sb-item" onclick="nav(this,'logs')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 4h12M2 8h8M2 12h5"/>
+      </svg>
+      Logs do Sistema
+    </div>
+    <div class="sb-item" onclick="nav(this,'limits')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 11v.5"/>
+      </svg>
+      Limites e Planos
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Sistema</div>
+    <div class="sb-item" onclick="nav(this,'announcements')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 5h12l-1.5 7H3.5L2 5Z"/><path d="M5 5l1-3h4l1 3"/>
+      </svg>
+      Comunicados
+    </div>
+    <div class="sb-item" onclick="nav(this,'config')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="2.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M3 13l1.5-1.5M11.5 4.5L13 3"/>
+      </svg>
+      Configurações
+    </div>
+  </div>
+
+  <div class="sb-bottom">
+    <div class="admin-badge">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M7 1L9 5H13L10 8L11.5 12L7 9.5L2.5 12L4 8L1 5H5L7 1Z"/>
+      </svg>
+      <span>SUPER ADMIN</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Dashboard</span>
+    <input type="text" placeholder="Buscar workspace, usuário...">
+    <button class="btn btn-ghost" onclick="toast('Relatório exportado em CSV')">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 1v7M3 5l3 3 3-3M1 10h10"/>
+      </svg>
+      Exportar
+    </button>
+    <button class="btn btn-primary" onclick="toast('Email de atualização enviado para todos os admins')">
+      Relatório semanal
+    </button>
+  </div>
+
+  <div class="content">
+
+    <!-- =================== OVERVIEW =================== -->
+    <div class="page active" id="page-overview">
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">MRR Total</div>
+          <div class="kpi-value" style="color:var(--green)">R$ 47.830</div>
+          <div class="kpi-sub">vs mês anterior <span class="up">+18,4%</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Workspaces Ativos</div>
+          <div class="kpi-value">284</div>
+          <div class="kpi-sub">novos este mês <span class="up">+32</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Churn Mensal</div>
+          <div class="kpi-value" style="color:var(--amber)">2,1%</div>
+          <div class="kpi-sub">meta &lt;3% <span class="up">dentro do limite</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Tokens IA (mês)</div>
+          <div class="kpi-value" style="color:var(--indigo)">184M</div>
+          <div class="kpi-sub">custo estimado <span class="dn">R$ 2.208</span></div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">MRR — Últimos 8 meses</div>
+              <div class="card-sub">Receita mensal recorrente</div>
+            </div>
+            <span class="badge badge-green">+18,4%</span>
+          </div>
+          <div class="mrr-chart">
+            <div class="mrr-bar" style="height:38%;background:var(--indigo)60" data-tip="Nov — R$25.100"></div>
+            <div class="mrr-bar" style="height:44%;background:var(--indigo)70" data-tip="Dez — R$29.400"></div>
+            <div class="mrr-bar" style="height:50%;background:var(--indigo)80" data-tip="Jan — R$33.200"></div>
+            <div class="mrr-bar" style="height:55%;background:var(--indigo)90" data-tip="Fev — R$36.500"></div>
+            <div class="mrr-bar" style="height:60%;background:var(--indigo)" data-tip="Mar — R$38.900"></div>
+            <div class="mrr-bar" style="height:65%;background:var(--indigo)" data-tip="Abr — R$40.700"></div>
+            <div class="mrr-bar" style="height:76%;background:var(--indigo)" data-tip="Mai — R$43.100"></div>
+            <div class="mrr-bar" style="height:90%;background:var(--green)" data-tip="Jun — R$47.830"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <span style="font-size:10px;color:var(--muted)">Nov</span>
+            <span style="font-size:10px;color:var(--muted)">Dez</span>
+            <span style="font-size:10px;color:var(--muted)">Jan</span>
+            <span style="font-size:10px;color:var(--muted)">Fev</span>
+            <span style="font-size:10px;color:var(--muted)">Mar</span>
+            <span style="font-size:10px;color:var(--muted)">Abr</span>
+            <span style="font-size:10px;color:var(--muted)">Mai</span>
+            <span style="font-size:10px;color:var(--muted)">Jun</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Distribuição por Plano</div>
+          </div>
+          <div class="donut">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <circle cx="45" cy="45" r="35" fill="none" stroke="var(--surface3)" stroke-width="14"/>
+              <circle cx="45" cy="45" r="35" fill="none" stroke="#22C55E" stroke-width="14" stroke-dasharray="66 154"/>
+              <circle cx="45" cy="45" r="35" fill="none" stroke="#6366F1" stroke-width="14" stroke-dasharray="92 154" stroke-dashoffset="-66"/>
+              <circle cx="45" cy="45" r="35" fill="none" stroke="#FBBF24" stroke-width="14" stroke-dasharray="40 154" stroke-dashoffset="-158"/>
+              <circle cx="45" cy="45" r="35" fill="none" stroke="#A78BFA" stroke-width="14" stroke-dasharray="22 154" stroke-dashoffset="-198"/>
+            </svg>
+            <div class="donut-center"><strong>284</strong><small>workspaces</small></div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-name"><div class="legend-dot" style="background:#22C55E"></div>Starter</div>
+              <div class="legend-val">132 <span style="color:var(--muted);font-weight:400;font-size:11px">46%</span></div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-name"><div class="legend-dot" style="background:#6366F1"></div>Pro</div>
+              <div class="legend-val">98 <span style="color:var(--muted);font-weight:400;font-size:11px">34%</span></div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-name"><div class="legend-dot" style="background:#FBBF24"></div>Scale</div>
+              <div class="legend-val">38 <span style="color:var(--muted);font-weight:400;font-size:11px">13%</span></div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-name"><div class="legend-dot" style="background:#A78BFA"></div>Enterprise</div>
+              <div class="legend-val">16 <span style="color:var(--muted);font-weight:400;font-size:11px">6%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Workspaces Recentes</div>
+          <button class="btn btn-ghost" onclick="nav(document.querySelector('.sb-item[onclick*=workspaces]'),'workspaces')">Ver todos</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Workspace</th><th>Plano</th><th>MRR</th><th>Leads/mês</th><th>Status</th><th>Criado</th></tr>
+            </thead>
+            <tbody>
+              <tr onclick="openDrawer('Clínica Saúde Total','Pro','R$ 497','4.820','Ativo','12 Jun 2026')">
+                <td><strong>Clínica Saúde Total</strong><br><small style="color:var(--muted)">clinicasaudetotal.com.br</small></td>
+                <td><span class="badge plan-pro">Pro</span></td>
+                <td style="color:var(--green);font-weight:600">R$ 497</td>
+                <td>4.820</td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td style="color:var(--muted)">12 Jun</td>
+              </tr>
+              <tr onclick="openDrawer('Imobiliária Apex','Scale','R$ 997','12.300','Ativo','10 Jun 2026')">
+                <td><strong>Imobiliária Apex</strong><br><small style="color:var(--muted)">apex-imoveis.com.br</small></td>
+                <td><span class="badge plan-scale">Scale</span></td>
+                <td style="color:var(--green);font-weight:600">R$ 997</td>
+                <td>12.300</td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td style="color:var(--muted)">10 Jun</td>
+              </tr>
+              <tr onclick="openDrawer('Dr. Marcos Advocacia','Starter','R$ 197','1.240','Trial','08 Jun 2026')">
+                <td><strong>Dr. Marcos Advocacia</strong><br><small style="color:var(--muted)">drmarcos.adv.br</small></td>
+                <td><span class="badge plan-starter">Starter</span></td>
+                <td style="color:var(--amber);font-weight:600">R$ 197</td>
+                <td>1.240</td>
+                <td><span class="badge badge-amber">Trial</span></td>
+                <td style="color:var(--muted)">08 Jun</td>
+              </tr>
+              <tr onclick="openDrawer('Solar Tech Brasil','Enterprise','R$ 2.497','48.900','Ativo','05 Jun 2026')">
+                <td><strong>Solar Tech Brasil</strong><br><small style="color:var(--muted)">solartech.com.br</small></td>
+                <td><span class="badge plan-enterprise">Enterprise</span></td>
+                <td style="color:var(--green);font-weight:600">R$ 2.497</td>
+                <td>48.900</td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td style="color:var(--muted)">05 Jun</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== MRR =================== -->
+    <div class="page" id="page-mrr">
+      <div class="page-header">
+        <div><h2>Receita (MRR)</h2><p>Métricas financeiras e projeções</p></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">MRR Atual</div>
+          <div class="kpi-value" style="color:var(--green)">R$ 47.830</div>
+          <div class="kpi-sub"><span class="up">+18,4%</span> mês a mês</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">ARR Projetado</div>
+          <div class="kpi-value">R$ 573.960</div>
+          <div class="kpi-sub">annualized run rate</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">ARPU</div>
+          <div class="kpi-value">R$ 168</div>
+          <div class="kpi-sub">avg revenue per user</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">LTV estimado</div>
+          <div class="kpi-value">R$ 3.360</div>
+          <div class="kpi-sub">20 meses × ARPU</div>
+        </div>
+      </div>
+      <div class="metrics-3">
+        <div class="metric-mini"><div class="label">New MRR (Jun)</div><div class="val" style="color:var(--green)">+R$ 6.380</div></div>
+        <div class="metric-mini"><div class="label">Churn MRR (Jun)</div><div class="val" style="color:var(--red)">-R$ 1.650</div></div>
+        <div class="metric-mini"><div class="label">Expansion MRR (Jun)</div><div class="val" style="color:var(--blue)">+R$ 2.100</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Receita por Plano — Junho 2026</div></div>
+        <table>
+          <thead><tr><th>Plano</th><th>Workspaces</th><th>Preço</th><th>MRR</th><th>% Total</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge plan-starter">Starter</span></td><td>132</td><td>R$ 197</td><td style="color:var(--green);font-weight:600">R$ 26.004</td><td>54%</td></tr>
+            <tr><td><span class="badge plan-pro">Pro</span></td><td>98</td><td>R$ 497</td><td style="color:var(--green);font-weight:600">R$ 10.706</td><td>22%</td></tr>
+            <tr><td><span class="badge plan-scale">Scale</span></td><td>38</td><td>R$ 997</td><td style="color:var(--green);font-weight:600">R$ 6.874</td><td>14%</td></tr>
+            <tr><td><span class="badge plan-enterprise">Enterprise</span></td><td>16</td><td>R$ 2.497</td><td style="color:var(--green);font-weight:600">R$ 4.246</td><td>9%</td></tr>
+            <tr style="font-weight:700"><td>Total</td><td>284</td><td>—</td><td style="color:var(--green)">R$ 47.830</td><td>100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== WORKSPACES =================== -->
+    <div class="page" id="page-workspaces">
+      <div class="page-header">
+        <div><h2>Workspaces</h2><p>284 workspaces ativos</p></div>
+        <button class="btn btn-primary" onclick="toast('Workspace criado manualmente')">+ Novo Workspace</button>
+      </div>
+      <div class="filter-row">
+        <input type="text" placeholder="Buscar por nome, domínio, email...">
+        <select class="select"><option>Todos os planos</option><option>Starter</option><option>Pro</option><option>Scale</option><option>Enterprise</option></select>
+        <select class="select"><option>Todos os status</option><option>Ativo</option><option>Trial</option><option>Cancelado</option><option>Inadimplente</option></select>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Workspace</th><th>Plano</th><th>Admin</th><th>MRR</th><th>Leads/mês</th><th>IA tokens</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody>
+              <tr onclick="openDrawer('Clínica Saúde Total','Pro','R$ 497','4.820','Ativo','12 Jun 2026')">
+                <td><strong>Clínica Saúde Total</strong><br><small style="color:var(--muted)">clinicasaudetotal.com.br</small></td>
+                <td><span class="badge plan-pro">Pro</span></td>
+                <td style="color:var(--muted)">dr.marcos@cst.com.br</td>
+                <td style="color:var(--green);font-weight:600">R$ 497</td>
+                <td>4.820</td>
+                <td><div class="usage-bar"><div class="usage-fill" style="width:62%;background:var(--indigo)"></div></div></td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Impersonating Clínica Saúde Total...')">Entrar</button></td>
+              </tr>
+              <tr onclick="openDrawer('Imobiliária Apex','Scale','R$ 997','12.300','Ativo','10 Jun 2026')">
+                <td><strong>Imobiliária Apex</strong><br><small style="color:var(--muted)">apex-imoveis.com.br</small></td>
+                <td><span class="badge plan-scale">Scale</span></td>
+                <td style="color:var(--muted)">ceo@apex-imoveis.com.br</td>
+                <td style="color:var(--green);font-weight:600">R$ 997</td>
+                <td>12.300</td>
+                <td><div class="usage-bar"><div class="usage-fill" style="width:78%;background:var(--amber)"></div></div></td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Impersonating Imobiliária Apex...')">Entrar</button></td>
+              </tr>
+              <tr onclick="openDrawer('Dr. Marcos Advocacia','Starter','R$ 197','1.240','Trial','08 Jun 2026')">
+                <td><strong>Dr. Marcos Advocacia</strong><br><small style="color:var(--muted)">drmarcos.adv.br</small></td>
+                <td><span class="badge plan-starter">Starter</span></td>
+                <td style="color:var(--muted)">marcos@drmarcos.adv.br</td>
+                <td style="color:var(--amber);font-weight:600">R$ 197</td>
+                <td>1.240</td>
+                <td><div class="usage-bar"><div class="usage-fill" style="width:28%;background:var(--green)"></div></div></td>
+                <td><span class="badge badge-amber">Trial</span></td>
+                <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Impersonating Dr. Marcos...')">Entrar</button></td>
+              </tr>
+              <tr onclick="openDrawer('Solar Tech Brasil','Enterprise','R$ 2.497','48.900','Ativo','05 Jun 2026')">
+                <td><strong>Solar Tech Brasil</strong><br><small style="color:var(--muted)">solartech.com.br</small></td>
+                <td><span class="badge plan-enterprise">Enterprise</span></td>
+                <td style="color:var(--muted)">admin@solartech.com.br</td>
+                <td style="color:var(--green);font-weight:600">R$ 2.497</td>
+                <td>48.900</td>
+                <td><div class="usage-bar"><div class="usage-fill" style="width:91%;background:var(--red)"></div></div></td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Impersonating Solar Tech...')">Entrar</button></td>
+              </tr>
+              <tr>
+                <td><strong>Consórcio ParteMais</strong><br><small style="color:var(--muted)">partemais.com.br</small></td>
+                <td><span class="badge plan-pro">Pro</span></td>
+                <td style="color:var(--muted)">ti@partemais.com.br</td>
+                <td style="color:var(--red);font-weight:600">R$ 497</td>
+                <td>2.100</td>
+                <td><div class="usage-bar"><div class="usage-fill" style="width:45%;background:var(--indigo)"></div></div></td>
+                <td><span class="badge badge-red">Inadimplente</span></td>
+                <td><button class="btn btn-red" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Cobrança re-enviada para ti@partemais.com.br')">Cobrar</button></td>
+              </tr>
+              <tr>
+                <td><strong>AcademiaSport Pro</strong><br><small style="color:var(--muted)">academiasportpro.com.br</small></td>
+                <td><span class="badge plan-starter">Starter</span></td>
+                <td style="color:var(--muted)">admin@academiasportpro.com.br</td>
+                <td style="color:var(--muted)">—</td>
+                <td>—</td>
+                <td><div class="usage-bar"></div></td>
+                <td><span class="badge badge-muted">Cancelado</span></td>
+                <td><button class="btn btn-green" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();toast('Convite de reativação enviado!')">Reativar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== USERS =================== -->
+    <div class="page" id="page-users">
+      <div class="page-header">
+        <div><h2>Usuários</h2><p>518 usuários cadastrados em todos os workspaces</p></div>
+      </div>
+      <div class="filter-row">
+        <input type="text" placeholder="Buscar por nome ou email...">
+        <select class="select"><option>Todas as roles</option><option>Admin</option><option>Membro</option><option>Viewer</option></select>
+      </div>
+      <div class="card" style="padding:0">
+        <table>
+          <thead><tr><th>Usuário</th><th>Workspace</th><th>Role</th><th>Último acesso</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Dr. Marcos Lima</strong><br><small style="color:var(--muted)">marcos@drmarcos.adv.br</small></td>
+              <td>Dr. Marcos Advocacia</td>
+              <td><span class="badge badge-purple">Admin</span></td>
+              <td style="color:var(--muted)">há 2 horas</td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Email de reset enviado para marcos@drmarcos.adv.br')">Reset senha</button></td>
+            </tr>
+            <tr>
+              <td><strong>Ana Paula Fonseca</strong><br><small style="color:var(--muted)">ana@apex-imoveis.com.br</small></td>
+              <td>Imobiliária Apex</td>
+              <td><span class="badge badge-purple">Admin</span></td>
+              <td style="color:var(--muted)">há 18 min</td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Email de reset enviado para ana@apex-imoveis.com.br')">Reset senha</button></td>
+            </tr>
+            <tr>
+              <td><strong>Carlos Mendes</strong><br><small style="color:var(--muted)">carlos@solartech.com.br</small></td>
+              <td>Solar Tech Brasil</td>
+              <td><span class="badge badge-blue">Membro</span></td>
+              <td style="color:var(--muted)">há 3 dias</td>
+              <td><span class="badge badge-amber">Inativo</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Usuário suspenso com sucesso')">Suspender</button></td>
+            </tr>
+            <tr>
+              <td><strong>Juliana Torres</strong><br><small style="color:var(--muted)">ju.torres@partemais.com.br</small></td>
+              <td>Consórcio ParteMais</td>
+              <td><span class="badge badge-blue">Membro</span></td>
+              <td style="color:var(--muted)">há 1 hora</td>
+              <td><span class="badge badge-red">Bloqueado</span></td>
+              <td><button class="btn btn-green" style="padding:4px 8px;font-size:11px" onclick="toast('Usuário desbloqueado')">Desbloquear</button></td>
+            </tr>
+            <tr>
+              <td><strong>Rafael Gomes</strong><br><small style="color:var(--muted)">rafael@cst.com.br</small></td>
+              <td>Clínica Saúde Total</td>
+              <td><span class="badge badge-muted">Viewer</span></td>
+              <td style="color:var(--muted)">há 5 min</td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Email de reset enviado')">Reset senha</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== SUBSCRIPTIONS =================== -->
+    <div class="page" id="page-subscriptions">
+      <div class="page-header">
+        <div><h2>Assinaturas</h2><p>Gestão de pagamentos e cobranças</p></div>
+        <button class="btn btn-ghost" onclick="toast('Sincronizando com Stripe...')">Sincronizar Stripe</button>
+      </div>
+      <div class="metrics-3">
+        <div class="metric-mini"><div class="label">Renovações este mês</div><div class="val" style="color:var(--green)">261</div></div>
+        <div class="metric-mini"><div class="label">Falhas de cobrança</div><div class="val" style="color:var(--red)">7</div></div>
+        <div class="metric-mini"><div class="label">Trials ativos</div><div class="val" style="color:var(--amber)">23</div></div>
+      </div>
+      <div class="card" style="padding:0">
+        <table>
+          <thead><tr><th>Workspace</th><th>Plano</th><th>Valor</th><th>Próxima cobrança</th><th>Método</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Clínica Saúde Total</strong></td>
+              <td><span class="badge plan-pro">Pro</span></td>
+              <td style="font-weight:600">R$ 497/mês</td>
+              <td style="color:var(--muted)">21 Jul 2026</td>
+              <td>Cartão •••• 4242</td>
+              <td><span class="badge badge-green">Ativa</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Assinatura pausada')">Pausar</button></td>
+            </tr>
+            <tr>
+              <td><strong>Imobiliária Apex</strong></td>
+              <td><span class="badge plan-scale">Scale</span></td>
+              <td style="font-weight:600">R$ 997/mês</td>
+              <td style="color:var(--muted)">10 Jul 2026</td>
+              <td>Cartão •••• 8810</td>
+              <td><span class="badge badge-green">Ativa</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Assinatura pausada')">Pausar</button></td>
+            </tr>
+            <tr>
+              <td><strong>Consórcio ParteMais</strong></td>
+              <td><span class="badge plan-pro">Pro</span></td>
+              <td style="font-weight:600">R$ 497/mês</td>
+              <td style="color:var(--red)">Venceu 14 Jun</td>
+              <td>Cartão •••• 5521</td>
+              <td><span class="badge badge-red">Inadimplente</span></td>
+              <td><button class="btn btn-red" style="padding:4px 8px;font-size:11px" onclick="toast('Cobrança manual disparada')">Cobrar agora</button></td>
+            </tr>
+            <tr>
+              <td><strong>Dr. Marcos Advocacia</strong></td>
+              <td><span class="badge plan-starter">Starter</span></td>
+              <td style="font-weight:600">R$ 197/mês</td>
+              <td style="color:var(--amber)">Trial — 5 dias restantes</td>
+              <td>—</td>
+              <td><span class="badge badge-amber">Trial</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Trial estendido por 7 dias')">+7 dias</button></td>
+            </tr>
+            <tr>
+              <td><strong>Solar Tech Brasil</strong></td>
+              <td><span class="badge plan-enterprise">Enterprise</span></td>
+              <td style="font-weight:600">R$ 2.497/mês</td>
+              <td style="color:var(--muted)">05 Jul 2026</td>
+              <td>Boleto bancário</td>
+              <td><span class="badge badge-green">Ativa</span></td>
+              <td><button class="btn btn-ghost" style="padding:4px 8px;font-size:11px" onclick="toast('Fatura re-enviada')">Reenviar fatura</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== AI USAGE =================== -->
+    <div class="page" id="page-ai-usage">
+      <div class="page-header">
+        <div><h2>Consumo de IA</h2><p>Tokens Claude API por workspace — Junho 2026</p></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">Total de Tokens (Jun)</div>
+          <div class="kpi-value" style="color:var(--indigo)">184M</div>
+          <div class="kpi-sub">input + output combinados</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Custo Estimado</div>
+          <div class="kpi-value" style="color:var(--amber)">R$ 2.208</div>
+          <div class="kpi-sub">margem bruta IA <span class="up">95,4%</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Workspace Top</div>
+          <div class="kpi-value" style="font-size:20px">Solar Tech</div>
+          <div class="kpi-sub">48.9M tokens — 26% do total</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Qualificações IA</div>
+          <div class="kpi-value">892K</div>
+          <div class="kpi-sub">leads qualificados este mês</div>
+        </div>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="card-head" style="padding:20px 20px 0"><div class="card-title">Consumo por Workspace</div></div>
+        <table>
+          <thead><tr><th>Workspace</th><th>Plano</th><th>Tokens usados</th><th>Limite</th><th>Uso %</th><th>Custo</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Solar Tech Brasil</strong></td>
+              <td><span class="badge plan-enterprise">Enterprise</span></td>
+              <td>48,9M</td>
+              <td>Ilimitado</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="usage-bar" style="width:120px"><div class="usage-fill" style="width:49%;background:var(--indigo)"></div></div>
+                  49%
+                </div>
+              </td>
+              <td style="color:var(--muted)">R$ 587</td>
+              <td><span class="badge badge-green">Normal</span></td>
+            </tr>
+            <tr>
+              <td><strong>Imobiliária Apex</strong></td>
+              <td><span class="badge plan-scale">Scale</span></td>
+              <td>38,2M</td>
+              <td>50M</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="usage-bar" style="width:120px"><div class="usage-fill" style="width:76%;background:var(--amber)"></div></div>
+                  76%
+                </div>
+              </td>
+              <td style="color:var(--muted)">R$ 458</td>
+              <td><span class="badge badge-amber">Alerta</span></td>
+            </tr>
+            <tr>
+              <td><strong>Clínica Saúde Total</strong></td>
+              <td><span class="badge plan-pro">Pro</span></td>
+              <td>18,6M</td>
+              <td>20M</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="usage-bar" style="width:120px"><div class="usage-fill" style="width:93%;background:var(--red)"></div></div>
+                  93%
+                </div>
+              </td>
+              <td style="color:var(--muted)">R$ 223</td>
+              <td><span class="badge badge-red">Crítico</span></td>
+            </tr>
+            <tr>
+              <td><strong>Consórcio ParteMais</strong></td>
+              <td><span class="badge plan-pro">Pro</span></td>
+              <td>12,1M</td>
+              <td>20M</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="usage-bar" style="width:120px"><div class="usage-fill" style="width:60%;background:var(--indigo)"></div></div>
+                  60%
+                </div>
+              </td>
+              <td style="color:var(--muted)">R$ 145</td>
+              <td><span class="badge badge-green">Normal</span></td>
+            </tr>
+            <tr>
+              <td><strong>Dr. Marcos Advocacia</strong></td>
+              <td><span class="badge plan-starter">Starter</span></td>
+              <td>1,4M</td>
+              <td>5M</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="usage-bar" style="width:120px"><div class="usage-fill" style="width:28%;background:var(--green)"></div></div>
+                  28%
+                </div>
+              </td>
+              <td style="color:var(--muted)">R$ 17</td>
+              <td><span class="badge badge-green">Normal</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== LOGS =================== -->
+    <div class="page" id="page-logs">
+      <div class="page-header">
+        <div><h2>Logs do Sistema</h2><p>Eventos em tempo real de todos os workspaces</p></div>
+        <button class="btn btn-ghost" onclick="toast('Log completo exportado')">Exportar logs</button>
+      </div>
+      <div class="tabs">
+        <div class="tab active" onclick="tabLog(this,'all')">Todos</div>
+        <div class="tab" onclick="tabLog(this,'error')">Erros</div>
+        <div class="tab" onclick="tabLog(this,'auth')">Auth</div>
+        <div class="tab" onclick="tabLog(this,'billing')">Cobrança</div>
+        <div class="tab" onclick="tabLog(this,'ai')">IA</div>
+      </div>
+      <div class="card">
+        <div id="log-all">
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--green)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--green)" stroke-width="1.5"><polyline points="2,7 5,10 11,3"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Solar Tech Brasil</strong> — Webhook WhatsApp recebido (4.820 mensagens processadas)</div><div class="log-meta">workspace:solar-tech · wpp-webhook · job #88412</div></div>
+            <div class="log-time">agora</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--red)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--red)" stroke-width="1.5"><path d="M6.5 2v5M6.5 10v.5"/><circle cx="6.5" cy="6.5" r="5.5"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Clínica Saúde Total</strong> — Limite de tokens IA atingido (93%). Rate limiting ativado.</div><div class="log-meta">workspace:cst · ai-limiter · alerta crítico</div></div>
+            <div class="log-time">2 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--amber)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--amber)" stroke-width="1.5"><path d="M1 11L6.5 2 12 11H1z"/><path d="M6.5 5v3M6.5 10v.5"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Consórcio ParteMais</strong> — Falha na cobrança automática (cartão recusado). Tentativa 2/3.</div><div class="log-meta">workspace:partemais · billing-retry · stripe:ch_3NQ1</div></div>
+            <div class="log-time">8 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--indigo)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--indigo)" stroke-width="1.5"><circle cx="6.5" cy="4" r="2.5"/><path d="M1 12c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Dr. Marcos Advocacia</strong> — Novo login (marcos@drmarcos.adv.br) · IP 187.122.40.10 · São Paulo, BR</div><div class="log-meta">workspace:drmarcos · auth-login · user:usr_8812</div></div>
+            <div class="log-time">12 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--green)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--green)" stroke-width="1.5"><rect x="1" y="4" width="11" height="7" rx="1.5"/><path d="M4 4V3a1 1 0 011-1h3a1 1 0 011 1v1"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Imobiliária Apex</strong> — Novo workspace criado. Trial de 14 dias iniciado.</div><div class="log-meta">workspace:apex · signup · plan:scale-trial</div></div>
+            <div class="log-time">18 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--green)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--green)" stroke-width="1.5"><polyline points="2,7 5,10 11,3"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Solar Tech Brasil</strong> — Assinatura renovada automaticamente. R$ 2.497 cobrado com sucesso.</div><div class="log-meta">workspace:solar-tech · billing-success · stripe:pi_3OA2K</div></div>
+            <div class="log-time">34 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--red)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--red)" stroke-width="1.5"><path d="M2 2l9 9M11 2l-9 9"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Sistema</strong> — Worker de follow-up reiniciado após OOM (memória insuficiente no pod). Recovered em 2.3s.</div><div class="log-meta">infra · k8s-pod:fu-worker-3 · restart:1</div></div>
+            <div class="log-time">52 min</div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--indigo)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--indigo)" stroke-width="1.5"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5 1 5H5.5L6.5 1z"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Clínica Saúde Total</strong> — IA qualificou 142 leads em batch. Score médio: 74/100.</div><div class="log-meta">workspace:cst · ai-qualification · batch:bch_4421</div></div>
+            <div class="log-time">1h 10min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== LIMITS =================== -->
+    <div class="page" id="page-limits">
+      <div class="page-header">
+        <div><h2>Limites e Planos</h2><p>Configuração dos limites por plano</p></div>
+        <button class="btn btn-primary" onclick="toast('Alterações salvas e aplicadas a todos os workspaces')">Salvar alterações</button>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Limites por Plano</div><div class="card-sub">Alterações aplicam imediatamente a todos os workspaces</div></div>
+        <table>
+          <thead><tr><th>Recurso</th><th><span class="badge plan-starter">Starter</span></th><th><span class="badge plan-pro">Pro</span></th><th><span class="badge plan-scale">Scale</span></th><th><span class="badge plan-enterprise">Enterprise</span></th></tr></thead>
+          <tbody>
+            <tr><td>Leads/mês</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="2.000"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="10.000"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="50.000"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="Ilimitado"></td></tr>
+            <tr><td>Tokens IA/mês</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="5M"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="20M"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="50M"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="Ilimitado"></td></tr>
+            <tr><td>Instâncias WhatsApp</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="1"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="3"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="10"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="Ilimitado"></td></tr>
+            <tr><td>Membros da equipe</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="2"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="5"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="20"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="Ilimitado"></td></tr>
+            <tr><td>Sequências de Follow-up</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="3"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="10"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="50"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:6px;width:80px;font-size:12px" value="Ilimitado"></td></tr>
+            <tr><td>Preço/mês (R$)</td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--green);padding:4px 8px;border-radius:6px;width:80px;font-size:12px;font-weight:700" value="197"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--indigo);padding:4px 8px;border-radius:6px;width:80px;font-size:12px;font-weight:700" value="497"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--amber);padding:4px 8px;border-radius:6px;width:80px;font-size:12px;font-weight:700" value="997"></td><td><input style="background:var(--surface2);border:1px solid var(--border);color:var(--purple);padding:4px 8px;border-radius:6px;width:80px;font-size:12px;font-weight:700" value="2.497"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== ANNOUNCEMENTS =================== -->
+    <div class="page" id="page-announcements">
+      <div class="page-header">
+        <div><h2>Comunicados</h2><p>Envie notificações para workspaces específicos ou todos os usuários</p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Novo Comunicado</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Destinatários</div>
+              <select class="select" style="width:100%">
+                <option>Todos os workspaces (284)</option>
+                <option>Plano Starter (132)</option>
+                <option>Plano Pro (98)</option>
+                <option>Plano Scale (38)</option>
+                <option>Plano Enterprise (16)</option>
+                <option>Workspaces inadimplentes (7)</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Tipo</div>
+              <select class="select" style="width:100%">
+                <option>In-app + Email</option>
+                <option>Apenas in-app</option>
+                <option>Apenas email</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Título</div>
+              <input type="text" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;width:100%" placeholder="Ex: Nova funcionalidade disponível">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Mensagem</div>
+              <textarea style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;width:100%;resize:vertical;min-height:80px" placeholder="Conteúdo do comunicado..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="toast('Comunicado enviado para 284 workspaces')">Enviar comunicado</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Histórico de Comunicados</div></div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--green)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--green)" stroke-width="1.5"><polyline points="2,7 5,10 11,3"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Manutenção agendada — 25 Jun às 02:00</strong></div><div class="log-meta">Todos · 284 receberam · há 2 dias</div></div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--indigo)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--indigo)" stroke-width="1.5"><path d="M6.5 1L8 5h4.5L9 7.5 10.5 12 6.5 9.5 2.5 12 4 7.5 1 5H5.5L6.5 1z"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Nova funcionalidade: Kanban de Leads</strong></div><div class="log-meta">Todos · 284 receberam · há 5 dias</div></div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--amber)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--amber)" stroke-width="1.5"><path d="M1 11L6.5 2 12 11H1z"/><path d="M6.5 5v3M6.5 10v.5"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>Atenção: Você está próximo do limite de tokens</strong></div><div class="log-meta">Plano Pro · 98 receberam · há 7 dias</div></div>
+          </div>
+          <div class="log-item">
+            <div class="log-icon" style="background:var(--green)20"><svg viewBox="0 0 13 13" fill="none" stroke="var(--green)" stroke-width="1.5"><polyline points="2,7 5,10 11,3"/></svg></div>
+            <div class="log-body"><div class="log-msg"><strong>WhatsFlow AI v2.4 — Notas de versão</strong></div><div class="log-meta">Todos · 271 receberam · há 12 dias</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== CONFIG =================== -->
+    <div class="page" id="page-config">
+      <div class="page-header">
+        <div><h2>Configurações do Sistema</h2><p>Variáveis globais e integrações</p></div>
+        <button class="btn btn-primary" onclick="toast('Configurações salvas com sucesso')">Salvar</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-head"><div class="card-title">API Keys Globais</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Claude API Key</div>
+              <input type="password" value="sk-ant-api03-••••••••••••••••••••••••" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:monospace;outline:none;width:100%">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Stripe Secret Key</div>
+              <input type="password" value="sk_live_••••••••••••••••••••••••••••••" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:monospace;outline:none;width:100%">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Evolution API URL</div>
+              <input type="text" value="https://evo.whatsflow.ai" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:monospace;outline:none;width:100%">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Supabase URL</div>
+              <input type="text" value="https://xxxx.supabase.co" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:monospace;outline:none;width:100%">
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Configurações Globais</div></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="drawer-row">
+              <span>Modo de manutenção</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:36px;height:20px;background:var(--surface3);border-radius:10px;position:relative;cursor:pointer" onclick="toast('Modo manutenção: TODOS os workspaces serão afetados!')">
+                  <div style="width:16px;height:16px;background:var(--muted);border-radius:50%;position:absolute;top:2px;left:2px;transition:.2s"></div>
+                </div>
+                <span style="font-size:12px;color:var(--muted)">Desligado</span>
+              </div>
+            </div>
+            <div class="drawer-row">
+              <span>Trial padrão (dias)</span>
+              <input type="number" value="14" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;width:60px;outline:none">
+            </div>
+            <div class="drawer-row">
+              <span>Tentativas de cobrança</span>
+              <input type="number" value="3" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;width:60px;outline:none">
+            </div>
+            <div class="drawer-row">
+              <span>Dias até suspensão (inadimplente)</span>
+              <input type="number" value="7" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;width:60px;outline:none">
+            </div>
+            <div class="drawer-row">
+              <span>Alerta de tokens (%)</span>
+              <input type="number" value="80" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;width:60px;outline:none">
+            </div>
+            <div class="drawer-row" style="border:none">
+              <span>Registro de novos workspaces</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:36px;height:20px;background:var(--indigo);border-radius:10px;position:relative;cursor:pointer">
+                  <div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:.2s"></div>
+                </div>
+                <span style="font-size:12px;color:var(--green)">Aberto</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h3 id="drawer-name">Workspace</h3>
+      <button class="drawer-close" onclick="document.getElementById('drawer-overlay').classList.remove('open')">×</button>
+    </div>
+    <div class="drawer-section">
+      <h4>Detalhes</h4>
+      <div class="drawer-row"><span class="key">Plano</span><span id="d-plan">—</span></div>
+      <div class="drawer-row"><span class="key">MRR</span><span id="d-mrr" style="color:var(--green);font-weight:600">—</span></div>
+      <div class="drawer-row"><span class="key">Leads/mês</span><span id="d-leads">—</span></div>
+      <div class="drawer-row"><span class="key">Status</span><span id="d-status">—</span></div>
+      <div class="drawer-row"><span class="key">Criado em</span><span id="d-created" style="color:var(--muted)">—</span></div>
+    </div>
+    <div class="drawer-section">
+      <h4>Ações rápidas</h4>
+      <div class="drawer-actions">
+        <button class="btn btn-ghost" onclick="toast('Impersonating workspace...')">Entrar como admin</button>
+        <button class="btn btn-ghost" onclick="toast('Trial estendido por 7 dias')">+7 dias trial</button>
+        <button class="btn btn-red" onclick="toast('Workspace suspenso')">Suspender</button>
+      </div>
+    </div>
+    <div class="drawer-section">
+      <h4>Upgrade forçado</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--green)20;color:var(--green);border:1px solid var(--green)30;font-size:11px" onclick="toast('Plano alterado para Starter')">Starter</button>
+        <button class="btn" style="background:var(--indigo)20;color:var(--indigo);border:1px solid var(--indigo)30;font-size:11px" onclick="toast('Plano alterado para Pro')">Pro</button>
+        <button class="btn" style="background:var(--amber)20;color:var(--amber);border:1px solid var(--amber)30;font-size:11px" onclick="toast('Plano alterado para Scale')">Scale</button>
+        <button class="btn" style="background:var(--purple)20;color:var(--purple);border:1px solid var(--purple)30;font-size:11px" onclick="toast('Plano alterado para Enterprise')">Enterprise</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+function nav(el, page) {
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  if (el && el.classList) el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  const titles = {
+    overview:'Dashboard', mrr:'Receita (MRR)', workspaces:'Workspaces',
+    users:'Usuários', subscriptions:'Assinaturas', 'ai-usage':'Consumo de IA',
+    logs:'Logs do Sistema', limits:'Limites e Planos', announcements:'Comunicados', config:'Configurações'
+  };
+  document.getElementById('topbar-title').textContent = titles[page] || page;
+}
+
+function openDrawer(name, plan, mrr, leads, status, created) {
+  document.getElementById('drawer-name').textContent = name;
+  document.getElementById('d-plan').textContent = plan;
+  document.getElementById('d-mrr').textContent = mrr;
+  document.getElementById('d-leads').textContent = leads + ' leads/mês';
+  document.getElementById('d-status').textContent = status;
+  document.getElementById('d-created').textContent = created;
+  document.getElementById('drawer-overlay').classList.add('open');
+}
+
+function closeDrawer(e) {
+  if (e.target === document.getElementById('drawer-overlay'))
+    document.getElementById('drawer-overlay').classList.remove('open');
+}
+
+function tabLog(el, type) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  toast('Filtro "' + el.textContent + '" aplicado');
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sety Studio — Agência Digital Premium</title>
+<meta name="description" content="Criamos sites, anúncios e automações que geram clientes todo dia. Agência digital premium focada em resultados reais.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+/* ================================================================
+   RESET + ROOT
+================================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;--bg2:#0B0B0E;--bg3:#111114;--bg4:#18181C;
+  --card:#111114;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.10);
+  --purple:#8B5CF6;--purple2:#A78BFA;--purple3:#7C3AED;
+  --pglow:rgba(139,92,246,0.35);--pglow2:rgba(139,92,246,0.15);
+  --white:#FFFFFF;--gray:#A1A1AA;--muted:#6B7280;--green:#22C55E;
+  --r24:24px;--r18:18px;--r12:12px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Inter',-apple-system,sans-serif;
+  background:var(--bg);color:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;opacity:0.35;
+}
+
+/* ================================================================
+   TYPOGRAPHY
+================================================================ */
+.t-hero{font-size:clamp(52px,7.5vw,104px);font-weight:800;letter-spacing:-3px;line-height:1.0}
+.t-h1{font-size:clamp(38px,5vw,68px);font-weight:800;letter-spacing:-2px;line-height:1.06}
+.t-h2{font-size:clamp(30px,4vw,52px);font-weight:700;letter-spacing:-1.5px;line-height:1.12}
+.t-h3{font-size:clamp(18px,2.5vw,26px);font-weight:600;letter-spacing:-.4px;line-height:1.3}
+.t-body{font-size:16px;line-height:1.7;color:var(--gray);font-weight:400}
+.t-label{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--purple2)}
+
+/* ================================================================
+   LAYOUT
+================================================================ */
+.container{max-width:1280px;margin:0 auto;padding:0 48px}
+.section{padding:160px 0}
+.section-sm{padding:80px 0}
+
+/* ================================================================
+   ANIMATIONS
+================================================================ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes pulse-glow{0%,100%{opacity:0.4}50%{opacity:0.85}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes border-anim{0%,100%{border-color:rgba(139,92,246,0.15)}50%{border-color:rgba(139,92,246,0.5)}}
+
+.anim{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.anim.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+
+/* ================================================================
+   COMPONENTS
+================================================================ */
+.tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);
+  border-radius:100px;padding:6px 16px;
+  font-size:12px;font-weight:500;color:var(--purple2);letter-spacing:.3px;
+}
+.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--purple2);animation:pulse-glow 2s infinite}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:inherit;font-size:15px;font-weight:600;
+  border-radius:var(--r18);border:none;cursor:pointer;
+  padding:14px 28px;transition:all .3s cubic-bezier(.16,1,.3,1);
+  text-decoration:none;white-space:nowrap;
+}
+.btn-primary{background:var(--purple);color:#fff}
+.btn-primary:hover{background:#9D6EFF;transform:translateY(-2px);box-shadow:0 8px 32px var(--pglow),0 0 0 1px rgba(139,92,246,0.3)}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--gray)}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--white);transform:translateY(-1px)}
+.btn-lg{padding:18px 36px;font-size:16px;border-radius:20px}
+.btn-icon{width:14px;height:14px}
+
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r24);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.card:hover{border-color:rgba(255,255,255,0.1);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 0 1px rgba(139,92,246,0.08)}
+
+/* ================================================================
+   NAVBAR
+================================================================ */
+.nav-wrap{position:fixed;top:20px;left:0;right:0;z-index:100;display:flex;justify-content:center;padding:0 24px}
+nav{
+  display:flex;align-items:center;
+  background:rgba(11,11,14,0.72);
+  backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--border2);border-radius:100px;
+  padding:10px 10px 10px 20px;
+  width:100%;max-width:900px;
+  transition:all .3s ease;
+  box-shadow:0 4px 40px rgba(0,0,0,.4);
+}
+nav.scrolled{background:rgba(5,5,5,0.92);box-shadow:0 4px 60px rgba(0,0,0,.7)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo img{width:26px;height:26px;filter:invert(1) brightness(1.5)}
+.nav-logo-name{font-size:14px;font-weight:800;letter-spacing:.5px;color:var(--white)}
+.nav-links{display:flex;align-items:center;gap:2px;margin:0 auto;padding:0 20px}
+.nav-link{padding:7px 16px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;border-radius:100px;transition:all .2s}
+.nav-link:hover,.nav-link.active{color:var(--white);background:rgba(255,255,255,0.06)}
+.nav-cta{
+  display:flex;align-items:center;gap:8px;
+  background:var(--purple);color:#fff;
+  padding:9px 20px;border-radius:100px;
+  font-size:13px;font-weight:600;text-decoration:none;
+  transition:all .3s;flex-shrink:0;
+}
+.nav-cta:hover{background:#9D6EFF;transform:scale(1.02)}
+.nav-cta svg{width:12px;height:12px}
+
+/* ================================================================
+   HERO
+================================================================ */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:100px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg-glow1{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.12) 0%,transparent 70%)}
+.hero-bg-glow2{position:absolute;bottom:-10%;right:-10%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.06) 0%,transparent 70%)}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black,transparent)}
+
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%}
+.hero-left{display:flex;flex-direction:column;gap:28px}
+.hero-title{display:flex;flex-direction:column;gap:0}
+.hero-title .l1{color:var(--muted)}
+.hero-title .l2{color:var(--white)}
+.hero-title .l3{background:linear-gradient(135deg,#fff 0%,var(--purple2) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--gray);line-height:1.65;max-width:440px;font-weight:400}
+.hero-ctas{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero-stats{display:flex;align-items:center;gap:32px;padding-top:12px;border-top:1px solid var(--border)}
+.hs{display:flex;flex-direction:column;gap:2px}
+.hs-val{font-size:22px;font-weight:800;letter-spacing:-1px}
+.hs-label{font-size:12px;color:var(--muted)}
+.hs-divider{width:1px;height:36px;background:var(--border)}
+
+/* Hero right visual */
+.hero-right{position:relative;display:flex;justify-content:center;align-items:center}
+.hero-3d{position:relative;width:480px;height:480px}
+.hero-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.2) 0%,transparent 70%);animation:pulse-glow 4s ease-in-out infinite}
+.hero-card-main{
+  position:absolute;width:340px;background:var(--bg3);
+  border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:28px;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:float 6s ease-in-out infinite;
+  box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 80px rgba(139,92,246,0.08),inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.hc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hc-logo{display:flex;align-items:center;gap:8px}
+.hc-logo img{width:20px;height:20px;filter:invert(1)}
+.hc-logo-t{font-size:12px;font-weight:700}
+.hc-dots{display:flex;gap:5px}
+.hc-dot{width:8px;height:8px;border-radius:50%}
+.hc-big-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.hc-big-val{font-size:38px;font-weight:900;letter-spacing:-2px}
+.hc-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,0.1);color:var(--green);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;margin-top:4px}
+.hc-sparkline{margin:16px 0;height:60px}
+.hc-sparkline svg{width:100%;height:100%}
+.hc-divider{height:1px;background:var(--border);margin:16px 0}
+.hc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.hc-row:last-child{margin-bottom:0}
+.hc-row-left{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.hc-row-dot{width:6px;height:6px;border-radius:50%}
+.hc-row-val{font-size:13px;font-weight:600}
+.hc-row-badge{background:rgba(34,197,94,0.1);color:var(--green);font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px}
+.hc-row-badge.dn{background:rgba(239,68,68,0.1);color:#ef4444}
+
+.hero-float{position:absolute;background:var(--bg3);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.hf1{top:20px;right:-20px;animation:float2 7s ease-in-out infinite}
+.hf2{bottom:40px;left:-30px;animation:float2 8s ease-in-out infinite 1s}
+.hf3{top:60px;left:-20px;animation:float 9s ease-in-out infinite 2s}
+.hf-label{font-size:10px;color:var(--muted);margin-bottom:3px}
+.hf-val{font-size:18px;font-weight:800;letter-spacing:-1px}
+.hf-sub{font-size:10px;color:var(--green);font-weight:600}
+
+.scroll-ind{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 3s ease-in-out infinite}
+.scroll-mouse{width:22px;height:34px;border-radius:11px;border:1.5px solid rgba(255,255,255,0.2);display:flex;justify-content:center;padding-top:7px}
+.scroll-wheel{width:3px;height:6px;border-radius:3px;background:rgba(255,255,255,0.4);animation:float 1.5s ease-in-out infinite}
+.scroll-text{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+
+/* ================================================================
+   TICKER
+================================================================ */
+.ticker-section{padding:40px 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.ticker-track{display:flex;align-items:center;animation:ticker 30s linear infinite;width:max-content;white-space:nowrap}
+.ticker-item{display:flex;align-items:center;gap:10px;padding:0 40px;font-size:14px;font-weight:500;color:var(--muted)}
+.ticker-item span{color:var(--white)}
+.ticker-sep{color:var(--muted);font-size:18px;opacity:.3}
+
+/* ================================================================
+   SECTION HEADERS
+================================================================ */
+.sh{display:flex;flex-direction:column;gap:16px}
+.sh.center{align-items:center;text-align:center}
+.sh .t-h2{max-width:640px}
+
+/* ================================================================
+   SERVICES
+================================================================ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:72px}
+.svc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r24);padding:40px 36px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.svc::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(139,92,246,0.06),transparent 60%);opacity:0;transition:opacity .4s}
+.svc:hover::before{opacity:1}
+.svc:hover{border-color:rgba(139,92,246,0.2);transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(139,92,246,0.1)}
+.svc.feat{background:linear-gradient(145deg,rgba(139,92,246,0.08),var(--card));border-color:rgba(139,92,246,0.2)}
+.svc-icon{width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);margin-bottom:24px;transition:all .3s}
+.svc:hover .svc-icon{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3)}
+.svc-icon svg{width:24px;height:24px;color:var(--gray);transition:color .3s}
+.svc:hover .svc-icon svg{color:var(--purple2)}
+.svc-title{font-size:20px;font-weight:700;letter-spacing:-.4px;margin-bottom:10px}
+.svc-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:24px}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.svc-tag{font-size:11px;font-weight:500;color:var(--muted);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:100px;padding:4px 12px;transition:all .2s}
+.svc:hover .svc-tag{border-color:rgba(139,92,246,0.2);color:var(--gray)}
+.svc-arrow{position:absolute;bottom:32px;right:32px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .3s}
+.svc:hover .svc-arrow{background:var(--purple);border-color:var(--purple);color:#fff;transform:rotate(45deg)}
+
+/* ================================================================
+   METRICS
+================================================================ */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r24);overflow:hidden}
+.metric{background:var(--bg);padding:52px 40px;display:flex;flex-direction:column;gap:8px;transition:background .3s}
+.metric:hover{background:var(--bg2)}
+.metric-val{font-size:clamp(40px,5vw,64px);font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(135deg,var(--white) 0%,var(--gray) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-label{font-size:14px;color:var(--muted);font-weight:400}
+.metric-sub{font-size:12px;color:var(--purple2);font-weight:500;margin-top:4px}
+
+/* ================================================================
+   PORTFOLIO
+================================================================ */
+.portfolio-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-top:72px}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r24);overflow:hidden;cursor:pointer;position:relative;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.pcard:hover{border-color:rgba(255,255,255,0.1);transform:translateY(-4px);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.pcard.tall{grid-row:span 2}
+.pcard-visual{height:260px;width:100%;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pcard.tall .pcard-visual{height:100%;min-height:360px}
+.pcard-visual-inner{width:90%;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 20px 60px rgba(0,0,0,.8);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.pcard:hover .pcard-visual-inner{transform:scale(1.03) translateY(-4px)}
+
+/* Mock browser */
+.m-browser{background:#0a0a0e;border-radius:10px;overflow:hidden}
+.m-bar{height:28px;background:#141418;display:flex;align-items:center;padding:0 12px;gap:6px}
+.m-dot{width:8px;height:8px;border-radius:50%}
+.m-url{flex:1;background:rgba(255,255,255,0.04);border-radius:4px;height:14px;margin:0 12px}
+
+.m-ecom{background:#0d0d10;padding:16px;min-height:180px;display:flex;flex-direction:column;gap:10px}
+.m-ecom-nav{height:28px;background:#16161a;border-radius:6px}
+.m-ecom-hero{height:60px;background:linear-gradient(135deg,#1a0a2e,#0d0d10);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,0.4)}
+.m-ecom-prods{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.m-ecom-prod{height:60px;background:#16161a;border-radius:6px;border:1px solid rgba(255,255,255,0.04)}
+
+.m-clinic{background:#080810;padding:16px;min-height:180px;display:flex;flex-direction:column;gap:8px}
+.m-clinic-hdr{display:flex;align-items:center;justify-content:space-between}
+.m-clinic-logo{width:60px;height:10px;background:#8B5CF6;border-radius:3px;opacity:.6}
+.m-clinic-nav{display:flex;gap:4px}
+.m-clinic-nav span{width:24px;height:6px;background:rgba(255,255,255,0.1);border-radius:2px}
+.m-clinic-hero{height:80px;background:linear-gradient(135deg,#0f0520,#050510);border-radius:8px;border:1px solid rgba(139,92,246,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.m-clinic-t{font-size:7px;color:rgba(255,255,255,0.5);letter-spacing:1px}
+.m-clinic-h{font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);letter-spacing:-.5px}
+.m-clinic-cards{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.m-clinic-card{height:40px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);border-radius:6px}
+
+.m-dash{background:#08080e;display:flex;height:180px}
+.m-dash-sb{width:80px;background:#0c0c12;border-right:1px solid rgba(255,255,255,0.04);padding:10px 8px;display:flex;flex-direction:column;gap:4px}
+.m-dash-si{height:16px;background:rgba(255,255,255,0.04);border-radius:4px}
+.m-dash-si.a{background:rgba(139,92,246,0.2)}
+.m-dash-main{flex:1;padding:10px;display:flex;flex-direction:column;gap:6px}
+.m-dash-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.m-dash-card{height:36px;background:rgba(255,255,255,0.03);border-radius:4px;border:1px solid rgba(255,255,255,0.04)}
+.m-dash-chart{flex:1;background:rgba(255,255,255,0.02);border-radius:4px;display:flex;align-items:flex-end;padding:6px;gap:2px}
+.m-dash-bar{flex:1;border-radius:2px}
+
+.pcard-info{padding:28px 32px 32px}
+.pcard-tag{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--purple2);margin-bottom:8px}
+.pcard-title{font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.pcard-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.pcard-result{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--green);background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);border-radius:100px;padding:5px 14px}
+
+/* ================================================================
+   WHY SETY
+================================================================ */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--r24);overflow:hidden;margin-top:72px}
+.why-card{background:var(--bg);padding:52px 48px;position:relative;overflow:hidden;transition:background .3s}
+.why-card:hover{background:var(--bg2)}
+.why-glow{position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.1),transparent);opacity:0;transition:opacity .4s}
+.why-card:hover .why-glow{opacity:1}
+.why-num{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--purple2);text-transform:uppercase;margin-bottom:20px}
+.why-title{font-size:28px;font-weight:700;letter-spacing:-.8px;margin-bottom:14px;line-height:1.2}
+.why-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:380px}
+.why-icon{position:absolute;bottom:32px;right:32px;width:80px;height:80px;border-radius:20px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);display:flex;align-items:center;justify-content:center;font-size:36px;transition:all .3s}
+.why-card:hover .why-icon{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.25);transform:scale(1.05)}
+
+/* ================================================================
+   TESTIMONIALS
+================================================================ */
+.test-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-bottom:64px}
+.test-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--r24);padding:36px;display:flex;flex-direction:column;gap:20px;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.tc:hover{border-color:rgba(255,255,255,0.1);transform:translateY(-4px)}
+.tc.hl{background:linear-gradient(145deg,rgba(139,92,246,0.08),var(--card));border-color:rgba(139,92,246,0.2)}
+.tc-quote-icon{font-size:28px;color:var(--purple);opacity:.4;font-family:Georgia,serif;line-height:1}
+.tc-text{font-size:15px;color:var(--gray);line-height:1.7;flex:1}
+.tc-div{height:1px;background:var(--border)}
+.tc-author{display:flex;align-items:center;gap:14px}
+.tc-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.tc-name{font-size:14px;font-weight:600}
+.tc-role{font-size:12px;color:var(--muted)}
+.tc-stars{color:var(--purple2);font-size:12px;margin-top:4px}
+
+/* ================================================================
+   PROCESS
+================================================================ */
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:var(--r24);overflow:hidden;margin-top:72px}
+.ps{background:var(--bg);padding:48px 36px;position:relative;transition:background .3s}
+.ps:hover{background:var(--bg2)}
+.ps-num{font-size:11px;font-weight:700;color:var(--purple2);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.ps-num::after{content:'';flex:1;height:1px;background:rgba(139,92,246,0.2)}
+.ps-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.ps-desc{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* ================================================================
+   FAQ
+================================================================ */
+.faq-list{display:flex;flex-direction:column;margin-top:72px;border-radius:var(--r24);overflow:hidden;border:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:28px 36px;background:var(--bg);cursor:pointer;font-size:17px;font-weight:600;letter-spacing:-.3px;text-align:left;border:none;color:var(--white);transition:background .2s;font-family:inherit}
+.faq-q:hover,.faq-q.open{background:var(--bg2)}
+.faq-icon{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:var(--muted)}
+.faq-q.open .faq-icon{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:var(--purple2);transform:rotate(45deg)}
+.faq-a{display:none;padding:0 36px 28px}
+.faq-a.open{display:block}
+.faq-a-text{font-size:15px;color:var(--muted);line-height:1.75;max-width:700px}
+
+/* ================================================================
+   CTA
+================================================================ */
+.cta-section{padding:160px 0;position:relative;overflow:hidden;text-align:center}
+.cta-bg{position:absolute;inset:0;pointer-events:none}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(139,92,246,0.18) 0%,transparent 65%);animation:pulse-glow 4s ease-in-out infinite}
+.cta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,black,transparent)}
+.cta-content{position:relative;z-index:2}
+.cta-sub{font-size:18px;color:var(--gray);max-width:480px;margin:0 auto 40px;line-height:1.6}
+.cta-btns{display:flex;align-items:center;gap:12px;justify-content:center}
+
+/* ================================================================
+   FOOTER
+================================================================ */
+.footer{border-top:1px solid var(--border);background:var(--bg)}
+.footer-main{padding:100px 0 64px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px}
+.footer-brand{display:flex;flex-direction:column;gap:20px}
+.footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.footer-logo img{width:28px;height:28px;filter:invert(1)}
+.footer-logo-name{font-size:15px;font-weight:800;letter-spacing:.3px;color:var(--white)}
+.footer-tagline{font-size:14px;color:var(--muted);line-height:1.6;max-width:260px}
+.footer-socials{display:flex;gap:10px;margin-top:4px}
+.fsoc{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;text-decoration:none}
+.fsoc:hover{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:var(--white)}
+.fsoc svg{width:16px;height:16px}
+.footer-col-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:20px;letter-spacing:.2px}
+.footer-col-links{display:flex;flex-direction:column;gap:12px}
+.footer-col-link{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-col-link:hover{color:var(--white)}
+.footer-bottom{padding:24px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-bottom-text{font-size:13px;color:var(--muted)}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-link{font-size:13px;color:var(--muted);text-decoration:none}
+.footer-bottom-link:hover{color:var(--white)}
+.footer-nl{margin-top:24px}
+.footer-nl-label{font-size:13px;color:var(--muted);margin-bottom:10px}
+.footer-sub{display:flex;gap:8px}
+.footer-sub input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:10px 16px;font-size:13px;color:var(--white);outline:none;font-family:inherit}
+.footer-sub input::placeholder{color:var(--muted)}
+.footer-sub input:focus{border-color:rgba(139,92,246,0.4)}
+.footer-sub button{background:var(--purple);border:none;border-radius:12px;padding:10px 18px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s;font-family:inherit}
+.footer-sub button:hover{background:#9D6EFF}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media(max-width:1100px){
+  .container{padding:0 32px}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:40px}
+}
+@media(max-width:768px){
+  .container{padding:0 20px}
+  .section{padding:100px 0}
+  .t-hero{font-size:48px;letter-spacing:-2px}
+  .nav-links{display:none}
+  .services-grid{grid-template-columns:1fr}
+  .portfolio-grid{grid-template-columns:1fr}
+  .test-cards{grid-template-columns:1fr}
+  .test-intro{grid-template-columns:1fr;gap:40px}
+  .why-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="nav-wrap">
+  <nav id="nav">
+    <a class="nav-logo" href="#">
+      <img src="logo.png" alt="Sety Studio">
+      <span class="nav-logo-name">SETY STUDIO</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#">Home</a>
+      <a class="nav-link" href="#services">Serviços</a>
+      <a class="nav-link" href="#portfolio">Portfólio</a>
+      <a class="nav-link" href="#about">Sobre</a>
+      <a class="nav-link" href="#contact">Contato</a>
+    </div>
+    <a class="nav-cta" href="#contact">
+      Falar com a Sety
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-glow1"></div>
+    <div class="hero-bg-glow2"></div>
+    <div class="hero-bg-grid"></div>
+  </div>
+  <div class="container" style="width:100%">
+    <div class="hero-inner">
+
+      <div class="hero-left">
+        <div class="tag anim">
+          <div class="tag-dot"></div>
+          Agência Digital Premium
+        </div>
+        <h1 class="t-hero hero-title anim d1">
+          <span class="l1">Criamos</span>
+          <span class="l2">Negócios que</span>
+          <span class="l3">Vendem.</span>
+        </h1>
+        <p class="hero-sub anim d2">Sites, anúncios e automações com IA que geram clientes todo dia — para clínicas, imobiliárias, e-commerces e marcas de alto ticket.</p>
+        <div class="hero-ctas anim d3">
+          <a href="#portfolio" class="btn btn-primary btn-lg">Ver nosso trabalho <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a>
+          <a href="#contact" class="btn btn-ghost btn-lg">Falar conosco</a>
+        </div>
+        <div class="hero-stats anim d4">
+          <div class="hs"><span class="hs-val" style="color:var(--white)">150+</span><span class="hs-label">Projetos entregues</span></div>
+          <div class="hs-divider"></div>
+          <div class="hs"><span class="hs-val" style="color:var(--purple2)">300%</span><span class="hs-label">Crescimento médio</span></div>
+          <div class="hs-divider"></div>
+          <div class="hs"><span class="hs-val" style="color:var(--white)">48h</span><span class="hs-label">Entrega inicial</span></div>
+        </div>
+      </div>
+
+      <div class="hero-right anim d2">
+        <div class="hero-3d">
+          <div class="hero-orb"></div>
+          <div class="hero-card-main">
+            <div class="hc-hdr">
+              <div class="hc-logo"><img src="logo.png" alt=""><span class="hc-logo-t">Sety Dashboard</span></div>
+              <div class="hc-dots">
+                <div class="hc-dot" style="background:#ef4444"></div>
+                <div class="hc-dot" style="background:#f59e0b"></div>
+                <div class="hc-dot" style="background:#22c55e"></div>
+              </div>
+            </div>
+            <div><div class="hc-big-label">Leads gerados — Jun/26</div><div class="hc-big-val">1.204</div><div class="hc-badge">▲ +47% vs. mês anterior</div></div>
+            <div class="hc-sparkline">
+              <svg viewBox="0 0 280 60" preserveAspectRatio="none">
+                <defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#8B5CF6" stop-opacity=".4"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,52 L28,44 L56,48 L84,32 L112,36 L140,20 L168,24 L196,12 L224,16 L252,6 L280,4" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M0,52 L28,44 L56,48 L84,32 L112,36 L140,20 L168,24 L196,12 L224,16 L252,6 L280,4 L280,60 L0,60Z" fill="url(#sg)"/>
+                <circle cx="252" cy="6" r="4" fill="#8B5CF6"/>
+                <circle cx="252" cy="6" r="7" fill="none" stroke="#8B5CF6" stroke-opacity=".3"/>
+              </svg>
+            </div>
+            <div class="hc-divider"></div>
+            <div class="hc-row"><span class="hc-row-left"><div class="hc-row-dot" style="background:#8B5CF6"></div>CRM IA</span><span class="hc-row-val">47 ativos</span><span class="hc-row-badge">▲ 12%</span></div>
+            <div class="hc-row"><span class="hc-row-left"><div class="hc-row-dot" style="background:#22c55e"></div>Meta Ads</span><span class="hc-row-val">ROAS 4,2x</span><span class="hc-row-badge">▲ 8%</span></div>
+            <div class="hc-row"><span class="hc-row-left"><div class="hc-row-dot" style="background:#3b82f6"></div>WhatsApp</span><span class="hc-row-val">94% abertura</span><span class="hc-row-badge dn">▼ 2%</span></div>
+          </div>
+          <div class="hero-float hf1"><div class="hf-label">Conversão</div><div class="hf-val">8.4%</div><div class="hf-sub">▲ +2,1pts</div></div>
+          <div class="hero-float hf2"><div class="hf-label">Receita / mês</div><div class="hf-val" style="font-size:15px">R$ 284k</div><div class="hf-sub">▲ +23%</div></div>
+          <div class="hero-float hf3"><div class="hf-label">NPS</div><div class="hf-val">96</div><div class="hf-sub" style="color:var(--purple2)">Top 1%</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="scroll-ind"><div class="scroll-mouse"><div class="scroll-wheel"></div></div><span class="scroll-text">Scroll</span></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-section">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="sh anim">
+      <span class="tag">Serviços</span>
+      <h2 class="t-h2 anim d1">Tudo que seu negócio<br>precisa para crescer</h2>
+      <p class="t-body anim d2" style="max-width:480px">Cada serviço foi construído para gerar resultado real — não apenas peças bonitas, mas máquinas de conversão.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="svc feat anim d1">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3 class="svc-title">Web Design & UI</h3>
+        <p class="svc-desc">Sites e interfaces que convertem — do conceito ao código, com UX de alto padrão e velocidade impecável.</p>
+        <div class="svc-tags"><span class="svc-tag">UI/UX</span><span class="svc-tag">Webflow</span><span class="svc-tag">HTML/CSS</span><span class="svc-tag">Framer</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+      <div class="svc anim d2">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3 class="svc-title">Tráfego Pago</h3>
+        <p class="svc-desc">Campanhas no Meta Ads e Google Ads com IA — segmentação precisa, criativos testados e ROAS maximizado.</p>
+        <div class="svc-tags"><span class="svc-tag">Meta Ads</span><span class="svc-tag">Google Ads</span><span class="svc-tag">Performance</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+      <div class="svc anim d3">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <h3 class="svc-title">Identidade Visual</h3>
+        <p class="svc-desc">Branding estratégico que posiciona sua marca no mercado premium — logo, paleta, tipografia e manual completo.</p>
+        <div class="svc-tags"><span class="svc-tag">Branding</span><span class="svc-tag">Figma</span><span class="svc-tag">Manual</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+      <div class="svc anim d1">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+        <h3 class="svc-title">E-commerce & Shopify</h3>
+        <p class="svc-desc">Lojas virtuais de alta conversão — estrutura técnica, criativos e campanhas que geram vendas consistentes.</p>
+        <div class="svc-tags"><span class="svc-tag">Shopify</span><span class="svc-tag">CartPanda</span><span class="svc-tag">CRO</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+      <div class="svc anim d2">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3 class="svc-title">Automação com IA</h3>
+        <p class="svc-desc">WhatsApp bots, CRM inteligente, funis automatizados — sua empresa operando no piloto automático.</p>
+        <div class="svc-tags"><span class="svc-tag">N8N</span><span class="svc-tag">WhatsApp</span><span class="svc-tag">CRM IA</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+      <div class="svc anim d3">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3 class="svc-title">Motion & Vídeo</h3>
+        <p class="svc-desc">Vídeos e animações que param o scroll — edição profissional, motion graphics e hooks para Reels e Ads.</p>
+        <div class="svc-tags"><span class="svc-tag">Premiere</span><span class="svc-tag">After Effects</span><span class="svc-tag">Reels</span></div>
+        <div class="svc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<div style="padding:0 0 80px" id="about">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric anim"><div class="metric-val">150+</div><div class="metric-label">Projetos entregues</div><div class="metric-sub">e contando</div></div>
+      <div class="metric anim d1"><div class="metric-val">300%</div><div class="metric-label">Crescimento médio</div><div class="metric-sub">nos primeiros 90 dias</div></div>
+      <div class="metric anim d2"><div class="metric-val">48h</div><div class="metric-label">Para primeira entrega</div><div class="metric-sub">sem esperar semanas</div></div>
+      <div class="metric anim d3"><div class="metric-val">98%</div><div class="metric-label">Satisfação dos clientes</div><div class="metric-sub">NPS de referência</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<section class="section" id="portfolio">
+  <div class="container">
+    <div class="sh anim">
+      <span class="tag">Portfólio</span>
+      <h2 class="t-h2 anim d1">Trabalhos que<br>falam por si</h2>
+      <p class="t-body anim d2" style="max-width:420px">Resultados reais de clientes reais. Cada projeto com objetivo claro e entrega que supera.</p>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="pcard tall anim d1">
+        <div class="pcard-visual" style="background:linear-gradient(145deg,#0a050f,#050508)">
+          <div class="pcard-visual-inner">
+            <div class="m-browser">
+              <div class="m-bar"><div class="m-dot" style="background:#ef4444"></div><div class="m-dot" style="background:#f59e0b"></div><div class="m-dot" style="background:#22c55e"></div><div class="m-url"></div></div>
+              <div class="m-ecom"><div class="m-ecom-nav"></div><div class="m-ecom-hero">NOVA COLEÇÃO 2026</div><div class="m-ecom-prods"><div class="m-ecom-prod"></div><div class="m-ecom-prod" style="background:linear-gradient(135deg,#1a0a2e,#0d0d10)"></div><div class="m-ecom-prod"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-tag">E-commerce · Shopify</div>
+          <div class="pcard-title">Empório Norte Belém</div>
+          <div class="pcard-desc">Loja de camisas esportivas com checkout integrado — crescimento de 240% em vendas online no primeiro mês.</div>
+          <div class="pcard-result">▲ +240% em vendas no 1º mês</div>
+        </div>
+      </div>
+
+      <div class="pcard anim d2">
+        <div class="pcard-visual" style="background:linear-gradient(145deg,#050810,#070512)">
+          <div class="pcard-visual-inner">
+            <div class="m-browser">
+              <div class="m-bar"><div class="m-dot" style="background:#ef4444"></div><div class="m-dot" style="background:#f59e0b"></div><div class="m-dot" style="background:#22c55e"></div><div class="m-url"></div></div>
+              <div class="m-clinic">
+                <div class="m-clinic-hdr"><div class="m-clinic-logo"></div><div class="m-clinic-nav"><span></span><span></span><span></span></div></div>
+                <div class="m-clinic-hero"><div class="m-clinic-t">CLÍNICA PREMIUM</div><div class="m-clinic-h">Sua Saúde Merece o Melhor</div></div>
+                <div class="m-clinic-cards"><div class="m-clinic-card"></div><div class="m-clinic-card" style="border-color:rgba(139,92,246,0.15)"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-tag">Landing Page · Google Ads</div>
+          <div class="pcard-title">Clínica Dr. Mendes</div>
+          <div class="pcard-desc">Landing page + Google Ads gerando 80+ consultas agendadas por mês com CPA abaixo de R$35.</div>
+          <div class="pcard-result">▲ 80 consultas/mês agendadas</div>
+        </div>
+      </div>
+
+      <div class="pcard anim d3">
+        <div class="pcard-visual" style="background:linear-gradient(145deg,#04040c,#070810)">
+          <div class="pcard-visual-inner">
+            <div class="m-browser">
+              <div class="m-bar"><div class="m-dot" style="background:#ef4444"></div><div class="m-dot" style="background:#f59e0b"></div><div class="m-dot" style="background:#22c55e"></div><div class="m-url"></div></div>
+              <div class="m-dash">
+                <div class="m-dash-sb"><div class="m-dash-si a"></div><div class="m-dash-si"></div><div class="m-dash-si"></div><div class="m-dash-si"></div></div>
+                <div class="m-dash-main">
+                  <div class="m-dash-cards"><div class="m-dash-card" style="border-color:rgba(139,92,246,0.2)"></div><div class="m-dash-card"></div><div class="m-dash-card"></div></div>
+                  <div class="m-dash-chart">
+                    <div class="m-dash-bar" style="height:30%;background:#8B5CF6;opacity:.3"></div>
+                    <div class="m-dash-bar" style="height:60%;background:#8B5CF6;opacity:.5"></div>
+                    <div class="m-dash-bar" style="height:45%;background:#8B5CF6;opacity:.4"></div>
+                    <div class="m-dash-bar" style="height:80%;background:#8B5CF6;opacity:.7"></div>
+                    <div class="m-dash-bar" style="height:65%;background:#8B5CF6;opacity:.6"></div>
+                    <div class="m-dash-bar" style="height:90%;background:#8B5CF6"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-tag">Automação · CRM IA</div>
+          <div class="pcard-title">Sety Vision Platform</div>
+          <div class="pcard-desc">Plataforma SaaS completa de gestão com IA — CRM, WhatsApp bot e painel de performance em tempo real.</div>
+          <div class="pcard-result">▲ 47 clientes ativos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SETY -->
+<section class="section">
+  <div class="container">
+    <div class="sh center anim">
+      <span class="tag">Por que a Sety</span>
+      <h2 class="t-h2 anim d1">Construídos para<br>entregar resultado</h2>
+    </div>
+    <div class="why-grid anim d2">
+      <div class="why-card"><div class="why-glow"></div><div class="why-num">01</div><div class="why-title">Resultado em 48 horas</div><div class="why-desc">Não espere semanas para ver movimento. Nossa metodologia garante a primeira entrega em 48 horas — sem enrolação.</div><div class="why-icon">⚡</div></div>
+      <div class="why-card"><div class="why-glow"></div><div class="why-num">02</div><div class="why-title">IA em tudo que fazemos</div><div class="why-desc">Usamos IA em cada etapa — da pesquisa à otimização de campanhas — para entregar mais com menos tempo.</div><div class="why-icon">🤖</div></div>
+      <div class="why-card"><div class="why-glow"></div><div class="why-num">03</div><div class="why-title">Estratégia + Execução</div><div class="why-desc">Não terceirizamos o pensamento. Somos estratégia e execução em um só lugar — parceiros de crescimento, não fornecedores.</div><div class="why-icon">🎯</div></div>
+      <div class="why-card"><div class="why-glow"></div><div class="why-num">04</div><div class="why-title">Parceiro, não fornecedor</div><div class="why-desc">Você não contrata um serviço — você ganha um parceiro obcecado com seu crescimento. Suporte contínuo e relatórios semanais.</div><div class="why-icon">🤝</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section-sm">
+  <div class="container">
+    <div class="sh center anim">
+      <span class="tag">Como trabalhamos</span>
+      <h2 class="t-h2 anim d1">Da ideia ao resultado<br>em 4 passos</h2>
+    </div>
+    <div class="process-steps anim d2">
+      <div class="ps"><div class="ps-num">01</div><div class="ps-title">Diagnóstico</div><div class="ps-desc">Entendemos profundamente seu negócio, concorrentes e oportunidades antes de propor qualquer solução.</div></div>
+      <div class="ps"><div class="ps-num">02</div><div class="ps-title">Estratégia</div><div class="ps-desc">Desenhamos o plano de ataque — canais, formatos, mensagens e automações para gerar o melhor resultado.</div></div>
+      <div class="ps"><div class="ps-num">03</div><div class="ps-title">Execução</div><div class="ps-desc">Entregamos rápido e com qualidade premium — sites, criativos, campanhas e automações no prazo.</div></div>
+      <div class="ps"><div class="ps-num">04</div><div class="ps-title">Escala</div><div class="ps-desc">Medimos, otimizamos e escalamos o que funciona. Acompanhamento contínuo com relatórios e ajustes semanais.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <div class="test-intro">
+      <div>
+        <span class="tag anim">Depoimentos</span>
+        <h2 class="t-h2 anim d1" style="margin-top:16px">Confiado por<br>quem cresce</h2>
+        <p class="t-body anim d2" style="margin-top:20px;max-width:360px">Centenas de negócios crescendo com a Sety Studio. Veja o que nossos clientes dizem sobre os resultados.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;padding-top:20px">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px" class="anim d2">
+          <div style="font-size:28px;font-weight:900">4.9</div>
+          <div><div style="color:#f59e0b;font-size:14px">★★★★★</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Baseado em 87 avaliações</div></div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 24px" class="anim d3">
+          <div style="font-size:32px;font-weight:900;letter-spacing:-1px">150+</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">projetos entregues em 3 anos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-cards">
+      <div class="tc anim d1">
+        <div class="tc-quote-icon">"</div>
+        <p class="tc-text">Implementamos o CRM com IA da Sety e em 30 dias dobramos a taxa de conversão. O bot do WhatsApp atende sozinho fora do horário comercial — é como ter um vendedor 24h.</p>
+        <div class="tc-div"></div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#7c3aed,#3b82f6)">C</div>
+          <div><div class="tc-name">Dr. Carlos Mendes</div><div class="tc-role">Clínica Odontológica · SP</div><div class="tc-stars">★★★★★</div></div>
+        </div>
+      </div>
+      <div class="tc hl anim d2">
+        <div class="tc-quote-icon">"</div>
+        <p class="tc-text">1.200 leads no primeiro mês de tráfego pago. O site converte 8% — melhor que qualquer agência que contratei antes. Atendimento ágil, resultado rápido.</p>
+        <div class="tc-div"></div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#8B5CF6,#ec4899)">A</div>
+          <div><div class="tc-name">Amanda Torres</div><div class="tc-role">Imobiliária Digital · BH</div><div class="tc-stars">★★★★★</div></div>
+        </div>
+      </div>
+      <div class="tc anim d3">
+        <div class="tc-quote-icon">"</div>
+        <p class="tc-text">Antes gastava R$8k/mês em agência sem retorno. Com a Sety, em 60 dias minha loja passou de 30 para 140 vendas por mês. Valeu cada centavo.</p>
+        <div class="tc-div"></div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background:linear-gradient(135deg,#059669,#0891b2)">R</div>
+          <div><div class="tc-name">Rafael Souza</div><div class="tc-role">E-commerce Esportivo · Belém</div><div class="tc-stars">★★★★★</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-sm" style="padding-bottom:160px">
+  <div class="container">
+    <div class="sh center anim">
+      <span class="tag">FAQ</span>
+      <h2 class="t-h2 anim d1">Perguntas<br>frequentes</h2>
+    </div>
+    <div class="faq-list anim d2">
+      <div class="faq-item"><button class="faq-q">Como funciona o processo de contratação?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">É simples: você entra em contato, fazemos uma call de diagnóstico de 30 minutos, entendemos seu objetivo e montamos uma proposta personalizada. Sem burocracia. Se fizer sentido, começamos em 48h.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Qual o prazo de entrega de um site?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">Landing pages simples: 48 a 72 horas. Sites completos: 5 a 10 dias úteis. E-commerces: 7 a 15 dias. Trabalhamos com prazos reais — e cumprimos o que prometemos.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Quais são os preços dos serviços?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">Landing pages a partir de R$ 1.500. Sites completos a partir de R$ 3.500. Gestão de tráfego a partir de R$ 1.200/mês. Automação a partir de R$ 997/mês. Entre em contato para orçamento preciso.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Fazem suporte após a entrega?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">Sim. Todo projeto inclui 30 dias de suporte gratuito. Para serviços mensais (tráfego, automação, CRM), o suporte é contínuo com reuniões semanais de acompanhamento.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Atendem clientes fora do Brasil?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">Sim. Atendemos clientes em todo o Brasil e em Portugal. Toda comunicação é remota, via WhatsApp e videochamada.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Como começo agora?<div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div></button><div class="faq-a"><p class="faq-a-text">Clique em "Falar com a Sety" no menu ou role para o contato abaixo. Em até 2 horas você recebe retorno para agendar sua call de diagnóstico. Sem compromisso, sem enrolação.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"><div class="cta-glow"></div><div class="cta-grid"></div></div>
+  <div class="container">
+    <div class="cta-content">
+      <span class="tag anim" style="display:inline-flex;margin-bottom:24px"><div class="tag-dot"></div>Vamos trabalhar juntos</span>
+      <h2 class="t-h1 anim d1" style="margin-bottom:20px">Pronto para crescer<br><span style="color:var(--purple2)">de verdade?</span></h2>
+      <p class="cta-sub anim d2">Fale com a Sety hoje. Uma call de 30 minutos pode mudar o rumo do seu negócio.</p>
+      <div class="cta-btns anim d3">
+        <a href="https://wa.me/5511999999999" class="btn btn-primary btn-lg">Falar pelo WhatsApp <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a>
+        <a href="mailto:contato@setystudio.com.br" class="btn btn-ghost btn-lg">Enviar e-mail</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="footer-logo" href="#"><img src="logo.png" alt="Sety Studio"><span class="footer-logo-name">SETY STUDIO</span></a>
+          <p class="footer-tagline">Agência digital premium focada em resultados reais. Sites, anúncios e automações para negócios de alto valor.</p>
+          <div class="footer-nl">
+            <div class="footer-nl-label">Receba estratégias de crescimento</div>
+            <div class="footer-sub"><input type="email" placeholder="seu@email.com"><button>Inscrever</button></div>
+          </div>
+          <div class="footer-socials">
+            <a class="fsoc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+            <a class="fsoc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+            <a class="fsoc" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Serviços</div>
+          <div class="footer-col-links">
+            <a class="footer-col-link" href="#">Web Design & UI</a>
+            <a class="footer-col-link" href="#">Tráfego Pago</a>
+            <a class="footer-col-link" href="#">Identidade Visual</a>
+            <a class="footer-col-link" href="#">E-commerce</a>
+            <a class="footer-col-link" href="#">Automação com IA</a>
+            <a class="footer-col-link" href="#">Motion & Vídeo</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Empresa</div>
+          <div class="footer-col-links">
+            <a class="footer-col-link" href="#">Sobre a Sety</a>
+            <a class="footer-col-link" href="#">Portfólio</a>
+            <a class="footer-col-link" href="#">Cases de Sucesso</a>
+            <a class="footer-col-link" href="#">Blog</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Contato</div>
+          <div class="footer-col-links">
+            <a class="footer-col-link" href="#">WhatsApp</a>
+            <a class="footer-col-link" href="#">E-mail</a>
+            <a class="footer-col-link" href="#">Instagram</a>
+            <a class="footer-col-link" href="#">Agendar call</a>
+          </div>
+          <div style="margin-top:28px">
+            <div class="footer-col-title">Produtos</div>
+            <div class="footer-col-links">
+              <a class="footer-col-link" href="#">Sety Vision (SaaS)</a>
+              <a class="footer-col-link" href="#">Templates</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-bottom-text">© 2026 Sety Studio. Todos os direitos reservados.</span>
+      <div class="footer-bottom-links">
+        <a class="footer-bottom-link" href="#">Privacidade</a>
+        <a class="footer-bottom-link" href="#">Termos</a>
+        <a class="footer-bottom-link" href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Ticker
+const svcs=['Web Design','Tráfego Pago','Identidade Visual','E-commerce','WhatsApp IA','Motion Design','SEO','Shopify','Google Ads','Meta Ads','CRM com IA','Automação','Branding','UI/UX'];
+const t=document.getElementById('ticker');
+const items=[...svcs,...svcs].map(s=>`<div class="ticker-item"><span>${s}</span><span class="ticker-sep">✦</span></div>`).join('');
+t.innerHTML=items+items;
+
+// Navbar scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+// Intersection observer for animations
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.anim').forEach(el=>obs.observe(el));
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.classList.contains('open');
+    document.querySelectorAll('.faq-q').forEach(b=>{b.classList.remove('open');b.parentElement.querySelector('.faq-a').classList.remove('open')});
+    if(!open){btn.classList.add('open');btn.parentElement.querySelector('.faq-a').classList.add('open')}
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const el=document.querySelector(a.getAttribute('href'));
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// Nav active state
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id});
+  navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active')});
+});
+</script>
+</body>
+</html>

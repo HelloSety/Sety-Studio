@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Select Imóveis — Imobiliária Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0A0A0A;
+      --gray-dark: #1A1A1A;
+      --gray: #6B7280;
+      --gray-light: #F5F5F5;
+      --border: #E5E5E5;
+      --white: #FFFFFF;
+      --accent: #1A1A1A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: 0.83rem; font-weight: 500; letter-spacing: 0.3px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--black); }
+    .btn-nav-dark {
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .btn-nav-dark:hover { background: #333; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 22px; height: 2px; background: var(--black); display: block; border-radius: 1px; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(rgba(10,10,10,0.55), rgba(10,10,10,0.55)), url('images/hero.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 68px 32px 0;
+      position: relative;
+    }
+    .hero-content { text-align: center; padding: 80px 0 48px; }
+    .hero-label {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.8);
+      padding: 5px 18px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* SEARCH BAR */
+    .hero-search {
+      width: 100%;
+      max-width: 900px;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 140px 1fr 120px 48px;
+      gap: 0;
+      margin-bottom: -34px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+      position: relative;
+      z-index: 10;
+    }
+    .search-field {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 16px;
+      border-right: 1px solid var(--border);
+    }
+    .search-field:last-of-type { border-right: none; }
+    .search-field label { font-size: 0.65rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .search-field select, .search-field input {
+      border: none; outline: none; font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 500; color: var(--black);
+      background: transparent; cursor: pointer;
+    }
+    .search-field select option { color: var(--black); }
+    .search-btn {
+      background: var(--black);
+      border: none;
+      border-radius: 6px;
+      width: 48px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    .search-btn:hover { background: #333; }
+    .search-btn svg { width: 18px; height: 18px; stroke: var(--white); fill: none; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* COMMON SECTION */
+    .section { padding: 96px 32px; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--black); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .section-sub { font-size: 0.95rem; color: var(--gray); max-width: 520px; margin-bottom: 56px; line-height: 1.7; }
+
+    /* DESTAQUES */
+    .destaques-section { background: var(--gray-light); padding-top: 120px; }
+    .imoveis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .imovel-card {
+      background: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .imovel-card:hover { transform: translateY(-4px); border-color: var(--black); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+    .imovel-img { position: relative; aspect-ratio: 3/2; overflow: hidden; }
+    .imovel-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+    .imovel-card:hover .imovel-img img { transform: scale(1.04); }
+    .imovel-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: var(--black);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .imovel-badge.locacao { background: #374151; }
+    .imovel-info { padding: 20px 20px 24px; }
+    .imovel-nome { font-size: 1rem; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+    .imovel-loc { font-size: 0.8rem; color: var(--gray); margin-bottom: 16px; display: flex; align-items: center; gap: 4px; }
+    .imovel-specs { display: flex; gap: 16px; margin-bottom: 16px; }
+    .imovel-spec { display: flex; align-items: center; gap: 4px; font-size: 0.78rem; color: var(--gray); font-weight: 500; }
+    .imovel-price { font-size: 1.2rem; font-weight: 800; color: var(--black); letter-spacing: -0.3px; }
+    .imovel-price-label { font-size: 0.72rem; color: var(--gray); font-weight: 400; }
+
+    /* NÚMEROS */
+    .numeros-section { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 72px 32px; }
+    .numeros-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1280px; margin: 0 auto; }
+    .numero-item { text-align: center; padding: 40px 24px; border-right: 1px solid var(--border); }
+    .numero-item:last-child { border-right: none; }
+    .numero-value { font-size: 3rem; font-weight: 900; color: var(--black); display: block; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+    .numero-label { font-size: 0.82rem; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* COMO FUNCIONA */
+    .como-section { background: var(--gray-light); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: calc(12.5%);
+      right: calc(12.5%);
+      height: 1px;
+      background: var(--border);
+    }
+    .step-item { text-align: center; padding: 0 24px; }
+    .step-number {
+      width: 56px; height: 56px;
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; color: var(--black);
+      margin: 0 auto 24px;
+      position: relative; z-index: 1;
+    }
+    .step-item h3 { font-size: 1rem; font-weight: 700; color: var(--black); margin-bottom: 10px; }
+    .step-item p { font-size: 0.85rem; color: var(--gray); line-height: 1.65; }
+
+    /* SIMULADOR */
+    .simulador-section { }
+    .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .sim-card {
+      background: var(--black);
+      border-radius: 8px;
+      padding: 48px 40px;
+    }
+    .sim-card-title { font-size: 1.4rem; font-weight: 800; color: var(--white); margin-bottom: 8px; letter-spacing: -0.3px; }
+    .sim-card-sub { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 36px; }
+    .sim-field { margin-bottom: 20px; }
+    .sim-label { display: block; font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .sim-input, .sim-select {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sim-input:focus, .sim-select:focus { border-color: rgba(255,255,255,0.4); }
+    .sim-select option { background: var(--black); color: var(--white); }
+    .sim-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .btn-sim {
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .btn-sim:hover { background: var(--gray-light); }
+    .sim-result { display: none; margin-top: 20px; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 20px; }
+    .sim-result.show { display: block; }
+    .sim-result-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .sim-result-row:last-child { border-bottom: none; }
+    .sim-result-label { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+    .sim-result-value { font-size: 1rem; font-weight: 700; color: var(--white); }
+    .sim-info { padding-top: 16px; }
+    .sim-info h3 { font-size: 1.6rem; font-weight: 800; color: var(--black); margin-bottom: 16px; letter-spacing: -0.3px; }
+    .sim-info p { font-size: 0.9rem; color: var(--gray); line-height: 1.75; margin-bottom: 20px; }
+    .sim-note { font-size: 0.78rem; color: var(--gray); background: var(--gray-light); padding: 14px 16px; border-radius: 6px; border-left: 2px solid var(--border); line-height: 1.65; }
+
+    /* BAIRROS */
+    .bairros-section { background: var(--gray-light); }
+    .bairros-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .bairro-card {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+      background: var(--gray-dark);
+    }
+    .bairro-card::before {
+      content: attr(data-bairro);
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: rgba(255,255,255,0.06);
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-align: center;
+    }
+    .bairro-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 20px 16px;
+      transition: background 0.3s;
+    }
+    .bairro-card:hover .bairro-overlay { background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%); }
+    .bairro-nome { font-size: 0.95rem; font-weight: 700; color: var(--white); }
+    .bairro-count { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+    /* EQUIPE */
+    .equipe-section { }
+    .equipe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .corretor-card { text-align: center; }
+    .corretor-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px; display: block; border: 2px solid var(--border); filter: grayscale(10%); transition: filter 0.3s; }
+    .corretor-card:hover .corretor-img { filter: grayscale(0); }
+    .corretor-name { font-size: 1.05rem; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+    .corretor-creci { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+    .corretor-esp { font-size: 0.85rem; color: var(--gray); }
+
+    /* DEPOIMENTOS */
+    .dep-section { background: var(--gray-light); }
+    .dep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .dep-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .dep-card:hover { border-color: var(--black); transform: translateY(-2px); }
+    .dep-stars { color: #F59E0B; font-size: 0.85rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .dep-text { font-size: 0.88rem; color: var(--gray); line-height: 1.75; margin-bottom: 24px; font-style: italic; }
+    .dep-name { font-size: 0.9rem; font-weight: 700; color: var(--black); }
+    .dep-context { font-size: 0.75rem; color: var(--gray); }
+
+    /* CTA DARK */
+    .cta-section { background: var(--black); padding: 96px 32px; text-align: center; }
+    .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -1px; margin-bottom: 16px; }
+    .cta-section p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 40px; }
+    .btn-white { background: var(--white); color: var(--black); padding: 15px 36px; border-radius: 4px; font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: background 0.2s; display: inline-block; }
+    .btn-white:hover { background: var(--gray-light); }
+
+    /* FOOTER */
+    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); padding: 72px 32px 40px; }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .footer-brand { font-size: 0.9rem; font-weight: 800; color: var(--white); letter-spacing: 3px; margin-bottom: 16px; }
+    .footer-desc { color: rgba(255,255,255,0.35); font-size: 0.83rem; line-height: 1.7; }
+    .footer-col h4 { color: rgba(255,255,255,0.4); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom { padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 0.78rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.35); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--white); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .btn-nav-dark { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open { display: flex; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: var(--white); padding: 24px; border-bottom: 1px solid var(--border); gap: 16px; }
+      .hero-search { grid-template-columns: 1fr; gap: 0; }
+      .search-field { border-right: none; border-bottom: 1px solid var(--border); }
+      .search-btn { width: 100%; height: 48px; border-radius: 6px; }
+      .imoveis-grid { grid-template-columns: 1fr; }
+      .numeros-grid { grid-template-columns: 1fr 1fr; }
+      .numero-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .numero-item:nth-child(odd) { border-right: 1px solid var(--border); }
+      .steps-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .steps-grid::before { display: none; }
+      .sim-grid { grid-template-columns: 1fr; }
+      .sim-row { grid-template-columns: 1fr; }
+      .bairros-grid { grid-template-columns: 1fr 1fr; }
+      .equipe-grid { grid-template-columns: 1fr; }
+      .dep-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Prime Select</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#destaques">Imóveis</a></li>
+        <li><a href="#bairros">Bairros</a></li>
+        <li><a href="#simulador">Financiamento</a></li>
+        <li><a href="#equipe">Corretores</a></li>
+      </ul>
+      <a href="https://wa.me/5500000000000" class="btn-nav-dark">Falar com Corretor</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content reveal">
+      <span class="hero-label">Imóveis Premium em São Paulo</span>
+      <h1>Encontre o imóvel<br>que você merece</h1>
+      <p>Curadoria de imóveis residenciais e comerciais nos melhores bairros da cidade.</p>
+    </div>
+    <div class="hero-search reveal">
+      <div class="search-field">
+        <label for="tipo">Tipo</label>
+        <select id="tipo">
+          <option>Comprar</option>
+          <option>Alugar</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label for="local">Localização</label>
+        <input type="text" id="local" placeholder="Bairro ou cidade">
+      </div>
+      <div class="search-field">
+        <label for="quartos">Quartos</label>
+        <select id="quartos">
+          <option value="">Qualquer</option>
+          <option>1+</option>
+          <option>2+</option>
+          <option>3+</option>
+          <option>4+</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="alert('Busca disponível em breve.')" aria-label="Buscar">
+        <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- DESTAQUES -->
+  <section class="section destaques-section" id="destaques">
+    <div class="section-inner">
+      <span class="section-tag reveal">Curadoria exclusiva</span>
+      <h2 class="section-title reveal">Imóveis em destaque</h2>
+      <p class="section-sub reveal">Selecionamos os melhores imóveis com base em localização, acabamento e relação custo-benefício.</p>
+      <div class="imoveis-grid">
+        <div class="imovel-card reveal">
+          <div class="imovel-img">
+            <img src="images/apt1.jpg" alt="Apartamento Itaim Bibi" loading="lazy">
+            <span class="imovel-badge">Venda</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Apartamento Alto Padrão</p>
+            <p class="imovel-loc">📍 Itaim Bibi, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 187 m²</span>
+              <span class="imovel-spec">🛏 3 quartos</span>
+              <span class="imovel-spec">🚗 3 vagas</span>
+            </div>
+            <p class="imovel-price-label">a partir de</p>
+            <p class="imovel-price">R$ 2.850.000</p>
+          </div>
+        </div>
+        <div class="imovel-card reveal reveal-delay-1">
+          <div class="imovel-img">
+            <img src="images/apt2.jpg" alt="Casa Jardins" loading="lazy">
+            <span class="imovel-badge">Venda</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Casa com Jardim</p>
+            <p class="imovel-loc">📍 Jardins, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 450 m²</span>
+              <span class="imovel-spec">🛏 4 quartos</span>
+              <span class="imovel-spec">🚗 4 vagas</span>
+            </div>
+            <p class="imovel-price-label">a partir de</p>
+            <p class="imovel-price">R$ 6.200.000</p>
+          </div>
+        </div>
+        <div class="imovel-card reveal reveal-delay-2">
+          <div class="imovel-img">
+            <img src="images/apt3.jpg" alt="Studio Vila Olímpia" loading="lazy">
+            <span class="imovel-badge locacao">Locação</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Studio Moderno</p>
+            <p class="imovel-loc">📍 Vila Olímpia, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 42 m²</span>
+              <span class="imovel-spec">🛏 1 quarto</span>
+              <span class="imovel-spec">🚗 1 vaga</span>
+            </div>
+            <p class="imovel-price-label">aluguel</p>
+            <p class="imovel-price">R$ 4.800/mês</p>
+          </div>
+        </div>
+        <div class="imovel-card reveal">
+          <div class="imovel-img">
+            <img src="images/apt4.jpg" alt="Cobertura Moema" loading="lazy">
+            <span class="imovel-badge">Venda</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Cobertura Duplex</p>
+            <p class="imovel-loc">📍 Moema, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 320 m²</span>
+              <span class="imovel-spec">🛏 4 quartos</span>
+              <span class="imovel-spec">🚗 5 vagas</span>
+            </div>
+            <p class="imovel-price-label">a partir de</p>
+            <p class="imovel-price">R$ 4.100.000</p>
+          </div>
+        </div>
+        <div class="imovel-card reveal reveal-delay-1">
+          <div class="imovel-img">
+            <img src="images/apt5.jpg" alt="Flat Pinheiros" loading="lazy">
+            <span class="imovel-badge locacao">Locação</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Flat Executivo</p>
+            <p class="imovel-loc">📍 Pinheiros, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 68 m²</span>
+              <span class="imovel-spec">🛏 2 quartos</span>
+              <span class="imovel-spec">🚗 1 vaga</span>
+            </div>
+            <p class="imovel-price-label">aluguel</p>
+            <p class="imovel-price">R$ 7.200/mês</p>
+          </div>
+        </div>
+        <div class="imovel-card reveal reveal-delay-2">
+          <div class="imovel-img">
+            <img src="images/interior.jpg" alt="Penthouse Higienópolis" loading="lazy">
+            <span class="imovel-badge">Venda</span>
+          </div>
+          <div class="imovel-info">
+            <p class="imovel-nome">Penthouse Premium</p>
+            <p class="imovel-loc">📍 Higienópolis, São Paulo</p>
+            <div class="imovel-specs">
+              <span class="imovel-spec">⬜ 560 m²</span>
+              <span class="imovel-spec">🛏 5 quartos</span>
+              <span class="imovel-spec">🚗 6 vagas</span>
+            </div>
+            <p class="imovel-price-label">a partir de</p>
+            <p class="imovel-price">R$ 11.500.000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section class="numeros-section">
+    <div class="numeros-grid">
+      <div class="numero-item reveal">
+        <span class="numero-value"><span class="counter" data-target="1200">0</span>+</span>
+        <span class="numero-label">Imóveis em carteira</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-1">
+        <span class="numero-value"><span class="counter" data-target="15">0</span> anos</span>
+        <span class="numero-label">No mercado imobiliário</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-2">
+        <span class="numero-value"><span class="counter" data-target="98">0</span>%</span>
+        <span class="numero-label">Índice de satisfação</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-3">
+        <span class="numero-value"><span class="counter" data-target="3400">0</span>+</span>
+        <span class="numero-label">Famílias atendidas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="section como-section">
+    <div class="section-inner">
+      <div style="text-align:center; margin-bottom: 64px;">
+        <span class="section-tag reveal">Processo</span>
+        <h2 class="section-title reveal">Como funciona</h2>
+        <p class="section-sub reveal" style="margin: 0 auto;">Da busca ao fechamento, você tem um especialista em cada etapa.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-number">1</div>
+          <h3>Busca</h3>
+          <p>Você define seu perfil e orçamento. Nosso corretor cuida de encontrar as melhores opções disponíveis.</p>
+        </div>
+        <div class="step-item reveal reveal-delay-1">
+          <div class="step-number">2</div>
+          <h3>Visita</h3>
+          <p>Agendamos visitas presenciais ou tours virtuais nos imóveis selecionados, sem compromisso.</p>
+        </div>
+        <div class="step-item reveal reveal-delay-2">
+          <div class="step-number">3</div>
+          <h3>Proposta</h3>
+          <p>Elaboramos e negociamos sua proposta com o proprietário. Você sempre fica informado.</p>
+        </div>
+        <div class="step-item reveal reveal-delay-3">
+          <div class="step-number">4</div>
+          <h3>Fechamento</h3>
+          <p>Nossa equipe jurídica cuida de todo o processo documental até a entrega das chaves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section class="section" id="simulador">
+    <div class="section-inner">
+      <div class="sim-grid">
+        <div class="sim-info reveal">
+          <span class="section-tag">Planejamento</span>
+          <h3>Simule seu financiamento imobiliário</h3>
+          <p>Use nossa calculadora para estimar o valor da parcela mensal do seu financiamento. Calculamos com base na tabela SAC com taxa de 10,5% ao ano.</p>
+          <p>Depois de simular, nosso time de especialistas pode indicar as melhores linhas de crédito disponíveis para o seu perfil — incluindo Caixa Econômica, Bradesco, Itaú e Santander.</p>
+          <div class="sim-note">Simulação com caráter orientativo. Valores reais podem variar conforme análise de crédito e política vigente do banco.</div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="sim-card">
+            <p class="sim-card-title">Simulador de Financiamento</p>
+            <p class="sim-card-sub">Taxa de juros: 10,5% ao ano (referência)</p>
+            <div class="sim-field">
+              <label class="sim-label" for="simValor">Valor do imóvel (R$)</label>
+              <input type="number" id="simValor" class="sim-input" placeholder="Ex: 800000" min="100000">
+            </div>
+            <div class="sim-row">
+              <div class="sim-field" style="margin-bottom:0;">
+                <label class="sim-label" for="simEntrada">Entrada (%)</label>
+                <input type="number" id="simEntrada" class="sim-input" placeholder="Ex: 20" min="5" max="90" value="20">
+              </div>
+              <div class="sim-field" style="margin-bottom:0;">
+                <label class="sim-label" for="simPrazo">Prazo (meses)</label>
+                <select id="simPrazo" class="sim-select">
+                  <option value="120">120 meses (10 anos)</option>
+                  <option value="180">180 meses (15 anos)</option>
+                  <option value="240" selected>240 meses (20 anos)</option>
+                  <option value="360">360 meses (30 anos)</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-sim" onclick="calcularFinanciamento()">Calcular Parcela →</button>
+            <div class="sim-result" id="simResult">
+              <div class="sim-result-row">
+                <span class="sim-result-label">Valor financiado</span>
+                <span class="sim-result-value" id="res-financiado">—</span>
+              </div>
+              <div class="sim-result-row">
+                <span class="sim-result-label">Parcela inicial (SAC)</span>
+                <span class="sim-result-value" id="res-parcela">—</span>
+              </div>
+              <div class="sim-result-row">
+                <span class="sim-result-label">Prazo total</span>
+                <span class="sim-result-value" id="res-prazo">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAIRROS -->
+  <section class="section bairros-section" id="bairros">
+    <div class="section-inner">
+      <span class="section-tag reveal">Localização</span>
+      <h2 class="section-title reveal">Bairros premium</h2>
+      <p class="section-sub reveal">Especializados nos endereços mais valorizados de São Paulo.</p>
+      <div class="bairros-grid">
+        <div class="bairro-card reveal" data-bairro="IB" style="background: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Itaim Bibi</p>
+            <p class="bairro-count">148 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-1" data-bairro="JD" style="background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Jardins</p>
+            <p class="bairro-count">96 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-2" data-bairro="MO" style="background: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Moema</p>
+            <p class="bairro-count">112 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-3" data-bairro="VO" style="background: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Vila Olímpia</p>
+            <p class="bairro-count">87 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal" data-bairro="PI" style="background: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Pinheiros</p>
+            <p class="bairro-count">73 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-1" data-bairro="LA" style="background: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Lapa</p>
+            <p class="bairro-count">54 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-2" data-bairro="PD" style="background: url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Perdizes</p>
+            <p class="bairro-count">68 imóveis</p>
+          </div>
+        </div>
+        <div class="bairro-card reveal reveal-delay-3" data-bairro="HI" style="background: url('https://images.unsplash.com/photo-1464146072230-91cabc968266?w=500&q=80&auto=format&fit=crop') center/cover no-repeat;">
+          <div class="bairro-overlay">
+            <p class="bairro-nome">Higienópolis</p>
+            <p class="bairro-count">61 imóveis</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="section" id="equipe">
+    <div class="section-inner" style="text-align:center;">
+      <span class="section-tag reveal">Especialistas</span>
+      <h2 class="section-title reveal">Nossa equipe</h2>
+      <p class="section-sub reveal" style="margin: 0 auto 56px;">Corretores certificados pelo CRECI com experiência no segmento de alto padrão.</p>
+      <div class="equipe-grid">
+        <div class="corretor-card reveal">
+          <img src="images/apt1.jpg" class="corretor-img" alt="Gabriela Fonseca" loading="lazy">
+          <p class="corretor-name">Gabriela Fonseca</p>
+          <p class="corretor-creci">CRECI-SP 82.341-J</p>
+          <p class="corretor-esp">Especialista em Alto Padrão e Coberturas</p>
+        </div>
+        <div class="corretor-card reveal reveal-delay-1">
+          <img src="images/apt2.jpg" class="corretor-img" alt="Ricardo Alves" loading="lazy">
+          <p class="corretor-name">Ricardo Alves</p>
+          <p class="corretor-creci">CRECI-SP 67.890-J</p>
+          <p class="corretor-esp">Especialista em Imóveis Comerciais</p>
+        </div>
+        <div class="corretor-card reveal reveal-delay-2">
+          <img src="images/apt3.jpg" class="corretor-img" alt="Patrícia Nobre" loading="lazy">
+          <p class="corretor-name">Patrícia Nobre</p>
+          <p class="corretor-creci">CRECI-SP 94.122-J</p>
+          <p class="corretor-esp">Especialista em Locações Premium</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="section dep-section">
+    <div class="section-inner">
+      <span class="section-tag reveal">Clientes</span>
+      <h2 class="section-title reveal">O que falam sobre nós</h2>
+      <p class="section-sub reveal">Clientes satisfeitos que encontraram o imóvel certo com a gente.</p>
+      <div class="dep-grid">
+        <div class="dep-card reveal">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">A Gabriela foi extraordinária. Mostrou exatamente o tipo de imóvel que eu procurava, sem perda de tempo. Compramos o apartamento no Itaim em 3 semanas. Processo ágil, sem dor de cabeça.</p>
+          <p class="dep-name">Claudio Martins</p>
+          <p class="dep-context">Comprador — Itaim Bibi</p>
+        </div>
+        <div class="dep-card reveal reveal-delay-1">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">Precisava alugar um imóvel comercial com urgência. O Ricardo entendeu minhas necessidades e em uma semana já tinha opções viáveis. Fechamos o contrato muito rapidamente com ótimas condições.</p>
+          <p class="dep-name">Luciana Berger</p>
+          <p class="dep-context">Locação Comercial — Pinheiros</p>
+        </div>
+        <div class="dep-card reveal reveal-delay-2">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">Nunca imaginei que comprar um imóvel de alto padrão pudesse ser tão tranquilo. A equipe da Prime Select cuidou de tudo, desde a negociação até o registro em cartório. Recomendo sem hesitar.</p>
+          <p class="dep-name">Fernando Costa</p>
+          <p class="dep-context">Comprador — Jardins</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="reveal">
+      <h2>Encontre seu próximo imóvel<br>com quem entende do assunto</h2>
+      <p>Fale agora com um de nossos especialistas e receba uma curadoria personalizada.</p>
+      <a href="https://wa.me/5500000000000" class="btn-white">Falar com Corretor →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">PRIME SELECT</p>
+          <p class="footer-desc">Imobiliária premium especializada em imóveis residenciais e comerciais de alto padrão em São Paulo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Imóveis</h4>
+          <ul>
+            <li><a href="#">Para comprar</a></li>
+            <li><a href="#">Para alugar</a></li>
+            <li><a href="#">Lançamentos</a></li>
+            <li><a href="#">Imóveis comerciais</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre nós</a></li>
+            <li><a href="#">Nossa equipe</a></li>
+            <li><a href="#">Política de privacidade</a></li>
+            <li><a href="#">CRECI</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://wa.me/5500000000000">WhatsApp</a></li>
+            <li><a href="tel:5500000000000">(11) 0000-0000</a></li>
+            <li><a href="mailto:contato@primeselect.com.br">contato@primeselect.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Prime Select Imóveis. CRECI-J 12345. Todos os direitos reservados.</p>
+        <p>Desenvolvido por <a href="#">Sety Studio</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // NAV SCROLL
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 40); });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { navLinks.classList.toggle('mobile-open'); });
+
+    // REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+
+    // COUNTER
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-target'));
+        const duration = 1600;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { el.textContent = target.toLocaleString('pt-BR'); clearInterval(timer); }
+          else { el.textContent = Math.floor(current).toLocaleString('pt-BR'); }
+        }, 16);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // SIMULADOR FINANCIAMENTO (SAC aproximado)
+    function calcularFinanciamento() {
+      const valor = parseFloat(document.getElementById('simValor').value);
+      const entrada = parseFloat(document.getElementById('simEntrada').value) / 100;
+      const prazo = parseInt(document.getElementById('simPrazo').value);
+
+      if (!valor || valor < 100000) { alert('Informe o valor do imóvel (mínimo R$ 100.000).'); return; }
+      if (!entrada || entrada < 0.05 || entrada > 0.9) { alert('Informe uma entrada entre 5% e 90%.'); return; }
+
+      const financiado = valor * (1 - entrada);
+      const taxaMensal = 0.105 / 12; // 10.5% ao ano
+      // Primeira parcela SAC: amortização + juros sobre saldo devedor
+      const amortizacao = financiado / prazo;
+      const juros1 = financiado * taxaMensal;
+      const parcela1 = amortizacao + juros1;
+
+      document.getElementById('res-financiado').textContent = 'R$ ' + financiado.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+      document.getElementById('res-parcela').textContent = 'R$ ' + parcela1.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+      document.getElementById('res-prazo').textContent = prazo + ' meses';
+
+      document.getElementById('simResult').classList.add('show');
+    }
+
+    document.getElementById('simValor').addEventListener('keydown', e => { if (e.key === 'Enter') calcularFinanciamento(); });
+  </script>
+</body>
+</html>

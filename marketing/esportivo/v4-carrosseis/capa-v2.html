@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#050505; }
+
+.slide {
+  width:1080px; height:1350px;
+  position:relative; overflow:hidden;
+  font-family:'Bebas Neue', sans-serif;
+}
+
+/* ── LAYER 1: Ghost silhoueta gigante ao fundo ── */
+.ghost {
+  position:absolute; inset:0; z-index:1;
+  background: url('file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/01-copa-torcedor.png') center 15% / cover no-repeat;
+  filter: blur(3px) brightness(0.06) saturate(0.3);
+  transform: scale(1.12) translateX(80px);
+}
+
+/* ── LAYER 2: Foto principal recortada à esquerda ── */
+.photo {
+  position:absolute;
+  bottom:0; left:-40px;
+  width:900px; height:1250px;
+  z-index:2;
+  background: url('file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/01-copa-torcedor.png') center 10% / cover no-repeat;
+  /* Máscara pra integrar a foto com o fundo */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 12%, black 78%, transparent 100%),
+    linear-gradient(to top, transparent 0%, black 5%, black 92%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 12%, black 78%, transparent 100%),
+    linear-gradient(to top, transparent 0%, black 5%, black 92%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* ── LAYER 3: Gradiente editorial sobre a foto ── */
+.gradient {
+  position:absolute; inset:0; z-index:3;
+  background:
+    linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.82) 18%, rgba(5,5,5,0.15) 45%, transparent 65%),
+    linear-gradient(to right, rgba(5,5,5,0.7) 0%, rgba(5,5,5,0.1) 30%, transparent 60%),
+    linear-gradient(to bottom, rgba(5,5,5,0.85) 0%, rgba(5,5,5,0.2) 14%, transparent 28%);
+}
+
+/* ── LAYER 4: Grain/Ruído cinematográfico ── */
+.grain {
+  position:absolute; inset:0; z-index:9;
+  pointer-events:none; opacity:0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+/* ── LAYER 5: Luz volumétrica (lado direito) ── */
+.vol-light {
+  position:absolute; top:-180px; right:-160px; z-index:4;
+  width:780px; height:780px; border-radius:50%;
+  background: radial-gradient(ellipse, rgba(227,27,35,0.07) 0%, transparent 68%);
+  pointer-events:none;
+}
+
+/* ── LAYER 6: Vinheta escura nas bordas ── */
+.vignette {
+  position:absolute; inset:0; z-index:5;
+  background: radial-gradient(ellipse at 55% 42%, transparent 35%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.88) 100%);
+  pointer-events:none;
+}
+
+/* ── LAYER 7: Linha diagonal decorativa ── */
+.diag-line {
+  position:absolute; z-index:6; pointer-events:none;
+  top:0; right:220px; width:1px; height:100%;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent);
+  transform: rotate(-8deg) scaleY(1.2);
+}
+
+/* ── CANTOS EDITORIAIS ── */
+.corner {
+  position:absolute; z-index:20; width:32px; height:32px;
+}
+.corner.tl { top:40px; left:42px; border-top:1.5px solid rgba(255,255,255,0.25); border-left:1.5px solid rgba(255,255,255,0.25); }
+.corner.tr { top:40px; right:42px; border-top:1.5px solid rgba(255,255,255,0.25); border-right:1.5px solid rgba(255,255,255,0.25); }
+.corner.bl { bottom:40px; left:42px; border-bottom:1.5px solid rgba(255,255,255,0.25); border-left:1.5px solid rgba(255,255,255,0.25); }
+.corner.br { bottom:40px; right:42px; border-bottom:1.5px solid rgba(255,255,255,0.25); border-right:1.5px solid rgba(255,255,255,0.25); }
+
+/* ── HEADER ── */
+.hdr {
+  position:absolute; top:52px; left:80px; right:80px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-brand {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:5px; color:rgba(255,255,255,0.4); text-transform:uppercase;
+}
+.hdr-cat {
+  background:#e31b23; padding:5px 14px;
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:700;
+  letter-spacing:4px; color:#fff; text-transform:uppercase;
+}
+
+/* ── MICROTEXTO no meio (elemento editorial) ── */
+.micro {
+  position:absolute; right:68px; top:50%; z-index:20;
+  transform:translateY(-50%) rotate(90deg);
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:5px; color:rgba(255,255,255,0.18); text-transform:uppercase;
+  white-space:nowrap;
+}
+
+/* ── HEADLINE GIGANTE ── */
+.main {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:0 72px 68px;
+}
+
+.label {
+  font-family:'Barlow',sans-serif; font-size:12px; font-weight:600;
+  letter-spacing:6px; color:#e31b23; text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex; align-items:center; gap:12px;
+}
+.label::before { content:''; width:24px; height:1.5px; background:#e31b23; display:block; }
+
+.hl {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:178px; line-height:0.88;
+  color:#fff; text-transform:uppercase; letter-spacing:2px;
+  margin-bottom:6px;
+}
+
+/* Palavra em destaque: caixa vermelha V4-style */
+.hl .red {
+  display:inline-block;
+  background:#e31b23;
+  color:#fff;
+  padding:0 10px;
+  line-height:0.9;
+}
+
+/* Segunda linha menor */
+.hl-2 {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:90px; line-height:0.88;
+  color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:2px;
+  margin-bottom:36px;
+}
+
+.divider {
+  width:100%; height:1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 60%, transparent 100%);
+  margin-bottom:22px;
+}
+
+.ftr {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.ftr-l {
+  font-family:'Barlow',sans-serif; font-size:12px; font-weight:300;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+.ftr-r {
+  font-family:'Barlow',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:4px; color:rgba(255,255,255,0.45); text-transform:lowercase;
+}
+
+/* ── NÚMERO EDITORIAL DE FUNDO ── */
+.bg-num {
+  position:absolute; right:-60px; top:50%; z-index:1;
+  transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:900px; line-height:1; letter-spacing:-30px;
+  color:rgba(255,255,255,0.018); pointer-events:none; user-select:none;
+}
+
+/* ── BLADE esquerda vermelho ── */
+.blade {
+  position:absolute; left:0; top:0; bottom:0; z-index:21;
+  width:3px;
+  background: linear-gradient(to bottom, transparent 8%, #e31b23 30%, #e31b23 70%, transparent 100%);
+}
+
+/* ── SCANLINE sutil ── */
+.scanlines {
+  position:absolute; inset:0; z-index:8; pointer-events:none; opacity:0.025;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.6) 3px, rgba(255,255,255,0.6) 4px);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- Camadas de fundo -->
+  <div class="ghost"></div>
+  <div class="photo"></div>
+  <div class="gradient"></div>
+  <div class="vol-light"></div>
+  <div class="vignette"></div>
+  <div class="diag-line"></div>
+  <div class="scanlines"></div>
+  <div class="grain"></div>
+  <div class="bg-num">1</div>
+
+  <!-- Elemento de profundidade -->
+  <div class="blade"></div>
+
+  <!-- Cantos editoriais -->
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <!-- Microtexto lateral -->
+  <div class="micro">Copa do Mundo 2026 · Design Esportivo · Análise</div>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-cat">Análise</div>
+  </div>
+
+  <!-- Headline + footer -->
+  <div class="main">
+    <div class="label">Copa 2026</div>
+    <div class="hl">
+      Por que<br>
+      o Brasil<br>
+      <span class="red">odeia</span><br>
+      essa camisa?
+    </div>
+    <div class="divider"></div>
+    <div class="ftr">
+      <div class="ftr-l">Desliza · Análise completa →</div>
+      <div class="ftr-r">@setystudio</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

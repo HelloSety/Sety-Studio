@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Odonto — Odontologia de Excelência | Campinas SP</title>
+<meta name="description" content="Prime Odonto é a clínica odontológica mais completa de Campinas. Implantes, facetas, ortodontia e muito mais com tecnologia de ponta e equipe especializada.">
+<meta property="og:title" content="Prime Odonto — Sorria com Confiança">
+<meta property="og:description" content="Tratamentos odontológicos premium com tecnologia de ponta. Agende sua avaliação gratuita.">
+<meta property="og:image" content="images/hero.jpg">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dentist","name":"Prime Odonto","description":"Clínica odontológica premium em Campinas SP","address":{"@type":"PostalAddress","addressLocality":"Campinas","addressRegion":"SP","addressCountry":"BR"},"telephone":"+55 19 99999-0000","openingHours":"Mo-Fr 08:00-19:00","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"427"}}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#00B67A;--green-dark:#009962;--green-light:#E8FBF4;
+  --dark:#0D1810;--gray:#6B7280;--gray-light:#F4F7F5;
+  --border:#E5EDE9;--white:#FFFFFF;
+  --radius:12px;--shadow:0 4px 24px rgba(0,182,122,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:80px;display:flex;align-items:center;justify-content:space-between;transition:all .4s;}
+nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:20px;height:20px;fill:white;}
+.logo-text{font-size:.75rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--dark);}
+.logo-text span{display:block;font-weight:300;font-size:.6rem;letter-spacing:.15em;color:var(--gray);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--green);}
+.nav-cta{background:var(--green);color:white;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:12px 24px;border-radius:6px;text-decoration:none;transition:background .2s;}
+.nav-cta:hover{background:var(--green-dark);}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 5% 0;gap:4rem;position:relative;overflow:hidden;}
+#hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--green-light) 0%,white 60%);z-index:0;}
+.hero-content{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-light);border:1px solid rgba(0,182,122,.2);color:var(--green-dark);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px;border-radius:99px;margin-bottom:2rem;}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1{font-size:clamp(2.5rem,4.5vw,4rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.5rem;}
+h1 em{font-style:normal;color:var(--green);}
+.hero-sub{font-size:1.05rem;color:var(--gray);line-height:1.7;max-width:440px;margin-bottom:2.5rem;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+.btn-primary{background:var(--green);color:white;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:16px 32px;border-radius:8px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,182,122,.3);}
+.btn-secondary{background:transparent;color:var(--dark);font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:16px 32px;border-radius:8px;border:1.5px solid var(--border);text-decoration:none;transition:all .2s;}
+.btn-secondary:hover{border-color:var(--green);color:var(--green);}
+.hero-trust{display:flex;align-items:center;gap:1.5rem;}
+.stars{display:flex;gap:2px;}
+.stars span{color:#FFB800;font-size:1rem;}
+.trust-text{font-size:.8rem;color:var(--gray);}
+.trust-text strong{color:var(--dark);}
+.hero-img{position:relative;z-index:1;}
+.hero-img-wrap{border-radius:24px;overflow:hidden;aspect-ratio:4/5;position:relative;}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.hero-card{position:absolute;bottom:-1rem;left:-2rem;background:white;border-radius:16px;padding:1.25rem 1.5rem;box-shadow:0 8px 40px rgba(0,0,0,.12);display:flex;align-items:center;gap:1rem;}
+.hero-card-icon{width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.hero-card-label{font-size:.65rem;color:var(--gray);text-transform:uppercase;letter-spacing:.1em;}
+.hero-card-value{font-size:1.4rem;font-weight:900;color:var(--dark);}
+.hero-card2{position:absolute;top:2rem;right:-1.5rem;background:var(--green);border-radius:16px;padding:1rem 1.25rem;box-shadow:0 8px 30px rgba(0,182,122,.3);}
+.hero-card2 p{font-size:.65rem;color:rgba(255,255,255,.8);margin-bottom:4px;letter-spacing:.1em;}
+.hero-card2 strong{font-size:1.6rem;font-weight:900;color:white;display:block;}
+.hero-card2 span{font-size:.7rem;color:rgba(255,255,255,.8);}
+
+/* SCROLL TICKER */
+.ticker{background:var(--dark);padding:14px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-flex;animation:ticker 25s linear infinite;}
+.ticker-item{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);padding:0 3rem;display:flex;align-items:center;gap:.75rem;}
+.ticker-dot{color:var(--green);}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* STATS */
+#stats{padding:5rem 5%;background:white;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.stat-item{background:white;padding:2.5rem 2rem;text-align:center;transition:background .2s;}
+.stat-item:hover{background:var(--green-light);}
+.stat-value{font-size:3rem;font-weight:900;color:var(--green);line-height:1;margin-bottom:.5rem;}
+.stat-label{font-size:.75rem;color:var(--gray);font-weight:500;letter-spacing:.05em;}
+
+/* SECTION HEADER */
+.section-label{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--green);margin-bottom:1rem;}
+.section-label::before{content:'';width:24px;height:2px;background:var(--green);}
+h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;line-height:1.15;letter-spacing:-.03em;margin-bottom:1rem;}
+h2 em{font-style:normal;color:var(--green);}
+.section-sub{font-size:1rem;color:var(--gray);line-height:1.7;max-width:520px;}
+
+/* ESPECIALIDADES */
+#especialidades{padding:6rem 5%;background:var(--gray-light);}
+.esp-intro{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:4rem;}
+.esp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.esp-card{background:white;border-radius:var(--radius);padding:2rem;border:1px solid var(--border);transition:all .3s;cursor:pointer;position:relative;overflow:hidden;}
+.esp-card::before{content:'';position:absolute;bottom:0;left:0;height:3px;width:0;background:var(--green);transition:width .3s;}
+.esp-card:hover{box-shadow:var(--shadow);transform:translateY(-4px);}
+.esp-card:hover::before{width:100%;}
+.esp-icon{width:52px;height:52px;background:var(--green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem;}
+.esp-card h3{font-size:1rem;font-weight:800;margin-bottom:.5rem;}
+.esp-card p{font-size:.85rem;color:var(--gray);line-height:1.6;}
+.esp-card .esp-cta{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-top:1rem;text-decoration:none;}
+
+/* ABOUT */
+#sobre{padding:6rem 5%;background:white;}
+.sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.sobre-imgs{position:relative;}
+.sobre-img-main{border-radius:20px;overflow:hidden;aspect-ratio:4/5;}
+.sobre-img-main img{width:100%;height:100%;object-fit:cover;}
+.sobre-img2{position:absolute;bottom:-2rem;right:-2rem;width:55%;border-radius:16px;overflow:hidden;border:4px solid white;box-shadow:0 8px 40px rgba(0,0,0,.12);}
+.sobre-img2 img{width:100%;height:200px;object-fit:cover;}
+.sobre-badge{position:absolute;top:2rem;right:-2rem;background:var(--green);color:white;border-radius:16px;padding:1rem 1.25rem;text-align:center;box-shadow:0 8px 30px rgba(0,182,122,.3);}
+.sobre-badge strong{font-size:2rem;font-weight:900;display:block;}
+.sobre-badge small{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85;}
+.sobre-list{list-style:none;margin:1.5rem 0 2rem;}
+.sobre-list li{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--gray);}
+.sobre-list li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0;margin-top:2px;}
+
+/* ESTRUTURA */
+#estrutura{padding:6rem 5%;background:var(--dark);color:white;}
+#estrutura .section-label{color:var(--green);}
+#estrutura h2{color:white;}
+#estrutura .section-sub{color:rgba(255,255,255,.6);}
+.estrutura-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:4rem;}
+.estr-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;transition:all .3s;}
+.estr-card:hover{background:rgba(0,182,122,.08);border-color:rgba(0,182,122,.3);}
+.estr-num{font-size:.65rem;font-weight:700;letter-spacing:.2em;color:var(--green);margin-bottom:1rem;}
+.estr-card h3{font-size:1rem;font-weight:800;color:white;margin-bottom:.5rem;}
+.estr-card p{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.6;}
+
+/* EQUIPE */
+#equipe{padding:6rem 5%;background:var(--gray-light);}
+.equipe-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;}
+.equipe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.prof-card{background:white;border-radius:20px;overflow:hidden;border:1px solid var(--border);transition:all .3s;}
+.prof-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08);transform:translateY(-4px);}
+.prof-photo{aspect-ratio:3/4;overflow:hidden;position:relative;}
+.prof-photo img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s;}
+.prof-card:hover .prof-photo img{transform:scale(1.05);}
+.prof-tag{position:absolute;top:1rem;left:1rem;background:var(--green);color:white;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:6px 12px;border-radius:99px;}
+.prof-info{padding:1.5rem;}
+.prof-info h3{font-size:1.05rem;font-weight:800;margin-bottom:.25rem;}
+.prof-info p{font-size:.8rem;color:var(--green);font-weight:600;letter-spacing:.05em;}
+.prof-info small{font-size:.78rem;color:var(--gray);display:block;margin-top:.35rem;}
+
+/* RESULTADOS */
+#resultados{padding:6rem 5%;background:white;overflow:hidden;}
+.resultados-intro{text-align:center;max-width:600px;margin:0 auto 4rem;}
+.resultados-intro .section-sub{margin:0 auto;}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.result-card{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:3/4;cursor:pointer;}
+.result-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.result-card:hover img{transform:scale(1.08);}
+.result-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 50%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;}
+.result-tag{display:inline-block;background:var(--green);color:white;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border-radius:99px;margin-bottom:.5rem;width:fit-content;}
+.result-overlay h3{color:white;font-size:1rem;font-weight:800;}
+.result-overlay p{color:rgba(255,255,255,.7);font-size:.8rem;}
+
+/* DEPOIMENTOS */
+#depoimentos{padding:6rem 5%;background:var(--green-light);}
+.dep-header{text-align:center;margin-bottom:4rem;}
+.dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.dep-card{background:white;border-radius:16px;padding:2rem;border:1px solid var(--border);}
+.dep-stars{display:flex;gap:3px;margin-bottom:1rem;}
+.dep-stars span{color:#FFB800;font-size:.9rem;}
+.dep-text{font-size:.9rem;color:var(--gray);line-height:1.7;margin-bottom:1.5rem;font-style:italic;}
+.dep-author{display:flex;align-items:center;gap:.75rem;border-top:1px solid var(--border);padding-top:1rem;}
+.dep-avatar{width:40px;height:40px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:.9rem;flex-shrink:0;}
+.dep-name{font-size:.85rem;font-weight:700;}
+.dep-proc{font-size:.75rem;color:var(--green);}
+
+/* FAQ */
+#faq{padding:6rem 5%;background:white;}
+.faq-layout{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start;}
+.faq-list{display:flex;flex-direction:column;gap:.75rem;}
+.faq-item{border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;font-size:.9rem;font-weight:700;transition:background .2s;}
+.faq-q:hover{background:var(--gray-light);}
+.faq-q span{width:24px;height:24px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--green);font-weight:900;flex-shrink:0;transition:transform .3s;}
+.faq-item.open .faq-q span{transform:rotate(45deg);background:var(--green);color:white;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-a{max-height:200px;}
+.faq-a p{padding:0 1.5rem 1.25rem;font-size:.85rem;color:var(--gray);line-height:1.7;}
+
+/* CTA */
+#cta{padding:6rem 5%;background:var(--green);position:relative;overflow:hidden;}
+#cta::before{content:'';position:absolute;top:-50%;right:-10%;width:500px;height:500px;background:rgba(255,255,255,.05);border-radius:50%;}
+#cta::after{content:'';position:absolute;bottom:-40%;left:-5%;width:400px;height:400px;background:rgba(0,0,0,.08);border-radius:50%;}
+.cta-inner{text-align:center;position:relative;z-index:1;}
+.cta-inner h2{color:white;font-size:clamp(2rem,4vw,3.5rem);}
+.cta-inner p{color:rgba(255,255,255,.8);font-size:1.05rem;margin:1rem auto 2.5rem;max-width:520px;line-height:1.7;}
+.btn-white{background:white;color:var(--green);font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:18px 36px;border-radius:8px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-white:hover{background:var(--dark);color:white;transform:translateY(-2px);}
+
+/* FOOTER */
+footer{background:var(--dark);color:white;padding:4rem 5% 2rem;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.footer-logo .logo-text{color:white;}
+.footer-desc{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.7;margin-top:.75rem;}
+.footer-title{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.footer-links a{font-size:.85rem;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--green);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:.75rem;color:rgba(255,255,255,.3);}
+.footer-badge{font-size:.65rem;color:var(--green);font-weight:700;letter-spacing:.1em;}
+
+/* ANIMATE */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:1024px){
+  #hero{grid-template-columns:1fr;padding-top:120px;}
+  .hero-img{display:none;}
+  .esp-intro,.sobre-grid,.faq-layout{grid-template-columns:1fr;}
+  .stats-grid,.esp-grid,.equipe-grid,.results-grid,.dep-grid,.estrutura-grid,.footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  .stats-grid,.esp-grid,.equipe-grid,.dep-grid,.estrutura-grid,.footer-grid,.results-grid{grid-template-columns:1fr;}
+  .nav-links,.nav-cta{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 3.5 2.33 6.5 5.5 7.5V19h3v-2.5C16.67 15.5 19 12.5 19 9c0-3.87-3.13-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+    </div>
+    <div class="logo-text">Prime Odonto<span>Excelência em Sorrisos</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#especialidades">Tratamentos</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#equipe">Equipe</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="https://wa.me/5519999990000?text=Olá! Gostaria de agendar uma avaliação." class="nav-cta">Agendar Avaliação</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content reveal">
+    <div class="hero-badge">★ Clínica 5 estrelas em Campinas</div>
+    <h1>Sorria com <em>confiança</em> todos os dias</h1>
+    <p class="hero-sub">Da consulta ao resultado final, a Prime Odonto oferece tecnologia de ponta e uma equipe especializada para transformar o seu sorriso.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/5519999990000" class="btn-primary">→ Agendar Avaliação Grátis</a>
+      <a href="#resultados" class="btn-secondary">Ver Resultados</a>
+    </div>
+    <div class="hero-trust">
+      <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="trust-text"><strong>4.9/5</strong> — 427 avaliações no Google</p>
+    </div>
+  </div>
+  <div class="hero-img reveal" style="transition-delay:.15s">
+    <div class="hero-img-wrap">
+      <img src="images/hero.jpg" alt="Prime Odonto Clínica">
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-icon">🦷</div>
+      <div><div class="hero-card-label">Tratamentos realizados</div><div class="hero-card-value">+3.500</div></div>
+    </div>
+    <div class="hero-card2">
+      <p>Avaliação</p>
+      <strong>4.9★</strong>
+      <span>Google Reviews</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span class="ticker-dot">●</span> Implantes Dentários</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Facetas de Porcelana</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Clareamento a Laser</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Ortodontia Invisível</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Próteses Fixas</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Periodontia</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Implantes Dentários</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Facetas de Porcelana</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Clareamento a Laser</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Ortodontia Invisível</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Próteses Fixas</span>
+    <span class="ticker-item"><span class="ticker-dot">●</span> Periodontia</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><div class="stat-value" data-target="3500">0</div><div class="stat-label">Tratamentos Realizados</div></div>
+    <div class="stat-item reveal"><div class="stat-value" data-target="427">0</div><div class="stat-label">Avaliações 5 Estrelas</div></div>
+    <div class="stat-item reveal"><div class="stat-value" data-target="12">0</div><div class="stat-label">Anos de Excelência</div></div>
+    <div class="stat-item reveal"><div class="stat-value" data-target="8">0</div><div class="stat-label">Especialistas na Equipe</div></div>
+  </div>
+</section>
+
+<!-- ESPECIALIDADES -->
+<section id="especialidades">
+  <div class="esp-intro">
+    <div class="reveal">
+      <div class="section-label">Tratamentos</div>
+      <h2>Especialidades que <em>transformam</em> sorrisos</h2>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="section-sub">Tecnologia de última geração para cada necessidade. Do simples ao complexo, temos o tratamento ideal para você.</p>
+      <a href="#cta" class="btn-primary" style="margin-top:1.5rem;display:inline-flex">Ver todos os tratamentos →</a>
+    </div>
+  </div>
+  <div class="esp-grid">
+    <div class="esp-card reveal">
+      <div class="esp-icon">🦷</div>
+      <h3>Implante Dentário</h3>
+      <p>Recupere sua mastigação e autoestima com implantes de titânio com precisão digital e garantia vitalícia.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+    <div class="esp-card reveal" style="transition-delay:.08s">
+      <div class="esp-icon">✨</div>
+      <h3>Facetas de Porcelana</h3>
+      <p>Transforme o formato, cor e alinhamento dos seus dentes com lentes ultra-finas e resultado natural.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+    <div class="esp-card reveal" style="transition-delay:.16s">
+      <div class="esp-icon">💎</div>
+      <h3>Clareamento a Laser</h3>
+      <p>Protocolo avançado de clareamento com resultado de até 8 tons mais claro em uma única sessão.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+    <div class="esp-card reveal" style="transition-delay:.24s">
+      <div class="esp-icon">🎯</div>
+      <h3>Ortodontia Invisível</h3>
+      <p>Alinhadores transparentes Invisalign para corrigir o alinhamento sem arames ou brackets visíveis.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+    <div class="esp-card reveal" style="transition-delay:.32s">
+      <div class="esp-icon">🔬</div>
+      <h3>Endodontia</h3>
+      <p>Tratamento de canal indolor com microscópio operatório e técnica rotatatória de última geração.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+    <div class="esp-card reveal" style="transition-delay:.4s">
+      <div class="esp-icon">🏆</div>
+      <h3>Próteses Premium</h3>
+      <p>Coroas cerâmicas e próteses sobre implante com estética e função superiores para um sorriso perfeito.</p>
+      <a href="#" class="esp-cta">Saiba mais →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-grid">
+    <div class="sobre-imgs reveal">
+      <div class="sobre-img-main"><img src="images/clinic.jpg" alt="Clínica Prime Odonto"></div>
+      <div class="sobre-img2"><img src="images/tech.jpg" alt="Tecnologia Prime Odonto"></div>
+      <div class="sobre-badge"><strong>12+</strong><small>Anos de Excelência</small></div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="section-label">Sobre Nós</div>
+      <h2>A clínica que coloca o <em>paciente</em> em primeiro lugar</h2>
+      <p style="color:var(--gray);line-height:1.7;margin:1rem 0;">A Prime Odonto nasceu com uma missão clara: oferecer odontologia de nível internacional em Campinas, com o cuidado e atenção que cada paciente merece. Combinamos tecnologia de ponta com um atendimento humanizado.</p>
+      <ul class="sobre-list">
+        <li>Scanner 3D iTero para planejamento digital preciso</li>
+        <li>Tomografia computadorizada cone beam in-house</li>
+        <li>Cadeiras com TV e sistema de entretenimento</li>
+        <li>Protocolo de biossegurança nível hospitalar</li>
+        <li>Sala de espera premium com café e WiFi</li>
+        <li>Equipe com formação em centros de referência nacionais</li>
+      </ul>
+      <a href="#equipe" class="btn-primary">Conhecer a equipe →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ESTRUTURA -->
+<section id="estrutura">
+  <div style="max-width:600px">
+    <div class="section-label" style="color:var(--green)">Estrutura</div>
+    <h2>Tecnologia que <em>inspira</em> confiança</h2>
+    <p class="section-sub">Investimos constantemente em equipamentos para oferecer tratamentos mais precisos, rápidos e confortáveis.</p>
+  </div>
+  <div class="estrutura-grid">
+    <div class="estr-card reveal"><div class="estr-num">01</div><h3>Scanner Digital 3D</h3><p>Moldes digitais precisos, sem alginato. Planejamento digital completo em minutos.</p></div>
+    <div class="estr-card reveal" style="transition-delay:.08s"><div class="estr-num">02</div><h3>Tomógrafo Cone Beam</h3><p>Imagens tridimensionais para diagnóstico e planejamento cirúrgico com máxima precisão.</p></div>
+    <div class="estr-card reveal" style="transition-delay:.16s"><div class="estr-num">03</div><h3>Laser Odontológico</h3><p>Tratamentos minimamente invasivos, sem dor e com cicatrização acelerada.</p></div>
+    <div class="estr-card reveal" style="transition-delay:.24s"><div class="estr-num">04</div><h3>CAD/CAM Cerec</h3><p>Fabricação de coroas e facetas em cerâmica no mesmo dia, com encaixe milimétrico.</p></div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="equipe-header">
+    <div class="reveal">
+      <div class="section-label">Especialistas</div>
+      <h2>Nossa <em>equipe</em> de excelência</h2>
+    </div>
+    <a href="#cta" class="btn-primary reveal" style="transition-delay:.1s">Agendar Consulta →</a>
+  </div>
+  <div class="equipe-grid">
+    <div class="prof-card reveal">
+      <div class="prof-photo"><img src="images/team.jpg" alt="Dra. Camila Santos"><div class="prof-tag">Diretora Clínica</div></div>
+      <div class="prof-info"><h3>Dra. Camila Santos</h3><p>Implantodontia & Reabilitação</p><small>CRO-SP 45.230 • 12 anos de experiência</small></div>
+    </div>
+    <div class="prof-card reveal" style="transition-delay:.1s">
+      <div class="prof-photo"><img src="images/dentist.jpg" alt="Dr. Ricardo Moura"><div class="prof-tag">Especialista</div></div>
+      <div class="prof-info"><h3>Dr. Ricardo Moura</h3><p>Ortodontia & Facetas</p><small>CRO-SP 51.847 • 8 anos de experiência</small></div>
+    </div>
+    <div class="prof-card reveal" style="transition-delay:.2s">
+      <div class="prof-photo"><img src="images/smile.jpg" alt="Dra. Beatriz Lima"><div class="prof-tag">Especialista</div></div>
+      <div class="prof-info"><h3>Dra. Beatriz Lima</h3><p>Estética & Clareamento</p><small>CRO-SP 60.112 • 6 anos de experiência</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section id="resultados">
+  <div class="resultados-intro reveal">
+    <div class="section-label" style="justify-content:center">Antes e Depois</div>
+    <h2>Resultados que <em>falam</em> por si</h2>
+    <p class="section-sub">Cada sorriso é único. Veja como transformamos a vida de nossos pacientes com tratamentos personalizados.</p>
+  </div>
+  <div class="results-grid">
+    <div class="result-card reveal"><img src="images/result1.jpg" alt="Resultado 1"><div class="result-overlay"><span class="result-tag">Facetas</span><h3>Transformação completa</h3><p>Facetas de porcelana + clareamento</p></div></div>
+    <div class="result-card reveal" style="transition-delay:.1s"><img src="images/result2.jpg" alt="Resultado 2"><div class="result-overlay"><span class="result-tag">Implante</span><h3>Reabilitação total</h3><p>Implantes + próteses sobre implante</p></div></div>
+    <div class="result-card reveal" style="transition-delay:.2s"><img src="images/smile.jpg" alt="Resultado 3"><div class="result-overlay"><span class="result-tag">Ortodontia</span><h3>Alinhamento perfeito</h3><p>Invisalign 14 meses</p></div></div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="dep-header reveal">
+    <div class="section-label" style="justify-content:center">Depoimentos</div>
+    <h2>O que dizem <em>nossos pacientes</em></h2>
+  </div>
+  <div class="dep-grid">
+    <div class="dep-card reveal">
+      <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="dep-text">"Fiz facetas de porcelana na Prime Odonto e o resultado superou todas as expectativas. A Dra. Camila é incrível, extremamente cuidadosa e precisa. Recomendo com os olhos fechados!"</p>
+      <div class="dep-author"><div class="dep-avatar">M</div><div><div class="dep-name">Mariana Costa</div><div class="dep-proc">Facetas de Porcelana</div></div></div>
+    </div>
+    <div class="dep-card reveal" style="transition-delay:.08s">
+      <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="dep-text">"Fui com muito medo de colocar implante e saí com a autoestima nas alturas. O atendimento é diferenciado do início ao fim. Ambiente moderno, equipe atenciosa e resultado impecável."</p>
+      <div class="dep-author"><div class="dep-avatar">R</div><div><div class="dep-name">Roberto Alves</div><div class="dep-proc">Implante Dentário</div></div></div>
+    </div>
+    <div class="dep-card reveal" style="transition-delay:.16s">
+      <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="dep-text">"O clareamento a laser mudou minha vida! Em uma sessão meus dentes ficaram 7 tons mais claros. Me sinto muito mais confiante para sorrir nas fotos. A clínica é impecável!"</p>
+      <div class="dep-author"><div class="dep-avatar">F</div><div><div class="dep-name">Fernanda Melo</div><div class="dep-proc">Clareamento a Laser</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-layout">
+    <div class="reveal">
+      <div class="section-label">FAQ</div>
+      <h2>Dúvidas <em>frequentes</em></h2>
+      <p class="section-sub" style="margin:1rem 0 2rem">Respondemos as principais perguntas sobre nossos tratamentos e funcionamento da clínica.</p>
+      <a href="https://wa.me/5519999990000" class="btn-primary">Tirar dúvida no WhatsApp →</a>
+    </div>
+    <div class="faq-list reveal" style="transition-delay:.15s">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">A clínica aceita convênio? <span>+</span></div>
+        <div class="faq-a"><p>Sim! A Prime Odonto aceita os principais convênios odontológicos do mercado, incluindo Amil Dental, OdontoPrev, Bradesco Dental e SulAmérica. Entre em contato para verificar cobertura específica.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como funciona a avaliação gratuita? <span>+</span></div>
+        <div class="faq-a"><p>Na avaliação inicial, você passa por uma consulta completa com um de nossos especialistas, que analisa sua saúde bucal e apresenta as melhores opções de tratamento com orçamento detalhado. Totalmente gratuita e sem compromisso.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo dura um implante? <span>+</span></div>
+        <div class="faq-a"><p>Com os cuidados adequados, os implantes dentários podem durar uma vida inteira. Trabalhamos com os melhores sistemas de implantes do mundo e oferecemos acompanhamento de longo prazo para garantir sua satisfação.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Posso parcelar o tratamento? <span>+</span></div>
+        <div class="faq-a"><p>Sim! Oferecemos parcelamento em até 24x sem juros no cartão de crédito, além de facilidades especiais para pacientes que optam por tratamentos completos. Consulte nossas condições especiais.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">A clínica atende emergências? <span>+</span></div>
+        <div class="faq-a"><p>Sim! Para pacientes da clínica, disponibilizamos atendimento de urgência em horário estendido. Entre em contato pelo WhatsApp para verificar disponibilidade.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <div class="section-label" style="justify-content:center;color:rgba(255,255,255,.7);margin-bottom:1rem">Próximo passo</div>
+    <h2>Pronto para transformar<br>seu <span style="opacity:.85">sorriso</span>?</h2>
+    <p>Agende agora sua avaliação gratuita e dê o primeiro passo rumo ao sorriso que você sempre quis. Atendimento de segunda a sexta, das 8h às 19h.</p>
+    <a href="https://wa.me/5519999990000?text=Olá! Gostaria de agendar minha avaliação gratuita na Prime Odonto." class="btn-white">→ Agendar pelo WhatsApp</a>
+    <p style="color:rgba(255,255,255,.6);font-size:.8rem;margin-top:1.25rem;">📍 Rua Barão de Itapura, 1580 — Campinas, SP</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="logo">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 3.5 2.33 6.5 5.5 7.5V19h3v-2.5C16.67 15.5 19 12.5 19 9c0-3.87-3.13-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></div>
+        <div class="logo-text" style="color:white">Prime Odonto<span style="color:rgba(255,255,255,.4)">Excelência em Sorrisos</span></div>
+      </a>
+      <p class="footer-desc">A clínica odontológica mais completa de Campinas. Tecnologia, experiência e cuidado para transformar o seu sorriso.</p>
+    </div>
+    <div>
+      <p class="footer-title">Tratamentos</p>
+      <ul class="footer-links">
+        <li><a href="#">Implantes Dentários</a></li>
+        <li><a href="#">Facetas de Porcelana</a></li>
+        <li><a href="#">Clareamento a Laser</a></li>
+        <li><a href="#">Ortodontia Invisível</a></li>
+        <li><a href="#">Próteses Fixas</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-title">Clínica</p>
+      <ul class="footer-links">
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Nossa Equipe</a></li>
+        <li><a href="#">Estrutura</a></li>
+        <li><a href="#">Convênios</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-title">Contato</p>
+      <ul class="footer-links">
+        <li><a href="tel:+5519999990000">(19) 99999-0000</a></li>
+        <li><a href="mailto:contato@primeodonto.com.br">contato@primeodonto.com.br</a></li>
+        <li><a href="#">Rua Barão de Itapura, 1580</a></li>
+        <li><a href="#">Campinas, SP — CEP 13020-430</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Prime Odonto. Todos os direitos reservados.</p>
+    <p class="footer-badge">Desenvolvido por Sety Studio</p>
+  </div>
+</footer>
+
+<script>
+// NAV SCROLL
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+// REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// COUNTER
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 2000;
+  const start = performance.now();
+  function update(t) {
+    const p = Math.min((t - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(ease * target).toLocaleString('pt-BR') + '+';
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+
+// FAQ
+function toggleFaq(el) {
+  const item = el.parentElement;
+  document.querySelectorAll('.faq-item').forEach(i => i !== item && i.classList.remove('open'));
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>

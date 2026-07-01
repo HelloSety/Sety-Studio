@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#05050C; }
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* Background — glow azul elétrico à esquerda */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 65% 50% at -5% 55%, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.05) 45%, transparent 70%),
+    radial-gradient(ellipse 30% 30% at 20% 90%, rgba(37,99,235,0.1) 0%, transparent 55%),
+    #05050C;
+}
+
+/* Grain */
+.grain {
+  position:absolute; inset:0; z-index:15; pointer-events:none; opacity:0.048;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* Linha vertical — divide o layout */
+.vert-line {
+  position:absolute; left:460px; top:80px; bottom:80px; z-index:8;
+  width:1px;
+  background:linear-gradient(to bottom, transparent, rgba(37,99,235,0.25) 20%, rgba(37,99,235,0.25) 80%, transparent);
+}
+
+/* ── LADO ESQUERDO: Dashboard do concorrente ── */
+.dash-col {
+  position:absolute; left:0; top:0; bottom:0; z-index:5;
+  width:460px;
+  display:flex; flex-direction:column; align-items:flex-start;
+  justify-content:center; padding:0 40px 0 52px;
+}
+
+/* Badge anônimo */
+.anon-badge {
+  display:flex; align-items:center; gap:8px; margin-bottom:32px;
+}
+.anon-dot { width:7px; height:7px; border-radius:50%; background:#2563EB; }
+.anon-pulse {
+  width:7px; height:7px; border-radius:50%; background:rgba(37,99,235,0.3);
+  position:absolute; animation:pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { transform:scale(1); opacity:0.5; } 50% { transform:scale(2); opacity:0; } }
+.anon-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:4px; color:rgba(37,99,235,0.7); text-transform:uppercase;
+}
+
+/* Card glassmorphism principal */
+.dash-card {
+  width:100%; background:rgba(37,99,235,0.06);
+  border:1px solid rgba(37,99,235,0.2);
+  border-radius:16px; padding:28px 28px 24px;
+  backdrop-filter:blur(4px);
+  margin-bottom:20px;
+}
+.dc-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:24px;
+}
+.dc-title {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:400;
+  letter-spacing:3px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+}
+.dc-live {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(37,99,235,0.15); border:1px solid rgba(37,99,235,0.3);
+  padding:3px 10px; border-radius:100px;
+}
+.dc-live-dot { width:5px; height:5px; border-radius:50%; background:#2563EB; }
+.dc-live-txt {
+  font-family:'Barlow',sans-serif; font-size:8px; font-weight:400;
+  color:rgba(37,99,235,0.9); letter-spacing:2px; text-transform:uppercase;
+}
+
+/* Métrica grande */
+.dc-big { margin-bottom:20px; }
+.dc-num {
+  font-family:'Bebas Neue',sans-serif; font-size:80px; line-height:1;
+  color:#fff; letter-spacing:-1px; display:block;
+}
+.dc-num-sub {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:10px;
+  letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+  margin-top:2px;
+}
+
+/* Métricas secundárias */
+.dc-metrics { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.dc-m {
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px; padding:12px 14px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.dc-m-n { font-family:'Bebas Neue',sans-serif; font-size:32px; line-height:1; color:#2563EB; }
+.dc-m-s { font-family:'Barlow',sans-serif; font-size:8px; font-weight:300; letter-spacing:1.5px; color:rgba(255,255,255,0.28); text-transform:uppercase; }
+
+/* Mini gráfico de linha */
+.mini-chart { width:100%; margin-top:20px; }
+.mc-label {
+  font-family:'Barlow',sans-serif; font-size:8px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.2); text-transform:uppercase;
+  margin-bottom:10px;
+}
+.mc-bars { display:flex; align-items:flex-end; gap:5px; height:48px; }
+.mc-bar { flex:1; border-radius:2px 2px 0 0; }
+.mb1 { height:30%; background:rgba(37,99,235,0.3); }
+.mb2 { height:45%; background:rgba(37,99,235,0.4); }
+.mb3 { height:38%; background:rgba(37,99,235,0.35); }
+.mb4 { height:60%; background:rgba(37,99,235,0.5); }
+.mb5 { height:55%; background:rgba(37,99,235,0.45); }
+.mb6 { height:75%; background:rgba(37,99,235,0.6); }
+.mb7 { height:90%; background:#2563EB; }
+.mb8 { height:100%; background:#2563EB; box-shadow:0 0 12px rgba(37,99,235,0.5); }
+
+/* Card pequeno de alerta */
+.alert-card {
+  width:100%; background:rgba(37,99,235,0.08);
+  border:1px solid rgba(37,99,235,0.15);
+  border-radius:10px; padding:14px 18px;
+  display:flex; align-items:center; gap:12px;
+}
+.alert-icon { font-size:18px; flex-shrink:0; }
+.alert-txt {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:11px;
+  color:rgba(255,255,255,0.4); line-height:1.5; letter-spacing:0.2px;
+}
+.alert-txt strong { color:rgba(37,99,235,0.9); font-weight:600; }
+
+/* ── LADO DIREITO: TIPOGRAFIA ── */
+.text-col {
+  position:absolute; right:0; top:0; bottom:0; z-index:10;
+  width:620px;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:0 60px 0 56px;
+  text-align:right;
+}
+
+/* Stack tipográfico — ALINHADO À DIREITA */
+.t-seu {
+  font-family:'Barlow',sans-serif; font-weight:900; font-size:62px;
+  line-height:0.88; color:rgba(255,255,255,0.22); letter-spacing:-2px;
+  display:block; text-align:right;
+}
+.t-concorrente {
+  font-family:'Bebas Neue',sans-serif; font-size:172px; line-height:0.82;
+  color:#fff; letter-spacing:-2px; display:block; text-align:right;
+  /* sangra ligeiramente na borda direita */
+  margin-right:-14px;
+}
+.t-ja {
+  font-family:'Barlow',sans-serif; font-weight:900; font-size:90px;
+  line-height:0.84; color:#E85D00; letter-spacing:-2px; font-style:italic;
+  display:block; text-align:right;
+}
+.t-entendeu {
+  font-family:'Bebas Neue',sans-serif; font-size:140px; line-height:0.84;
+  color:rgba(255,255,255,0.88); letter-spacing:-1px; display:block; text-align:right;
+}
+
+/* Separador */
+.rule {
+  width:40px; height:1px; background:#E85D00; opacity:0.7;
+  margin:40px 0 40px auto;
+}
+
+/* Copy */
+.copy {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:13px;
+  line-height:1.85; color:rgba(255,255,255,0.35); letter-spacing:0.3px;
+  text-align:right; margin-bottom:48px;
+}
+.copy strong { color:rgba(255,255,255,0.6); font-weight:400; }
+
+/* CTA */
+.cta { display:flex; align-items:center; gap:12px; justify-content:flex-end; }
+.cta-txt {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:400;
+  letter-spacing:4px; color:rgba(255,255,255,0.4); text-transform:uppercase;
+}
+.cta-arrow { color:#E85D00; font-size:14px; }
+
+/* Handle */
+.handle {
+  position:absolute; bottom:44px; right:60px; z-index:20;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.15); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="grain"></div>
+  <div class="vert-line"></div>
+
+  <!-- DASHBOARD DO CONCORRENTE (ESQUERDA) -->
+  <div class="dash-col">
+    <div class="anon-badge">
+      <div style="position:relative;">
+        <div class="anon-dot"></div>
+      </div>
+      <div class="anon-txt">Concorrente Anônimo</div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dc-header">
+        <div class="dc-title">Analytics Overview</div>
+        <div class="dc-live">
+          <div class="dc-live-dot"></div>
+          <div class="dc-live-txt">Live</div>
+        </div>
+      </div>
+
+      <div class="dc-big">
+        <span class="dc-num">R$219K</span>
+        <div class="dc-num-sub">Receita este mês</div>
+      </div>
+
+      <div class="dc-metrics">
+        <div class="dc-m">
+          <div class="dc-m-n">↑48%</div>
+          <div class="dc-m-s">Conversão</div>
+        </div>
+        <div class="dc-m">
+          <div class="dc-m-n">4.2K</div>
+          <div class="dc-m-s">Novos leads</div>
+        </div>
+      </div>
+
+      <div class="mini-chart">
+        <div class="mc-label">Crescimento últimos 8 meses</div>
+        <div class="mc-bars">
+          <div class="mc-bar mb1"></div>
+          <div class="mc-bar mb2"></div>
+          <div class="mc-bar mb3"></div>
+          <div class="mc-bar mb4"></div>
+          <div class="mc-bar mb5"></div>
+          <div class="mc-bar mb6"></div>
+          <div class="mc-bar mb7"></div>
+          <div class="mc-bar mb8"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-card">
+      <div class="alert-icon">◎</div>
+      <div class="alert-txt">Site reformulado <strong>há 6 meses</strong>. Resultado: <strong>+219% em receita</strong>.</div>
+    </div>
+  </div>
+
+  <!-- TIPOGRAFIA (DIREITA) -->
+  <div class="text-col">
+    <span class="t-seu">seu</span>
+    <span class="t-concorrente">CONCOR-</span>
+    <span class="t-concorrente" style="margin-top:-10px;">RENTE</span>
+    <span class="t-ja">já</span>
+    <span class="t-entendeu">ENTENDEU.</span>
+
+    <div class="rule"></div>
+
+    <div class="copy">
+      Enquanto você hesita, ele está<br>
+      <strong>convertendo os seus clientes</strong>.
+    </div>
+
+    <div class="cta">
+      <span class="cta-txt">Comece agora</span>
+      <span class="cta-arrow">→</span>
+    </div>
+  </div>
+
+  <div class="handle">@setystudio</div>
+</div>
+</body>
+</html>

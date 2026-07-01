@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Studio — Sportify AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#030305;font-family:'Inter',sans-serif;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── STUDIO BAR ── */
+.studio-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:56px;background:rgba(6,7,9,.95);border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;padding:0 28px;
+  backdrop-filter:blur(20px)
+}
+.studio-logo{font-size:14px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:-.3px}
+.studio-logo span{color:rgba(255,255,255,.3);font-weight:400}
+.studio-tabs{display:flex;gap:4px}
+.studio-tab{
+  padding:7px 16px;background:transparent;border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45);
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .18s
+}
+.studio-tab:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.2)}
+.studio-tab.active{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#22C55E}
+.studio-actions{display:flex;gap:8px}
+.bar-btn{
+  padding:7px 16px;border-radius:7px;font-size:12px;font-weight:600;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .18s;border:none
+}
+.bar-btn-out{background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5)}
+.bar-btn-out:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+.bar-btn-fill{background:#22C55E;color:#000;font-weight:700}
+.bar-btn-fill:hover{background:#16A34A}
+
+/* ── PREVIEW AREA ── */
+.preview-area{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:88px 40px 40px;min-height:100vh
+}
+.scale-wrapper{
+  position:relative;flex-shrink:0;
+  box-shadow:0 40px 120px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.05)
+}
+.creative-frame{
+  position:absolute;top:0;left:0;transform-origin:top left;
+}
+
+/* ═══════════════════════════════════════════
+   BASE CREATIVE — compartilhada
+═══════════════════════════════════════════ */
+.cr{
+  position:relative;overflow:hidden;font-family:'Inter',sans-serif;
+  background:#070709;
+}
+
+/* ── ATMOSFERA ── */
+.atm{position:absolute;inset:0;pointer-events:none}
+.atm-k{position:absolute;border-radius:50%}
+.atm-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.atm-vig{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(0,0,0,.6) 100%)
+}
+
+/* ── DECO LINES ── */
+.deco-h{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 4%,rgba(56,150,255,.16) 35%,rgba(34,197,94,.12) 65%,transparent 96%)}
+.deco-v{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 4%,rgba(56,150,255,.1) 50%,transparent 96%)}
+
+/* ── CABEÇALHO ── */
+.cr-header{position:absolute;display:flex;align-items:center;justify-content:space-between;z-index:20}
+.cr-brand{display:flex;align-items:center;gap:9px}
+.cr-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.7)}
+.cr-name{font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:3px}
+.cr-col{padding:5px 13px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.22);border-radius:3px;font-weight:800;color:#22C55E;text-transform:uppercase;letter-spacing:2px}
+
+/* ── BADGE DESCONTO ── */
+.cr-badge{
+  position:absolute;z-index:30;background:linear-gradient(135deg,#DC2626,#991B1B);
+  border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 0 3px rgba(220,38,38,.2),0 0 50px rgba(220,38,38,.35),0 14px 40px rgba(0,0,0,.5)
+}
+.cr-badge-pct{font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
+.cr-badge-off{font-weight:800;color:rgba(255,255,255,.9);letter-spacing:2px}
+
+/* ── ZONA DO PRODUTO ── */
+.cr-product{position:absolute;z-index:5}
+.cr-product svg{display:block}
+
+/* ── CHÃO / GLOW ── */
+.cr-floor{position:absolute;z-index:4;pointer-events:none;border-radius:50%}
+
+/* ── COPY ── */
+.cr-copy{position:absolute;z-index:20}
+.cr-eyebrow{font-weight:700;color:#22C55E;text-transform:uppercase;letter-spacing:3.5px;display:flex;align-items:center;gap:10px}
+.cr-eyebrow::before{content:'';display:block;background:#22C55E;border-radius:1px;flex-shrink:0}
+.cr-headline{font-weight:900;color:#fff;line-height:.88;letter-spacing:-6px;text-shadow:0 0 80px rgba(255,255,255,.06)}
+.cr-tagline{color:rgba(255,255,255,.38);font-weight:500;letter-spacing:.3px;line-height:1.6}
+
+/* ── PREÇO ── */
+.cr-price{position:absolute;z-index:20}
+.cr-price-lbl{font-weight:600;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1.5px}
+.cr-price-orig{font-weight:600;color:rgba(255,255,255,.25);text-decoration:line-through}
+.cr-price-main{font-weight:900;color:#fff;line-height:1;letter-spacing:-5px}
+.cr-price-inst{color:rgba(255,255,255,.35);font-weight:500}
+.cr-price-inst strong{color:rgba(255,255,255,.6)}
+
+/* ── CTA ── */
+.cr-cta{position:absolute;z-index:20}
+.cr-cta-btn{
+  display:block;background:linear-gradient(135deg,#22C55E,#16A34A);color:#000;
+  font-weight:800;text-transform:uppercase;letter-spacing:3px;border:none;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  box-shadow:0 0 60px rgba(34,197,94,.25),0 12px 40px rgba(0,0,0,.5);
+  text-align:center
+}
+.cr-cta-sub{color:rgba(255,255,255,.25);font-weight:500;letter-spacing:.5px}
+
+/* ── RODAPÉ / TRUST ── */
+.cr-footer{
+  position:absolute;bottom:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.28))
+}
+.cr-trust{display:flex}
+.cr-ti{display:flex;align-items:center}
+.cr-ti-ico{
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);flex-shrink:0
+}
+.cr-ti-txt{line-height:1.35;color:rgba(255,255,255,.35)}
+.cr-ti-txt strong{display:block;color:rgba(255,255,255,.65);font-weight:700}
+.cr-url{font-weight:700;color:rgba(255,255,255,.18);letter-spacing:2px;text-transform:uppercase}
+
+/* ── DIVISOR ── */
+.cr-divider{position:absolute;z-index:20;height:1px;background:linear-gradient(90deg,rgba(34,197,94,.28),rgba(255,255,255,.05) 60%,transparent)}
+
+/* ══════ FEED 1080×1080 ══════ */
+#cr-feed{width:1080px;height:1080px}
+#cr-feed .atm-k:nth-child(1){top:-220px;left:-140px;width:860px;height:860px;background:radial-gradient(circle,rgba(56,150,255,.14),rgba(14,90,200,.05) 40%,transparent 65%)}
+#cr-feed .atm-k:nth-child(2){bottom:60px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(255,110,30,.1),transparent 65%)}
+#cr-feed .cr-header{top:52px;left:60px;right:60px}
+#cr-feed .cr-name{font-size:12px}
+#cr-feed .cr-col{font-size:9px}
+#cr-feed .cr-badge{top:120px;right:60px;width:100px;height:100px}
+#cr-feed .cr-badge-pct{font-size:34px}
+#cr-feed .cr-badge-off{font-size:10px}
+#cr-feed .cr-product{right:-120px;top:20px;width:880px;height:880px}
+#cr-feed .cr-floor{bottom:90px;left:50%;transform:translateX(-50%);width:700px;height:100px;background:radial-gradient(ellipse,rgba(56,150,255,.1),transparent 70%)}
+#cr-feed .cr-copy{left:60px;top:240px;width:480px}
+#cr-feed .cr-eyebrow{font-size:10px;margin-bottom:16px}
+#cr-feed .cr-eyebrow::before{width:24px;height:2px}
+#cr-feed .cr-headline{font-size:114px;margin-bottom:16px}
+#cr-feed .cr-tagline{font-size:15px;max-width:380px}
+#cr-feed .cr-divider{bottom:310px;left:60px;right:60px}
+#cr-feed .cr-price{bottom:220px;left:60px}
+#cr-feed .cr-price-lbl{font-size:10px;margin-bottom:4px}
+#cr-feed .cr-price-orig{font-size:17px;margin-bottom:2px}
+#cr-feed .cr-price-main{font-size:88px}
+#cr-feed .cr-price-inst{font-size:13px;margin-top:6px}
+#cr-feed .cr-cta{bottom:220px;right:60px;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+#cr-feed .cr-cta-btn{padding:22px 48px;font-size:16px;border-radius:6px}
+#cr-feed .cr-cta-sub{font-size:11px}
+#cr-feed .cr-footer{height:120px;padding:0 60px}
+#cr-feed .cr-trust{gap:28px}
+#cr-feed .cr-ti{gap:9px}
+#cr-feed .cr-ti-ico{width:28px;height:28px}
+#cr-feed .cr-ti-txt{font-size:10px}
+#cr-feed .cr-ti-txt strong{font-size:11px}
+#cr-feed .cr-url{font-size:11px}
+#cr-feed .deco-h{top:46px}
+#cr-feed .deco-h2{bottom:118px}
+#cr-feed .deco-v{left:60px}
+
+/* ══════ STORIES 1080×1920 ══════ */
+#cr-stories{width:1080px;height:1920px}
+#cr-stories .atm-k:nth-child(1){top:-300px;left:-160px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(56,150,255,.13),rgba(14,90,200,.05) 40%,transparent 65%)}
+#cr-stories .atm-k:nth-child(2){top:800px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(255,110,30,.08),transparent 65%)}
+#cr-stories .cr-header{top:60px;left:64px;right:64px}
+#cr-stories .cr-name{font-size:12px}
+#cr-stories .cr-col{font-size:9px}
+#cr-stories .cr-badge{top:140px;right:64px;width:110px;height:110px}
+#cr-stories .cr-badge-pct{font-size:38px}
+#cr-stories .cr-badge-off{font-size:11px}
+#cr-stories .cr-product{top:80px;left:50%;transform:translateX(-50%) rotate(-4deg);width:1180px;height:740px}
+#cr-stories .cr-floor{top:820px;left:50%;transform:translateX(-50%);width:900px;height:120px;background:radial-gradient(ellipse,rgba(56,150,255,.12),transparent 70%)}
+/* Overlay gradient bottom (separa produto do copy) */
+#cr-stories::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1100px;background:linear-gradient(180deg,transparent 0%,rgba(7,7,9,.96) 30%);z-index:8;pointer-events:none}
+#cr-stories .cr-copy{bottom:620px;left:64px;right:64px;z-index:20}
+#cr-stories .cr-eyebrow{font-size:11px;margin-bottom:18px}
+#cr-stories .cr-eyebrow::before{width:28px;height:2px}
+#cr-stories .cr-headline{font-size:106px;margin-bottom:18px}
+#cr-stories .cr-tagline{font-size:16px}
+#cr-stories .cr-divider{bottom:600px;left:64px;right:64px}
+#cr-stories .cr-price{bottom:420px;left:64px}
+#cr-stories .cr-price-lbl{font-size:11px;margin-bottom:6px}
+#cr-stories .cr-price-orig{font-size:20px;margin-bottom:4px}
+#cr-stories .cr-price-main{font-size:96px}
+#cr-stories .cr-price-inst{font-size:14px;margin-top:8px}
+#cr-stories .cr-cta{bottom:240px;left:64px;right:64px}
+#cr-stories .cr-cta-btn{width:100%;padding:26px;font-size:17px;border-radius:8px}
+#cr-stories .cr-cta-sub{font-size:12px;margin-top:10px;text-align:center}
+#cr-stories .cr-footer{height:220px;padding:0 64px}
+#cr-stories .cr-trust{gap:36px}
+#cr-stories .cr-ti{gap:11px}
+#cr-stories .cr-ti-ico{width:32px;height:32px}
+#cr-stories .cr-ti-txt{font-size:11px}
+#cr-stories .cr-ti-txt strong{font-size:13px}
+#cr-stories .cr-url{font-size:12px}
+#cr-stories .deco-h{top:54px}
+#cr-stories .deco-h2{bottom:218px}
+#cr-stories .deco-v{left:64px}
+
+/* ══════ BANNER 1920×1080 ══════ */
+#cr-banner{width:1920px;height:1080px}
+#cr-banner .atm-k:nth-child(1){top:-300px;right:-100px;width:1200px;height:1200px;background:radial-gradient(circle,rgba(56,150,255,.12),rgba(14,90,200,.04) 40%,transparent 65%)}
+#cr-banner .atm-k:nth-child(2){bottom:-100px;right:200px;width:800px;height:800px;background:radial-gradient(circle,rgba(255,110,30,.09),transparent 65%)}
+#cr-banner .cr-header{top:52px;left:80px;right:80px}
+#cr-banner .cr-name{font-size:13px}
+#cr-banner .cr-col{font-size:10px}
+#cr-banner .cr-badge{top:130px;left:80px;width:110px;height:110px}
+#cr-banner .cr-badge-pct{font-size:38px}
+#cr-banner .cr-badge-off{font-size:11px}
+#cr-banner .cr-product{right:-140px;top:-60px;width:1280px;height:1200px}
+#cr-banner .cr-floor{bottom:60px;right:100px;width:1000px;height:100px;background:radial-gradient(ellipse,rgba(56,150,255,.1),transparent 70%)}
+#cr-banner .cr-copy{left:80px;top:50%;transform:translateY(-50%);width:680px;margin-top:-40px}
+#cr-banner .cr-eyebrow{font-size:11px;margin-bottom:18px}
+#cr-banner .cr-eyebrow::before{width:26px;height:2px}
+#cr-banner .cr-headline{font-size:118px;margin-bottom:18px}
+#cr-banner .cr-tagline{font-size:17px;max-width:520px}
+#cr-banner .cr-price{left:80px;bottom:240px}
+#cr-banner .cr-price-lbl{font-size:11px;margin-bottom:5px}
+#cr-banner .cr-price-orig{font-size:20px;margin-bottom:4px}
+#cr-banner .cr-price-main{font-size:92px}
+#cr-banner .cr-price-inst{font-size:15px;margin-top:8px}
+#cr-banner .cr-cta{left:80px;bottom:240px;display:flex;align-items:center;gap:20px;width:680px}
+#cr-banner .cr-cta-offset{transform:translateY(120px)}
+#cr-banner .cr-cta-btn{padding:22px 56px;font-size:16px;border-radius:6px;white-space:nowrap}
+#cr-banner .cr-cta-sub{font-size:12px}
+#cr-banner .cr-footer{height:100px;padding:0 80px}
+#cr-banner .cr-trust{gap:36px}
+#cr-banner .cr-ti{gap:10px}
+#cr-banner .cr-ti-ico{width:28px;height:28px}
+#cr-banner .cr-ti-txt{font-size:11px}
+#cr-banner .cr-ti-txt strong{font-size:12px}
+#cr-banner .cr-url{font-size:12px}
+#cr-banner .deco-h{top:46px}
+#cr-banner .deco-h2{bottom:98px}
+#cr-banner .deco-v{left:80px}
+/* Linha divisória vertical no banner */
+#cr-banner .deco-vv{position:absolute;top:0;bottom:0;width:1px;left:820px;background:linear-gradient(180deg,transparent 4%,rgba(255,255,255,.06) 30%,rgba(255,255,255,.06) 70%,transparent 96%)}
+
+/* ══════ MOBILE 1200×1600 ══════ */
+#cr-mobile{width:1200px;height:1600px}
+#cr-mobile .atm-k:nth-child(1){top:-220px;left:-120px;width:900px;height:900px;background:radial-gradient(circle,rgba(56,150,255,.13),rgba(14,90,200,.05) 40%,transparent 65%)}
+#cr-mobile .atm-k:nth-child(2){bottom:80px;right:-80px;width:620px;height:620px;background:radial-gradient(circle,rgba(255,110,30,.09),transparent 65%)}
+#cr-mobile .cr-header{top:56px;left:64px;right:64px}
+#cr-mobile .cr-name{font-size:12px}
+#cr-mobile .cr-col{font-size:9px}
+#cr-mobile .cr-badge{top:130px;right:64px;width:104px;height:104px}
+#cr-mobile .cr-badge-pct{font-size:36px}
+#cr-mobile .cr-badge-off{font-size:10px}
+#cr-mobile .cr-product{top:80px;left:50%;transform:translateX(-50%) rotate(-5deg);width:1280px;height:800px}
+#cr-mobile .cr-floor{top:880px;left:50%;transform:translateX(-50%);width:860px;height:110px;background:radial-gradient(ellipse,rgba(56,150,255,.11),transparent 70%)}
+#cr-mobile::after{content:'';position:absolute;left:0;right:0;bottom:0;height:920px;background:linear-gradient(180deg,transparent,rgba(7,7,9,.97) 28%);z-index:8;pointer-events:none}
+#cr-mobile .cr-copy{bottom:560px;left:64px;right:64px;z-index:20}
+#cr-mobile .cr-eyebrow{font-size:10px;margin-bottom:15px}
+#cr-mobile .cr-eyebrow::before{width:24px;height:2px}
+#cr-mobile .cr-headline{font-size:104px;margin-bottom:16px}
+#cr-mobile .cr-tagline{font-size:15px}
+#cr-mobile .cr-divider{bottom:540px;left:64px;right:64px}
+#cr-mobile .cr-price{bottom:360px;left:64px}
+#cr-mobile .cr-price-lbl{font-size:10px;margin-bottom:5px}
+#cr-mobile .cr-price-orig{font-size:18px;margin-bottom:3px}
+#cr-mobile .cr-price-main{font-size:92px}
+#cr-mobile .cr-price-inst{font-size:13px;margin-top:6px}
+#cr-mobile .cr-cta{bottom:196px;left:64px;right:64px}
+#cr-mobile .cr-cta-btn{width:100%;padding:24px;font-size:16px;border-radius:7px}
+#cr-mobile .cr-cta-sub{font-size:11px;margin-top:9px;text-align:center}
+#cr-mobile .cr-footer{height:184px;padding:0 64px}
+#cr-mobile .cr-trust{gap:28px}
+#cr-mobile .cr-ti{gap:9px}
+#cr-mobile .cr-ti-ico{width:28px;height:28px}
+#cr-mobile .cr-ti-txt{font-size:10px}
+#cr-mobile .cr-ti-txt strong{font-size:11px}
+#cr-mobile .cr-url{font-size:11px}
+#cr-mobile .deco-h{top:50px}
+#cr-mobile .deco-h2{bottom:182px}
+#cr-mobile .deco-v{left:64px}
+
+/* ── BOTTOM INFO BAR ── */
+.info-bar{
+  padding:20px 32px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.25)
+}
+.info-bar strong{color:rgba(255,255,255,.5)}
+</style>
+</head>
+<body>
+
+<!-- ── STUDIO BAR ── -->
+<div class="studio-bar">
+  <div class="studio-logo">Ad Studio <span>— Sportify AI</span></div>
+  <div class="studio-tabs">
+    <button class="studio-tab active" data-fmt="feed" onclick="setFmt(this)">Feed · 1080×1080</button>
+    <button class="studio-tab" data-fmt="stories" onclick="setFmt(this)">Stories · 1080×1920</button>
+    <button class="studio-tab" data-fmt="banner" onclick="setFmt(this)">Banner · 1920×1080</button>
+    <button class="studio-tab" data-fmt="mobile" onclick="setFmt(this)">Mobile · 1200×1600</button>
+  </div>
+  <div class="studio-actions">
+    <button class="bar-btn bar-btn-out" onclick="window.print()">Exportar PDF</button>
+    <button class="bar-btn bar-btn-fill" onclick="alert('Em produção: Export PNG via Playwright')">Exportar PNG</button>
+  </div>
+</div>
+
+<!-- ── PREVIEW ── -->
+<div class="preview-area">
+  <div class="scale-wrapper" id="sw">
+    <div class="creative-frame" id="cf">
+
+      <!-- ══════════════════════════════════════
+           FEED 1080 × 1080
+      ══════════════════════════════════════ -->
+      <div class="cr" id="cr-feed">
+        <div class="atm">
+          <div class="atm-k"></div>
+          <div class="atm-k"></div>
+          <div class="atm-grid"></div>
+          <div class="atm-vig"></div>
+        </div>
+        <div class="deco-h"></div>
+        <div class="deco-h deco-h2"></div>
+        <div class="deco-v"></div>
+
+        <div class="cr-header">
+          <div class="cr-brand"><div class="cr-dot"></div><div class="cr-name">Empório Norte · Belém</div></div>
+          <div class="cr-col">Coleção 2024</div>
+        </div>
+
+        <div class="cr-badge"><div class="cr-badge-pct">-40%</div><div class="cr-badge-off">OFF</div></div>
+
+        <div class="cr-product" data-shoe></div>
+
+        <div class="cr-floor"></div>
+
+        <div class="cr-copy">
+          <div class="cr-eyebrow">Tênis de Performance</div>
+          <div class="cr-headline">DOMINA<br>O JOGO.</div>
+          <div class="cr-tagline">Amortecimento de elite.<br>Para quem joga em alto nível.</div>
+        </div>
+
+        <div class="cr-divider"></div>
+
+        <div class="cr-price">
+          <div class="cr-price-lbl">Preço especial</div>
+          <div class="cr-price-orig">R$499</div>
+          <div class="cr-price-main">R$299</div>
+          <div class="cr-price-inst">ou <strong>10x R$29,90</strong> sem juros</div>
+        </div>
+
+        <div class="cr-cta">
+          <button class="cr-cta-btn">Comprar Agora</button>
+          <div class="cr-cta-sub">Frete grátis · Estoque limitado</div>
+        </div>
+
+        <div class="cr-footer">
+          <div class="cr-trust">
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Entrega Grátis</strong>acima de R$200</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 1 1 7 2M7 2L10 5M7 2L4 5" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Troca em 30 dias</strong>sem burocracia</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="6" width="10" height="7" rx="2" stroke="#22C55E" stroke-width="1.8"/><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Pagamento Seguro</strong>SSL certificado</div>
+            </div>
+          </div>
+          <div class="cr-url">empórionorte.com</div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           STORIES 1080 × 1920
+      ══════════════════════════════════════ -->
+      <div class="cr" id="cr-stories" style="display:none">
+        <div class="atm">
+          <div class="atm-k"></div>
+          <div class="atm-k"></div>
+          <div class="atm-grid"></div>
+          <div class="atm-vig"></div>
+        </div>
+        <div class="deco-h"></div>
+        <div class="deco-h deco-h2"></div>
+        <div class="deco-v"></div>
+
+        <div class="cr-header">
+          <div class="cr-brand"><div class="cr-dot"></div><div class="cr-name">Empório Norte · Belém</div></div>
+          <div class="cr-col">Coleção 2024</div>
+        </div>
+
+        <div class="cr-badge"><div class="cr-badge-pct">-40%</div><div class="cr-badge-off">OFF</div></div>
+
+        <div class="cr-product" data-shoe></div>
+        <div class="cr-floor"></div>
+
+        <div class="cr-copy">
+          <div class="cr-eyebrow">Tênis de Performance · Edição Limitada</div>
+          <div class="cr-headline">DOMINA<br>O JOGO.</div>
+          <div class="cr-tagline">Amortecimento de elite para quem<br>treina e compete em alto nível.</div>
+        </div>
+
+        <div class="cr-divider"></div>
+
+        <div class="cr-price">
+          <div class="cr-price-lbl">Preço especial hoje</div>
+          <div class="cr-price-orig">R$499</div>
+          <div class="cr-price-main">R$299</div>
+          <div class="cr-price-inst">ou <strong>10x de R$29,90</strong> sem juros</div>
+        </div>
+
+        <div class="cr-cta">
+          <button class="cr-cta-btn">Comprar Agora — R$299</button>
+          <div class="cr-cta-sub">Clique e garanta antes que acabe o estoque</div>
+        </div>
+
+        <div class="cr-footer">
+          <div class="cr-trust">
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Entrega Grátis</strong>acima de R$200</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="6" width="10" height="7" rx="2" stroke="#22C55E" stroke-width="1.8"/><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Pagamento Seguro</strong>SSL certificado</div>
+            </div>
+          </div>
+          <div class="cr-url">empórionorte.com</div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           BANNER 1920 × 1080
+      ══════════════════════════════════════ -->
+      <div class="cr" id="cr-banner" style="display:none">
+        <div class="atm">
+          <div class="atm-k"></div>
+          <div class="atm-k"></div>
+          <div class="atm-grid"></div>
+          <div class="atm-vig"></div>
+        </div>
+        <div class="deco-h"></div>
+        <div class="deco-h deco-h2"></div>
+        <div class="deco-v"></div>
+        <div class="deco-vv"></div>
+
+        <div class="cr-header">
+          <div class="cr-brand"><div class="cr-dot"></div><div class="cr-name">Empório Norte · Belém</div></div>
+          <div class="cr-col">Coleção 2024</div>
+        </div>
+
+        <div class="cr-badge"><div class="cr-badge-pct">-40%</div><div class="cr-badge-off">OFF</div></div>
+
+        <div class="cr-product" data-shoe></div>
+        <div class="cr-floor"></div>
+
+        <div class="cr-copy">
+          <div class="cr-eyebrow">Ultra Boost X · Performance Edition</div>
+          <div class="cr-headline">DOMINA<br>O JOGO.</div>
+          <div class="cr-tagline">Amortecimento de elite para atletas<br>que não aceitam limitações.</div>
+        </div>
+
+        <div class="cr-price" style="top:auto">
+          <div class="cr-price-lbl">Preço especial</div>
+          <div class="cr-price-orig">R$499</div>
+          <div class="cr-price-main">R$299</div>
+          <div class="cr-price-inst">ou <strong>10x R$29,90</strong> sem juros</div>
+        </div>
+
+        <div class="cr-cta cr-cta-offset">
+          <button class="cr-cta-btn">Comprar Agora</button>
+          <div class="cr-cta-sub" style="margin-top:8px">Frete grátis · Estoque limitado</div>
+        </div>
+
+        <div class="cr-footer">
+          <div class="cr-trust">
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Entrega Grátis</strong>acima de R$200</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 1 1 7 2M7 2L10 5M7 2L4 5" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Troca em 30 dias</strong>sem burocracia</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="6" width="10" height="7" rx="2" stroke="#22C55E" stroke-width="1.8"/><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Pagamento Seguro</strong>SSL certificado</div>
+            </div>
+          </div>
+          <div class="cr-url">empórionorte.com</div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           MOBILE 1200 × 1600
+      ══════════════════════════════════════ -->
+      <div class="cr" id="cr-mobile" style="display:none">
+        <div class="atm">
+          <div class="atm-k"></div>
+          <div class="atm-k"></div>
+          <div class="atm-grid"></div>
+          <div class="atm-vig"></div>
+        </div>
+        <div class="deco-h"></div>
+        <div class="deco-h deco-h2"></div>
+        <div class="deco-v"></div>
+
+        <div class="cr-header">
+          <div class="cr-brand"><div class="cr-dot"></div><div class="cr-name">Empório Norte · Belém</div></div>
+          <div class="cr-col">Coleção 2024</div>
+        </div>
+
+        <div class="cr-badge"><div class="cr-badge-pct">-40%</div><div class="cr-badge-off">OFF</div></div>
+
+        <div class="cr-product" data-shoe></div>
+        <div class="cr-floor"></div>
+
+        <div class="cr-copy">
+          <div class="cr-eyebrow">Tênis de Performance</div>
+          <div class="cr-headline">DOMINA<br>O JOGO.</div>
+          <div class="cr-tagline">Amortecimento de elite para quem<br>treina no limite todos os dias.</div>
+        </div>
+
+        <div class="cr-divider"></div>
+
+        <div class="cr-price">
+          <div class="cr-price-lbl">Oferta exclusiva</div>
+          <div class="cr-price-orig">R$499</div>
+          <div class="cr-price-main">R$299</div>
+          <div class="cr-price-inst">ou <strong>10x de R$29,90</strong> sem juros</div>
+        </div>
+
+        <div class="cr-cta">
+          <button class="cr-cta-btn">Comprar Agora</button>
+          <div class="cr-cta-sub">Frete grátis · Estoque limitado</div>
+        </div>
+
+        <div class="cr-footer">
+          <div class="cr-trust">
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Entrega Grátis</strong>acima de R$200</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 1 1 7 2M7 2L10 5M7 2L4 5" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Troca em 30 dias</strong>sem burocracia</div>
+            </div>
+            <div class="cr-ti">
+              <div class="cr-ti-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="6" width="10" height="7" rx="2" stroke="#22C55E" stroke-width="1.8"/><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+              <div class="cr-ti-txt"><strong>Pagamento Seguro</strong>SSL certificado</div>
+            </div>
+          </div>
+          <div class="cr-url">empórionorte.com</div>
+        </div>
+      </div>
+
+    </div><!-- /creative-frame -->
+  </div><!-- /scale-wrapper -->
+</div><!-- /preview-area -->
+
+<div class="info-bar">
+  <div>Para substituir o produto: troque o SVG por uma tag <strong>&lt;img&gt;</strong> com sua foto real no seletor <strong>[data-shoe]</strong></div>
+  <div>Negative prompt aplicado: sem emojis · sem ícones genéricos · sem flat design · sem Canva · composição profissional</div>
+</div>
+
+<!-- ═══════════════ SHOE SVG + LOGIC ═══════════════ -->
+<script>
+/* ── TÊNIS SVG (produto principal) ── */
+const SHOE = `
+<svg viewBox="0 0 1240 760" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;overflow:visible">
+<defs>
+  <linearGradient id="gU" x1="10%" y1="5%" x2="90%" y2="95%">
+    <stop offset="0%" stop-color="#1c2d42"/><stop offset="30%" stop-color="#111820"/>
+    <stop offset="70%" stop-color="#0a0b10"/><stop offset="100%" stop-color="#050507"/>
+  </linearGradient>
+  <radialGradient id="gSp" cx="26%" cy="28%" r="48%">
+    <stop offset="0%" stop-color="rgba(130,190,255,.22)"/>
+    <stop offset="40%" stop-color="rgba(90,150,220,.08)"/>
+    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+  </radialGradient>
+  <linearGradient id="gRm" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="rgba(255,110,30,.32)"/>
+    <stop offset="60%" stop-color="rgba(255,110,30,.05)"/>
+    <stop offset="100%" stop-color="rgba(255,110,30,0)"/>
+  </linearGradient>
+  <linearGradient id="gMd" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#ebebed"/><stop offset="35%" stop-color="#d8d9db"/>
+    <stop offset="100%" stop-color="#a0a2a5"/>
+  </linearGradient>
+  <linearGradient id="gOt" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#222225"/><stop offset="100%" stop-color="#0c0c0e"/>
+  </linearGradient>
+  <linearGradient id="gGn" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#22C55E"/><stop offset="100%" stop-color="#16A34A"/>
+  </linearGradient>
+  <filter id="fSh" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter>
+  <filter id="fGl" x="-10%" y="-10%" width="120%" height="120%">
+    <feGaussianBlur stdDeviation="8" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<!-- Sombra chão -->
+<ellipse cx="620" cy="715" rx="420" ry="36" fill="rgba(0,0,0,.72)" filter="url(#fSh)"/>
+<!-- Reflexo chão -->
+<g transform="translate(0,724) scale(1,-0.1)" opacity=".18">
+  <path d="M220,640 L240,660 L980,660 L1005,640Z" fill="#d8d9db"/>
+</g>
+
+<!-- OUTSOLE -->
+<path d="M230,695 Q230,718 268,728 L870,728 Q960,724 990,700 Q1002,682 985,668 L870,668 L262,668 Q230,672 230,695Z" fill="url(#gOt)"/>
+<g fill="rgba(0,0,0,.55)">
+  <rect x="270" y="710" width="48" height="10" rx="3"/><rect x="336" y="710" width="48" height="10" rx="3"/>
+  <rect x="402" y="710" width="48" height="10" rx="3"/><rect x="468" y="710" width="48" height="10" rx="3"/>
+  <rect x="534" y="710" width="48" height="10" rx="3"/><rect x="600" y="710" width="48" height="10" rx="3"/>
+  <rect x="666" y="710" width="48" height="10" rx="3"/><rect x="732" y="710" width="48" height="10" rx="3"/>
+  <rect x="820" y="704" width="38" height="14" rx="4"/><rect x="872" y="700" width="38" height="14" rx="4"/>
+  <rect x="924" y="694" width="38" height="14" rx="4"/><rect x="242" y="702" width="28" height="14" rx="4"/>
+</g>
+
+<!-- MIDSOLE -->
+<path d="M238,608 L238,668 L870,668 L988,668 Q1000,650 996,628 Q990,608 964,602 L870,598 L250,598 Q238,601 238,608Z" fill="url(#gMd)"/>
+<line x1="252" y1="634" x2="958" y2="634" stroke="rgba(170,172,176,.5)" stroke-width="1.5"/>
+<path d="M240,600 Q480,592 620,591 Q780,590 962,603" stroke="rgba(255,255,255,.55)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<g fill="rgba(190,192,196,.4)">
+  <circle cx="320" cy="624" r="3.5"/><circle cx="390" cy="624" r="3.5"/><circle cx="460" cy="624" r="3.5"/>
+  <circle cx="530" cy="624" r="3.5"/><circle cx="600" cy="624" r="3.5"/><circle cx="670" cy="624" r="3.5"/>
+  <circle cx="740" cy="624" r="3.5"/><circle cx="810" cy="624" r="3.5"/><circle cx="880" cy="624" r="3.5"/>
+</g>
+<path d="M250,596 Q480,588 620,587 Q790,586 960,600 L960,606 Q790,592 620,593 Q480,594 250,602Z" fill="url(#gGn)" opacity=".7"/>
+
+<!-- UPPER -->
+<path d="M244,598 L244,474 Q248,440 274,414 Q294,392 338,376 L448,352 Q532,330 592,310 Q650,292 710,274 Q768,258 824,260 Q880,263 924,282 Q966,302 980,340 L990,406 Q996,510 992,598 L248,598Z" fill="url(#gU)" filter="url(#fGl)"/>
+<path d="M244,598 L244,474 Q248,440 274,414 Q294,392 338,376 L448,352 Q532,330 592,310 Q650,292 710,274 Q768,258 824,260 Q880,263 924,282 Q966,302 980,340 L990,406 Q996,510 992,598 L248,598Z" fill="url(#gSp)"/>
+<path d="M244,474 L244,598 L296,598 L292,474 Q248,440 274,414 Q258,442 244,474Z" fill="url(#gRm)"/>
+
+<!-- HEEL COUNTER -->
+<path d="M244,474 Q248,440 274,414 Q294,392 338,376 Q318,402 310,448 Q302,492 300,554 L300,598 L248,598 L244,554 L244,474Z" fill="rgba(15,24,38,.88)"/>
+<path d="M295,600 Q290,540 298,456 Q304,416 322,386" stroke="rgba(255,255,255,.06)" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+
+<!-- COLARINHO -->
+<path d="M248,472 Q254,444 278,420 Q300,398 340,378 Q360,390 358,414 Q336,414 318,430 Q296,454 286,484 Q276,512 274,556 L254,556 Q248,524 248,472Z" fill="rgba(0,0,0,.75)"/>
+<path d="M286,486 Q298,456 320,432 Q342,412 362,410 Q360,396 340,380" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+<!-- PAINEL CADARÇOS -->
+<path d="M362,412 Q448,388 528,364 Q598,342 652,322 Q648,348 644,358 Q588,376 518,398 Q440,422 364,446 Q360,430 362,412Z" fill="rgba(255,255,255,.058)"/>
+
+<!-- CADARÇOS + ILHOSES -->
+<g fill="rgba(255,255,255,.72)" stroke="rgba(0,0,0,.4)" stroke-width="1">
+  <circle cx="404" cy="414" r="5"/><circle cx="458" cy="400" r="5"/>
+  <circle cx="512" cy="387" r="5"/><circle cx="566" cy="374" r="5"/><circle cx="618" cy="362" r="5"/>
+</g>
+<g fill="rgba(255,255,255,.5)" stroke="rgba(0,0,0,.35)" stroke-width="1">
+  <circle cx="408" cy="438" r="4.5"/><circle cx="462" cy="424" r="4.5"/>
+  <circle cx="516" cy="411" r="4.5"/><circle cx="570" cy="398" r="4.5"/><circle cx="622" cy="386" r="4.5"/>
+</g>
+<g stroke="rgba(240,242,245,.42)" stroke-width="2.5" stroke-linecap="round" fill="none">
+  <line x1="404" y1="414" x2="458" y2="400"/><line x1="408" y1="438" x2="462" y2="424"/>
+  <line x1="458" y1="400" x2="512" y2="387"/><line x1="462" y1="424" x2="516" y2="411"/>
+  <line x1="512" y1="387" x2="566" y2="374"/><line x1="516" y1="411" x2="570" y2="398"/>
+  <line x1="566" y1="374" x2="618" y2="362"/><line x1="570" y1="398" x2="622" y2="386"/>
+</g>
+<g stroke="rgba(240,242,245,.55)" stroke-width="3" stroke-linecap="round" fill="none">
+  <line x1="404" y1="414" x2="408" y2="438"/><line x1="458" y1="400" x2="462" y2="424"/>
+  <line x1="512" y1="387" x2="516" y2="411"/><line x1="566" y1="374" x2="570" y2="398"/>
+  <line x1="618" y1="362" x2="622" y2="386"/>
+</g>
+
+<!-- LÍNGUA -->
+<path d="M364,444 Q372,520 374,572 Q374,592 372,598 L346,598 Q344,592 344,572 Q344,520 338,446 Q350,440 364,444Z" fill="#141820"/>
+<rect x="349" y="492" width="20" height="26" rx="4" fill="rgba(34,197,94,.25)" stroke="rgba(34,197,94,.45)" stroke-width="1.2"/>
+<text x="354" y="509" fill="rgba(34,197,94,.8)" font-size="8" font-weight="900" font-family="Inter,sans-serif">NT</text>
+
+<!-- LOGO STRIPE -->
+<path d="M580,452 Q665,428 758,424 Q832,422 878,440 Q915,454 926,476 Q894,470 852,468 Q778,466 698,474 Q616,484 578,500 Q573,482 580,452Z" fill="url(#gGn)" opacity=".14" stroke="rgba(34,197,94,.22)" stroke-width="1.5"/>
+<path d="M720,442 L736,458 L752,442 L748,438 L736,450 L724,438Z" fill="rgba(34,197,94,.5)"/>
+
+<!-- BICO (TOE CAP) -->
+<path d="M900,316 Q948,338 966,378 Q980,410 984,448 L992,498 Q974,474 952,452 Q928,428 904,410 Q882,394 862,382 Q880,350 900,316Z" fill="rgba(255,255,255,.03)"/>
+<path d="M900,318 Q946,340 964,380 Q978,412 982,450" stroke="rgba(255,255,255,.14)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+<!-- MESH TEXTURE -->
+<g stroke="rgba(255,255,255,1)" stroke-width="1.2" opacity=".028" fill="none">
+  <line x1="368" y1="450" x2="870" y2="392"/><line x1="368" y1="480" x2="872" y2="424"/>
+  <line x1="368" y1="510" x2="875" y2="456"/><line x1="368" y1="540" x2="876" y2="488"/>
+  <line x1="368" y1="570" x2="876" y2="524"/>
+  <line x1="410" y1="382" x2="405" y2="596"/><line x1="470" y1="364" x2="466" y2="596"/>
+  <line x1="530" y1="348" x2="527" y2="596"/><line x1="590" y1="332" x2="588" y2="596"/>
+  <line x1="650" y1="318" x2="648" y2="596"/><line x1="710" y1="308" x2="708" y2="596"/>
+  <line x1="770" y1="302" x2="769" y2="596"/><line x1="830" y1="300" x2="830" y2="596"/>
+  <line x1="890" y1="320" x2="890" y2="596"/>
+</g>
+
+<!-- DETALHE CROMADO CALCANHAR -->
+<path d="M260,490 Q265,470 280,455 Q262,472 258,494 Q255,514 258,540 L268,540 Q264,516 260,490Z" fill="rgba(150,200,255,.1)"/>
+<!-- Reflexo mini no bico -->
+<ellipse cx="970" cy="366" rx="14" ry="8" fill="rgba(255,255,255,.1)" transform="rotate(-30,970,366)"/>
+</svg>`;
+
+/* ── INJETAR SHOE EM TODOS OS FORMATOS ── */
+document.querySelectorAll('[data-shoe]').forEach(el => { el.innerHTML = SHOE; });
+
+/* ── FORMATO CONFIG ── */
+const FMT = {
+  feed:    { w:1080, h:1080  },
+  stories: { w:1080, h:1920  },
+  banner:  { w:1920, h:1080  },
+  mobile:  { w:1200, h:1600  }
+};
+
+let current = 'feed';
+
+function setFmt(btn) {
+  document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  current = btn.dataset.fmt;
+  Object.keys(FMT).forEach(k => {
+    document.getElementById('cr-' + k).style.display = (k === current) ? 'block' : 'none';
+  });
+  scale();
+}
+
+function scale() {
+  const { w, h } = FMT[current];
+  const aw = window.innerWidth - 80;
+  const ah = window.innerHeight - 160;
+  const s = Math.min(aw / w, ah / h, 0.65);
+  const sw = document.getElementById('sw');
+  const cf = document.getElementById('cf');
+  sw.style.width  = (w * s) + 'px';
+  sw.style.height = (h * s) + 'px';
+  cf.style.transform = `scale(${s})`;
+  cf.style.transformOrigin = 'top left';
+}
+
+scale();
+window.addEventListener('resize', scale);
+</script>
+</body>
+</html>

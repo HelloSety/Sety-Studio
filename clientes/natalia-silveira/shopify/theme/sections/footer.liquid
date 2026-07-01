@@ -1,0 +1,235 @@
+<footer class="site-footer">
+  <div class="footer-grid">
+    <!-- Brand -->
+    <div>
+      <span class="logo-text-footer">
+        {{ section.settings.logo_line1 | default: 'NATALIA' }}<br>
+        {{ section.settings.logo_line2 | default: 'SILVEIRA' }}
+      </span>
+      <p class="footer-tagline">{{ section.settings.tagline | default: 'Arte em macramê premium, criada à mão no Brasil.' }}</p>
+    </div>
+
+    <!-- Links -->
+    <div class="footer-col">
+      <p class="footer-col-title">{{ section.settings.col1_title | default: 'LINKS' }}</p>
+      {%- assign menu1 = linklists[section.settings.footer_menu] -%}
+      {%- if menu1.links.size > 0 -%}
+        {%- for link in menu1.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="{{ routes.root_url }}">{{ section.settings.link1_1 | default: 'Casa' }}</a>
+        <a href="{{ routes.all_products_collection_url }}">{{ section.settings.link1_2 | default: 'Comprar' }}</a>
+        <a href="/pages/sobre">{{ section.settings.link1_3 | default: 'Sobre' }}</a>
+        <a href="/pages/politicas">{{ section.settings.link1_4 | default: 'Políticas' }}</a>
+      {%- endif -%}
+    </div>
+
+    <!-- Info -->
+    <div class="footer-col">
+      <p class="footer-col-title">{{ section.settings.col2_title | default: 'INFORMAÇÕES' }}</p>
+      {%- assign menu2 = linklists[section.settings.footer_info_menu] -%}
+      {%- if menu2.links.size > 0 -%}
+        {%- for link in menu2.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="{{ section.settings.info1_url | default: '/pages/politicas' }}">{{ section.settings.info1_text | default: 'Trocas e Devoluções' }}</a>
+        <a href="{{ section.settings.info2_url | default: '/pages/politicas' }}">{{ section.settings.info2_text | default: 'Frete e Envio' }}</a>
+        <a href="{{ section.settings.info3_url | default: '/pages/sobre' }}">{{ section.settings.info3_text | default: 'Sobre a Marca' }}</a>
+        <a href="{{ section.settings.info4_url | default: '/pages/sobre' }}">{{ section.settings.info4_text | default: 'Sobre a Fundadora' }}</a>
+      {%- endif -%}
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col">
+      <p class="footer-col-title">{{ section.settings.col3_title | default: 'NEWSLETTER' }}</p>
+      {%- form 'customer', class: 'footer-newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p style="font-size:11px;letter-spacing:1px;color:#ccc;">{{ section.settings.nl_success | default: 'Obrigada!' }}</p>
+        {%- else -%}
+          <input class="footer-nl-input" type="email" name="contact[email]" placeholder="{{ section.settings.nl_placeholder | default: 'Seu e-mail' }}" required>
+          <button type="submit" class="footer-nl-btn">{{ section.settings.nl_btn | default: 'ASSINAR' }}</button>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">{{ section.settings.copyright | default: '© 2026 Natalia Silveira. Todos os direitos reservados.' }}</p>
+    <div class="footer-lang">
+      <a href="#" class="active" data-sl="pt">PORTUGUÊS</a>
+      <a href="#" data-sl="en">ENGLISH</a>
+      <a href="#" data-sl="es">ESPAÑOL</a>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_line1",
+      "label": "Logo — Linha 1",
+      "default": "NATALIA"
+    },
+    {
+      "type": "text",
+      "id": "logo_line2",
+      "label": "Logo — Linha 2",
+      "default": "SILVEIRA"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Arte em macramê premium, criada à mão no Brasil."
+    },
+    {
+      "type": "header",
+      "content": "Coluna Links"
+    },
+    {
+      "type": "text",
+      "id": "col1_title",
+      "label": "Título da coluna",
+      "default": "LINKS"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Menu (opcional — sobrescreve links abaixo)",
+      "info": "Crie em: Online Store → Navigation → Footer Menu"
+    },
+    {
+      "type": "text",
+      "id": "link1_1",
+      "label": "Link 1 — Texto",
+      "default": "Casa"
+    },
+    {
+      "type": "text",
+      "id": "link1_2",
+      "label": "Link 2 — Texto",
+      "default": "Comprar"
+    },
+    {
+      "type": "text",
+      "id": "link1_3",
+      "label": "Link 3 — Texto",
+      "default": "Sobre"
+    },
+    {
+      "type": "text",
+      "id": "link1_4",
+      "label": "Link 4 — Texto",
+      "default": "Políticas"
+    },
+    {
+      "type": "header",
+      "content": "Coluna Informações"
+    },
+    {
+      "type": "text",
+      "id": "col2_title",
+      "label": "Título da coluna",
+      "default": "INFORMAÇÕES"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_info_menu",
+      "label": "Menu (opcional — sobrescreve links abaixo)",
+      "info": "Crie em: Online Store → Navigation → Footer Info"
+    },
+    {
+      "type": "text",
+      "id": "info1_text",
+      "label": "Info 1 — Texto",
+      "default": "Trocas e Devoluções"
+    },
+    {
+      "type": "url",
+      "id": "info1_url",
+      "label": "Info 1 — Link"
+    },
+    {
+      "type": "text",
+      "id": "info2_text",
+      "label": "Info 2 — Texto",
+      "default": "Frete e Envio"
+    },
+    {
+      "type": "url",
+      "id": "info2_url",
+      "label": "Info 2 — Link"
+    },
+    {
+      "type": "text",
+      "id": "info3_text",
+      "label": "Info 3 — Texto",
+      "default": "Sobre a Marca"
+    },
+    {
+      "type": "url",
+      "id": "info3_url",
+      "label": "Info 3 — Link"
+    },
+    {
+      "type": "text",
+      "id": "info4_text",
+      "label": "Info 4 — Texto",
+      "default": "Sobre a Fundadora"
+    },
+    {
+      "type": "url",
+      "id": "info4_url",
+      "label": "Info 4 — Link"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "col3_title",
+      "label": "Título da coluna",
+      "default": "NEWSLETTER"
+    },
+    {
+      "type": "text",
+      "id": "nl_placeholder",
+      "label": "Placeholder do e-mail",
+      "default": "Seu e-mail"
+    },
+    {
+      "type": "text",
+      "id": "nl_btn",
+      "label": "Texto do botão",
+      "default": "ASSINAR"
+    },
+    {
+      "type": "text",
+      "id": "nl_success",
+      "label": "Mensagem de confirmação",
+      "default": "Obrigada! Em breve você receberá nossas novidades."
+    },
+    {
+      "type": "header",
+      "content": "Rodapé"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Texto de copyright",
+      "default": "© 2026 Natalia Silveira. Todos os direitos reservados."
+    }
+  ]
+}
+{% endschema %}

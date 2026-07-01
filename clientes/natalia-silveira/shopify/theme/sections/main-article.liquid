@@ -1,0 +1,54 @@
+<article style="max-width:800px;margin:60px auto;padding:0 24px;">
+  {%- if section.settings.show_back_link -%}
+    <a href="{{ blog.url }}" style="font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px;color:#767676;text-decoration:none;display:inline-block;margin-bottom:40px;">
+      {{ section.settings.back_text | default: '← Voltar ao Blog' }}
+    </a>
+  {%- endif -%}
+
+  {%- if article.image -%}
+    <img src="{{ article.image | image_url: width: 1200 }}"
+      alt="{{ article.image.alt | default: article.title }}"
+      loading="eager" width="1200" height="600"
+      style="width:100%;aspect-ratio:2/1;object-fit:cover;margin-bottom:40px;">
+  {%- endif -%}
+
+  {%- if section.settings.show_date -%}
+    <p style="font-size:10px;letter-spacing:2px;color:#767676;margin-bottom:12px;">
+      {{ article.published_at | date: '%d/%m/%Y' }}
+    </p>
+  {%- endif -%}
+
+  <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(24px,3vw,36px);margin-bottom:32px;">
+    {{ article.title }}
+  </h1>
+
+  <div class="rte" style="font-family:Jost,sans-serif;font-size:14px;line-height:1.9;color:#333;">
+    {{ article.content }}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Artigo",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_back_link",
+      "label": "Mostrar link voltar ao blog",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "back_text",
+      "label": "Texto do link voltar",
+      "default": "← Voltar ao Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Mostrar data de publicação",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

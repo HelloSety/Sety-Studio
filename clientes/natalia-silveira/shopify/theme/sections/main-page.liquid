@@ -1,0 +1,25 @@
+<div class="page-wrap" style="max-width:800px;margin:80px auto;padding:0 24px;">
+  {%- if section.settings.show_title -%}
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;letter-spacing:4px;margin-bottom:40px;">
+      {{ page.title }}
+    </h1>
+    <hr style="border:none;border-top:1px solid #E5E5E5;margin-bottom:40px;">
+  {%- endif -%}
+  <div class="rte" style="font-family:Jost,sans-serif;font-size:14px;line-height:1.8;color:#444;">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Página",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Mostrar título da página",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

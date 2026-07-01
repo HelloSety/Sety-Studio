@@ -1,0 +1,186 @@
+{
+  "name": "Sety Studio — Bot WhatsApp Completo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evolution",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "wbot-001",
+      "name": "Receber Mensagem WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Processar mensagem e gerenciar conversa ───────────────────────────────\nconst body = $input.first().json;\n\n// Estrutura da Evolution API v2\nconst msgData = body.data;\nif (!msgData) return [];\n\n// Ignorar mensagens enviadas pelo próprio bot\nif (msgData.key?.fromMe === true) return [];\n\n// Ignorar se não houver mensagem de texto\nconst message = (\n  msgData.message?.conversation ||\n  msgData.message?.extendedTextMessage?.text ||\n  msgData.message?.buttonsResponseMessage?.selectedDisplayText ||\n  ''\n).trim();\n\nif (!message) return [];\n\n// Extrair telefone\nconst phone = (msgData.key?.remoteJid || '').replace('@s.whatsapp.net', '');\nif (!phone) return [];\n\n// ── Estado da conversa (persiste no banco do N8N) ─────────────────────────\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.conv) staticData.conv = {};\n\nconst conv = staticData.conv[phone] || { step: 0 };\nconst step = conv.step;\n\nlet reply = '';\nlet nextStep = step;\n\n// ── Fluxo de perguntas ────────────────────────────────────────────────────\nif (step === 0) {\n  reply = 'Olá! Sou a assistente da Sety Studio. 👋\\n\\nVou te fazer 5 perguntas rápidas para entender seu projeto.\\n\\nQual é o seu nome?';\n  nextStep = 1;\n\n} else if (step === 1) {\n  conv.nome = message;\n  reply = `Prazer, ${message}! 😊\\n\\nQuando você quer lançar sua loja?\\n\\n1️⃣ Essa semana\\n2️⃣ Este mês\\n3️⃣ Em 3 meses\\n4️⃣ Sem prazo definido`;\n  nextStep = 2;\n\n} else if (step === 2) {\n  const map = { '1': 'Essa semana', '2': 'Este mês', '3': 'Em 3 meses', '4': 'Sem prazo definido' };\n  conv.prazo = map[message] || message;\n  reply = 'Qual faixa de investimento você considera?\\n\\n1️⃣ Até R$ 800\\n2️⃣ R$ 800 a R$ 1.500\\n3️⃣ R$ 1.500 a R$ 3.000\\n4️⃣ Acima de R$ 3.000';\n  nextStep = 3;\n\n} else if (step === 3) {\n  const map = { '1': 'Até R$ 800', '2': 'R$ 800 a R$ 1.500', '3': 'R$ 1.500 a R$ 3.000', '4': 'Acima de R$ 3.000' };\n  conv.investimento = map[message] || message;\n  reply = 'Você já tem fornecedor?\\n\\n1️⃣ Sim, já tenho\\n2️⃣ Ainda buscando\\n3️⃣ Não tenho';\n  nextStep = 4;\n\n} else if (step === 4) {\n  const map = { '1': 'Sim, já tenho', '2': 'Ainda buscando', '3': 'Não tenho' };\n  conv.fornecedor = map[message] || message;\n  reply = 'Última pergunta! Qual plataforma prefere?\\n\\n1️⃣ Shopify\\n2️⃣ Nuvemshop\\n3️⃣ Não sei ainda';\n  nextStep = 5;\n\n} else if (step === 5) {\n  const map = { '1': 'Shopify', '2': 'Nuvemshop', '3': 'Não sei ainda' };\n  conv.plataforma = map[message] || message;\n\n  // ── Calcular Score ─────────────────────────────────────────────────────\n  let score = 0;\n\n  if (conv.prazo === 'Essa semana') score += 25;\n  else if (conv.prazo === 'Este mês') score += 20;\n  else if (conv.prazo === 'Em 3 meses') score += 10;\n\n  if (conv.investimento === 'Acima de R$ 3.000') score += 25;\n  else if (conv.investimento === 'R$ 1.500 a R$ 3.000') score += 20;\n  else if (conv.investimento === 'R$ 800 a R$ 1.500') score += 10;\n\n  if (conv.fornecedor === 'Sim, já tenho') score += 25;\n  else if (conv.fornecedor === 'Ainda buscando') score += 10;\n\n  if (conv.plataforma === 'Shopify') score += 25;\n  else if (conv.plataforma === 'Nuvemshop') score += 15;\n  else score += 5;\n\n  let classificacao, emoji;\n  if (score >= 71) { classificacao = 'Lead Quente'; emoji = '\\uD83D\\uDD25'; }\n  else if (score >= 41) { classificacao = 'Lead Morno'; emoji = '\\uD83C\\uDF21\\uFE0F'; }\n  else { classificacao = 'Lead Frio'; emoji = '\\u2744\\uFE0F'; }\n\n  conv.score = score;\n  conv.classificacao = classificacao;\n  conv.emoji = emoji;\n  conv.telefone = phone;\n  conv.completed = true;\n\n  const agora = new Date();\n  agora.setHours(agora.getHours() - 3);\n  conv.data_hora = agora.toISOString().replace('T', ' ').substring(0, 16);\n\n  reply = `Perfeito! \\uD83C\\uDF89\\n\\nRecebi suas informações. Nossa equipe entrará em contato em breve com uma proposta personalizada.\\n\\nFique atento ao WhatsApp! \\uD83D\\uDCF1`;\n  nextStep = 99;\n\n} else {\n  // Conversa já concluída — reiniciar\n  staticData.conv[phone] = { step: 0 };\n  reply = 'Olá! Sou a assistente da Sety Studio. 👋\\n\\nVou te fazer 5 perguntas rápidas. Qual é o seu nome?';\n  nextStep = 1;\n  conv.step = 1;\n  staticData.conv[phone] = conv;\n  return [{ json: { phone, reply, completed: false, conv: {} } }];\n}\n\n// Salvar estado atualizado\nconv.step = nextStep;\nstaticData.conv[phone] = conv;\n\nreturn [{\n  json: {\n    phone,\n    reply,\n    completed: nextStep === 99,\n    nome: conv.nome || '',\n    prazo: conv.prazo || '',\n    investimento: conv.investimento || '',\n    fornecedor: conv.fornecedor || '',\n    plataforma: conv.plataforma || '',\n    score: conv.score || 0,\n    classificacao: conv.classificacao || '',\n    emoji: conv.emoji || '',\n    data_hora: conv.data_hora || '',\n    telefone: phone\n  }\n}];"
+      },
+      "id": "wbot-002",
+      "name": "Gerenciar Conversa",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://localhost:8080/message/sendText/sety-evolution",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.phone }}\",\n  \"text\": \"{{ $json.reply }}\"\n}",
+        "options": {}
+      },
+      "id": "wbot-003",
+      "name": "Enviar Resposta WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "cond_completed",
+              "leftValue": "={{ $json.completed }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "wbot-004",
+      "name": "Conversa Concluída?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [860, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "LEADS",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Data/Hora": "={{ $json.data_hora }}",
+            "Nome": "={{ $json.nome }}",
+            "Prazo": "={{ $json.prazo }}",
+            "Investimento": "={{ $json.investimento }}",
+            "Fornecedor": "={{ $json.fornecedor }}",
+            "Plataforma": "={{ $json.plataforma }}",
+            "Score": "={{ $json.score }}",
+            "Classificacao": "={{ $json.emoji }} {{ $json.classificacao }}",
+            "Status CRM": "Novo Lead",
+            "Telefone": "={{ $json.telefone }}",
+            "Ultimo Contato": "={{ $json.data_hora }}",
+            "Followup 1h": "NAO",
+            "Followup 24h": "NAO",
+            "Followup 3d": "NAO",
+            "Followup 7d": "NAO"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "wbot-005",
+      "name": "Salvar Lead no Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [1080, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "cond_hot",
+              "leftValue": "={{ $json.score }}",
+              "rightValue": 71,
+              "operator": { "type": "number", "operation": "gte" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "wbot-006",
+      "name": "Lead Quente?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1300, 200]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.emoji }} NOVO LEAD — Sety Studio\n\n👤 Nome: {{ $json.nome }}\n⏰ Prazo: {{ $json.prazo }}\n💰 Investimento: {{ $json.investimento }}\n🏭 Fornecedor: {{ $json.fornecedor }}\n🛒 Plataforma: {{ $json.plataforma }}\n\n🎯 Score: {{ $json.score }}/100\n📊 {{ $json.emoji }} {{ $json.classificacao }}\n\n📞 https://wa.me/{{ $json.telefone }}",
+        "additionalFields": {}
+      },
+      "id": "wbot-007",
+      "name": "Notificar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1520, 120],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CRED_ID",
+          "name": "Telegram Sety Studio"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Receber Mensagem WhatsApp": {
+      "main": [[{ "node": "Gerenciar Conversa", "type": "main", "index": 0 }]]
+    },
+    "Gerenciar Conversa": {
+      "main": [[{ "node": "Enviar Resposta WhatsApp", "type": "main", "index": 0 }]]
+    },
+    "Enviar Resposta WhatsApp": {
+      "main": [[{ "node": "Conversa Concluída?", "type": "main", "index": 0 }]]
+    },
+    "Conversa Concluída?": {
+      "main": [
+        [{ "node": "Salvar Lead no Sheets", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Salvar Lead no Sheets": {
+      "main": [[{ "node": "Lead Quente?", "type": "main", "index": 0 }]]
+    },
+    "Lead Quente?": {
+      "main": [
+        [{ "node": "Notificar Telegram", "type": "main", "index": 0 }],
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Belem"
+  },
+  "tags": [{ "name": "sety-studio" }, { "name": "whatsapp-bot" }]
+}

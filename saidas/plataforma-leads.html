@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sety Leads OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #000000;
+      --card: #1A1A1A;
+      --red: #FF2A2A;
+      --white: #FFFFFF;
+      --border: rgba(255,255,255,0.12);
+      --muted: rgba(255,255,255,0.4);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* BUTTONS */
+    .btn {
+      padding: 10px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      border-radius: 2px;
+      transition: opacity 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .btn-primary { background: var(--red); color: var(--white); }
+    .btn-secondary { background: transparent; color: var(--white); border: 1px solid var(--border); }
+    .btn-ghost { background: transparent; color: var(--muted); padding: 8px 12px; }
+
+    /* UPLOAD ZONE */
+    #upload-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 73px);
+      padding: 40px;
+      gap: 16px;
+    }
+
+    .upload-box {
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 4px;
+      padding: 64px 80px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .upload-box:hover,
+    .upload-box.drag-over {
+      border-color: var(--red);
+      background: rgba(255,42,42,0.04);
+    }
+
+    .upload-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+
+    .upload-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .upload-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    #file-input { display: none; }
+
+    .format-hint {
+      padding: 16px 20px;
+      background: var(--card);
+      border-radius: 2px;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .format-hint h4 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .format-hint code {
+      font-family: monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      word-break: break-all;
+    }
+
+    /* DASHBOARD */
+    #dashboard-section {
+      display: none;
+      padding: 0 32px 60px;
+    }
+
+    /* SUMMARY */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin: 24px 0;
+      overflow: hidden;
+    }
+
+    .summary-card {
+      background: var(--card);
+      padding: 22px 24px;
+    }
+
+    .summary-value {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .summary-value.red { color: var(--red); }
+
+    .summary-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* FILTERS */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .filter-chip:hover { color: var(--white); border-color: rgba(255,255,255,0.35); }
+
+    .filter-chip.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      margin-left: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 2px;
+      width: 220px;
+    }
+
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { outline: none; border-color: rgba(255,255,255,0.3); }
+
+    .leads-count {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    /* GRID */
+    .leads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    /* CARD */
+    .lead-card {
+      background: var(--card);
+      padding: 20px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .lead-card:hover { background: #212121; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .score-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+
+    .score-high { background: var(--red); color: #fff; }
+    .score-mid { background: rgba(255,255,255,0.12); color: #fff; }
+    .score-low { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+    .card-info h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 3px;
+      line-height: 1.2;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tag-red { background: rgba(255,42,42,0.15); color: #FF7070; }
+    .tag-white { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.65); }
+    .tag-ok { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3); }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card-link {
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .card-link:hover { color: var(--white); }
+    .card-link.has-value { color: rgba(255,255,255,0.65); }
+
+    .google-rating {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .google-rating b { color: var(--white); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+      grid-column: 1 / -1;
+      font-size: 14px;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 100;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.hidden { display: none; }
+
+    .modal {
+      background: #111111;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 660px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .modal-close:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .modal-section { margin-bottom: 22px; }
+
+    .section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .info-item {
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 2px;
+    }
+
+    .info-item .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .info-item .value {
+      font-size: 13px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .info-item .value a { color: var(--red); text-decoration: none; }
+    .info-item .value a:hover { text-decoration: underline; }
+
+    .diag-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .message-box {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.8);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .copy-ok {
+      font-size: 12px;
+      color: #5fdf80;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 200;
+      transform: translateY(60px);
+      opacity: 0;
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 680px) {
+      header { padding: 16px 20px; }
+      #dashboard-section { padding: 0 16px 40px; }
+      .summary-bar { grid-template-columns: repeat(2, 1fr); }
+      .leads-grid { grid-template-columns: 1fr; }
+      .modal { padding: 20px; }
+      .upload-box { padding: 40px 24px; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">S</div>
+      <div>
+        <div class="logo-text">Sety Studio</div>
+        <div class="logo-sub">Leads OS</div>
+      </div>
+    </div>
+    <div class="header-actions" id="header-actions"></div>
+  </header>
+
+  <!-- UPLOAD -->
+  <section id="upload-section">
+    <div class="upload-box" id="upload-box">
+      <div class="upload-icon">📋</div>
+      <div class="upload-title">Suba a lista de empresas</div>
+      <div class="upload-sub">Arraste o arquivo CSV aqui ou clique para selecionar</div>
+      <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+        Escolher arquivo CSV
+      </button>
+      <input type="file" id="file-input" accept=".csv">
+    </div>
+
+    <div class="format-hint">
+      <h4>Colunas esperadas no CSV</h4>
+      <code>nome, telefone, cidade, segmento, site, instagram, nota_google, avaliacoes_google, score, tem_site, tem_whatsapp, instagram_ativo, prioridade, diagnostico, mensagem</code>
+    </div>
+
+    <button class="btn btn-ghost" onclick="downloadSample()">↓ Baixar CSV de exemplo</button>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard-section">
+    <div class="summary-bar">
+      <div class="summary-card">
+        <div class="summary-value" id="stat-total">0</div>
+        <div class="summary-label">Total de leads</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value red" id="stat-alta">0</div>
+        <div class="summary-label">Alta prioridade</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value" id="stat-sem-site">0</div>
+        <div class="summary-label">Sem site</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-value" id="stat-score">—</div>
+        <div class="summary-label">Score médio</div>
+      </div>
+    </div>
+
+    <div class="filters-bar">
+      <button class="filter-chip active" data-filter="todos">Todos</button>
+      <button class="filter-chip" data-filter="alta">Alta prioridade</button>
+      <button class="filter-chip" data-filter="media">Média</button>
+      <button class="filter-chip" data-filter="baixa">Baixa</button>
+      <div class="filter-divider"></div>
+      <button class="filter-chip" data-filter="sem_site">Sem site</button>
+      <button class="filter-chip" data-filter="ig_ativo">IG ativo</button>
+      <input type="text" class="search-input" id="search-input" placeholder="Buscar empresa...">
+    </div>
+
+    <div class="leads-count" id="leads-count"></div>
+
+    <div class="leads-grid" id="leads-grid"></div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+
+      <div class="modal-header">
+        <div class="score-badge" id="modal-badge">—</div>
+        <div>
+          <div class="modal-title" id="modal-name"></div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-label">Dados</div>
+        <div class="info-grid" id="modal-info"></div>
+      </div>
+
+      <div class="modal-section" id="diag-section">
+        <div class="section-label">Diagnóstico</div>
+        <div class="diag-text" id="modal-diag"></div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-label">Mensagem de abordagem</div>
+        <div class="message-box" id="modal-message"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="copyMessage()">Copiar mensagem</button>
+          <button class="btn btn-secondary" id="wpp-btn">Abrir WhatsApp</button>
+          <span class="copy-ok" id="copy-ok">✓ Copiado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let leads = [];
+    let activeFilter = 'todos';
+    let searchQuery = '';
+
+    // ── CSV PARSER ──
+    function parseCSV(raw) {
+      const lines = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+      if (lines.length < 2) return [];
+      const headers = splitLine(lines[0]).map(h => h.trim().toLowerCase().replace(/\s+/g, '_'));
+      const result = [];
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const vals = splitLine(line);
+        const obj = {};
+        headers.forEach((h, idx) => { obj[h] = (vals[idx] || '').trim(); });
+        if (obj.nome) result.push(obj);
+      }
+      return result;
+    }
+
+    function splitLine(line) {
+      const out = [];
+      let cur = '';
+      let q = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { q = !q; }
+        else if (c === ',' && !q) { out.push(cur); cur = ''; }
+        else { cur += c; }
+      }
+      out.push(cur);
+      return out;
+    }
+
+    // ── FILE HANDLING ──
+    const fileInput = document.getElementById('file-input');
+    const uploadBox = document.getElementById('upload-box');
+
+    fileInput.addEventListener('change', e => {
+      if (e.target.files[0]) loadFile(e.target.files[0]);
+    });
+
+    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.classList.add('drag-over'); });
+    uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('drag-over'));
+    uploadBox.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadBox.classList.remove('drag-over');
+      if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+    });
+
+    function loadFile(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        leads = parseCSV(e.target.result);
+        if (!leads.length) { toast('Nenhum lead encontrado no CSV.'); return; }
+        showDashboard(file.name);
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    function showDashboard(filename) {
+      document.getElementById('upload-section').style.display = 'none';
+      document.getElementById('dashboard-section').style.display = 'block';
+      document.getElementById('header-actions').innerHTML = `
+        <span style="font-size:12px;color:var(--muted);">${filename}</span>
+        <button class="btn btn-secondary" onclick="reset()">Trocar arquivo</button>
+      `;
+      renderStats();
+      renderGrid();
+    }
+
+    function reset() {
+      leads = [];
+      activeFilter = 'todos';
+      searchQuery = '';
+      fileInput.value = '';
+      document.getElementById('upload-section').style.display = 'flex';
+      document.getElementById('dashboard-section').style.display = 'none';
+      document.getElementById('header-actions').innerHTML = '';
+      document.querySelectorAll('.filter-chip').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.getElementById('search-input').value = '';
+    }
+
+    // ── STATS ──
+    function prioridade(l) {
+      if (l.prioridade) {
+        const p = l.prioridade.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        if (p === 'alta') return 'alta';
+        if (p === 'media') return 'media';
+        return 'baixa';
+      }
+      const s = parseInt(l.score) || 0;
+      return s >= 70 ? 'alta' : s >= 40 ? 'media' : 'baixa';
+    }
+
+    function semSite(l) {
+      const v = (l.tem_site || '').toLowerCase();
+      return v === 'nao' || v === 'não' || v === 'no' || v === '0' || v === 'false' || (!l.site && !v);
+    }
+
+    function igAtivo(l) {
+      const v = (l.instagram_ativo || '').toLowerCase();
+      return v === 'sim' || v === 'yes' || v === '1' || v === 'true';
+    }
+
+    function renderStats() {
+      document.getElementById('stat-total').textContent = leads.length;
+      document.getElementById('stat-alta').textContent = leads.filter(l => prioridade(l) === 'alta').length;
+      document.getElementById('stat-sem-site').textContent = leads.filter(semSite).length;
+      const scores = leads.map(l => parseInt(l.score) || 0).filter(Boolean);
+      document.getElementById('stat-score').textContent = scores.length
+        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        : '—';
+    }
+
+    // ── FILTERS ──
+    document.querySelectorAll('.filter-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        renderGrid();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', e => {
+      searchQuery = e.target.value.toLowerCase();
+      renderGrid();
+    });
+
+    function filtered() {
+      return leads.filter(l => {
+        if (searchQuery && !l.nome.toLowerCase().includes(searchQuery) && !(l.cidade || '').toLowerCase().includes(searchQuery)) return false;
+        switch (activeFilter) {
+          case 'alta':    return prioridade(l) === 'alta';
+          case 'media':   return prioridade(l) === 'media';
+          case 'baixa':   return prioridade(l) === 'baixa';
+          case 'sem_site': return semSite(l);
+          case 'ig_ativo': return igAtivo(l);
+          default:        return true;
+        }
+      });
+    }
+
+    // ── GRID ──
+    function renderGrid() {
+      const list = filtered();
+      const grid = document.getElementById('leads-grid');
+      document.getElementById('leads-count').textContent =
+        `${list.length} de ${leads.length} empresa${leads.length !== 1 ? 's' : ''}`;
+
+      if (!list.length) {
+        grid.innerHTML = '<div class="empty-state">Nenhuma empresa com esses filtros.</div>';
+        return;
+      }
+
+      grid.innerHTML = list.map(l => {
+        const idx = leads.indexOf(l);
+        const score = parseInt(l.score) || 0;
+        const scoreClass = score >= 70 ? 'score-high' : score >= 40 ? 'score-mid' : 'score-low';
+
+        const tags = [];
+        if (prioridade(l) === 'alta') tags.push(`<span class="tag tag-red">Alta prioridade</span>`);
+        if (semSite(l)) tags.push(`<span class="tag tag-red">Sem site</span>`);
+        if (igAtivo(l)) tags.push(`<span class="tag tag-white">IG ativo</span>`);
+        const wpp = (l.tem_whatsapp || '').toLowerCase();
+        if (wpp === 'sim' || wpp === 'yes' || wpp === '1') tags.push(`<span class="tag tag-ok">WhatsApp</span>`);
+
+        const nota = l.nota_google
+          ? `<span class="google-rating"><b>${parseFloat(l.nota_google).toFixed(1)}</b> ★ (${parseInt(l.avaliacoes_google) || 0})</span>`
+          : '';
+
+        const phone = l.telefone
+          ? `<a class="card-link has-value" href="tel:${l.telefone}">📞 ${l.telefone}</a>`
+          : '';
+        const site = l.site
+          ? `<a class="card-link has-value" href="${l.site}" target="_blank" onclick="event.stopPropagation()">🌐 Site</a>`
+          : `<span class="card-link">🌐 Sem site</span>`;
+        const ig = l.instagram
+          ? `<a class="card-link has-value" href="https://instagram.com/${l.instagram.replace('@','')}" target="_blank" onclick="event.stopPropagation()">📷 ${l.instagram}</a>`
+          : '';
+
+        return `
+          <div class="lead-card" onclick="openModal(${idx})">
+            <div class="card-top">
+              <div class="score-badge ${scoreClass}">${score || '—'}</div>
+              <div class="card-info">
+                <h3>${l.nome}</h3>
+                <div class="card-meta">${[l.cidade, l.segmento].filter(Boolean).join(' · ') || '—'}</div>
+              </div>
+            </div>
+            ${tags.length ? `<div class="card-tags">${tags.join('')}</div>` : ''}
+            <div class="card-bottom">
+              <div class="card-links">${phone}${site}${ig}</div>
+              ${nota}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // ── MODAL ──
+    function openModal(idx) {
+      const l = leads[idx];
+      const score = parseInt(l.score) || 0;
+
+      const badge = document.getElementById('modal-badge');
+      badge.textContent = score || '—';
+      badge.className = 'score-badge ' + (score >= 70 ? 'score-high' : score >= 40 ? 'score-mid' : 'score-low');
+
+      document.getElementById('modal-name').textContent = l.nome;
+      document.getElementById('modal-sub').textContent =
+        [l.cidade, l.segmento, l.prioridade ? `Prioridade ${l.prioridade}` : ''].filter(Boolean).join(' · ');
+
+      const infoItems = [
+        { label: 'Telefone', value: l.telefone || '—' },
+        { label: 'Google', value: l.nota_google ? `${parseFloat(l.nota_google).toFixed(1)} ★ — ${l.avaliacoes_google || 0} avaliações` : '—' },
+        { label: 'Site', value: l.site ? `<a href="${l.site}" target="_blank">${l.site}</a>` : 'Sem site' },
+        { label: 'Instagram', value: l.instagram ? `@${l.instagram.replace('@','')}` : '—' },
+      ];
+
+      document.getElementById('modal-info').innerHTML = infoItems.map(i =>
+        `<div class="info-item"><div class="label">${i.label}</div><div class="value">${i.value}</div></div>`
+      ).join('');
+
+      const diagSection = document.getElementById('diag-section');
+      if (l.diagnostico) {
+        diagSection.style.display = 'block';
+        document.getElementById('modal-diag').textContent = l.diagnostico;
+      } else {
+        diagSection.style.display = 'none';
+      }
+
+      document.getElementById('modal-message').textContent = l.mensagem || 'Nenhuma mensagem gerada.';
+
+      const wppBtn = document.getElementById('wpp-btn');
+      if (l.telefone) {
+        const num = l.telefone.replace(/\D/g, '');
+        const msg = encodeURIComponent(l.mensagem || '');
+        wppBtn.onclick = () => window.open(`https://wa.me/55${num}?text=${msg}`, '_blank');
+        wppBtn.style.display = '';
+      } else {
+        wppBtn.style.display = 'none';
+      }
+
+      document.getElementById('copy-ok').style.display = 'none';
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── COPY ──
+    function copyMessage() {
+      const msg = document.getElementById('modal-message').textContent;
+      navigator.clipboard.writeText(msg).then(() => {
+        const el = document.getElementById('copy-ok');
+        el.style.display = 'inline';
+        toast('Mensagem copiada!');
+        setTimeout(() => el.style.display = 'none', 2500);
+      }).catch(() => toast('Não foi possível copiar.'));
+    }
+
+    // ── TOAST ──
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    // ── SAMPLE CSV ──
+    function downloadSample() {
+      const csv = [
+        'nome,telefone,cidade,segmento,site,instagram,nota_google,avaliacoes_google,score,tem_site,tem_whatsapp,instagram_ativo,prioridade,diagnostico,mensagem',
+        '"Empório Esporte Belém","91999990001","Belém","Loja de camisas esportivas","","@emporioesporte","4.3","127","85","nao","sim","sim","alta","Forte presença no Google com 127 avaliações. Não possui site — recebe pedidos apenas via WhatsApp, sem catálogo online e sem automação.","Fala, João. Analisei o perfil de vocês e percebi que têm uma clientela fiel — 127 avaliações com nota 4.3 no Google é muito bom. Mas notei que vocês não têm um site, o que significa que cada pedido precisa ser atendido manualmente no WhatsApp. Trabalho ajudando lojas esportivas a ter uma estrutura digital que gera pedidos automaticamente, com catálogo online, botão de compra e automação no WhatsApp. Se fizer sentido, posso mostrar como ficaria para vocês. Seven | Sety Studio"',
+        '"Sports Zone","91988880002","Belém","Uniformes esportivos","http://sportszone.com.br","@sportszone","3.8","45","52","sim","nao","sim","media","Site existe mas sem WhatsApp visível e sem CTA claro. Google com nota abaixo da média e poucas avaliações para o segmento.","Fala, Pedro. Dei uma olhada no site de vocês e o design está ok, mas o botão de contato é difícil de encontrar — o cliente chega na página e não tem um caminho claro para chamar. Além disso, a nota 3.8 no Google com apenas 45 avaliações ainda tem espaço para crescer. Trabalho com otimização de sites e presença digital para o segmento esportivo. Posso gravar uma análise rápida mostrando exatamente o que eu ajustaria. Seven | Sety Studio"',
+        '"Arena Sports","91977770003","Belém","Academia e esportes","","","","0","90","nao","nao","nao","alta","Nenhuma presença digital identificada. Sem site, sem Instagram ativo, sem Google Meu Negócio estruturado.","Fala. Procurei a Arena Sports no Google e percebi que vocês praticamente não existem no digital — sem site, sem perfil no Google Maps bem estruturado, sem Instagram ativo. Isso significa que todo cliente novo que busca por academia ou esporte em Belém não encontra vocês. Trabalho construindo presença digital do zero para empresas do segmento esportivo. Se quiser, posso mostrar por onde começar. Seven | Sety Studio"'
+      ].join('\n');
+
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'exemplo-leads.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>

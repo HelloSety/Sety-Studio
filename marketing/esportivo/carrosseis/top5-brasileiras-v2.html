@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,300;0,700;0,900;1,900&family=Barlow:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#000; width:1080px; }
+
+/* ─── VARIÁVEIS ─────────────────── */
+:root {
+  --green: #00E571;
+  --green-dim: rgba(0,229,113,0.12);
+  --white: #FFFFFF;
+  --grey: rgba(255,255,255,0.45);
+  --dark: #080808;
+}
+
+/* ─── SLIDE BASE ─────────────────── */
+.slide {
+  width: 1080px;
+  height: 1350px;
+  position: relative;
+  overflow: hidden;
+  background: var(--dark);
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Grain texture overlay */
+.slide::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* ══════════════════════════════════
+   SLIDE 1 — CAPA
+══════════════════════════════════ */
+.capa {
+  background: #060606;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Fundo: listras diagonais sutis */
+.capa-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    repeating-linear-gradient(
+      -52deg,
+      transparent,
+      transparent 80px,
+      rgba(255,255,255,0.013) 80px,
+      rgba(255,255,255,0.013) 81px
+    );
+}
+
+/* Glow verde superior */
+.capa-glow-top {
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 700px; z-index: 1;
+  background: radial-gradient(ellipse, rgba(0,229,113,0.18) 0%, transparent 65%);
+}
+
+/* Número gigante de fundo */
+.capa-num-bg {
+  position: absolute; bottom: -60px; right: -20px; z-index: 2;
+  font-size: 600px; font-weight: 900; line-height: 1;
+  color: rgba(255,255,255,0.022);
+  letter-spacing: -30px;
+  user-select: none;
+}
+
+/* Linha vertical verde */
+.blade {
+  position: absolute; top:0; left:0; z-index: 10;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--green) 0%, rgba(0,229,113,0) 85%);
+}
+
+/* Header da marca */
+.hdr {
+  position: absolute; top: 52px; left: 60px; right: 60px; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.hdr-brand {
+  font-size: 13px; font-weight: 300; letter-spacing: 6px;
+  color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+.hdr-handle {
+  font-size: 12px; font-weight: 300; letter-spacing: 4px;
+  color: var(--green); text-transform: lowercase; font-family: 'Barlow', sans-serif;
+}
+
+/* Conteúdo capa */
+.capa-content {
+  position: relative; z-index: 15;
+  padding: 0 60px 90px;
+}
+
+.capa-eyebrow {
+  display: flex; align-items: center; gap: 20px; margin-bottom: 28px;
+}
+.capa-eyebrow-line { width: 48px; height: 2px; background: var(--green); }
+.capa-eyebrow-txt {
+  font-size: 15px; font-weight: 700; letter-spacing: 7px;
+  color: var(--green); text-transform: uppercase;
+}
+
+.capa-title {
+  font-size: 148px; font-weight: 900; line-height: 0.88;
+  color: var(--white); text-transform: uppercase; letter-spacing: -5px;
+}
+.capa-title em {
+  color: var(--green); font-style: normal; display: block;
+}
+.capa-title span {
+  font-weight: 100; -webkit-text-stroke: 1.5px rgba(255,255,255,0.5);
+  color: transparent; display: block;
+}
+
+.capa-sub {
+  margin-top: 36px; font-size: 22px; font-weight: 300; letter-spacing: 5px;
+  color: var(--grey); text-transform: uppercase;
+}
+
+.capa-footer {
+  position: absolute; bottom: 52px; left: 60px; right: 60px; z-index: 15;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+}
+.capa-footer-l { font-size: 13px; font-weight: 300; letter-spacing: 4px; color: rgba(255,255,255,0.25); text-transform: uppercase; }
+.capa-footer-r { font-size: 13px; font-weight: 700; letter-spacing: 4px; color: var(--green); text-transform: uppercase; }
+
+
+/* ══════════════════════════════════
+   SLIDES RANKING
+══════════════════════════════════ */
+.rank {
+  background: #060606;
+}
+
+/* Número gigante de fundo — posicionamento ajustado por slide */
+.rank-bg-num {
+  position: absolute; z-index: 1;
+  font-size: 520px; font-weight: 900; line-height: 1;
+  letter-spacing: -20px; color: rgba(255,255,255,0.028);
+  user-select: none; top: -40px; right: -20px;
+}
+
+/* Produto — hero sem blend */
+.rank-img-wrap {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+}
+.rank-img-wrap img {
+  width: 88%;
+  max-height: 950px;
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(0.92) contrast(1.05);
+  position: relative; z-index: 3;
+}
+
+/* Vinheta agressiva — integra o produto no fundo escuro */
+.rank-vinheta {
+  position: absolute; inset: 0; z-index: 4;
+  background:
+    linear-gradient(to right,  rgba(6,6,6,1) 0%, rgba(6,6,6,0.7) 18%, rgba(6,6,6,0.15) 38%, rgba(6,6,6,0.15) 62%, rgba(6,6,6,0.7) 82%, rgba(6,6,6,1) 100%),
+    linear-gradient(to top,    rgba(6,6,6,1) 0%, rgba(6,6,6,0.8) 20%, rgba(6,6,6,0.1) 45%, transparent 65%),
+    linear-gradient(to bottom, rgba(6,6,6,0.85) 0%, rgba(6,6,6,0.2) 18%, transparent 35%);
+}
+
+/* Glow no produto */
+.rank-glow {
+  position: absolute; z-index: 3; border-radius: 50%;
+  width: 600px; height: 600px;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0,229,113,0.08) 0%, transparent 65%);
+}
+
+/* Barra decorativa superior */
+.rank-topbar {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 10;
+  background: linear-gradient(to right, var(--green) 0%, rgba(0,229,113,0) 60%);
+}
+
+/* Posição #N */
+.rank-badge {
+  position: absolute; top: 52px; right: 60px; z-index: 20;
+  display: flex; align-items: center; gap: 10px;
+}
+.rank-pos {
+  font-size: 15px; font-weight: 900; letter-spacing: 4px;
+  padding: 10px 22px; border-radius: 40px; text-transform: uppercase;
+  background: var(--green); color: #000;
+}
+.rank-pos.gold { background: #FFD700; }
+
+/* Label série */
+.rank-series {
+  position: absolute; top: 60px; left: 60px; z-index: 20;
+  font-size: 13px; font-weight: 300; letter-spacing: 6px;
+  color: rgba(255,255,255,0.35); text-transform: uppercase;
+}
+
+/* Número de ranking — elemento visual dominante */
+.rank-number {
+  position: absolute; left: 40px; bottom: 160px; z-index: 20;
+  font-size: 340px; font-weight: 900; line-height: 0.85;
+  color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.18);
+  letter-spacing: -15px; user-select: none;
+}
+.rank-number.highlight {
+  -webkit-text-stroke: 2.5px rgba(0,229,113,0.5);
+}
+
+/* Info do time */
+.rank-info {
+  position: absolute; bottom: 52px; left: 0; right: 0; z-index: 20;
+  padding: 0 60px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 28px;
+}
+
+.rank-info-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+
+.rank-time-name {
+  font-size: 86px; font-weight: 900; line-height: 0.88;
+  color: var(--white); text-transform: uppercase; letter-spacing: -3px;
+}
+.rank-time-name.vermelho { color: #FF2D2D; }
+
+.rank-sub {
+  font-size: 19px; font-weight: 300; letter-spacing: 3px;
+  color: var(--grey); text-transform: uppercase; margin-top: 10px;
+}
+
+.rank-preco {
+  font-size: 44px; font-weight: 900; color: var(--green);
+  letter-spacing: -1px; white-space: nowrap;
+}
+.rank-preco small {
+  font-size: 20px; font-weight: 300; color: var(--grey); margin-right: 3px;
+}
+
+
+/* ══════════════════════════════════
+   SLIDE FINAL — CTA
+══════════════════════════════════ */
+.final {
+  background: #060606;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+}
+
+.final-glow {
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse at 50% 40%, rgba(0,229,113,0.14) 0%, transparent 60%);
+}
+
+.final-lines {
+  position: absolute; inset: 0; z-index: 2;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent, transparent 120px,
+    rgba(255,255,255,0.015) 120px, rgba(255,255,255,0.015) 121px
+  );
+}
+
+.final-content { position: relative; z-index: 10; padding: 0 80px; }
+
+.final-eyebrow {
+  font-size: 15px; font-weight: 300; letter-spacing: 8px;
+  color: var(--green); text-transform: uppercase; margin-bottom: 30px;
+}
+
+.final-q {
+  font-size: 120px; font-weight: 900; line-height: 0.88;
+  color: var(--white); text-transform: uppercase; letter-spacing: -4px;
+  margin-bottom: 12px;
+}
+.final-q em { color: var(--green); font-style: normal; }
+
+.final-q2 {
+  font-size: 60px; font-weight: 100; letter-spacing: 0px;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.35); color: transparent;
+  text-transform: uppercase; margin-bottom: 60px;
+}
+
+.final-cta-btn {
+  display: inline-block;
+  background: var(--green); color: #000;
+  font-size: 20px; font-weight: 900; letter-spacing: 5px;
+  text-transform: uppercase; padding: 22px 64px; border-radius: 60px;
+  margin-bottom: 32px;
+}
+
+.final-hint {
+  font-size: 20px; font-weight: 300; letter-spacing: 4px;
+  color: rgba(255,255,255,0.35); text-transform: uppercase;
+}
+
+.final-brand {
+  position: absolute; bottom: 52px; left: 50%; transform: translateX(-50%);
+  font-size: 13px; font-weight: 300; letter-spacing: 5px;
+  color: rgba(255,255,255,0.2); text-transform: uppercase; z-index: 10;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SLIDE 1: CAPA ═══════════ -->
+<div class="slide capa">
+  <div class="blade"></div>
+  <div class="capa-bg"></div>
+  <div class="capa-glow-top"></div>
+  <div class="capa-num-bg">5</div>
+
+  <div class="hdr">
+    <div class="hdr-brand">Empório Norte Belém</div>
+    <div class="hdr-handle">@emporionortebelem</div>
+  </div>
+
+  <div class="capa-content">
+    <div class="capa-eyebrow">
+      <div class="capa-eyebrow-line"></div>
+      <div class="capa-eyebrow-txt">Ranking · Junho 2026</div>
+    </div>
+    <div class="capa-title">
+      Top 5<br>
+      <em>Camisas</em>
+      <span>Brasileiras</span>
+    </div>
+    <div class="capa-sub">As mais vendidas do mês</div>
+  </div>
+
+  <div class="capa-footer">
+    <div class="capa-footer-l">⚽ Futebol Brasileiro</div>
+    <div class="capa-footer-r">Desliza →</div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 2: #5 VASCO ═══════════ -->
+<div class="slide rank">
+  <div class="blade"></div>
+  <div class="rank-topbar"></div>
+  <div class="rank-bg-num">5</div>
+
+  <div class="rank-img-wrap">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/vasco/imagem-principal.jpg" alt="Vasco">
+  </div>
+  <div class="rank-vinheta"></div>
+
+  <div class="rank-series">Top 5 Camisas BR</div>
+  <div class="rank-badge">
+    <div class="rank-pos">#5</div>
+  </div>
+
+  <div class="rank-number">5</div>
+
+  <div class="rank-info">
+    <div class="rank-info-inner">
+      <div>
+        <div class="rank-time-name">Vasco</div>
+        <div class="rank-sub">Tradição desde 1898 · Dry-fit</div>
+      </div>
+      <div class="rank-preco"><small>R$</small>179,90</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 3: #4 CORINTHIANS ═══════════ -->
+<div class="slide rank">
+  <div class="blade"></div>
+  <div class="rank-topbar"></div>
+  <div class="rank-bg-num">4</div>
+
+  <div class="rank-img-wrap">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/corinthians/imagem-principal.jpg" alt="Corinthians">
+  </div>
+  <div class="rank-vinheta"></div>
+
+  <div class="rank-series">Top 5 Camisas BR</div>
+  <div class="rank-badge">
+    <div class="rank-pos">#4</div>
+  </div>
+
+  <div class="rank-number">4</div>
+
+  <div class="rank-info">
+    <div class="rank-info-inner">
+      <div>
+        <div class="rank-time-name">Corinthians</div>
+        <div class="rank-sub">O time do povo · Dry-fit</div>
+      </div>
+      <div class="rank-preco"><small>R$</small>179,90</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 4: #3 SÃO PAULO ═══════════ -->
+<div class="slide rank">
+  <div class="blade"></div>
+  <div class="rank-topbar"></div>
+  <div class="rank-bg-num">3</div>
+
+  <div class="rank-img-wrap">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/sao-paulo/imagem-principal.jpg" alt="São Paulo">
+  </div>
+  <div class="rank-vinheta"></div>
+
+  <div class="rank-series">Top 5 Camisas BR</div>
+  <div class="rank-badge">
+    <div class="rank-pos">#3</div>
+  </div>
+
+  <div class="rank-number">3</div>
+
+  <div class="rank-info">
+    <div class="rank-info-inner">
+      <div>
+        <div class="rank-time-name">São Paulo</div>
+        <div class="rank-sub">Tricampeão mundial · Dry-fit</div>
+      </div>
+      <div class="rank-preco"><small>R$</small>179,90</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 5: #2 PALMEIRAS ═══════════ -->
+<div class="slide rank">
+  <div class="blade"></div>
+  <div class="rank-topbar"></div>
+  <div class="rank-bg-num">2</div>
+
+  <div class="rank-img-wrap">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/palmeiras/imagem-principal.jpg" alt="Palmeiras">
+  </div>
+  <div class="rank-vinheta"></div>
+
+  <div class="rank-series">Top 5 Camisas BR</div>
+  <div class="rank-badge">
+    <div class="rank-pos">#2</div>
+  </div>
+
+  <div class="rank-number">2</div>
+
+  <div class="rank-info">
+    <div class="rank-info-inner">
+      <div>
+        <div class="rank-time-name">Palmeiras</div>
+        <div class="rank-sub">Maior campeão nacional · Dry-fit</div>
+      </div>
+      <div class="rank-preco"><small>R$</small>179,90</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 6: #1 FLAMENGO ═══════════ -->
+<div class="slide rank">
+  <div class="blade" style="background: linear-gradient(to bottom, #FFD700 0%, rgba(255,215,0,0) 85%);"></div>
+  <div class="rank-topbar" style="background: linear-gradient(to right, #FFD700 0%, rgba(255,215,0,0) 60%);"></div>
+  <div class="rank-bg-num">1</div>
+
+  <div class="rank-img-wrap">
+    <div class="rank-glow" style="background: radial-gradient(circle, rgba(255,45,45,0.12) 0%, transparent 65%);"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/flamengo/imagem-principal.jpg" alt="Flamengo" style="mix-blend-mode: luminosity; filter: brightness(0.9) contrast(1.15) saturate(0.65);">
+  </div>
+  <div class="rank-vinheta"></div>
+
+  <div class="rank-series">Top 5 Camisas BR</div>
+  <div class="rank-badge">
+    <div class="rank-pos gold">#1 🏆</div>
+  </div>
+
+  <div class="rank-number highlight" style="-webkit-text-stroke: 2px rgba(255,215,0,0.25);">1</div>
+
+  <div class="rank-info">
+    <div class="rank-info-inner">
+      <div>
+        <div class="rank-time-name vermelho">Flamengo</div>
+        <div class="rank-sub">Maior torcida do Brasil · Dry-fit</div>
+      </div>
+      <div class="rank-preco" style="color: #FFD700;"><small style="color: rgba(255,215,0,0.5);">R$</small>179,90</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 7: FINAL CTA ═══════════ -->
+<div class="slide final">
+  <div class="blade"></div>
+  <div class="final-glow"></div>
+  <div class="final-lines"></div>
+
+  <div class="hdr" style="position:absolute; top:52px; left:60px; right:60px; z-index:20; display:flex; align-items:center; justify-content:space-between;">
+    <div class="hdr-brand">Empório Norte Belém</div>
+    <div class="hdr-handle">@emporionortebelem</div>
+  </div>
+
+  <div class="final-content">
+    <div class="final-eyebrow">E o seu time?</div>
+    <div class="final-q">Qual você<br><em>escolhe?</em></div>
+    <div class="final-q2">Comenta abaixo</div>
+    <div class="final-cta-btn">Link na Bio ↗</div>
+    <div class="final-hint">Entrega para todo o Brasil · R$ 179,90</div>
+  </div>
+
+  <div class="final-brand">@emporionortebelem</div>
+</div>
+
+</body>
+</html>

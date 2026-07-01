@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsFlow AI — Arquitetura Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0F1115;--card:#181C22;--border:#2E3642;--text:#F0F2F5;--muted:#8892A0;--green:#22C55E;--blue:#3B82F6;--orange:#F59E0B;--red:#EF4444;--purple:#A855F7}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--green);text-decoration:none}
+
+/* NAV */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(15,17,21,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 40px;height:54px;display:flex;align-items:center;justify-content:space-between}
+.topnav-logo{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.topnav-logo span{color:var(--green)}
+.topnav-links{display:flex;gap:4px}
+.topnav-links a{font-size:12px;font-weight:600;color:var(--muted);padding:6px 12px;border-radius:6px;transition:all .15s}
+.topnav-links a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+
+/* LAYOUT */
+.wrap{max-width:1200px;margin:0 auto;padding:60px 40px}
+.section{margin-bottom:80px}
+.section-tag{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:10px}
+.section-title{font-size:32px;font-weight:900;letter-spacing:-1.5px;margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--muted);margin-bottom:36px;max-width:680px}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.card-head{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* CODE */
+pre{background:#0a0d10;border:1px solid var(--border);border-radius:10px;padding:20px;overflow-x:auto;font-size:12px;line-height:1.8;color:#a8b4c0}
+code{font-family:'Courier New',monospace;font-size:12px}
+.kw{color:#569cd6}.str{color:#ce9178}.cm{color:#6a9955;font-style:italic}.fn{color:#dcdcaa}.tp{color:#4ec9b0}.num{color:#b5cea8}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600}
+.tag-green{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.tag-blue{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+.tag-orange{background:rgba(245,158,11,.12);color:var(--orange);border:1px solid rgba(245,158,11,.2)}
+.tag-red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.tag-purple{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.2)}
+
+/* FLOW */
+.flow{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap}
+.flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:100px}
+.flow-bubble{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;margin-bottom:8px;flex-shrink:0}
+.flow-label{font-size:11px;font-weight:600;color:var(--muted);max-width:90px;line-height:1.4}
+.flow-arrow{padding:0 8px;color:var(--border);font-size:20px;margin-top:12px;flex-shrink:0}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid rgba(46,54,66,.5);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:600;color:var(--green);font-family:'Courier New',monospace;font-size:12px}
+
+/* ROADMAP */
+.phase{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.phase-head{padding:16px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border)}
+.phase-num{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.phase-title{font-size:14px;font-weight:700;flex:1}
+.phase-weeks{font-size:12px;color:var(--muted)}
+.phase-body{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.task{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.task::before{content:'→';color:var(--green);font-weight:700;flex-shrink:0}
+
+/* METRIC CARDS */
+.metric{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.metric-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:16px}
+.metric-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.metric-val{font-size:26px;font-weight:900;letter-spacing:-1px}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:60px 0}
+
+/* SIDEBAR NAV */
+.doc-layout{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:start}
+.sidebar{position:sticky;top:70px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:13px}
+.sidebar-section{margin-bottom:12px}
+.sidebar-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.sidebar a{display:block;padding:5px 8px;border-radius:6px;color:var(--muted);transition:all .15s}
+.sidebar a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-logo">WhatsFlow <span>AI</span> — Arquitetura</div>
+  <div class="topnav-links">
+    <a href="#visao">Visão</a>
+    <a href="#stack">Stack</a>
+    <a href="#pastas">Pastas</a>
+    <a href="#banco">Banco</a>
+    <a href="#fluxos">Fluxos</a>
+    <a href="#apis">APIs</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══ HERO ══ -->
+<div style="text-align:center;padding:40px 0 60px">
+  <div class="tag tag-green" style="margin-bottom:16px">Documento de Arquitetura v1.0</div>
+  <h1 style="font-size:52px;font-weight:900;letter-spacing:-3px;margin-bottom:16px">WhatsFlow AI</h1>
+  <p style="font-size:18px;color:var(--muted);max-width:560px;margin:0 auto">SaaS de vendas e atendimento via WhatsApp com IA. Multi-tenant, escalável, focado em receita.</p>
+  <div style="display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap">
+    <span class="tag tag-blue">Next.js 14</span>
+    <span class="tag tag-blue">Supabase</span>
+    <span class="tag tag-blue">OpenAI</span>
+    <span class="tag tag-blue">Evolution API</span>
+    <span class="tag tag-orange">BullMQ</span>
+    <span class="tag tag-purple">Railway</span>
+    <span class="tag tag-green">Vercel</span>
+  </div>
+</div>
+
+<!-- ══ 1. VISÃO ══ -->
+<div id="visao" class="section">
+  <div class="section-tag">01 — Visão do Produto</div>
+  <div class="section-title">O que é o WhatsFlow AI</div>
+  <div class="section-sub">Um funcionário virtual de vendas que opera 24h dentro do WhatsApp — responde, qualifica, faz follow-up e agenda reuniões sem intervenção humana.</div>
+
+  <div class="g4" style="margin-bottom:24px">
+    <div class="metric"><div class="metric-icon" style="background:rgba(34,197,94,.1)">💬</div><div class="metric-label">Conversas Ativas</div><div class="metric-val" style="color:var(--green)">—</div></div>
+    <div class="metric"><div class="metric-icon" style="background:rgba(59,130,246,.1)">🎯</div><div class="metric-label">Leads Qualificados</div><div class="metric-val" style="color:var(--blue)">—</div></div>
+    <div class="metric"><div class="metric-icon" style="background:rgba(245,158,11,.1)">🔄</div><div class="metric-label">Follow-ups Enviados</div><div class="metric-val" style="color:var(--orange)">—</div></div>
+    <div class="metric"><div class="metric-icon" style="background:rgba(239,68,68,.1)">📅</div><div class="metric-label">Reuniões Agendadas</div><div class="metric-val" style="color:var(--red)">—</div></div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="card-head">Diferencial Principal</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7">Não é um chatbot com botões. É uma IA que conversa como vendedor humano, entende contexto, lembra do histórico e age proativamente para recuperar vendas perdidas.</div>
+    </div>
+    <div class="card">
+      <div class="card-head">Persona Alvo</div>
+      <ul style="font-size:13px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:8px">
+        <li>→ Clínicas e consultórios</li>
+        <li>→ Imobiliárias e corretores</li>
+        <li>→ Cursos e infoprodutos</li>
+        <li>→ E-commerce e lojas</li>
+        <li>→ Agências e prestadores de serviço</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head">KPIs do Produto</div>
+      <ul style="font-size:13px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:8px">
+        <li>→ Tempo médio de resposta &lt; 5s</li>
+        <li>→ Taxa de qualificação &gt; 40%</li>
+        <li>→ Follow-up taxa abertura &gt; 65%</li>
+        <li>→ Recuperação de leads &gt; 15%</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 2. STACK ══ -->
+<div id="stack" class="section">
+  <div class="section-tag">02 — Stack Técnica</div>
+  <div class="section-title">Arquitetura de Serviços</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <pre><code><span class="cm">/* Diagrama de Arquitetura — WhatsFlow AI */</span>
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     CLIENTE (Browser)                           │
+│              Next.js 14 + TailwindCSS + Shadcn UI              │
+│                     Hospedado no Vercel                         │
+└────────────────────────┬────────────────────────────────────────┘
+                         │ HTTPS
+┌────────────────────────▼────────────────────────────────────────┐
+│                   API ROUTES (Next.js)                          │
+│            /api/* — Auth, CRM, AI, Webhooks                    │
+│                     Vercel Functions                            │
+└──────┬──────────────────┬───────────────────┬──────────────────┘
+       │                  │                   │
+┌──────▼──────┐  ┌────────▼────────┐  ┌──────▼──────────────────┐
+│  Supabase   │  │   Redis Cache   │  │   Evolution API         │
+│  PostgreSQL │  │   + BullMQ      │  │   (WhatsApp Gateway)    │
+│  pgvector   │  │   Queues        │  │   Railway hosted        │
+│  Auth + RLS │  │   Railway       │  │                         │
+└─────────────┘  └────────┬────────┘  └──────┬──────────────────┘
+                          │                   │ Webhook POST
+                 ┌────────▼────────┐          │
+                 │  WORKER NODE    │◄─────────┘
+                 │  BullMQ Procs   │
+                 │  Railway        │
+                 │                 │
+                 │ → AI Processor  │──► OpenAI / Claude API
+                 │ → Msg Processor │──► Evolution API (send)
+                 │ → FollowUp Proc │──► Scheduled Messages
+                 └─────────────────┘</code></pre>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head">Frontend — Vercel</div>
+      <table>
+        <tr><td>Next.js 14</td><td style="color:var(--muted)">App Router, Server Components, RSC</td></tr>
+        <tr><td>TypeScript</td><td style="color:var(--muted)">Strict mode, tipos compartilhados</td></tr>
+        <tr><td>TailwindCSS</td><td style="color:var(--muted)">Design system + tema customizado</td></tr>
+        <tr><td>Shadcn UI</td><td style="color:var(--muted)">Componentes base (Table, Dialog, etc)</td></tr>
+        <tr><td>Zustand</td><td style="color:var(--muted)">Estado global do cliente</td></tr>
+        <tr><td>React Query</td><td style="color:var(--muted)">Cache e sincronização de dados</td></tr>
+        <tr><td>Recharts</td><td style="color:var(--muted)">Gráficos do dashboard</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head">Backend + Infra — Railway</div>
+      <table>
+        <tr><td>Supabase</td><td style="color:var(--muted)">PostgreSQL + pgvector + Auth + RLS</td></tr>
+        <tr><td>Redis</td><td style="color:var(--muted)">Cache + filas BullMQ</td></tr>
+        <tr><td>BullMQ</td><td style="color:var(--muted)">Filas de mensagens e follow-up</td></tr>
+        <tr><td>OpenAI</td><td style="color:var(--muted)">GPT-4o para atendimento e RAG</td></tr>
+        <tr><td>Claude</td><td style="color:var(--muted)">Qualificação e análise de leads</td></tr>
+        <tr><td>Evolution API</td><td style="color:var(--muted)">Gateway WhatsApp Business</td></tr>
+        <tr><td>Stripe</td><td style="color:var(--muted)">Billing e assinaturas</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. ESTRUTURA DE PASTAS ══ -->
+<div id="pastas" class="section">
+  <div class="section-tag">03 — Estrutura de Pastas</div>
+  <div class="section-title">Monorepo com Turborepo</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head">apps/web — Frontend Next.js</div>
+      <pre><code>apps/web/
+├── <span class="fn">app/</span>
+│   ├── <span class="fn">(auth)/</span>
+│   │   ├── login/page.tsx
+│   │   ├── register/page.tsx
+│   │   └── layout.tsx
+│   ├── <span class="fn">(dashboard)/</span>
+│   │   ├── layout.tsx          <span class="cm"># sidebar + topbar</span>
+│   │   ├── page.tsx            <span class="cm"># overview</span>
+│   │   ├── conversations/      <span class="cm"># inbox</span>
+│   │   ├── leads/              <span class="cm"># lead list</span>
+│   │   ├── crm/                <span class="cm"># kanban pipeline</span>
+│   │   ├── follow-up/          <span class="cm"># sequences</span>
+│   │   ├── knowledge/          <span class="cm"># RAG docs</span>
+│   │   ├── whatsapp/           <span class="cm"># connections</span>
+│   │   ├── ai-config/          <span class="cm"># AI settings</span>
+│   │   ├── analytics/          <span class="cm"># reports</span>
+│   │   └── settings/           <span class="cm"># billing, team</span>
+│   ├── <span class="fn">(admin)/</span>
+│   │   ├── users/
+│   │   ├── tenants/
+│   │   └── logs/
+│   └── <span class="fn">api/</span>
+│       ├── webhooks/evolution/route.ts
+│       ├── ai/chat/route.ts
+│       ├── ai/qualify/route.ts
+│       ├── conversations/route.ts
+│       ├── leads/route.ts
+│       ├── crm/route.ts
+│       ├── follow-up/route.ts
+│       ├── knowledge/route.ts
+│       ├── whatsapp/route.ts
+│       └── billing/route.ts
+├── <span class="fn">components/</span>
+│   ├── ui/                     <span class="cm"># shadcn</span>
+│   ├── layout/                 <span class="cm"># sidebar, topbar</span>
+│   ├── conversations/          <span class="cm"># inbox UI</span>
+│   ├── crm/                    <span class="cm"># kanban</span>
+│   ├── charts/                 <span class="cm"># recharts</span>
+│   └── shared/
+└── <span class="fn">lib/</span>
+    ├── supabase/client.ts
+    ├── supabase/server.ts
+    ├── openai/index.ts
+    ├── evolution/client.ts
+    ├── rag/index.ts
+    └── utils/</code></pre>
+    </div>
+    <div class="card">
+      <div class="card-head">apps/worker — BullMQ Workers</div>
+      <pre><code>apps/worker/
+├── <span class="fn">queues/</span>
+│   ├── message.queue.ts    <span class="cm"># inbound msgs</span>
+│   ├── ai.queue.ts         <span class="cm"># AI processing</span>
+│   ├── followup.queue.ts   <span class="cm"># scheduled</span>
+│   └── recovery.queue.ts   <span class="cm"># lead recovery</span>
+├── <span class="fn">processors/</span>
+│   ├── message.processor.ts
+│   ├── ai.processor.ts
+│   ├── followup.processor.ts
+│   └── recovery.processor.ts
+├── <span class="fn">schedulers/</span>
+│   ├── followup.scheduler.ts
+│   └── recovery.scheduler.ts
+└── index.ts
+
+packages/
+├── <span class="fn">database/</span>
+│   ├── migrations/
+│   │   ├── 001_tenants.sql
+│   │   ├── 002_users.sql
+│   │   ├── 003_whatsapp.sql
+│   │   ├── 004_contacts.sql
+│   │   ├── 005_conversations.sql
+│   │   ├── 006_messages.sql
+│   │   ├── 007_followup.sql
+│   │   ├── 008_knowledge.sql
+│   │   └── 009_ai_config.sql
+│   └── types/
+│       └── index.ts         <span class="cm"># generated types</span>
+├── <span class="fn">shared/</span>
+│   ├── types/
+│   │   ├── tenant.ts
+│   │   ├── lead.ts
+│   │   ├── conversation.ts
+│   │   └── message.ts
+│   └── utils/
+│       ├── lead-score.ts
+│       └── prompt-builder.ts
+└── <span class="fn">evolution-sdk/</span>
+    ├── client.ts
+    ├── webhook.ts
+    └── types.ts</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. BANCO DE DADOS ══ -->
+<div id="banco" class="section">
+  <div class="section-tag">04 — Banco de Dados</div>
+  <div class="section-title">Schema Supabase / PostgreSQL</div>
+  <div class="section-sub">Multi-tenant com Row Level Security (RLS). Toda query é automaticamente filtrada por tenant_id.</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-head">Diagrama de Entidades</div>
+    <pre><code>tenants ──────────────────────────────────────────────────┐
+  │                                                         │
+  ├─── users (role: owner|admin|member)                    │
+  ├─── whatsapp_instances                                  │
+  ├─── ai_configuration                                    │
+  ├─── knowledge_base ──► knowledge_chunks (pgvector)      │
+  ├─── follow_up_sequences ──► follow_up_steps             │
+  └─── contacts ─────────────────────────────────────────┐ │
+         │                                               │ │
+         ├─── conversations ──► messages                 │ │
+         ├─── qualification_answers                      │ │
+         ├─── follow_up_enrollments                      │ │
+         └─── scheduled_meetings                         │ │
+                                                         │ │
+subscriptions (Stripe) ──────────────────────────────────┘ │
+audit_logs ─────────────────────────────────────────────────┘</code></pre>
+  </div>
+
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-head">tenants</div>
+      <pre><code><span class="kw">create table</span> tenants (
+  id          <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  name        <span class="tp">text</span> <span class="kw">not null</span>,
+  slug        <span class="tp">text</span> <span class="kw">unique not null</span>,
+  plan        <span class="tp">text</span> <span class="kw">default</span> <span class="str">'starter'</span>,
+  <span class="cm">-- starter|pro|business|agency</span>
+  ai_msgs_used  <span class="tp">int</span> <span class="kw">default</span> <span class="num">0</span>,
+  ai_msgs_limit <span class="tp">int</span> <span class="kw">default</span> <span class="num">500</span>,
+  wa_limit      <span class="tp">int</span> <span class="kw">default</span> <span class="num">1</span>,
+  stripe_customer_id <span class="tp">text</span>,
+  stripe_sub_id      <span class="tp">text</span>,
+  settings    <span class="tp">jsonb</span> <span class="kw">default</span> <span class="str">'{}'</span>,
+  created_at  <span class="tp">timestamptz</span> <span class="kw">default</span> now()
+);</code></pre>
+    </div>
+    <div class="card">
+      <div class="card-head">contacts</div>
+      <pre><code><span class="kw">create table</span> contacts (
+  id          <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id   <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  phone       <span class="tp">text</span> <span class="kw">not null</span>,
+  name        <span class="tp">text</span>,
+  profile_pic <span class="tp">text</span>,
+  lead_score  <span class="tp">int</span> <span class="kw">default</span> <span class="num">0</span>,  <span class="cm">-- 0-100</span>
+  lead_status <span class="tp">text</span> <span class="kw">default</span> <span class="str">'cold'</span>,
+  <span class="cm">-- cold | warm | hot</span>
+  crm_stage   <span class="tp">text</span> <span class="kw">default</span> <span class="str">'new'</span>,
+  <span class="cm">-- new|attending|qualified|proposal</span>
+  <span class="cm">-- |negotiation|closed|lost</span>
+  tags        <span class="tp">text[]</span>,
+  custom_fields <span class="tp">jsonb</span> <span class="kw">default</span> <span class="str">'{}'</span>,
+  last_seen   <span class="tp">timestamptz</span>,
+  created_at  <span class="tp">timestamptz</span> <span class="kw">default</span> now(),
+  <span class="kw">unique</span>(tenant_id, phone)
+);</code></pre>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-head">conversations + messages</div>
+      <pre><code><span class="kw">create table</span> conversations (
+  id              <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id       <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  contact_id      <span class="tp">uuid</span> <span class="kw">references</span> contacts,
+  instance_id     <span class="tp">uuid</span> <span class="kw">references</span> whatsapp_instances,
+  status          <span class="tp">text</span> <span class="kw">default</span> <span class="str">'active'</span>,
+  <span class="cm">-- active|closed|bot|human</span>
+  ai_enabled      <span class="tp">bool</span> <span class="kw">default</span> <span class="kw">true</span>,
+  unread_count    <span class="tp">int</span> <span class="kw">default</span> <span class="num">0</span>,
+  last_message    <span class="tp">text</span>,
+  last_message_at <span class="tp">timestamptz</span>
+);
+
+<span class="kw">create table</span> messages (
+  id              <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id       <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  conversation_id <span class="tp">uuid</span> <span class="kw">references</span> conversations,
+  direction       <span class="tp">text</span>,  <span class="cm">-- inbound|outbound</span>
+  content         <span class="tp">text</span>,
+  type            <span class="tp">text</span> <span class="kw">default</span> <span class="str">'text'</span>,
+  sent_by         <span class="tp">text</span>,  <span class="cm">-- ai|human|system</span>
+  status          <span class="tp">text</span> <span class="kw">default</span> <span class="str">'sent'</span>,
+  evo_message_id  <span class="tp">text</span>,
+  created_at      <span class="tp">timestamptz</span> <span class="kw">default</span> now()
+);</code></pre>
+    </div>
+    <div class="card">
+      <div class="card-head">knowledge_base + chunks (RAG)</div>
+      <pre><code><span class="kw">create table</span> knowledge_base (
+  id          <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id   <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  title       <span class="tp">text</span>,
+  file_name   <span class="tp">text</span>,
+  file_type   <span class="tp">text</span>,  <span class="cm">-- pdf|docx|txt</span>
+  file_url    <span class="tp">text</span>,
+  status      <span class="tp">text</span> <span class="kw">default</span> <span class="str">'processing'</span>,
+  created_at  <span class="tp">timestamptz</span> <span class="kw">default</span> now()
+);
+
+<span class="cm">-- Requer: create extension vector;</span>
+<span class="kw">create table</span> knowledge_chunks (
+  id                <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  knowledge_base_id <span class="tp">uuid</span> <span class="kw">references</span> knowledge_base,
+  tenant_id         <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  content           <span class="tp">text</span>,
+  embedding         <span class="tp">vector(1536)</span>,  <span class="cm">-- OpenAI ada-002</span>
+  metadata          <span class="tp">jsonb</span>
+);
+
+<span class="cm">-- Index para busca vetorial</span>
+<span class="kw">create index</span> on knowledge_chunks
+  <span class="kw">using</span> ivfflat (embedding vector_cosine_ops);</code></pre>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head">follow_up_sequences + steps</div>
+      <pre><code><span class="kw">create table</span> follow_up_sequences (
+  id          <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id   <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  name        <span class="tp">text</span>,
+  trigger     <span class="tp">text</span>,
+  <span class="cm">-- no_response|proposal_sent|lead_created</span>
+  is_active   <span class="tp">bool</span> <span class="kw">default</span> <span class="kw">true</span>
+);
+
+<span class="kw">create table</span> follow_up_steps (
+  id           <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  sequence_id  <span class="tp">uuid</span> <span class="kw">references</span> follow_up_sequences,
+  step_number  <span class="tp">int</span>,
+  delay_days   <span class="tp">int</span>,
+  message_tpl  <span class="tp">text</span>  <span class="cm">-- {nome}, {empresa}, etc.</span>
+);
+
+<span class="kw">create table</span> follow_up_enrollments (
+  id           <span class="tp">uuid</span> <span class="kw">primary key</span> <span class="kw">default</span> gen_random_uuid(),
+  tenant_id    <span class="tp">uuid</span> <span class="kw">references</span> tenants,
+  contact_id   <span class="tp">uuid</span> <span class="kw">references</span> contacts,
+  sequence_id  <span class="tp">uuid</span> <span class="kw">references</span> follow_up_sequences,
+  current_step <span class="tp">int</span> <span class="kw">default</span> <span class="num">0</span>,
+  status       <span class="tp">text</span> <span class="kw">default</span> <span class="str">'active'</span>,
+  next_send_at <span class="tp">timestamptz</span>
+);</code></pre>
+    </div>
+    <div class="card">
+      <div class="card-head">RLS Policies (Multi-tenant)</div>
+      <pre><code><span class="cm">-- Ativar RLS em todas as tabelas</span>
+<span class="kw">alter table</span> contacts <span class="kw">enable row level security</span>;
+<span class="kw">alter table</span> conversations <span class="kw">enable row level security</span>;
+<span class="kw">alter table</span> messages <span class="kw">enable row level security</span>;
+<span class="cm">-- (repetir para todas)</span>
+
+<span class="cm">-- Policy padrão: usuário só vê dados do seu tenant</span>
+<span class="kw">create policy</span> tenant_isolation <span class="kw">on</span> contacts
+  <span class="kw">using</span> (
+    tenant_id = (
+      <span class="kw">select</span> tenant_id
+      <span class="kw">from</span> users
+      <span class="kw">where</span> id = auth.uid()
+    )
+  );
+
+<span class="cm">-- Função helper para pegar tenant do usuário</span>
+<span class="kw">create function</span> <span class="fn">get_tenant_id</span>()
+<span class="kw">returns</span> <span class="tp">uuid</span> <span class="kw">as</span> $$
+  <span class="kw">select</span> tenant_id
+  <span class="kw">from</span> users
+  <span class="kw">where</span> id = auth.uid()
+$$ <span class="kw">language</span> sql <span class="kw">stable security definer</span>;</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5. FLUXOS ══ -->
+<div id="fluxos" class="section">
+  <div class="section-tag">05 — Fluxos do Sistema</div>
+  <div class="section-title">Como tudo funciona junto</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head">Fluxo 1 — Mensagem Recebida (Tempo Real)</div>
+    <div class="flow" style="padding:8px 0">
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">1</div><div class="flow-label">WhatsApp mensagem recebida</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(59,130,246,.12);color:var(--blue)">2</div><div class="flow-label">Evolution API dispara webhook POST</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(245,158,11,.12);color:var(--orange)">3</div><div class="flow-label">/api/webhooks/evolution valida e salva</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(168,85,247,.12);color:var(--purple)">4</div><div class="flow-label">Job enfileirado no BullMQ</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(239,68,68,.12);color:var(--red)">5</div><div class="flow-label">Worker: carrega contexto + histórico</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">6</div><div class="flow-label">OpenAI gera resposta (RAG)</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(59,130,246,.12);color:var(--blue)">7</div><div class="flow-label">Evolution API envia resposta</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head">Fluxo 2 — Qualificação de Lead (IA)</div>
+    <div class="flow" style="padding:8px 0">
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">1</div><div class="flow-label">Novo contato (1ª mensagem)</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(59,130,246,.12);color:var(--blue)">2</div><div class="flow-label">IA detecta: lead não qualificado</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(245,158,11,.12);color:var(--orange)">3</div><div class="flow-label">Inicia fluxo de perguntas configuradas</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(168,85,247,.12);color:var(--purple)">4</div><div class="flow-label">Salva respostas + calcula score 0-100</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(239,68,68,.12);color:var(--red)">5</div><div class="flow-label">Classifica: Frio / Morno / Quente</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">6</div><div class="flow-label">Move CRM stage + aciona follow-up</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head">Fluxo 3 — Follow-up Automático (Scheduler)</div>
+    <div class="flow" style="padding:8px 0">
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">1</div><div class="flow-label">Cron: todo minuto verifica follow_up_enrollments</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(59,130,246,.12);color:var(--blue)">2</div><div class="flow-label">next_send_at &lt;= now()?</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(245,158,11,.12);color:var(--orange)">3</div><div class="flow-label">Pega template do step atual</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(168,85,247,.12);color:var(--purple)">4</div><div class="flow-label">Personaliza com {nome}, {empresa}</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(239,68,68,.12);color:var(--red)">5</div><div class="flow-label">Envia via Evolution API</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-bubble" style="background:rgba(34,197,94,.12);color:var(--green)">6</div><div class="flow-label">Avança step + define próximo next_send_at</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Prompt Builder — Como a IA é contextualizada</div>
+    <pre><code><span class="cm">// packages/shared/utils/prompt-builder.ts</span>
+<span class="kw">export function</span> <span class="fn">buildSystemPrompt</span>(config: AIConfiguration, chunks: KnowledgeChunk[]) {
+  <span class="kw">return</span> <span class="str">`
+Você é um assistente de vendas e atendimento da empresa ${config.company_name}.
+
+SOBRE A EMPRESA:
+${config.about}
+
+SERVIÇOS E PRODUTOS:
+${config.services}
+
+HORÁRIO DE FUNCIONAMENTO:
+${JSON.stringify(config.business_hours)}
+
+POLÍTICA COMERCIAL:
+${config.commercial_policy}
+
+CONHECIMENTO RELEVANTE (base vetorial):
+${chunks.map(c => c.content).join('\n\n')}
+
+INSTRUÇÕES DE COMPORTAMENTO:
+- Seja ${config.ai_tone} no tom de voz
+- Nunca invente informações — use apenas o que está no contexto
+- Quando não souber, diga que vai verificar e ofereça continuar
+- Qualifique o lead naturalmente durante a conversa
+- Sempre busque próximo passo (reunião, proposta, demonstração)
+- Responda em até 3 parágrafos curtos
+- Use linguagem natural, nunca robotizada
+
+PERSONA: ${config.ai_persona}
+  `</span>;
+}</code></pre>
+  </div>
+</div>
+
+<!-- ══ 6. APIS ══ -->
+<div id="apis" class="section">
+  <div class="section-tag">06 — Contrato de APIs</div>
+  <div class="section-title">Endpoints REST</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head">WhatsApp — /api/whatsapp</div>
+      <table>
+        <thead><tr><th>Método</th><th>Endpoint</th><th>Descrição</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green)">POST</td><td>/instances</td><td style="color:var(--muted)">Criar instância</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/instances</td><td style="color:var(--muted)">Listar instâncias</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/instances/:id/qr</td><td style="color:var(--muted)">QR Code</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/instances/:id/status</td><td style="color:var(--muted)">Status da conexão</td></tr>
+          <tr><td style="color:var(--red)">DELETE</td><td>/instances/:id</td><td style="color:var(--muted)">Desconectar</td></tr>
+          <tr><td style="color:var(--green)">POST</td><td>/webhooks/evolution</td><td style="color:var(--muted)">Receber mensagens</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head">CRM — /api/crm</div>
+      <table>
+        <thead><tr><th>Método</th><th>Endpoint</th><th>Descrição</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--blue)">GET</td><td>/contacts</td><td style="color:var(--muted)">Listar contatos</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/contacts/:id</td><td style="color:var(--muted)">Perfil do lead</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/contacts/:id/stage</td><td style="color:var(--muted)">Mover pipeline</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/contacts/:id/score</td><td style="color:var(--muted)">Atualizar score</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/pipeline</td><td style="color:var(--muted)">Kanban por stage</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/analytics</td><td style="color:var(--muted)">Métricas CRM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-top:16px">
+    <div class="card">
+      <div class="card-head">Conversas — /api/conversations</div>
+      <table>
+        <thead><tr><th>Método</th><th>Endpoint</th><th>Descrição</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--blue)">GET</td><td>/</td><td style="color:var(--muted)">Inbox (paginado)</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/:id</td><td style="color:var(--muted)">Com histórico</td></tr>
+          <tr><td style="color:var(--green)">POST</td><td>/:id/messages</td><td style="color:var(--muted)">Enviar manual</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/:id/ai</td><td style="color:var(--muted)">Toggle IA on/off</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/:id/human</td><td style="color:var(--muted)">Assumir manual</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head">Follow-up — /api/follow-up</div>
+      <table>
+        <thead><tr><th>Método</th><th>Endpoint</th><th>Descrição</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--blue)">GET</td><td>/sequences</td><td style="color:var(--muted)">Listar sequências</td></tr>
+          <tr><td style="color:var(--green)">POST</td><td>/sequences</td><td style="color:var(--muted)">Criar sequência</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/sequences/:id</td><td style="color:var(--muted)">Editar</td></tr>
+          <tr><td style="color:var(--green)">POST</td><td>/enroll</td><td style="color:var(--muted)">Inscrever contato</td></tr>
+          <tr><td style="color:var(--orange)">PATCH</td><td>/enroll/:id/pause</td><td style="color:var(--muted)">Pausar</td></tr>
+          <tr><td style="color:var(--blue)">GET</td><td>/enrollments</td><td style="color:var(--muted)">Status dos envios</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 7. ROADMAP ══ -->
+<div id="roadmap" class="section">
+  <div class="section-tag">07 — Roadmap MVP</div>
+  <div class="section-title">10 Semanas para o Lançamento</div>
+  <div class="section-sub">Cada fase entrega valor incrementalmente. Ao final de cada fase, o produto é demonstrável para clientes beta.</div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num" style="background:rgba(34,197,94,.12);color:var(--green)">1</div>
+      <div class="phase-title">Fundação — Auth, DB, Layout</div>
+      <div class="phase-weeks"><span class="tag tag-green">Semanas 1–2</span></div>
+    </div>
+    <div class="phase-body">
+      <div class="task">Supabase: schema completo + RLS policies + tipos TypeScript gerados</div>
+      <div class="task">Auth: login, registro, convite de equipe, middleware de proteção</div>
+      <div class="task">Layout do dashboard: sidebar, topbar, navegação responsiva</div>
+      <div class="task">Página de overview com métricas (dados mockados)</div>
+      <div class="task">Variáveis de ambiente, CI/CD no Vercel e Railway</div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num" style="background:rgba(59,130,246,.12);color:var(--blue)">2</div>
+      <div class="phase-title">WhatsApp — Conexão e Inbox</div>
+      <div class="phase-weeks"><span class="tag tag-blue">Semanas 3–4</span></div>
+    </div>
+    <div class="phase-body">
+      <div class="task">Evolution API SDK: cliente tipado, gerenciamento de instâncias</div>
+      <div class="task">Tela de conexão: criar instância, gerar QR Code, status em tempo real</div>
+      <div class="task">Webhook handler: receber, validar e salvar mensagens</div>
+      <div class="task">Inbox de conversas: lista com busca, filtros e contagem de não lidos</div>
+      <div class="task">Tela de conversa: histórico, envio manual, toggle IA on/off</div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num" style="background:rgba(168,85,247,.12);color:var(--purple)">3</div>
+      <div class="phase-title">IA Core — Atendimento + RAG</div>
+      <div class="phase-weeks"><span class="tag tag-purple">Semanas 5–6</span></div>
+    </div>
+    <div class="phase-body">
+      <div class="task">Painel de configuração da IA: persona, empresa, FAQ, horários</div>
+      <div class="task">BullMQ + Redis: fila de processamento de mensagens</div>
+      <div class="task">Worker: carregar contexto + chamar OpenAI + enviar resposta</div>
+      <div class="task">Knowledge Base: upload PDF/DOCX/TXT, chunking, embeddings via pgvector</div>
+      <div class="task">RAG: busca semântica injetada no contexto do prompt</div>
+      <div class="task">Tela de teste da IA: simular conversa antes de ativar</div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num" style="background:rgba(245,158,11,.12);color:var(--orange)">4</div>
+      <div class="phase-title">CRM + Qualificação de Leads</div>
+      <div class="phase-weeks"><span class="tag tag-orange">Semanas 7–8</span></div>
+    </div>
+    <div class="phase-body">
+      <div class="task">Kanban CRM: 7 stages, drag-and-drop, movimentação automática via IA</div>
+      <div class="task">Perfil do lead: histórico de conversa, score, tags, anotações</div>
+      <div class="task">Fluxo de qualificação: perguntas configuráveis, lógica de score 0-100</div>
+      <div class="task">Classificação automática: Frio / Morno / Quente</div>
+      <div class="task">Integração Claude para análise de sentimento nas respostas</div>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div class="phase-num" style="background:rgba(239,68,68,.12);color:var(--red)">5</div>
+      <div class="phase-title">Follow-up + Billing + Admin</div>
+      <div class="phase-weeks"><span class="tag tag-red">Semanas 9–10</span></div>
+    </div>
+    <div class="phase-body">
+      <div class="task">Builder de sequências de follow-up: N passos, delay configurável por dia</div>
+      <div class="task">Scheduler BullMQ: verificação por minuto, personalização de templates</div>
+      <div class="task">Recuperação de leads: detectar abandonados, campanhas automáticas</div>
+      <div class="task">Stripe: planos Starter/Pro/Business/Agency, portal do cliente</div>
+      <div class="task">Limites por plano: controle de mensagens IA e instâncias WhatsApp</div>
+      <div class="task">Painel admin: usuários, tenants, logs, consumo de IA</div>
+      <div class="task">Analytics: gráficos de conversas, leads, receita recuperada</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 8. PLANOS ══ -->
+<div class="section">
+  <div class="section-tag">08 — Planos e Limites</div>
+  <div class="section-title">Monetização</div>
+
+  <div class="g4">
+    <div class="card">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Starter</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-1.5px;margin-bottom:4px">R$97<span style="font-size:14px;font-weight:500;color:var(--muted)">/mês</span></div>
+      <ul style="font-size:12px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:16px">
+        <li>→ 1 WhatsApp</li>
+        <li>→ 500 msgs IA/mês</li>
+        <li>→ CRM básico</li>
+        <li>→ Follow-up simples</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:rgba(34,197,94,.3)">
+      <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Pro ✦</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-1.5px;margin-bottom:4px">R$197<span style="font-size:14px;font-weight:500;color:var(--muted)">/mês</span></div>
+      <ul style="font-size:12px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:16px">
+        <li>→ 3 WhatsApps</li>
+        <li>→ 5.000 msgs IA/mês</li>
+        <li>→ RAG knowledge base</li>
+        <li>→ Follow-up avançado</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Business</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-1.5px;margin-bottom:4px">R$397<span style="font-size:14px;font-weight:500;color:var(--muted)">/mês</span></div>
+      <ul style="font-size:12px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:16px">
+        <li>→ 10 WhatsApps</li>
+        <li>→ 20.000 msgs IA/mês</li>
+        <li>→ Google Calendar</li>
+        <li>→ Recovery campaigns</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Agency</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-1.5px;margin-bottom:4px">R$697<span style="font-size:14px;font-weight:500;color:var(--muted)">/mês</span></div>
+      <ul style="font-size:12px;color:var(--muted);list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:16px">
+        <li>→ Ilimitado</li>
+        <li>→ White-label</li>
+        <li>→ API acesso</li>
+        <li>→ Suporte priority</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRÓXIMOS PASSOS ══ -->
+<div class="card" style="margin-bottom:60px;border-color:rgba(34,197,94,.2)">
+  <div class="card-head" style="color:var(--green)">Próximo Passo — Iniciar Fase 1</div>
+  <div style="font-size:14px;color:var(--muted);margin-bottom:16px">Arquitetura definida. Diga <strong style="color:var(--text)">"iniciar fase 1"</strong> para eu começar a escrever o código real, começando por:</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div class="task">Criar monorepo com Turborepo + Next.js 14</div>
+    <div class="task">Configurar Supabase: migrations SQL completas</div>
+    <div class="task">Implementar Auth multi-tenant com Supabase Auth</div>
+    <div class="task">Montar layout do dashboard (sidebar + topbar)</div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+</body>
+</html>

@@ -1,0 +1,175 @@
+<section class="ig-section">
+  <div class="ig-header">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="section-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h2 class="section-title">{{ section.settings.title | default: 'SIGA NO INSTAGRAM' }}</h2>
+    {%- if section.settings.handle != blank -%}
+      <a href="https://instagram.com/{{ settings.instagram }}" target="_blank" class="ig-handle-link">
+        {{ section.settings.handle | default: '@nataliasilveira' }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="ig-grid">
+    {%- for product in collections.all.products limit: section.settings.photos_count -%}
+      <a href="https://instagram.com/{{ settings.instagram }}" class="ig-item" target="_blank" aria-label="Ver no Instagram">
+        {%- if product.featured_image -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 500 }}"
+            alt="{{ product.title }}"
+            loading="lazy"
+            width="500"
+            height="500">
+        {%- else -%}
+          <div class="ig-placeholder"></div>
+        {%- endif -%}
+        <div class="ig-overlay">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+        </div>
+      </a>
+    {%- else -%}
+      {%- for i in (1..section.settings.photos_count) -%}
+        <a href="https://instagram.com/{{ settings.instagram }}" class="ig-item" target="_blank">
+          <div class="ig-placeholder"></div>
+          <div class="ig-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.cta_text != blank -%}
+    <div style="text-align:center;margin-top:40px;">
+      <a href="https://instagram.com/{{ settings.instagram }}" target="_blank" class="btn-outline">
+        {{ section.settings.cta_text }}
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .ig-section { padding: 80px 40px; background: #fff; }
+  .ig-header { text-align: center; margin-bottom: 40px; }
+  .ig-handle-link {
+    display: inline-block;
+    font-family: Jost, sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #C4946A;
+    text-decoration: none;
+    margin-top: 8px;
+    border-bottom: 1px solid currentColor;
+  }
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .ig-item {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f5f0ea;
+  }
+  .ig-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .ig-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #e8ddd0, #c8b89a);
+  }
+  .ig-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .ig-item:hover img { transform: scale(1.06); }
+  .ig-item:hover .ig-overlay { background: rgba(0,0,0,0.4); opacity: 1; }
+  @media (max-width: 768px) {
+    .ig-section { padding: 60px 16px; }
+    .ig-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Cabeçalho"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto pequeno acima (eyebrow)",
+      "default": "SIGA NOSSAS REDES"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "INSTAGRAM"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Arroba (exibido abaixo do título)",
+      "default": "@nataliasilveira",
+      "info": "Configure o Instagram nas configurações gerais do tema"
+    },
+    {
+      "type": "header",
+      "content": "Grade de Fotos"
+    },
+    {
+      "type": "range",
+      "id": "photos_count",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 6,
+      "label": "Número de fotos",
+      "info": "Usa as fotos dos produtos como prévia do Instagram"
+    },
+    {
+      "type": "header",
+      "content": "Botão"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão",
+      "default": "SEGUIR NO INSTAGRAM"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram"
+    }
+  ]
+}
+{% endschema %}

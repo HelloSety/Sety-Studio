@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#000; }
+
+.slide {
+  width:1080px; height:1350px;
+  position:relative; overflow:hidden;
+}
+
+/* Foto de fundo */
+.bg-img {
+  position:absolute; inset:0; z-index:1;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center top;
+}
+
+/* Gradiente sobre a foto */
+.overlay {
+  position:absolute; inset:0; z-index:2;
+  background:
+    linear-gradient(to top,
+      rgba(0,0,0,0.97) 0%,
+      rgba(0,0,0,0.85) 22%,
+      rgba(0,0,0,0.4)  50%,
+      rgba(0,0,0,0.08) 75%,
+      transparent 100%
+    );
+}
+
+/* Header */
+.hdr {
+  position:absolute; top:0; left:0; right:0; z-index:10;
+  padding:44px 56px 0;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-brand {
+  font-family:'Barlow',sans-serif; font-size:11px; font-weight:300;
+  letter-spacing:6px; color:rgba(255,255,255,0.55); text-transform:uppercase;
+}
+.hdr-tag {
+  font-family:'Barlow',sans-serif; font-size:11px; font-weight:600;
+  letter-spacing:4px; color:#00E571; text-transform:uppercase;
+  border:1px solid rgba(0,229,113,0.4); padding:6px 16px; border-radius:2px;
+}
+
+/* Conteúdo principal — bottom */
+.main {
+  position:absolute; bottom:0; left:0; right:0; z-index:10;
+  padding:0 56px 72px;
+}
+
+.categoria {
+  font-family:'Barlow',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:6px; color:#00E571; text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:14px;
+}
+.categoria::before {
+  content:''; display:block; width:30px; height:2px; background:#00E571;
+}
+
+.headline {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:108px; font-weight:900; line-height:0.88;
+  color:#fff; text-transform:uppercase; letter-spacing:-3px;
+  margin-bottom:28px;
+}
+.headline em {
+  color:#00E571; font-style:normal;
+}
+
+.sub {
+  font-family:'Barlow',sans-serif; font-size:20px; font-weight:300;
+  color:rgba(255,255,255,0.6); line-height:1.5;
+  max-width:700px; margin-bottom:40px;
+}
+.sub strong { color:rgba(255,255,255,0.9); font-weight:600; }
+
+/* Footer */
+.ftr {
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,0.12);
+  padding-top:20px;
+}
+.ftr-l {
+  font-family:'Barlow',sans-serif; font-size:12px; font-weight:300;
+  letter-spacing:5px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+}
+.ftr-r {
+  font-family:'Barlow',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:4px; color:#00E571; text-transform:uppercase;
+}
+
+/* Blade lateral esquerda */
+.blade {
+  position:absolute; left:0; top:0; bottom:0; z-index:11;
+  width:3px;
+  background:linear-gradient(to bottom, transparent 5%, #00E571 30%, #00E571 70%, transparent 100%);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <img class="bg-img" src="file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/01-copa-torcedor.png" alt="">
+  <div class="overlay"></div>
+  <div class="blade"></div>
+
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-tag">Copa 2026</div>
+  </div>
+
+  <div class="main">
+    <div class="categoria">Análise</div>
+    <div class="headline">
+      O uniforme<br>que <em>dividiu</em><br>o Brasil.
+    </div>
+    <div class="sub">
+      Mais de <strong>40 milhões de pessoas</strong> têm opinião sobre essa camisa.<br>
+      Nós analisamos o porquê.
+    </div>
+    <div class="ftr">
+      <div class="ftr-l">Desliza para ver a análise →</div>
+      <div class="ftr-r">@setystudio</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

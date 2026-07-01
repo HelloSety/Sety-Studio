@@ -1,0 +1,188 @@
+<div class="site-header">
+  <div class="header-top">
+    <!-- Pesquisar -->
+    <div class="header-left">
+      <a href="{{ routes.search_url }}" class="header-icon" aria-label="Pesquisar">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </a>
+    </div>
+
+    <!-- Logo -->
+    <a href="{{ routes.root_url }}" class="logo-text">
+      <span>{{ section.settings.logo_line1 | default: 'NATALIA' }}</span>
+      <span>{{ section.settings.logo_line2 | default: 'SILVEIRA' }}</span>
+    </a>
+
+    <!-- Hamburger -->
+    <div class="header-right">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Desktop Nav -->
+  <nav class="header-nav" role="navigation">
+    <a href="{{ routes.root_url }}">{{ section.settings.nav_home | default: 'CASA' }}</a>
+
+    <div class="nav-dropdown">
+      <button class="nav-trigger">{{ section.settings.nav_shop | default: 'COMPRAR' }}</button>
+      <div class="nav-submenu">
+        {%- for link in section.settings.main_menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- else -%}
+          <a href="{{ routes.all_products_collection_url }}">Todos os Produtos</a>
+          <a href="{{ routes.collections_url }}/conjuntos">Conjuntos</a>
+          <a href="{{ routes.collections_url }}/vestidos">Vestidos</a>
+          <a href="{{ routes.collections_url }}/pecas-exclusivas">Peças Exclusivas</a>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <a href="/pages/sobre">{{ section.settings.nav_about | default: 'SOBRE' }}</a>
+    <a href="/pages/politicas">{{ section.settings.nav_policies | default: 'POLÍTICAS' }}</a>
+  </nav>
+</div>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav" role="navigation">
+  <button class="mobile-nav-close" id="mobileNavClose">×</button>
+  <a href="{{ routes.root_url }}">{{ section.settings.nav_home | default: 'CASA' }}</a>
+  <a href="{{ routes.all_products_collection_url }}">{{ section.settings.nav_shop | default: 'COMPRAR' }}</a>
+  <a href="/pages/sobre">{{ section.settings.nav_about | default: 'SOBRE' }}</a>
+  <a href="/pages/politicas">{{ section.settings.nav_policies | default: 'POLÍTICAS' }}</a>
+</div>
+
+<!-- Email Popup -->
+{%- if section.settings.show_popup -%}
+<div class="popup-overlay" id="nsPopup">
+  <div class="popup-box">
+    {%- if section.settings.popup_image -%}
+    <div class="popup-image">
+      <img src="{{ section.settings.popup_image | image_url: width: 600 }}" alt="Natalia Silveira" width="600" height="800" loading="lazy">
+    </div>
+    {%- endif -%}
+    <div class="popup-side">
+      <button class="popup-close" id="popupClose">×</button>
+      <span class="popup-mono">ns</span>
+      <h2 class="popup-offer">{{ section.settings.popup_title | default: 'GANHE 10% DE DESCONTO' }}</h2>
+      <p class="popup-sub">{{ section.settings.popup_sub | default: 'NO SEU PRIMEIRO PEDIDO' }}</p>
+      <p class="popup-desc">{{ section.settings.popup_desc | default: 'Cadastre-se para acesso exclusivo ao universo Natalia Silveira' }}</p>
+      <form class="popup-form" id="popupForm">
+        <input class="popup-input" type="email" placeholder="{{ section.settings.popup_placeholder | default: 'Endereço de e-mail*' }}" required>
+        <button type="submit" class="popup-submit">{{ section.settings.popup_btn | default: 'Obter código de desconto' }}</button>
+      </form>
+      <button class="popup-skip" id="popupSkip">{{ section.settings.popup_skip | default: 'Não, obrigada' }}</button>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_line1",
+      "label": "Linha 1 do logo",
+      "default": "NATALIA"
+    },
+    {
+      "type": "text",
+      "id": "logo_line2",
+      "label": "Linha 2 do logo",
+      "default": "SILVEIRA"
+    },
+    {
+      "type": "header",
+      "content": "Navegação"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Menu dropdown Comprar",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "nav_home",
+      "label": "Label: Casa",
+      "default": "CASA"
+    },
+    {
+      "type": "text",
+      "id": "nav_shop",
+      "label": "Label: Comprar",
+      "default": "COMPRAR"
+    },
+    {
+      "type": "text",
+      "id": "nav_about",
+      "label": "Label: Sobre",
+      "default": "SOBRE"
+    },
+    {
+      "type": "text",
+      "id": "nav_policies",
+      "label": "Label: Políticas",
+      "default": "POLÍTICAS"
+    },
+    {
+      "type": "header",
+      "content": "Popup de E-mail"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popup",
+      "label": "Mostrar popup ao entrar no site",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_image",
+      "label": "Imagem do popup"
+    },
+    {
+      "type": "text",
+      "id": "popup_title",
+      "label": "Título do popup",
+      "default": "GANHE 10% DE DESCONTO"
+    },
+    {
+      "type": "text",
+      "id": "popup_sub",
+      "label": "Subtítulo do popup",
+      "default": "NO SEU PRIMEIRO PEDIDO"
+    },
+    {
+      "type": "textarea",
+      "id": "popup_desc",
+      "label": "Descrição do popup",
+      "default": "Cadastre-se para acesso exclusivo ao universo Natalia Silveira"
+    },
+    {
+      "type": "text",
+      "id": "popup_placeholder",
+      "label": "Placeholder do e-mail",
+      "default": "Endereço de e-mail*"
+    },
+    {
+      "type": "text",
+      "id": "popup_btn",
+      "label": "Botão do popup",
+      "default": "Obter código de desconto"
+    },
+    {
+      "type": "text",
+      "id": "popup_skip",
+      "label": "Link pular popup",
+      "default": "Não, obrigada"
+    }
+  ]
+}
+{% endschema %}

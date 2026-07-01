@@ -1,0 +1,33 @@
+<div style="max-width:800px;margin:80px auto;padding:0 20px;">
+  <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px;letter-spacing:4px;text-align:center;margin-bottom:40px;">PESQUISAR</h1>
+
+  <form action="{{ routes.search_url }}" method="get" style="display:flex;gap:0;margin-bottom:60px;">
+    <input type="hidden" name="type" value="product">
+    <input
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="Buscar peças..."
+      style="flex:1;border:1px solid #E5E5E5;border-right:none;padding:14px 20px;font-family:Jost,sans-serif;font-size:12px;letter-spacing:1px;outline:none;">
+    <button type="submit" class="btn-fill" style="border-radius:0;">BUSCAR</button>
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <p style="text-align:center;font-family:Jost,sans-serif;font-size:12px;color:#767676;letter-spacing:1px;">
+        Nenhum resultado para "{{ search.terms }}".
+      </p>
+    {%- else -%}
+      <p style="font-family:Jost,sans-serif;font-size:11px;color:#767676;letter-spacing:1px;margin-bottom:32px;">
+        {{ search.results_count }} resultado(s) para "{{ search.terms }}"
+      </p>
+      <div class="product-grid">
+        {%- for result in search.results -%}
+          {%- if result.object_type == 'product' -%}
+            {%- render 'product-card', product: result -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>

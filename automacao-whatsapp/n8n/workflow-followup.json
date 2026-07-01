@@ -1,0 +1,198 @@
+{
+  "name": "Sety Studio — Follow-up Automático",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "b2c3d4e5-0001-0001-0001-b2c3d4e50001",
+      "name": "A cada 1 hora",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "LEADS",
+          "mode": "name"
+        },
+        "options": {
+          "headerRow": 1,
+          "returnAllMatches": true
+        }
+      },
+      "id": "b2c3d4e5-0002-0002-0002-b2c3d4e50002",
+      "name": "Ler Leads do Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Filtra leads que precisam de follow-up ────────────────────────────────\nconst leads = $input.all();\nconst resultado = [];\n\nconst agora = new Date();\n// Ajuste UTC-3 (Belém)\nagora.setHours(agora.getHours() - 3);\n\nfor (const item of leads) {\n  const d = item.json;\n\n  // Pular leads fechados ou perdidos\n  const status = (d['Status CRM'] || '').toLowerCase();\n  if (status.includes('fechado') || status.includes('perdido')) continue;\n\n  // Calcular horas desde o último contato\n  const ultimoContato = new Date(d['Ultimo Contato'] || d['Data/Hora']);\n  const diffHoras = (agora - ultimoContato) / (1000 * 60 * 60);\n\n  if (isNaN(diffHoras)) continue;\n\n  let mensagem = null;\n  let etapa = null;\n  let campoColunaUpdate = null;\n\n  // 1 hora\n  if (diffHoras >= 1 && diffHoras < 2 && d['Followup 1h'] !== 'SIM') {\n    etapa = '1h';\n    campoColunaUpdate = 'Followup 1h';\n    mensagem = `Oi ${d.Nome}! Vi que você demonstrou interesse em ter sua loja online. Posso te ajudar com alguma dúvida agora?`;\n  }\n  // 24 horas\n  else if (diffHoras >= 24 && diffHoras < 25 && d['Followup 24h'] !== 'SIM') {\n    etapa = '24h';\n    campoColunaUpdate = 'Followup 24h';\n    mensagem = `${d.Nome}, vi que você ainda não respondeu. Estou aqui pra tirar dúvidas sobre como criar sua loja ${d.Plataforma}. Quando é um bom momento pra conversar?`;\n  }\n  // 3 dias (72 horas)\n  else if (diffHoras >= 72 && diffHoras < 73 && d['Followup 3d'] !== 'SIM') {\n    etapa = '3d';\n    campoColunaUpdate = 'Followup 3d';\n    mensagem = `Olá ${d.Nome}! Queria compartilhar um case de sucesso: uma loja do nicho ${d.Nicho} que lançamos recentemente. Posso te enviar os detalhes?`;\n  }\n  // 7 dias (168 horas)\n  else if (diffHoras >= 168 && diffHoras < 169 && d['Followup 7d'] !== 'SIM') {\n    etapa = '7d';\n    campoColunaUpdate = 'Followup 7d';\n    mensagem = `${d.Nome}, última mensagem da minha parte. Sei que você estava pensando em criar sua loja. Se mudar de ideia ou tiver dúvidas, estou aqui. Abraço!`;\n  }\n\n  if (mensagem && d.Telefone) {\n    resultado.push({\n      json: {\n        ...d,\n        mensagem_followup: mensagem,\n        etapa_followup: etapa,\n        coluna_update: campoColunaUpdate\n      }\n    });\n  }\n}\n\nconsole.log(`Follow-up: ${resultado.length} lead(s) para contatar`);\nreturn resultado;"
+      },
+      "id": "b2c3d4e5-0003-0003-0003-b2c3d4e50003",
+      "name": "Filtrar Follow-ups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "b2c3d4e5-0004-0004-0004-b2c3d4e50004",
+      "name": "Processar 1 por vez",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution_api:8080/message/sendText/{{ $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.EVOLUTION_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.Telefone }}\",\n  \"text\": \"{{ $json.mensagem_followup }}\"\n}",
+        "options": {}
+      },
+      "id": "b2c3d4e5-0005-0005-0005-b2c3d4e50005",
+      "name": "Enviar WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "LEADS",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ultimo Contato": "={{ new Date().toISOString().replace('T',' ').substring(0,16) }}",
+            "={{ $json.coluna_update }}": "SIM"
+          },
+          "matchingColumns": ["Telefone"],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "b2c3d4e5-0006-0006-0006-b2c3d4e50006",
+      "name": "Atualizar Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "A cada 1 hora": {
+      "main": [
+        [
+          {
+            "node": "Ler Leads do Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler Leads do Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filtrar Follow-ups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar Follow-ups": {
+      "main": [
+        [
+          {
+            "node": "Processar 1 por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processar 1 por vez": {
+      "main": [
+        [
+          {
+            "node": "Enviar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar Sheets": {
+      "main": [
+        [
+          {
+            "node": "Processar 1 por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Belem"
+  },
+  "tags": [
+    { "name": "sety-studio" },
+    { "name": "followup" }
+  ]
+}

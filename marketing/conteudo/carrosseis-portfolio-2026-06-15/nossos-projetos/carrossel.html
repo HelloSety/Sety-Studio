@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#000;}
+.slide{
+  width:1080px;height:1350px;
+  position:relative;overflow:hidden;
+  font-family:'Montserrat',sans-serif;
+  display:block;
+}
+.s-black{background:#000;color:#fff;}
+.s-dark{background:#111111;color:#fff;}
+.s-card{background:#1A1A1A;color:#fff;}
+.s-red{background:#FF2A2A;color:#fff;}
+
+/* HEADER */
+.hdr{position:absolute;top:52px;left:68px;right:68px;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+.hdr img{height:22px;width:auto;object-fit:contain;filter:brightness(0) invert(1);}
+.hdr-right{display:flex;align-items:center;gap:16px;}
+.slide-num{font-size:12px;font-weight:600;letter-spacing:0.22em;color:rgba(255,255,255,0.3);}
+.handle{font-size:12px;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.2);}
+
+/* FOOTER */
+.ftr{position:absolute;bottom:48px;left:68px;right:68px;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+.ftr-line{height:1px;flex:1;background:rgba(255,255,255,0.08);}
+.ftr-tag{font-size:10px;font-weight:700;letter-spacing:0.26em;color:rgba(255,255,255,0.18);}
+
+/* EYEBROW */
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:0.32em;margin-bottom:20px;display:inline-block;}
+.accent-line{height:3px;width:56px;margin-bottom:28px;border-radius:2px;}
+
+/* GHOST BG TEXT */
+.ghost{position:absolute;font-size:520px;font-weight:900;line-height:1;opacity:0.03;z-index:0;pointer-events:none;color:#fff;}
+
+/* SCREENSHOT FRAME */
+.frame{
+  background:#0a0a0a;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.8);
+}
+.frame-bar{height:36px;background:#1a1a1a;display:flex;align-items:center;gap:6px;padding:0 14px;flex-shrink:0;}
+.dot{width:10px;height:10px;border-radius:50%;}
+.frame-url{flex:1;height:20px;background:rgba(255,255,255,0.06);border-radius:4px;margin:0 12px;}
+.frame-screen{overflow:hidden;}
+.frame-screen img{width:100%;display:block;}
+
+/* PHONE MOCKUP */
+.phone-wrap{position:relative;display:inline-block;}
+.phone{width:220px;height:440px;border:7px solid #2a2a2a;border-radius:36px;overflow:hidden;background:#000;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.9),inset 0 0 0 1px rgba(255,255,255,0.08);}
+.phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#2a2a2a;border-radius:0 0 14px 14px;z-index:10;}
+.phone-screen{width:100%;height:100%;overflow:hidden;}
+.phone-screen img{width:300%;margin-left:0;transform-origin:top left;transform:scale(0.333);}
+
+/* METRIC GRID */
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.metric-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:36px 32px;}
+.metric-val{font-size:52px;font-weight:900;line-height:1;letter-spacing:-0.04em;margin-bottom:10px;}
+.metric-label{font-size:11px;font-weight:700;letter-spacing:0.22em;color:rgba(255,255,255,0.35);}
+.metric-desc{font-size:13px;font-weight:500;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.5;}
+
+/* STRATEGY ITEMS */
+.strat-list{display:flex;flex-direction:column;gap:32px;margin-top:40px;}
+.strat-item{display:flex;align-items:flex-start;gap:24px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.strat-item:last-child{border-bottom:none;}
+.strat-num{font-size:13px;font-weight:800;letter-spacing:0.14em;flex-shrink:0;margin-top:4px;}
+.strat-text{font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;}
+.strat-sub{font-size:14px;font-weight:500;color:rgba(255,255,255,0.38);margin-top:6px;line-height:1.5;}
+
+/* CTA SLIDE */
+.cta-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px;}
+.cta-logo{height:30px;width:auto;object-fit:contain;filter:brightness(0) invert(1);margin-bottom:60px;}
+.cta-title{font-size:58px;font-weight:900;line-height:1.0;letter-spacing:-0.04em;margin-bottom:32px;}
+.cta-sub{font-size:20px;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:56px;line-height:1.5;}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;font-size:16px;font-weight:800;letter-spacing:0.1em;padding:20px 44px;border-radius:4px;}
+.cta-btn-red{background:#fff;color:#FF2A2A;}
+.cta-handle{font-size:13px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.5);margin-top:32px;}
+
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.proj-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;overflow:hidden;}
+.proj-card-img{height:140px;overflow:hidden;position:relative;}
+.proj-card-img img{width:100%;object-fit:cover;object-position:top;}
+.proj-card-info{padding:16px;}
+.proj-card-tag{font-size:9px;font-weight:800;letter-spacing:0.2em;margin-bottom:6px;display:block;}
+.proj-card-name{font-size:17px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:4px;}
+.proj-card-res{font-size:11px;font-weight:700;color:rgba(255,255,255,0.3);}
+</style>
+</head><body>
+
+<!-- S1 — CAPA -->
+<div class="slide s-black" id="s1">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">01 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:68px 68px 120px;">
+    <span class="eyebrow" style="color:#FF2A2A;">PORTFÓLIO · SETY STUDIO</span>
+    <div class="accent-line" style="background:#FF2A2A;margin-top:20px;"></div>
+    <h1 style="font-size:76px;font-weight:900;line-height:0.95;letter-spacing:-0.05em;color:#fff;margin-bottom:40px;">Nossos<br>Projetos.</h1>
+    <p style="font-size:18px;font-weight:500;color:rgba(255,255,255,0.36);max-width:560px;line-height:1.65;">6 nichos. 6 resultados reais. Sites e estratégias que movem o ponteiro do negócio.</p>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">PORTFÓLIO</span>
+</div>
+</div>
+
+<!-- S2 — GRADE PROJETOS (todos 6) -->
+<div class="slide s-card" id="s2">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">02 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:68px 68px 120px;gap:28px;">
+    <div>
+      <span class="eyebrow" style="color:#FF2A2A;">TODOS OS NICHOS</span>
+      <div class="accent-line" style="background:#FF2A2A;margin-top:16px;"></div>
+    </div>
+    <div class="proj-grid">
+      
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/odontologia/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#00B67A;">ODONTOLOGIA</span>
+          <div class="proj-card-name">Prime Odonto</div>
+          <div class="proj-card-res">+340% em agendamentos</div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/estetica/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#C9A96E;">ESTÉTICA</span>
+          <div class="proj-card-name">Aura Estética Premium</div>
+          <div class="proj-card-res">R$280k em 90 dias</div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/energia-solar/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#22C55E;">ENERGIA SOLAR</span>
+          <div class="proj-card-name">SolarMax Energia</div>
+          <div class="proj-card-res">85 projetos / 4 meses</div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/advocacia/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#C9A73D;">ADVOCACIA</span>
+          <div class="proj-card-name">Valença & Assoc.</div>
+          <div class="proj-card-res">+80% ticket médio</div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/imobiliaria/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#8B9EFF;">IMOBILIÁRIA</span>
+          <div class="proj-card-name">Prime Select Imóveis</div>
+          <div class="proj-card-res">3× leads qualificados</div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-card-img"><img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/consorcio/screenshots/thumb.png"></div>
+        <div class="proj-card-info">
+          <span class="proj-card-tag" style="color:#3B82F6;">CONSÓRCIO</span>
+          <div class="proj-card-name">Projeto Consórcio</div>
+          <div class="proj-card-res">180 cotas em 45 dias</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">PORTFÓLIO</span>
+</div>
+</div>
+
+<!-- S3 - S7: 5 projetos em destaque (mantém 8 slides no total) -->
+
+<!-- S3 — ODONTOLOGIA -->
+<div class="slide s-black" id="s3">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">03 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;background:url('file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/odontologia/screenshots/thumb.png') center top/cover no-repeat;opacity:0.12;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.95) 55%,#000 100%);"></div>
+  <div style="position:absolute;left:68px;right:68px;bottom:120px;">
+    <span class="eyebrow" style="color:#00B67A;">ODONTOLOGIA · CASE</span>
+    <div style="height:3px;width:56px;background:#00B67A;margin:16px 0 28px;border-radius:2px;"></div>
+    <h2 style="font-size:56px;font-weight:900;letter-spacing:-0.04em;color:#fff;line-height:1.0;margin-bottom:20px;">Prime Odonto</h2>
+    <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:12px 20px;">
+      <span style="font-size:22px;font-weight:900;color:#00B67A;">+340%</span>
+      <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">em agendamentos</span>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">ODONTOLOGIA</span>
+</div>
+</div>
+<!-- S4 — ESTÉTICA -->
+<div class="slide s-black" id="s4">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">04 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;background:url('file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/estetica/screenshots/thumb.png') center top/cover no-repeat;opacity:0.12;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.95) 55%,#000 100%);"></div>
+  <div style="position:absolute;left:68px;right:68px;bottom:120px;">
+    <span class="eyebrow" style="color:#C9A96E;">ESTÉTICA · CASE</span>
+    <div style="height:3px;width:56px;background:#C9A96E;margin:16px 0 28px;border-radius:2px;"></div>
+    <h2 style="font-size:56px;font-weight:900;letter-spacing:-0.04em;color:#fff;line-height:1.0;margin-bottom:20px;">Aura Estética Premium</h2>
+    <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:12px 20px;">
+      <span style="font-size:22px;font-weight:900;color:#C9A96E;">R$280k</span>
+      <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">em 90 dias</span>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">ESTÉTICA</span>
+</div>
+</div>
+<!-- S5 — ENERGIA SOLAR -->
+<div class="slide s-black" id="s5">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">05 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;background:url('file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/energia-solar/screenshots/thumb.png') center top/cover no-repeat;opacity:0.12;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.95) 55%,#000 100%);"></div>
+  <div style="position:absolute;left:68px;right:68px;bottom:120px;">
+    <span class="eyebrow" style="color:#22C55E;">ENERGIA SOLAR · CASE</span>
+    <div style="height:3px;width:56px;background:#22C55E;margin:16px 0 28px;border-radius:2px;"></div>
+    <h2 style="font-size:56px;font-weight:900;letter-spacing:-0.04em;color:#fff;line-height:1.0;margin-bottom:20px;">SolarMax Energia</h2>
+    <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:12px 20px;">
+      <span style="font-size:22px;font-weight:900;color:#22C55E;">85</span>
+      <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">projetos / 4 meses</span>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">ENERGIA SOLAR</span>
+</div>
+</div>
+<!-- S6 — ADVOCACIA -->
+<div class="slide s-black" id="s6">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">06 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;background:url('file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/advocacia/screenshots/thumb.png') center top/cover no-repeat;opacity:0.12;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.95) 55%,#000 100%);"></div>
+  <div style="position:absolute;left:68px;right:68px;bottom:120px;">
+    <span class="eyebrow" style="color:#C9A73D;">ADVOCACIA · CASE</span>
+    <div style="height:3px;width:56px;background:#C9A73D;margin:16px 0 28px;border-radius:2px;"></div>
+    <h2 style="font-size:56px;font-weight:900;letter-spacing:-0.04em;color:#fff;line-height:1.0;margin-bottom:20px;">Valença & Assoc.</h2>
+    <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:12px 20px;">
+      <span style="font-size:22px;font-weight:900;color:#C9A73D;">+80%</span>
+      <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">ticket médio</span>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">ADVOCACIA</span>
+</div>
+</div>
+<!-- S7 — IMOBILIÁRIA -->
+<div class="slide s-black" id="s7">
+  
+<div class="hdr">
+  <img src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+  <div class="hdr-right">
+    <span class="handle">@SETY.STUDIO</span>
+    <span class="slide-num">07 / 08</span>
+  </div>
+</div>
+  <div style="position:absolute;inset:0;background:url('file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/portfolio/imobiliaria/screenshots/thumb.png') center top/cover no-repeat;opacity:0.12;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.95) 55%,#000 100%);"></div>
+  <div style="position:absolute;left:68px;right:68px;bottom:120px;">
+    <span class="eyebrow" style="color:#8B9EFF;">IMOBILIÁRIA · CASE</span>
+    <div style="height:3px;width:56px;background:#8B9EFF;margin:16px 0 28px;border-radius:2px;"></div>
+    <h2 style="font-size:56px;font-weight:900;letter-spacing:-0.04em;color:#fff;line-height:1.0;margin-bottom:20px;">Prime Select Imóveis</h2>
+    <div style="display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:12px 20px;">
+      <span style="font-size:22px;font-weight:900;color:#8B9EFF;">3×</span>
+      <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">leads qualificados</span>
+    </div>
+  </div>
+  
+<div class="ftr">
+  <span class="ftr-tag">SETYSTUDIO.COM.BR</span>
+  <div class="ftr-line" style="margin:0 20px;"></div>
+  <span class="ftr-tag">IMOBILIÁRIA</span>
+</div>
+</div>
+
+<!-- S8 — CTA -->
+<div class="slide s-red" id="s8">
+  <div class="cta-center">
+    <img class="cta-logo" src="file:///C:/Users/seven/MazyOS/saidas/sety-studio-web/public/logo.png" alt="Sety Studio">
+    <h2 class="cta-title">Qual o próximo<br>projeto?</h2>
+    <p class="cta-sub">Seu negócio pode ser o próximo case.<br>Entrega premium. Resultado real.</p>
+    <div class="cta-btn cta-btn-red">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.12.553 4.11 1.52 5.838L0 24l6.336-1.648A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.6c-1.9 0-3.68-.511-5.21-1.402l-.374-.222-3.76.977.998-3.658-.243-.386A9.576 9.576 0 012.4 12C2.4 6.7 6.7 2.4 12 2.4c5.3 0 9.6 4.3 9.6 9.6 0 5.3-4.3 9.6-9.6 9.6z"/></svg>
+      Solicitar Proposta
+    </div>
+    <div class="cta-handle">(19) 98809-0110 · @SETY.STUDIO</div>
+  </div>
+</div>
+
+</body></html>

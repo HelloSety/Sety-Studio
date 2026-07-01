@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sportify AI — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D0F11;
+    --card: #141719;
+    --card2: #1A1D21;
+    --border: #252A30;
+    --border2: #2A2F36;
+    --white: #FFFFFF;
+    --gray: #9CA3AF;
+    --gray-dim: #6B7280;
+    --green: #22C55E;
+    --green-dim: #16A34A;
+    --red: #EF4444;
+    --amber: #F59E0B;
+    --blue: #3B82F6;
+    --purple: #A855F7;
+    --sidebar-w: 220px;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 50;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo-icon {
+    width: 28px; height: 28px;
+    background: var(--green);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  .logo-text { font-size: 14px; font-weight: 700; }
+  .logo-badge {
+    margin-left: auto;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--red);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar-nav { flex: 1; padding: 10px 8px; }
+
+  .nav-group { margin-bottom: 4px; }
+
+  .nav-group-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-dim);
+    padding: 10px 10px 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-bottom: 1px;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
+  .nav-item.active { background: rgba(34,197,94,0.08); color: var(--green); }
+
+  .nav-icon { font-size: 13px; width: 18px; text-align: center; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: var(--red);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 100px;
+  }
+
+  .nav-badge-amber {
+    margin-left: auto;
+    background: rgba(245,158,11,0.2);
+    color: var(--amber);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 100px;
+  }
+
+  .sidebar-bottom {
+    padding: 12px 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .admin-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.15);
+  }
+
+  .admin-dot {
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+
+  .admin-text { font-size: 12px; font-weight: 700; color: var(--red); }
+
+  /* MAIN */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(13,15,17,0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .breadcrumb-sep { color: var(--gray-dim); }
+  .breadcrumb-current { color: var(--gray); font-weight: 500; }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .status-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .status-pulse {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+  }
+
+  .topbar-sep { width: 1px; height: 20px; background: var(--border); }
+
+  .topbar-avatar {
+    width: 28px; height: 28px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .content { padding: 28px; }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* KPI ROW */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .kpi-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .kpi-icon {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .kpi-change {
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .change-up { color: var(--green); }
+  .change-down { color: var(--red); }
+
+  /* GRID LAYOUT */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* PANEL */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title { font-size: 13px; font-weight: 700; }
+
+  .panel-action {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .panel-action:hover { color: var(--white); border-color: #4A5568; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    padding: 10px 20px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gray-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+  td {
+    padding: 12px 20px;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+
+  .user-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-av {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+
+  .user-name-cell { font-size: 13px; font-weight: 600; }
+  .user-email { font-size: 11px; color: var(--gray); }
+
+  /* BADGES */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+
+  .badge-green { background: rgba(34,197,94,0.12); color: var(--green); }
+  .badge-blue { background: rgba(59,130,246,0.12); color: var(--blue); }
+  .badge-amber { background: rgba(245,158,11,0.12); color: var(--amber); }
+  .badge-red { background: rgba(239,68,68,0.12); color: var(--red); }
+  .badge-gray { background: rgba(107,114,128,0.15); color: var(--gray); }
+  .badge-purple { background: rgba(168,85,247,0.12); color: var(--purple); }
+
+  /* CHART BAR */
+  .mini-bar-chart {
+    padding: 16px 20px 20px;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 100px;
+  }
+
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+  .bar-fill {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s;
+    min-height: 4px;
+  }
+
+  .bar-label { font-size: 9px; color: var(--gray-dim); font-weight: 600; }
+
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 14px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--gray);
+  }
+
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* REVENUE DISPLAY */
+  .revenue-big { padding: 20px; }
+  .revenue-value {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .revenue-period { font-size: 12px; color: var(--gray); margin-bottom: 16px; }
+
+  .revenue-breakdown { display: flex; flex-direction: column; gap: 10px; }
+
+  .rev-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .rev-label { color: var(--gray); display: flex; align-items: center; gap: 6px; }
+  .rev-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .rev-val { font-weight: 700; }
+
+  .rev-bar-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 100px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+  }
+
+  .rev-bar-fill { height: 100%; border-radius: 100px; }
+
+  /* SYSTEM HEALTH */
+  .health-items { padding: 4px 0; }
+
+  .health-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .health-item:last-child { border-bottom: none; }
+
+  .health-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .health-icon { font-size: 14px; }
+
+  .health-status { display: flex; align-items: center; gap: 6px; }
+
+  .health-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+
+  .health-dot-green { background: var(--green); }
+  .health-dot-amber { background: var(--amber); }
+  .health-dot-red { background: var(--red); }
+
+  .health-text { font-size: 12px; font-weight: 600; }
+  .health-text-green { color: var(--green); }
+  .health-text-amber { color: var(--amber); }
+
+  .health-latency { font-size: 11px; color: var(--gray-dim); }
+
+  /* PLAN STATS */
+  .plan-stats { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+
+  .plan-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .plan-name { font-size: 13px; font-weight: 600; width: 80px; }
+
+  .plan-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .plan-fill { height: 100%; border-radius: 100px; }
+
+  .plan-count { font-size: 12px; font-weight: 700; color: var(--gray); min-width: 40px; text-align: right; }
+
+  /* TOP USERS */
+  .top-users { padding: 4px 0; }
+
+  .top-user-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .top-user-row:last-child { border-bottom: none; }
+
+  .rank { font-size: 11px; font-weight: 700; color: var(--gray-dim); width: 18px; text-align: center; }
+
+  .top-av {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+
+  .top-user-info { flex: 1; }
+  .top-user-name { font-size: 13px; font-weight: 600; }
+  .top-user-sub { font-size: 11px; color: var(--gray); }
+
+  .top-user-arts { font-size: 13px; font-weight: 700; color: var(--green); }
+
+  /* LOG ENTRIES */
+  .log-items { padding: 4px 0; max-height: 280px; overflow-y: auto; }
+
+  .log-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .log-item:last-child { border-bottom: none; }
+
+  .log-time { font-size: 10px; color: var(--gray-dim); font-weight: 600; white-space: nowrap; padding-top: 2px; }
+
+  .log-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .log-msg { font-size: 12px; color: var(--gray); line-height: 1.4; }
+  .log-user { color: var(--white); font-weight: 600; }
+
+  /* SECTION TITLE */
+  .page-title { font-size: 18px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+
+  /* ACTION BTN */
+  .btn-sm {
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-sm-ghost {
+    background: transparent;
+    color: var(--gray);
+    border: 1px solid var(--border);
+  }
+
+  .btn-sm-ghost:hover { color: var(--white); border-color: #4A5568; }
+
+  .btn-sm-green { background: var(--green); color: #000; }
+  .btn-sm-green:hover { background: var(--green-dim); }
+
+  .btn-sm-red { background: rgba(239,68,68,0.12); color: var(--red); }
+  .btn-sm-red:hover { background: rgba(239,68,68,0.2); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-text">Sportify AI</span>
+    <span class="logo-badge">ADMIN</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-label">Visão Geral</div>
+      <div class="nav-item active" onclick="showAdminScreen('overview')">
+        <span class="nav-icon">⊞</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showAdminScreen('users')">
+        <span class="nav-icon">👥</span> Usuários
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item" onclick="showAdminScreen('overview')">
+        <span class="nav-icon">📊</span> Receita
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Plataforma</div>
+      <div class="nav-item">
+        <span class="nav-icon">🗂</span> Templates
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">📢</span> Campanhas
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">✦</span> Créditos IA
+        <span class="nav-badge-amber">!</span>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Sistema</div>
+      <div class="nav-item">
+        <span class="nav-icon">⚙</span> Configurações
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">📋</span> Logs
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">🔒</span> Segurança
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="admin-tag">
+      <div class="admin-dot"></div>
+      <span class="admin-text">Acesso Admin</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      Sportify AI
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current" id="admin-breadcrumb">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot">
+        <div class="status-pulse"></div>
+        Sistema operacional
+      </div>
+      <div class="topbar-sep"></div>
+      <div class="topbar-avatar">A</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="screen active" id="screen-overview">
+      <div class="page-title">Visão Geral</div>
+      <div class="page-sub">Junho 2026 — dados em tempo real</div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-label">Usuários Ativos</div>
+            <div class="kpi-icon" style="background:rgba(34,197,94,0.1);">👥</div>
+          </div>
+          <div class="kpi-value">860</div>
+          <div class="kpi-change change-up">↑ +124 este mês</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-label">MRR</div>
+            <div class="kpi-icon" style="background:rgba(59,130,246,0.1);">💰</div>
+          </div>
+          <div class="kpi-value">R$52k</div>
+          <div class="kpi-change change-up">↑ +18% vs mês anterior</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-label">Artes Geradas</div>
+            <div class="kpi-icon" style="background:rgba(168,85,247,0.1);">✦</div>
+          </div>
+          <div class="kpi-value">12.4k</div>
+          <div class="kpi-change change-up">↑ +2.1k esta semana</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <div class="kpi-label">Churn Rate</div>
+            <div class="kpi-icon" style="background:rgba(245,158,11,0.1);">📉</div>
+          </div>
+          <div class="kpi-value">2.3%</div>
+          <div class="kpi-change change-down">↑ +0.4% vs mês anterior</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- CHART -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Receita Mensal (últimos 6 meses)</div>
+            <button class="panel-action">Exportar</button>
+          </div>
+          <div class="mini-bar-chart">
+            <div class="chart-bars">
+              <div class="bar-col">
+                <div class="bar-fill" style="height:42%;background:rgba(34,197,94,0.3);"></div>
+                <div class="bar-label">Jan</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height:55%;background:rgba(34,197,94,0.3);"></div>
+                <div class="bar-label">Fev</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height:49%;background:rgba(34,197,94,0.3);"></div>
+                <div class="bar-label">Mar</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height:63%;background:rgba(34,197,94,0.3);"></div>
+                <div class="bar-label">Abr</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height:78%;background:rgba(34,197,94,0.4);"></div>
+                <div class="bar-label">Mai</div>
+              </div>
+              <div class="bar-col">
+                <div class="bar-fill" style="height:92%;background:var(--green);"></div>
+                <div class="bar-label">Jun</div>
+              </div>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--green);"></div>
+                MRR
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:rgba(59,130,246,0.6);"></div>
+                Novos usuários
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REVENUE BREAKDOWN -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Receita por Plano</div>
+          </div>
+          <div class="revenue-big">
+            <div class="revenue-value">R$ 52.340</div>
+            <div class="revenue-period">Junho 2026</div>
+            <div class="revenue-breakdown">
+              <div>
+                <div class="rev-line">
+                  <div class="rev-label">
+                    <div class="rev-dot" style="background:var(--purple);"></div>
+                    Agência (R$297)
+                  </div>
+                  <div class="rev-val">R$ 28.413</div>
+                </div>
+                <div class="rev-bar-track">
+                  <div class="rev-bar-fill" style="width:54%;background:var(--purple);"></div>
+                </div>
+              </div>
+              <div>
+                <div class="rev-line">
+                  <div class="rev-label">
+                    <div class="rev-dot" style="background:var(--green);"></div>
+                    Pro (R$97)
+                  </div>
+                  <div class="rev-val">R$ 18.230</div>
+                </div>
+                <div class="rev-bar-track">
+                  <div class="rev-bar-fill" style="width:35%;background:var(--green);"></div>
+                </div>
+              </div>
+              <div>
+                <div class="rev-line">
+                  <div class="rev-label">
+                    <div class="rev-dot" style="background:var(--blue);"></div>
+                    Starter (R$49)
+                  </div>
+                  <div class="rev-val">R$ 5.697</div>
+                </div>
+                <div class="rev-bar-track">
+                  <div class="rev-bar-fill" style="width:11%;background:var(--blue);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <!-- PLANOS -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Distribuição de Planos</div>
+          </div>
+          <div class="plan-stats">
+            <div class="plan-row">
+              <div class="plan-name">Agência</div>
+              <div class="plan-track">
+                <div class="plan-fill" style="width:55%;background:var(--purple);"></div>
+              </div>
+              <div class="plan-count">96</div>
+            </div>
+            <div class="plan-row">
+              <div class="plan-name">Pro</div>
+              <div class="plan-track">
+                <div class="plan-fill" style="width:78%;background:var(--green);"></div>
+              </div>
+              <div class="plan-count">188</div>
+            </div>
+            <div class="plan-row">
+              <div class="plan-name">Starter</div>
+              <div class="plan-track">
+                <div class="plan-fill" style="width:100%;background:var(--blue);"></div>
+              </div>
+              <div class="plan-count">576</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SYSTEM HEALTH -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Status do Sistema</div>
+            <span style="font-size:11px;color:var(--green);">● Operacional</span>
+          </div>
+          <div class="health-items">
+            <div class="health-item">
+              <div class="health-label">
+                <span class="health-icon">✦</span> API de IA
+              </div>
+              <div class="health-status">
+                <div class="health-dot health-dot-green"></div>
+                <span class="health-text health-text-green">Online</span>
+                <span class="health-latency">· 142ms</span>
+              </div>
+            </div>
+            <div class="health-item">
+              <div class="health-label">
+                <span class="health-icon">🗄</span> Banco de Dados
+              </div>
+              <div class="health-status">
+                <div class="health-dot health-dot-green"></div>
+                <span class="health-text health-text-green">Online</span>
+                <span class="health-latency">· 8ms</span>
+              </div>
+            </div>
+            <div class="health-item">
+              <div class="health-label">
+                <span class="health-icon">⬆</span> Armazenamento
+              </div>
+              <div class="health-status">
+                <div class="health-dot health-dot-green"></div>
+                <span class="health-text health-text-green">Online</span>
+                <span class="health-latency">· 34ms</span>
+              </div>
+            </div>
+            <div class="health-item">
+              <div class="health-label">
+                <span class="health-icon">💳</span> Pagamentos
+              </div>
+              <div class="health-status">
+                <div class="health-dot health-dot-amber"></div>
+                <span class="health-text" style="color:var(--amber);">Degradado</span>
+                <span class="health-latency">· 890ms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP USERS -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Top Usuários</div>
+            <button class="panel-action">Ver todos</button>
+          </div>
+          <div class="top-users">
+            <div class="top-user-row">
+              <div class="rank">1</div>
+              <div class="top-av" style="background:#22C55E;">M</div>
+              <div class="top-user-info">
+                <div class="top-user-name">Marcos Silva</div>
+                <div class="top-user-sub">Agência · SP</div>
+              </div>
+              <div class="top-user-arts">847</div>
+            </div>
+            <div class="top-user-row">
+              <div class="rank">2</div>
+              <div class="top-av" style="background:#3B82F6;">A</div>
+              <div class="top-user-info">
+                <div class="top-user-name">Ana Freitas</div>
+                <div class="top-user-sub">Agência · BH</div>
+              </div>
+              <div class="top-user-arts">612</div>
+            </div>
+            <div class="top-user-row">
+              <div class="rank">3</div>
+              <div class="top-av" style="background:#A855F7;">R</div>
+              <div class="top-user-info">
+                <div class="top-user-name">Rafael Santos</div>
+                <div class="top-user-sub">Pro · RJ</div>
+              </div>
+              <div class="top-user-arts">498</div>
+            </div>
+            <div class="top-user-row">
+              <div class="rank">4</div>
+              <div class="top-av" style="background:#F59E0B;">C</div>
+              <div class="top-user-info">
+                <div class="top-user-name">Carla Mendes</div>
+                <div class="top-user-sub">Pro · Fortaleza</div>
+              </div>
+              <div class="top-user-arts">341</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY LOG -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Log de Atividade</div>
+          <button class="panel-action">Ver logs completos</button>
+        </div>
+        <div class="log-items">
+          <div class="log-item">
+            <div class="log-time">14:32</div>
+            <div class="log-dot" style="background:var(--green);"></div>
+            <div class="log-msg"><span class="log-user">marcos.silva@gmail.com</span> gerou 3 artes · Futebol · Flamengo</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">14:28</div>
+            <div class="log-dot" style="background:var(--blue);"></div>
+            <div class="log-msg">Novo usuário: <span class="log-user">pedro.souza@hotmail.com</span> · Plano Starter</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">14:21</div>
+            <div class="log-dot" style="background:var(--purple);"></div>
+            <div class="log-msg"><span class="log-user">ana.freitas@seusite.com</span> fez upgrade para Agência</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">14:15</div>
+            <div class="log-dot" style="background:var(--amber);"></div>
+            <div class="log-msg">Alerta: latência alta no gateway de pagamento · 890ms</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">14:08</div>
+            <div class="log-dot" style="background:var(--green);"></div>
+            <div class="log-msg"><span class="log-user">rafael.santos@outlook.com</span> exportou 8 artes em PNG</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">13:55</div>
+            <div class="log-dot" style="background:var(--red);"></div>
+            <div class="log-msg">Pagamento recusado: <span class="log-user">joao.costa@gmail.com</span> · R$97</div>
+          </div>
+          <div class="log-item">
+            <div class="log-time">13:44</div>
+            <div class="log-dot" style="background:var(--green);"></div>
+            <div class="log-msg"><span class="log-user">carla.mendes@agencia.com.br</span> criou novo workspace · 3 marcas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="screen" id="screen-users">
+      <div class="page-title">Usuários</div>
+      <div class="page-sub">860 usuários cadastrados · 3 pendentes de revisão</div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Todos os usuários</div>
+          <div style="display:flex;gap:8px;">
+            <button class="panel-action">Filtrar</button>
+            <button class="panel-action" style="background:var(--green);color:#000;border-color:var(--green);">+ Novo usuário</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Plano</th>
+              <th>Status</th>
+              <th>Artes</th>
+              <th>Cadastro</th>
+              <th>MRR</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#22C55E;">M</div>
+                  <div>
+                    <div class="user-name-cell">Marcos Silva</div>
+                    <div class="user-email">marcos.silva@gmail.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-purple">Agência</span></td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td>847</td>
+              <td style="color:var(--gray);font-size:12px;">03/01/2026</td>
+              <td style="font-weight:700;">R$297</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-ghost">Editar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#3B82F6;">A</div>
+                  <div>
+                    <div class="user-name-cell">Ana Freitas</div>
+                    <div class="user-email">ana.freitas@seusite.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-purple">Agência</span></td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td>612</td>
+              <td style="color:var(--gray);font-size:12px;">15/02/2026</td>
+              <td style="font-weight:700;">R$297</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-ghost">Editar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#A855F7;">R</div>
+                  <div>
+                    <div class="user-name-cell">Rafael Santos</div>
+                    <div class="user-email">rafael.santos@outlook.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-green">Pro</span></td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td>498</td>
+              <td style="color:var(--gray);font-size:12px;">22/03/2026</td>
+              <td style="font-weight:700;">R$97</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-ghost">Editar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#F59E0B;">C</div>
+                  <div>
+                    <div class="user-name-cell">Carla Mendes</div>
+                    <div class="user-email">carla.mendes@agencia.com.br</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-green">Pro</span></td>
+              <td><span class="badge badge-green">Ativo</span></td>
+              <td>341</td>
+              <td style="color:var(--gray);font-size:12px;">07/04/2026</td>
+              <td style="font-weight:700;">R$97</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-ghost">Editar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#6B7280;">J</div>
+                  <div>
+                    <div class="user-name-cell">João Costa</div>
+                    <div class="user-email">joao.costa@gmail.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-blue">Starter</span></td>
+              <td><span class="badge badge-red">Pagamento falhou</span></td>
+              <td>12</td>
+              <td style="color:var(--gray);font-size:12px;">10/06/2026</td>
+              <td style="font-weight:700;color:var(--red);">—</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-red">Suspender</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-av" style="background:#22C55E;">P</div>
+                  <div>
+                    <div class="user-name-cell">Pedro Souza</div>
+                    <div class="user-email">pedro.souza@hotmail.com</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge badge-blue">Starter</span></td>
+              <td><span class="badge badge-amber">Trial</span></td>
+              <td>3</td>
+              <td style="color:var(--gray);font-size:12px;">20/06/2026</td>
+              <td style="font-weight:700;color:var(--gray);">R$0</td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn-sm btn-sm-ghost">Ver</button>
+                  <button class="btn-sm btn-sm-green">Ativar</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showAdminScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    const titles = { overview: 'Dashboard', users: 'Usuários' };
+    document.getElementById('admin-breadcrumb').textContent = titles[name] || name;
+  }
+</script>
+</body>
+</html>

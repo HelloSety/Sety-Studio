@@ -1,0 +1,53 @@
+<div class="cart-page">
+  <h1 class="cart-title">Meu Carrinho</h1>
+
+  {%- if cart.item_count > 0 -%}
+    {%- form 'cart', cart -%}
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title }}">
+          </div>
+          <div>
+            <p class="cart-item-name">{{ item.product.title }}</p>
+            <p class="cart-item-variant">{{ item.variant.option1 }}</p>
+            {%- for prop in item.properties -%}
+              {%- if prop.last != blank -%}
+                <p class="cart-item-variant">{{ prop.first }}: {{ prop.last }}</p>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <p class="cart-item-price">{{ item.line_price | money }}</p>
+        </div>
+      {%- endfor -%}
+
+      <div class="cart-totals">
+        <span class="cart-total-label">TOTAL</span>
+        <span class="cart-total-price">{{ cart.total_price | money }}</span>
+      </div>
+
+      <button type="submit" name="checkout" class="btn-fill" style="display:block;width:100%;text-align:center;padding:16px;">
+        FINALIZAR PEDIDO
+      </button>
+    {%- endform -%}
+
+    <div style="margin-top:16px;text-align:center;">
+      <p style="font-size:11px;color:var(--mid);letter-spacing:1px;margin-bottom:12px;">
+        Prefere confirmar pelo WhatsApp?
+      </p>
+      <a
+        href="https://wa.me/{{ settings.wpp_number }}?text={{ 'Olá! Quero finalizar meu pedido pelo WhatsApp.' | url_encode }}"
+        target="_blank"
+        class="btn-outline"
+        style="display:inline-block;">
+        FINALIZAR PELO WHATSAPP
+      </a>
+    </div>
+
+  {%- else -%}
+    <div style="text-align:center;padding:80px 0;">
+      <p style="font-size:13px;color:var(--mid);letter-spacing:1px;margin-bottom:32px;">Seu carrinho está vazio.</p>
+      <a href="/collections/all" class="btn-fill">EXPLORAR COLEÇÃO</a>
+    </div>
+  {%- endif -%}
+</div>

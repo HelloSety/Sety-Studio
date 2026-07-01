@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#000; }
+
+.slide {
+  width:1080px; height:1350px;
+  position:relative; overflow:hidden;
+}
+
+/* ── FOTO: camisa no vestiário ── */
+.photo img {
+  position:absolute; inset:0; z-index:1;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center 10%;
+  filter:brightness(0.82) contrast(1.1) saturate(0.9);
+}
+
+/* ── GRADIENTE inferior para texto ── */
+.grad {
+  position:absolute; inset:0; z-index:2;
+  background:
+    linear-gradient(to top,
+      rgba(0,0,0,0.97) 0%,
+      rgba(0,0,0,0.88) 22%,
+      rgba(0,0,0,0.45) 46%,
+      rgba(0,0,0,0.08) 64%,
+      transparent 78%
+    ),
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.72) 0%,
+      transparent 22%
+    ),
+    linear-gradient(to right,
+      rgba(0,0,0,0.4) 0%,
+      transparent 35%
+    );
+}
+
+/* ── VINHETA ── */
+.vignette {
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 35%,
+    transparent 30%,
+    rgba(0,0,0,0.2) 60%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+
+/* ── GRAIN cinematográfico ── */
+.grain {
+  position:absolute; inset:0; z-index:9; pointer-events:none; opacity:0.048;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* ── HEADER ── */
+.hdr {
+  position:absolute; top:48px; left:56px; right:56px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-left {
+  display:flex; align-items:center; gap:16px;
+}
+.hdr-dot { width:5px; height:5px; border-radius:50%; background:#FF2A2A; }
+.hdr-meta {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  letter-spacing:4px; color:rgba(255,255,255,0.35); text-transform:uppercase;
+}
+.hdr-brand {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.2); text-transform:uppercase;
+}
+
+/* ── LINHA FINA LATERAL esquerda ── */
+.line-left {
+  position:absolute; left:56px; top:80px; bottom:80px; z-index:5;
+  width:1px;
+  background:linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%);
+}
+
+/* ── HEADLINE PRINCIPAL ── */
+.main {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:0 56px 64px 72px;
+}
+
+.cat {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  letter-spacing:6px; color:rgba(255,255,255,0.32); text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+/* Ritmo tipográfico — inspirado em 433, BR Football, The Athletic */
+.hl { display:flex; flex-direction:column; align-items:flex-start; margin-bottom:38px; }
+
+.l1 { font-family:'Bebas Neue',sans-serif; font-size:62px; line-height:1;
+      color:rgba(255,255,255,0.45); letter-spacing:4px; }
+.l2 { font-family:'Bebas Neue',sans-serif; font-size:172px; line-height:0.84;
+      color:#fff; letter-spacing:-1px; }
+.l3 { font-family:'Bebas Neue',sans-serif; font-size:228px; line-height:0.82;
+      color:#FF2A2A; letter-spacing:-2px; }
+.l4 { font-family:'Bebas Neue',sans-serif; font-size:110px; line-height:0.88;
+      color:rgba(255,255,255,0.6); letter-spacing:1px; }
+.l5 { font-family:'Bebas Neue',sans-serif; font-size:172px; line-height:0.84;
+      color:#fff; letter-spacing:-1px; }
+
+/* ── SEPARADOR ── */
+.rule {
+  width:100%; height:1px; margin-bottom:20px;
+  background:linear-gradient(to right, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+}
+
+/* ── FOOTER ── */
+.ftr { display:flex; align-items:center; justify-content:space-between; }
+.ftr-cta {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+.ftr-r {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.18); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="photo">
+    <img src="file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/05-camisa-vestiario.png">
+  </div>
+  <div class="grad"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div class="line-left"></div>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-dot"></div>
+      <div class="hdr-meta">Análise · Copa do Mundo 2026 · 04 min</div>
+    </div>
+    <div class="hdr-brand">Sety Studio</div>
+  </div>
+
+  <!-- Headline -->
+  <div class="main">
+    <div class="cat">Design Esportivo</div>
+    <div class="hl">
+      <span class="l1">por que</span>
+      <span class="l2">o brasil</span>
+      <span class="l3">odeia</span>
+      <span class="l4">essa</span>
+      <span class="l5">camisa?</span>
+    </div>
+    <div class="rule"></div>
+    <div class="ftr">
+      <div class="ftr-cta">→ deslize para entender</div>
+      <div class="ftr-r">@setystudio</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

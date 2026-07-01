@@ -1,0 +1,42 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Claude Code (sessões locais, não devem ir pro repo)
+.claude/projects/
+.claude/sessions/
+.claude/shell-snapshots/
+.claude/telemetry/
+.claude/file-history/
+.claude/backups/
+
+# Dependências
+node_modules/
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# Drop zone do usuário (só o README vai versionado)
+dados/*
+!dados/README.md
+
+# Local Netlify folder
+.netlify
+.env
+
+# Build artifacts (Next.js)
+.next/
+out/
+saidas/sety-studio-web/.next/
+saidas/sety-studio-web/out/
+saidas/sety-vision-next/.next/
+
+# WhatsApp session (local only)
+saidas/sety-server/ww_session/
+saidas/sety-server/.wwebjs_auth/
+saidas/sety-server/agente.json

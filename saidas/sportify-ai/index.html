@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sportify AI — Seu departamento de marketing esportivo movido por IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F1115;--card:#181C22;--hover:#232933;--border:#2E3642;
+  --text:#FFFFFF;--secondary:#A0A6B0;--green:#22C55E;--green-d:#16A34A;
+  --warn:#F59E0B;--blue:#3B82F6;--red:#EF4444;--purple:#A855F7;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(15,17,21,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(46,54,66,.6)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--secondary);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-ghost{padding:8px 16px;font-size:13px;font-weight:500;color:var(--secondary);background:none;border:none;cursor:pointer;font-family:inherit;transition:color .2s}
+.btn-ghost:hover{color:var(--text)}
+.btn-cta{padding:9px 18px;font-size:13px;font-weight:700;color:#000;background:var(--green);border:none;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .2s}
+.btn-cta:hover{background:var(--green-d)}
+/* HERO */
+.hero{padding:120px 40px 80px;display:flex;align-items:center;gap:64px;max-width:1240px;margin:0 auto}
+.hero-left{flex:1;min-width:0}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 13px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:100px;font-size:12px;font-weight:600;color:var(--green);margin-bottom:28px}
+.hero-badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:54px;font-weight:800;line-height:1.1;letter-spacing:-2.5px;margin-bottom:22px}
+.hero-sub{font-size:18px;color:var(--secondary);line-height:1.7;max-width:500px;margin-bottom:36px;font-weight:400}
+.hero-ctas{display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap}
+.btn-primary{padding:14px 28px;font-size:15px;font-weight:700;color:#000;background:var(--green);border:none;border-radius:10px;cursor:pointer;font-family:inherit;transition:background .2s,transform .1s}
+.btn-primary:hover{background:var(--green-d)}
+.btn-primary:active{transform:scale(.98)}
+.btn-secondary{padding:14px 28px;font-size:15px;font-weight:500;color:var(--text);background:transparent;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-secondary:hover{border-color:#4A5568;background:rgba(255,255,255,.04)}
+.hero-proof{display:flex;align-items:center;gap:20px}
+.proof-faces{display:flex}
+.proof-face{width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);margin-right:-8px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000}
+.proof-text{font-size:13px;color:var(--secondary)}
+.proof-text strong{color:var(--text)}
+/* HERO MOCKUP */
+.hero-right{flex:1;min-width:0}
+.browser{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 32px 100px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04)}
+.browser-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.browser-dots{display:flex;gap:6px}
+.browser-dot{width:10px;height:10px;border-radius:50%}
+.browser-url{flex:1;margin:0 12px;background:rgba(255,255,255,.05);border-radius:6px;padding:4px 12px;font-size:11px;color:var(--secondary)}
+.browser-body{padding:20px}
+.mock-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mock-title{font-size:14px;font-weight:700}
+.mock-badge{font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);padding:3px 10px;border-radius:100px}
+.mock-cards{display:flex;flex-direction:column;gap:8px}
+.mock-opp{background:var(--hover);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
+.mock-opp:hover{border-color:rgba(34,197,94,.4)}
+.mock-opp-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.mock-opp-info{flex:1;min-width:0}
+.mock-opp-title{font-size:12px;font-weight:700;margin-bottom:3px}
+.mock-opp-sub{font-size:11px;color:var(--secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock-opp-tags{display:flex;gap:4px;margin-top:6px}
+.mock-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px}
+.mock-tag-hot{background:rgba(239,68,68,.12);color:#EF4444}
+.mock-tag-green{background:rgba(34,197,94,.12);color:var(--green)}
+.mock-tag-blue{background:rgba(59,130,246,.12);color:#60A5FA}
+.mock-opp-btn{padding:6px 13px;background:var(--green);color:#000;font-size:11px;font-weight:700;border-radius:7px;white-space:nowrap;flex-shrink:0}
+/* BRANDS */
+.brands{padding:20px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:48px;max-width:1240px;margin:0 auto}
+.brands-label{font-size:11px;font-weight:600;color:var(--secondary);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+.brand-item{font-size:13px;font-weight:700;color:#3A4250;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+/* SECTION */
+.section{padding:96px 40px;max-width:1240px;margin:0 auto}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.section-title{font-size:42px;font-weight:800;letter-spacing:-1.5px;line-height:1.12;margin-bottom:14px}
+.section-sub{font-size:17px;color:var(--secondary);line-height:1.7;max-width:540px}
+/* COMPARISON */
+.comparison-wrap{margin-top:56px;overflow-x:auto}
+.comparison-table{width:100%;border-collapse:collapse;min-width:700px}
+.comparison-table th{padding:14px 20px;text-align:left;font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.comparison-table th:first-child{width:240px}
+.comparison-table th.highlight{background:rgba(34,197,94,.04);color:var(--green);border-radius:10px 10px 0 0}
+.comparison-table td{padding:14px 20px;font-size:14px;border-bottom:1px solid rgba(46,54,66,.5)}
+.comparison-table tr:last-child td{border-bottom:none}
+.comparison-table td.highlight{background:rgba(34,197,94,.04)}
+.comparison-table td.highlight:last-child{border-radius:0 0 10px 10px}
+.check-yes{color:var(--green);font-size:16px;font-weight:700}
+.check-no{color:#3A4250;font-size:16px}
+.price-big{font-size:22px;font-weight:900;color:var(--green);letter-spacing:-1px}
+.price-reg{font-size:14px;font-weight:600;color:var(--secondary)}
+.feature-label{font-size:14px;font-weight:600;color:var(--secondary)}
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:52px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:border-color .2s,background .2s,transform .2s;cursor:default}
+.feature-card:hover{border-color:#3A4250;background:var(--hover);transform:translateY(-2px)}
+.feature-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px}
+.fi-green{background:rgba(34,197,94,.1)}
+.fi-blue{background:rgba(59,130,246,.1)}
+.fi-purple{background:rgba(168,85,247,.1)}
+.fi-amber{background:rgba(245,158,11,.1)}
+.feature-title{font-size:15px;font-weight:700;letter-spacing:-.2px;margin-bottom:8px}
+.feature-desc{font-size:13px;color:var(--secondary);line-height:1.6}
+/* HOW */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
+.how-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px 28px}
+.how-step{font-size:11px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.how-icon{font-size:36px;margin-bottom:16px}
+.how-title{font-size:19px;font-weight:700;letter-spacing:-.3px;margin-bottom:10px}
+.how-desc{font-size:14px;color:var(--secondary);line-height:1.7}
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px;max-width:920px;margin-left:auto;margin-right:auto}
+.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;position:relative;transition:border-color .2s}
+.pricing-card:hover{border-color:#3A4250}
+.pricing-card.featured{border-color:var(--green);background:rgba(34,197,94,.03)}
+.pricing-pop{position:absolute;top:-1px;right:24px;background:var(--green);color:#000;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:0 0 7px 7px}
+.pricing-name{font-size:12px;font-weight:700;color:var(--secondary);letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+.pricing-price{font-size:48px;font-weight:900;letter-spacing:-2.5px;line-height:1;margin-bottom:4px}
+.pricing-price sup{font-size:20px;font-weight:700;vertical-align:super}
+.pricing-per{font-size:13px;color:var(--secondary);margin-bottom:24px}
+.pricing-line{height:1px;background:var(--border);margin-bottom:22px}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
+.pricing-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--secondary)}
+.pricing-features li::before{content:'✓';font-size:11px;font-weight:700;color:var(--green);flex-shrink:0}
+.btn-plan{width:100%;padding:12px;font-size:14px;font-weight:700;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .2s;border:none}
+.btn-plan-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-plan-outline:hover{background:rgba(255,255,255,.04);border-color:#4A5568}
+.btn-plan-fill{background:var(--green);color:#000}
+.btn-plan-fill:hover{background:var(--green-d)}
+/* TESTIMONIALS */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px}
+.test-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px}
+.test-stars{display:flex;gap:3px;margin-bottom:16px;color:#F59E0B;font-size:13px}
+.test-text{font-size:14px;color:var(--secondary);line-height:1.7;margin-bottom:20px}
+.test-author{display:flex;align-items:center;gap:10px}
+.test-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;flex-shrink:0}
+.test-name{font-size:13px;font-weight:700}
+.test-role{font-size:11px;color:var(--secondary)}
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:2px;margin-top:52px;max-width:780px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
+.faq-item:hover{border-color:#3A4250}
+.faq-q{padding:20px 24px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none}
+.faq-arrow{font-size:12px;color:var(--secondary);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{padding:0 24px 20px;font-size:14px;color:var(--secondary);line-height:1.7;display:none}
+.faq-item.open .faq-a{display:block}
+/* CTA FINAL */
+.cta-final{padding:80px 40px 120px;max-width:1240px;margin:0 auto}
+.cta-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:72px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:360px;height:360px;background:radial-gradient(circle,rgba(34,197,94,.07),transparent 70%);pointer-events:none}
+.cta-title{font-size:46px;font-weight:800;letter-spacing:-2px;line-height:1.12;margin:0 auto 18px;max-width:600px}
+.cta-sub{font-size:17px;color:var(--secondary);margin-bottom:36px}
+.cta-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.cta-actions .btn-primary{padding:15px 32px;font-size:15px}
+.cta-actions .btn-secondary{padding:15px 32px;font-size:15px}
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:52px 40px 32px;max-width:1240px;margin:0 auto}
+.footer-main{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:13px;color:var(--secondary);line-height:1.7;margin-top:14px;max-width:240px}
+.footer-col h4{font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{font-size:13px;color:#4A5568;transition:color .2s}
+.footer-col ul li a:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:12px;color:var(--secondary)}
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero{flex-direction:column;padding:100px 20px 60px;gap:40px}
+  h1{font-size:36px}
+  .section{padding:60px 20px}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .how-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .footer-main{grid-template-columns:1fr 1fr}
+  .brands{gap:24px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path d="M14 2L25 6.5V15.5C25 21.5 20 26 14 27C8 26 3 21.5 3 15.5V6.5L14 2Z" fill="rgba(34,197,94,0.12)" stroke="#22C55E" stroke-width="1.2"/>
+      <path d="M15.5 8L10.5 17H14L12.5 20.5L17.5 11.5H14L15.5 8Z" fill="#22C55E"/>
+    </svg>
+    Sportify AI
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Produto</a></li>
+    <li><a href="#preco">Preços</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-ghost" onclick="window.location='app.html'">Login</button>
+    <button class="btn-cta" onclick="window.location='app.html'">Começar Grátis</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Mais de 860 lojas esportivas usando
+    </div>
+    <h1>Seu departamento de marketing esportivo movido por IA.</h1>
+    <p class="hero-sub">Crie campanhas, posts, vídeos e promoções que aumentam vendas em minutos. Sem designer. Sem agência. Sem complicação.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="window.location='app.html'">Criar Minha Conta</button>
+      <button class="btn-secondary">Ver como funciona →</button>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-faces">
+        <div class="proof-face" style="background:#22C55E;">M</div>
+        <div class="proof-face" style="background:#3B82F6;">A</div>
+        <div class="proof-face" style="background:#A855F7;">R</div>
+        <div class="proof-face" style="background:#F59E0B;">C</div>
+        <div class="proof-face" style="background:#EF4444;">J</div>
+      </div>
+      <p class="proof-text"><strong>+12.400 campanhas</strong> criadas este mês</p>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="browser-dot" style="background:#FF5F57;"></div>
+          <div class="browser-dot" style="background:#FFBD2E;"></div>
+          <div class="browser-dot" style="background:#28C840;"></div>
+        </div>
+        <div class="browser-url">app.sportifyai.com/ganhar</div>
+      </div>
+      <div class="browser-body">
+        <div class="mock-header">
+          <div class="mock-title">Oportunidades de Venda</div>
+          <div class="mock-badge">✦ 8 encontradas</div>
+        </div>
+        <div class="mock-cards">
+          <div class="mock-opp">
+            <div class="mock-opp-icon" style="background:rgba(239,68,68,.12);">⚽</div>
+            <div class="mock-opp-info">
+              <div class="mock-opp-title">Flamengo vs Palmeiras — Amanhã</div>
+              <div class="mock-opp-sub">Clássico nacional · Alta procura por camisas e acessórios</div>
+              <div class="mock-opp-tags">
+                <span class="mock-tag mock-tag-hot">🔥 Urgente</span>
+                <span class="mock-tag mock-tag-green">Futebol</span>
+              </div>
+            </div>
+            <div class="mock-opp-btn">Gerar →</div>
+          </div>
+          <div class="mock-opp">
+            <div class="mock-opp-icon" style="background:rgba(245,158,11,.12);">🏷</div>
+            <div class="mock-opp-info">
+              <div class="mock-opp-title">Liquidação de Chuteiras — Esta Semana</div>
+              <div class="mock-opp-sub">Campanha de fim de temporada · Templates prontos</div>
+              <div class="mock-opp-tags">
+                <span class="mock-tag mock-tag-green">Promoção</span>
+                <span class="mock-tag mock-tag-blue">Alta margem</span>
+              </div>
+            </div>
+            <div class="mock-opp-btn">Gerar →</div>
+          </div>
+          <div class="mock-opp">
+            <div class="mock-opp-icon" style="background:rgba(59,130,246,.12);">🎒</div>
+            <div class="mock-opp-info">
+              <div class="mock-opp-title">Volta às Aulas — Em 8 dias</div>
+              <div class="mock-opp-sub">Uniformes e kits escolares · Pico de vendas</div>
+              <div class="mock-opp-tags">
+                <span class="mock-tag mock-tag-blue">Sazonal</span>
+                <span class="mock-tag mock-tag-green">R$+32% potencial</span>
+              </div>
+            </div>
+            <div class="mock-opp-btn">Gerar →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRANDS -->
+<div class="brands">
+  <span class="brands-label">Usado por</span>
+  <span class="brand-item">Lojas Esportivas</span>
+  <span class="brand-item">Gráficas</span>
+  <span class="brand-item">Social Medias</span>
+  <span class="brand-item">E-commerces</span>
+  <span class="brand-item">Afiliados</span>
+</div>
+
+<!-- COMPARISON -->
+<section class="section" id="cases">
+  <div class="section-tag">Comparativo</div>
+  <div class="section-title">Quanto custa criar<br>conteúdo do jeito antigo?</div>
+  <div class="section-sub">Compare e veja por que 860 lojas já migraram para a Sportify AI.</div>
+  <div class="comparison-wrap">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Designer CLT</th>
+          <th>Agência</th>
+          <th>Freelancer</th>
+          <th class="highlight">Sportify AI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature-label">Custo mensal</td>
+          <td><span class="price-reg">R$ 3.000</span></td>
+          <td><span class="price-reg">R$ 8.000</span></td>
+          <td><span class="price-reg">R$ 150/arte</span></td>
+          <td class="highlight"><span class="price-big">R$ 97</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">Tempo de entrega</td>
+          <td>3–5 dias</td>
+          <td>5–10 dias</td>
+          <td>2–4 dias</td>
+          <td class="highlight" style="color:var(--green);font-weight:700;">30 segundos</td>
+        </tr>
+        <tr>
+          <td class="feature-label">Disponível 24h</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">Revisões ilimitadas</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">IA esportiva</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">Tendências em tempo real</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">Calendário automático</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-label">Anúncios Meta + TikTok</td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td><span class="check-no">✗</span></td>
+          <td class="highlight"><span class="check-yes">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-tag">Ferramentas</div>
+  <div class="section-title">Tudo que sua loja precisa<br>para vender todos os dias</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon fi-green">💰</div>
+      <div class="feature-title">Oportunidades de Venda</div>
+      <div class="feature-desc">IA identifica jogos, datas e tendências e sugere campanhas prontas para você gerar receita hoje.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">📸</div>
+      <div class="feature-title">Gerador de Posts</div>
+      <div class="feature-desc">Posts para feed em todos os formatos. 1:1, 4:5, 16:9. Com headline, copy e design prontos.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">📱</div>
+      <div class="feature-title">Gerador de Stories</div>
+      <div class="feature-desc">Stories verticais com stickers interativos, swipe-up e CTAs otimizados para conversão.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-amber">🎬</div>
+      <div class="feature-title">Gerador de Vídeos</div>
+      <div class="feature-desc">Vídeos curtos para Reels e TikTok com roteiro, cenas e legenda gerados automaticamente.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-green">🎯</div>
+      <div class="feature-title">Criativos para Ads</div>
+      <div class="feature-desc">Anúncios otimizados para Meta Ads e TikTok Ads com copy, visual e formato correto.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">📈</div>
+      <div class="feature-title">Análise de Tendências</div>
+      <div class="feature-desc">Monitoramento de Google Trends, TikTok e Instagram para identificar o que está em alta.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">📅</div>
+      <div class="feature-title">Calendário Inteligente</div>
+      <div class="feature-desc">30 dias de conteúdo planejados automaticamente com jogos, promoções e datas do esporte.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-amber">🏢</div>
+      <div class="feature-title">Módulo Agência</div>
+      <div class="feature-desc">Gerencie múltiplos clientes, equipes e marcas. Relatório de ROI para cada cliente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-tag">Como Funciona</div>
+  <div class="section-title">Do zero à campanha<br>em menos de 60 segundos</div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-step">Passo 01</div>
+      <div class="how-icon">🎯</div>
+      <div class="how-title">Escolha o objetivo</div>
+      <div class="how-desc">A IA identifica oportunidades automáticas ou você escolhe o esporte, time e tipo de campanha. Não precisa ser designer.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-step">Passo 02</div>
+      <div class="how-icon">✦</div>
+      <div class="how-title">IA cria tudo</div>
+      <div class="how-desc">Headline, copy, design, CTA e variações gerados em segundos. A IA já conhece o nicho esportivo e pensa em conversão.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-step">Passo 03</div>
+      <div class="how-icon">🚀</div>
+      <div class="how-title">Publique e venda</div>
+      <div class="how-desc">Edite, exporte em PNG, MP4 ou conecte ao Meta Ads. Sua campanha rodando em minutos, não dias.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="preco" style="text-align:center;">
+  <div class="section-tag">Planos</div>
+  <div class="section-title">Simples. Sem surpresas.</div>
+  <div class="section-sub" style="margin:0 auto;">Cancele quando quiser. Sem fidelidade.</div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">Starter</div>
+      <div class="pricing-price"><sup>R$</sup>49</div>
+      <div class="pricing-per">por mês</div>
+      <div class="pricing-line"></div>
+      <ul class="pricing-features">
+        <li>60 artes por mês</li>
+        <li>Posts e Stories</li>
+        <li>Oportunidades básicas</li>
+        <li>Templates premium</li>
+        <li>Exportação PNG</li>
+        <li>1 usuário</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline" onclick="window.location='app.html'">Começar Agora</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-pop">Mais popular</div>
+      <div class="pricing-name">Pro</div>
+      <div class="pricing-price"><sup>R$</sup>97</div>
+      <div class="pricing-per">por mês</div>
+      <div class="pricing-line"></div>
+      <ul class="pricing-features">
+        <li>Artes ilimitadas</li>
+        <li>Posts, Stories, Vídeos, Banners</li>
+        <li>Oportunidades em tempo real</li>
+        <li>Criativos Meta + TikTok Ads</li>
+        <li>Calendário inteligente</li>
+        <li>Tendências esportivas</li>
+        <li>3 usuários</li>
+      </ul>
+      <button class="btn-plan btn-plan-fill" onclick="window.location='app.html'">Começar Agora</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">Agência</div>
+      <div class="pricing-price"><sup>R$</sup>297</div>
+      <div class="pricing-per">por mês</div>
+      <div class="pricing-line"></div>
+      <ul class="pricing-features">
+        <li>Tudo do Pro</li>
+        <li>Clientes ilimitados</li>
+        <li>White label</li>
+        <li>API access</li>
+        <li>Usuários ilimitados</li>
+        <li>Relatório de ROI por cliente</li>
+        <li>Suporte prioritário</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline">Falar com Vendas</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="cases" style="padding-top:0">
+  <div class="section-tag">Depoimentos</div>
+  <div class="section-title">Quem vende mais com a Sportify AI</div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"Antes eu ficava 3 dias esperando designer. Hoje abro o app, clico em 'Gerar Campanha' e em 30 segundos tenho o criativo pronto. Meu faturamento subiu 40% no primeiro mês."</div>
+      <div class="test-author">
+        <div class="test-av" style="background:#22C55E;">M</div>
+        <div>
+          <div class="test-name">Marcos Oliveira</div>
+          <div class="test-role">Dono de Loja Esportiva · São Paulo</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"Gerencio 11 clientes esportivos. Com o plano agência entrego conteúdo de qualidade para todos sem precisar de equipe de design. O ROI é absurdo."</div>
+      <div class="test-author">
+        <div class="test-av" style="background:#3B82F6;">A</div>
+        <div>
+          <div class="test-name">Ana Freitas</div>
+          <div class="test-role">Social Media · Belo Horizonte</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"O módulo de tendências é incrível. Quando o Flamengo ganhou, a plataforma já sugeriu a campanha comemorativa. Vendi 80 camisas em 2 horas."</div>
+      <div class="test-author">
+        <div class="test-av" style="background:#A855F7;">R</div>
+        <div>
+          <div class="test-name">Rafael Santos</div>
+          <div class="test-role">E-commerce Esportivo · Rio de Janeiro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-tag">Dúvidas</div>
+  <div class="section-title">Perguntas frequentes</div>
+  <div class="faq-list">
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Preciso ter conhecimento em design ou marketing?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">Não. A plataforma foi criada para quem não é designer. Você seleciona o esporte, o produto e o objetivo — a IA cuida de tudo. Em segundos você tem uma arte profissional pronta.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        A plataforma funciona para qualquer esporte?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">Sim. Futebol, basquete, vôlei, corrida, academia, natação e muito mais. A IA foi treinada especificamente para o universo esportivo e conhece clubes, campeonatos e datas de todos os esportes mais populares no Brasil.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Posso criar anúncios para Meta Ads e TikTok?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">Sim. O gerador cria criativos nos formatos corretos para cada plataforma — com copy, visual e CTA otimizados para conversão. Você só precisa baixar e publicar no gerenciador de anúncios.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Como funciona o módulo "Ganhar Dinheiro"?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">A IA monitora o calendário esportivo, tendências nas redes sociais e datas comemorativas. Quando identifica uma oportunidade de venda relevante para o seu nicho (ex: jogo importante, liquidação de fim de temporada), ela aparece na sua tela com tudo pronto para gerar a campanha em 1 clique.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Existe versão gratuita?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">Sim. Você pode começar grátis com 10 artes para testar a plataforma. Sem precisar de cartão de crédito.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Posso cancelar a qualquer momento?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a">Sim. Sem fidelidade, sem multa. Cancele com 1 clique direto no painel de configurações. Você continua com acesso até o fim do período pago.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="cta-final">
+  <div class="cta-box">
+    <div class="section-tag" style="text-align:center;">Comece hoje</div>
+    <h2 class="cta-title">Sua loja esportiva merece vender todos os dias.</h2>
+    <p class="cta-sub">Junte-se a 860 lojas. Primeiras 10 artes grátis.</p>
+    <div class="cta-actions">
+      <button class="btn-primary" onclick="window.location='app.html'">Criar Conta Grátis</button>
+      <button class="btn-secondary">Ver Demonstração</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a href="#" style="display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;">
+        <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L25 6.5V15.5C25 21.5 20 26 14 27C8 26 3 21.5 3 15.5V6.5L14 2Z" fill="rgba(34,197,94,0.12)" stroke="#22C55E" stroke-width="1.2"/>
+          <path d="M15.5 8L10.5 17H14L12.5 20.5L17.5 11.5H14L15.5 8Z" fill="#22C55E"/>
+        </svg>
+        Sportify AI
+      </a>
+      <p>A plataforma definitiva de marketing esportivo movida por IA. Para lojas, gráficas e agências.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Produto</h4>
+      <ul>
+        <li><a href="#">Recursos</a></li>
+        <li><a href="#">Planos</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">API</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Afiliados</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Suporte</h4>
+      <ul>
+        <li><a href="#">Central de Ajuda</a></li>
+        <li><a href="#">Privacidade</a></li>
+        <li><a href="#">Termos</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Sportify AI. Todos os direitos reservados.</p>
+    <p>Feito no Brasil 🇧🇷</p>
+  </div>
+</div>
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos — ULTRAGOL</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topo-promo">🔥 <b>COPA DO MUNDO 2026</b> — Frete Grátis acima de R$ 299 | 10% OFF no PIX | 12x sem juros</div>
+
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">⚽ <div><span class="verde">ULTRA</span>GOL<span class="sub">CAMISAS PREMIUM</span></div></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar camisa, seleção, clube..." onclick="abrirBusca()">
+        <button class="btn-search">🔍</button>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="abrirBusca()">🔍</button>
+        <button class="btn-icon">👤</button>
+        <button class="btn-cart" onclick="toggleCart()">🛒 <span>Sacola</span><span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-link" onclick="irCategoria('selecoes')">Seleções</a>
+      <a class="nav-link" onclick="irCategoria('brasileirao')">Brasileirão</a>
+      <a class="nav-link" onclick="irCategoria('europeu')">Europeu</a>
+      <a class="nav-link" onclick="irCategoria('infantil')">Infantil</a>
+      <a class="nav-link" onclick="irCategoria('retro')">Retrô</a>
+      <a class="nav-link" onclick="irCategoria('feminino')">Feminino</a>
+      <a class="nav-link destaque" onclick="irCategoria('outlet')">🔥 Outlet</a>
+    </div>
+  </div>
+</nav>
+
+<main class="cat-page">
+  <div class="container">
+    <div class="breadcrumb">
+      <a onclick="window.location.href='index.html'" style="cursor:pointer">Início</a> /
+      <span id="breadcat" style="color:var(--verde)">Categoria</span>
+    </div>
+
+    <!-- BANNER DA CATEGORIA -->
+    <div class="banner-full" style="border-radius:12px;overflow:hidden;margin-bottom:32px;height:220px" id="catBanner">
+      <img src="assets/banners/sec-1.png" alt="" style="width:100%;height:100%;object-fit:cover">
+      <div class="banner-full-overlay">
+        <div class="banner-full-content">
+          <h2 id="catTitulo" style="font-size:32px">Categoria</h2>
+          <p id="catSub">Encontre as melhores camisas</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-header">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <h1 id="catNome">Camisas</h1>
+          <p id="catQtd" style="color:var(--texto2);font-size:13px;margin-top:4px"></p>
+        </div>
+        <select class="cat-sort" onchange="ordenar(this.value)">
+          <option value="def">Relevância</option>
+          <option value="preco_asc">Menor preço</option>
+          <option value="preco_desc">Maior preço</option>
+          <option value="desc">Maior desconto</option>
+          <option value="novo">Mais recentes</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="cat-filtros" id="filtros">
+      <button class="filtro-btn active" onclick="filtrar('todos',this)">Todos</button>
+      <button class="filtro-btn" onclick="filtrar('lancamento',this)">Lançamentos</button>
+      <button class="filtro-btn" onclick="filtrar('jogador',this)">Versão Jogador</button>
+      <button class="filtro-btn" onclick="filtrar('treino',this)">Treino</button>
+      <button class="filtro-btn" onclick="filtrar('copa-2026',this)">Copa 2026</button>
+      <button class="filtro-btn" onclick="filtrar('retro',this)">Retrô</button>
+    </div>
+
+    <!-- GRID PRODUTOS -->
+    <div class="produtos-grid cols-4" id="prodGrid"></div>
+
+    <!-- PAGINAÇÃO -->
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:40px" id="pagination"></div>
+  </div>
+</main>
+
+<!-- CARRINHO -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3>🛒 Sacola (<span id="cartCountDrawer">0</span>)</h3><button class="btn-fechar" onclick="toggleCart()">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">R$ 0,00</span></div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">R$ 0,00</span></div>
+    <div class="cart-frete">🚚 Frete calculado no checkout</div>
+    <button class="btn-checkout" onclick="irCheckout()">Finalizar Compra</button>
+    <button class="btn-continuar" onclick="toggleCart()">← Continuar Comprando</button>
+  </div>
+</div>
+
+<!-- BUSCA -->
+<div class="search-overlay" id="searchOverlay" onclick="fecharBusca(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <span style="font-size:20px;color:var(--texto2)">🔍</span>
+      <input type="text" id="searchFull" placeholder="Buscar..." oninput="buscarProdutos(this.value)">
+      <button class="btn-fechar" onclick="fecharBusca()">×</button>
+    </div>
+    <div class="search-results" id="searchResults"><p class="search-tag">Digite para buscar...</p></div>
+  </div>
+</div>
+
+<div class="notif-cart" id="notifCart">✅ Adicionado à sacola!</div>
+
+<footer class="footer" style="padding:32px 0">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0">
+      <span>© 2026 ULTRAGOL</span>
+      <div class="footer-selos"><span class="selo">🔒 SSL Seguro</span><span class="selo">✅ Loja Verificada</span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="dados.js"></script>
+<script>
+let cart = JSON.parse(localStorage.getItem('ug_cart') || '[]');
+let todosProds = [];
+let prodsExibidos = [];
+let pagAtual = 1;
+const POR_PAGINA = 16;
+
+const CAT_META = {
+  selecoes: { titulo:'Seleções Copa 2026', sub:'Todas as seleções para a Copa do Mundo', banner:'sec-1.png' },
+  brasileirao: { titulo:'Brasileirão 2025/26', sub:'Os melhores clubes do futebol brasileiro', banner:'sec-3.png' },
+  europeu: { titulo:'Europeu 2025/26', sub:'Premier League, La Liga, Champions e muito mais', banner:'sec-4.png' },
+  retro: { titulo:'Coleção Retrô', sub:'Clássicos que marcaram a história do futebol', banner:'sec-6.png' },
+  infantil: { titulo:'Infantil', sub:'Kits e camisas para o pequeno torcedor', banner:'sec-7.png' },
+  feminino: { titulo:'Feminino', sub:'Estilo e conforto para as torcedoras', banner:'sec-2.png' },
+  outlet: { titulo:'Outlet — Até 50% OFF', sub:'Últimas unidades com desconto especial', banner:'sec-8.png' },
+};
+
+function init() {
+  const cat = localStorage.getItem('ug_cat');
+  const sub = localStorage.getItem('ug_sub');
+
+  if (sub) {
+    todosProds = getProdutosSub(sub);
+    const flag = SELECOES_NAV.find(s => s.slug === sub);
+    const meta = { titulo: (flag ? flag.flag + ' ' : '') + sub.charAt(0).toUpperCase() + sub.slice(1), sub:'Camisas de ' + sub, banner:'sec-1.png' };
+    setMeta(meta, todosProds.length);
+  } else if (cat) {
+    todosProds = getProdutosCat(cat);
+    const meta = CAT_META[cat] || { titulo: cat, sub: '', banner:'sec-1.png' };
+    setMeta(meta, todosProds.length);
+  } else {
+    todosProds = PRODUTOS;
+    setMeta({ titulo:'Todos os Produtos', sub:'Explore toda a nossa coleção', banner:'sec-1.png' }, PRODUTOS.length);
+  }
+
+  prodsExibidos = [...todosProds];
+  renderGrid();
+  updateCartUI();
+}
+
+function setMeta(meta, qtd) {
+  document.title = meta.titulo + ' — ULTRAGOL';
+  document.getElementById('catTitulo').textContent = meta.titulo;
+  document.getElementById('catNome').textContent = meta.titulo;
+  document.getElementById('catSub').textContent = qtd + ' produtos encontrados';
+  document.getElementById('breadcat').textContent = meta.titulo;
+  document.getElementById('catQtd').textContent = qtd + ' produtos';
+  const img = document.querySelector('#catBanner img');
+  if (img) img.src = 'assets/banners/' + meta.banner;
+  const h2 = document.getElementById('catTitulo');
+  if (h2) h2.textContent = meta.titulo;
+  document.querySelector('#catBanner p').textContent = meta.sub;
+}
+
+function renderGrid() {
+  const ini = (pagAtual-1)*POR_PAGINA;
+  const prods = prodsExibidos.slice(ini, ini+POR_PAGINA);
+  document.getElementById('prodGrid').innerHTML = prods.length
+    ? prods.map(p => cardHTML(p)).join('')
+    : '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--texto2)"><div style="font-size:48px;margin-bottom:12px">🔍</div><p>Nenhum produto encontrado.</p></div>';
+  renderPaginacao();
+}
+
+function renderPaginacao() {
+  const total = Math.ceil(prodsExibidos.length / POR_PAGINA);
+  const el = document.getElementById('pagination');
+  if (total <= 1) { el.innerHTML=''; return; }
+  let html = '';
+  for (let i=1; i<=total; i++) {
+    html += `<button onclick="irPag(${i})" style="width:36px;height:36px;border-radius:6px;border:1px solid ${i===pagAtual?'var(--verde)':'var(--cinza)'};background:${i===pagAtual?'var(--verde)':'var(--preto2)'};color:${i===pagAtual?'#000':'var(--texto)'};font-weight:600;cursor:pointer;transition:.2s">${i}</button>`;
+  }
+  el.innerHTML = html;
+}
+
+function irPag(p) { pagAtual = p; renderGrid(); window.scrollTo(0,0); }
+
+function ordenar(v) {
+  if (v==='preco_asc') prodsExibidos.sort((a,b) => a.preco-b.preco);
+  else if (v==='preco_desc') prodsExibidos.sort((a,b) => b.preco-a.preco);
+  else if (v==='desc') prodsExibidos.sort((a,b) => pct(b.de,b.preco)-pct(a.de,a.preco));
+  else prodsExibidos = [...todosProds];
+  pagAtual=1; renderGrid();
+}
+
+function filtrar(tag, btn) {
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if (tag==='todos') prodsExibidos = [...todosProds];
+  else prodsExibidos = todosProds.filter(p => p.tags.includes(tag));
+  document.getElementById('catQtd').textContent = prodsExibidos.length + ' produtos';
+  pagAtual=1; renderGrid();
+}
+
+function cardHTML(p) {
+  const desc = pct(p.de, p.preco);
+  return `<div class="card-produto" onclick="irProduto('${p.id}')">
+    <div class="card-img">
+      <img src="${p.img}" alt="${p.nome}" loading="lazy">
+      <span class="card-badge">${p.badge}</span>
+      <button class="card-fav" onclick="event.stopPropagation()" title="Favoritar">♡</button>
+    </div>
+    <div class="card-info">
+      <div class="card-nome">${p.nome}</div>
+      <div class="card-precos">
+        <span class="card-preco">${fmt(p.preco)}</span>
+        <span class="card-de">${fmt(p.de)}</span>
+        <span class="card-desconto">-${desc}%</span>
+      </div>
+      <div class="card-parcelas">em até ${p.parcelas}x de ${fmt(p.preco/p.parcelas)}</div>
+      <div class="card-stars">★★★★★ <span style="color:var(--texto2);font-size:10px">(${Math.floor(Math.random()*200)+30})</span></div>
+    </div>
+  </div>`;
+}
+
+function irProduto(id) { localStorage.setItem('ug_prod',id); window.location.href='produto.html'; }
+function irCategoria(cat) { localStorage.setItem('ug_cat',cat); localStorage.removeItem('ug_sub'); window.location.reload(); }
+function irCheckout() { window.location.href='checkout.html'; }
+function toggleCart() { document.getElementById('cartOverlay').classList.toggle('open'); document.getElementById('cartDrawer').classList.toggle('open'); }
+function addToCart(prod, tam, per) {
+  const item = cart.find(i => i.id===prod.id && i.tam===tam && i.per===per);
+  if (item) item.qtd++; else cart.push({id:prod.id, nome:prod.nome, img:prod.img, preco:prod.preco, tam, per, qtd:1});
+  saveCart(); updateCartUI(); showNotif();
+}
+function removeFromCart(idx) { cart.splice(idx,1); saveCart(); updateCartUI(); }
+function changeQtd(idx,d) { cart[idx].qtd=Math.max(1,cart[idx].qtd+d); saveCart(); updateCartUI(); }
+function saveCart() { localStorage.setItem('ug_cart',JSON.stringify(cart)); }
+function updateCartUI() {
+  const total=cart.reduce((s,i)=>s+i.preco*i.qtd,0), qtd=cart.reduce((s,i)=>s+i.qtd,0);
+  document.querySelectorAll('#cartCount,#cartCountDrawer').forEach(el=>el.textContent=qtd);
+  const el=document.getElementById('cartItems'), footer=document.getElementById('cartFooter');
+  if(!el)return;
+  if(!cart.length){el.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--texto2)"><div style="font-size:48px;margin-bottom:12px">🛒</div><p>Sacola vazia.</p></div>';if(footer)footer.style.display='none';return;}
+  el.innerHTML=cart.map((item,idx)=>`<div class="cart-item"><div class="cart-item-img"><img src="${item.img}" alt="${item.nome}"></div><div class="cart-item-info"><div class="cart-item-nome">${item.nome}</div><div class="cart-item-var">Tam: ${item.tam}</div><div class="cart-item-qtd"><button class="qtd-btn" onclick="changeQtd(${idx},-1)">−</button><span class="qtd-num">${item.qtd}</span><button class="qtd-btn" onclick="changeQtd(${idx},1)">+</button></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><button class="btn-rm" onclick="removeFromCart(${idx})">🗑</button><span class="cart-item-preco">${fmt(item.preco*item.qtd)}</span></div></div>`).join('');
+  if(footer){footer.style.display='block';document.getElementById('cartSubtotal').textContent=fmt(total);document.getElementById('cartTotal').textContent=fmt(total);}
+}
+function showNotif(){const n=document.getElementById('notifCart');n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000);}
+function abrirBusca(){document.getElementById('searchOverlay').classList.add('open');setTimeout(()=>document.getElementById('searchFull')?.focus(),100);}
+function fecharBusca(e){if(!e||e.target===document.getElementById('searchOverlay'))document.getElementById('searchOverlay').classList.remove('open');}
+function buscarProdutos(q){const el=document.getElementById('searchResults');if(!q||q.length<2){el.innerHTML='<p class="search-tag">Digite para buscar...</p>';return;}const res=searchProdutos(q).slice(0,8);if(!res.length){el.innerHTML='<p class="search-tag">Nenhum resultado.</p>';return;}el.innerHTML='<p class="search-tag">Resultados</p>'+res.map(p=>`<div class="search-result-item" onclick="irProduto('${p.id}');fecharBusca()"><div class="search-result-img"><img src="${p.img}" alt="${p.nome}"></div><div class="search-result-info"><div class="nome">${p.nome}</div><div class="preco">${fmt(p.preco)}</div></div></div>`).join('');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fecharBusca();});
+
+init();
+</script>
+</body>
+</html>

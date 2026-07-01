@@ -1,0 +1,66 @@
+<div style="max-width:800px;margin:80px auto;padding:0 24px;">
+  <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px;letter-spacing:4px;text-align:center;margin-bottom:40px;">
+    {{ section.settings.title | default: 'PESQUISAR' }}
+  </h1>
+
+  <form action="{{ routes.search_url }}" method="get" style="display:flex;gap:0;margin-bottom:60px;">
+    <input type="hidden" name="type" value="product">
+    <input type="search" name="q" value="{{ search.terms | escape }}"
+      placeholder="{{ section.settings.placeholder | default: 'Buscar peças...' }}"
+      style="flex:1;border:1px solid #E5E5E5;border-right:none;padding:14px 20px;font-family:Jost,sans-serif;font-size:12px;letter-spacing:1px;outline:none;">
+    <button type="submit" class="btn-fill" style="border-radius:0;">
+      {{ section.settings.button_text | default: 'BUSCAR' }}
+    </button>
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <p style="text-align:center;font-family:Jost,sans-serif;font-size:12px;color:#767676;letter-spacing:1px;">
+        {{ section.settings.no_results_text | default: 'Nenhum resultado encontrado.' }}
+      </p>
+    {%- else -%}
+      <p style="font-family:Jost,sans-serif;font-size:11px;color:#767676;letter-spacing:1px;margin-bottom:32px;">
+        {{ search.results_count }} resultado(s) para "{{ search.terms }}"
+      </p>
+      <div class="product-grid">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {%- render 'product-card', product: item -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Busca",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "PESQUISAR"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder do campo",
+      "default": "Buscar peças..."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto do botão",
+      "default": "BUSCAR"
+    },
+    {
+      "type": "text",
+      "id": "no_results_text",
+      "label": "Texto sem resultados",
+      "default": "Nenhum resultado encontrado."
+    }
+  ]
+}
+{% endschema %}

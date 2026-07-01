@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenSeg NRS | Gestão de Saúde e Segurança do Trabalho</title>
+<meta name="description" content="GreenSeg NRS: consultoria especializada em SST, PGR, PCMSO, LTCAT, treinamentos NR e gestão completa de Segurança do Trabalho em São Paulo.">
+<meta name="keywords" content="segurança do trabalho, SST, PGR, PCMSO, LTCAT, NR, treinamentos, CIPA, brigada incêndio, saúde ocupacional, consultoria SST, São Paulo">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="GreenSeg NRS | Gestão de Saúde e Segurança do Trabalho">
+<meta property="og:description" content="Não entregamos papéis de gaveta. Transformamos SST em ativo estratégico para o seu negócio.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="logo.png">
+<link rel="canonical" href="https://greensegnrs.com.br">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"GreenSeg NRS","description":"Consultoria especializada em Gestão de Saúde e Segurança do Trabalho","telephone":"+55-11-97683-1891","email":"Comercial@greensegnrs.com.br","address":{"@type":"PostalAddress","streetAddress":"R. Maria do Carmo Sene, 84","addressCountry":"BR","addressRegion":"SP"},"taxID":"46.822.442/0001-14","sameAs":["https://www.instagram.com/greenseg.nrs/","https://www.linkedin.com/in/jo%C3%A3o-carlos-galv%C3%A3o-bandeira-4b337a138/"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#0e2a14;--g8:#1a4526;--g7:#1f6130;--g6:#267a3c;--g5:#2daa45;--g4:#38c957;--g3:#6ddb85;--g1:#e6f9eb;--g0:#f4fdf6;--k9:#0a0c0b;--k8:#141916;--k7:#1c2320;--k6:#2b332e;--k4:#5a6860;--k3:#8a9890;--k2:#c8d4cc;--k1:#eef3f0;--white:#ffffff;--r:14px;--rl:24px;--rx:36px;--sh-sm:0 2px 12px rgba(0,0,0,.06);--sh-md:0 8px 40px rgba(0,0,0,.10);--sh-lg:0 20px 60px rgba(0,0,0,.14);--sh-g:0 8px 32px rgba(45,170,69,.28);--tr:all .3s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--k8);background:var(--white);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--k1)}::-webkit-scrollbar-thumb{background:var(--g5);border-radius:3px}
+.container{max-width:1200px;margin:0 auto;padding:0 28px}
+.section{padding:100px 0}
+
+/* TYPE */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--g5);margin-bottom:16px}
+.eyebrow::before{content:'';display:block;width:28px;height:2px;background:var(--g5);border-radius:2px}
+.h2{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.5vw,46px);font-weight:800;line-height:1.15;letter-spacing:-.02em;color:var(--k9)}
+.lead{font-size:18px;line-height:1.75;color:var(--k4)}
+.body-t{font-size:15px;line-height:1.75;color:var(--k4)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:var(--r);font-family:'Inter',sans-serif;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:var(--tr);white-space:nowrap}
+.btn-green{background:var(--g5);color:var(--white);box-shadow:var(--sh-g)}
+.btn-green:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(45,170,69,.40)}
+.btn-dark{background:var(--k9);color:var(--white);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.btn-dark:hover{transform:translateY(-2px);background:var(--k8)}
+.btn-outline{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.35);backdrop-filter:blur(8px)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.8);transform:translateY(-2px)}
+.btn-wpp{background:#25D366;color:var(--white);box-shadow:0 8px 28px rgba(37,211,102,.35)}
+.btn-wpp:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(37,211,102,.5)}
+.btn-lg{padding:18px 36px;font-size:16px;border-radius:16px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:var(--tr)}
+.nav.solid{background:rgba(255,255,255,.97);backdrop-filter:blur(24px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.nav-logo img{height:62px;width:auto;filter:brightness(0) invert(1);transition:var(--tr)}
+.nav.solid .nav-logo img{filter:none}
+.nav-logo img.dark-bg{filter:brightness(0) invert(1)}
+.nav-menu{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-menu a{font-size:14px;font-weight:600;color:rgba(255,255,255,.82);transition:var(--tr)}
+.nav.solid .nav-menu a{color:var(--k7)}
+.nav-menu a:hover{color:var(--g4)}
+.nav.solid .nav-menu a:hover{color:var(--g6)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.burger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:var(--tr)}
+.nav.solid .burger span{background:var(--k8)}
+
+/* MOBILE */
+.m-menu{display:none;position:fixed;inset:0;z-index:999;background:var(--k9);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.m-menu.on{display:flex}
+.m-menu a{color:var(--white);font-size:24px;font-weight:700;font-family:'Poppins',sans-serif;transition:var(--tr)}
+.m-menu a:hover{color:var(--g4)}
+.m-close{position:absolute;top:24px;right:28px;color:var(--white);font-size:28px;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:var(--k9)}
+.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.45;transform-origin:center}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(10,12,11,.92) 45%,rgba(10,12,11,.25) 100%),linear-gradient(to top,rgba(10,12,11,.7) 0%,transparent 50%)}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:140px 28px 100px;width:100%}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g3);margin-bottom:28px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--g4);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Poppins',sans-serif;font-size:clamp(40px,5.5vw,72px);font-weight:900;line-height:1.06;letter-spacing:-.025em;color:var(--white);max-width:760px;margin-bottom:24px}
+.hero-title em{font-style:normal;color:var(--g4)}
+.hero-sub{font-size:18px;line-height:1.75;color:rgba(255,255,255,.65);max-width:540px;margin-bottom:48px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:72px}
+.hero-proof{display:flex;gap:48px;flex-wrap:wrap}
+.hero-pn{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;color:var(--white);line-height:1}
+.hero-pl{font-size:13px;color:rgba(255,255,255,.45);font-weight:500;margin-top:4px}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.hero-line{width:1px;height:0;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:hl 2s ease-in-out infinite}
+@keyframes hl{0%{height:0;opacity:1}100%{height:50px;opacity:0}}
+
+/* BAND */
+.band{background:var(--g5)}
+.band-inner{display:flex;border-left:4px solid rgba(255,255,255,.15)}
+.band-item{flex:1;padding:36px 32px;border-right:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:20px;transition:var(--tr)}
+.band-item:hover{background:rgba(255,255,255,.08)}
+.band-ic{font-size:32px;flex-shrink:0}
+.band-num{font-family:'Poppins',sans-serif;font-size:32px;font-weight:900;color:var(--white);line-height:1}
+.band-label{font-size:13px;color:rgba(255,255,255,.7);font-weight:500;margin-top:3px}
+
+/* SOBRE */
+.sobre{background:var(--white)}
+.sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.sobre-media{position:relative}
+.sobre-photo{border-radius:var(--rx);overflow:hidden;aspect-ratio:3/4;max-height:460px;position:relative}
+.sobre-photo img{width:100%;height:100%;object-fit:cover}
+.sobre-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(14,42,20,.6) 0%,transparent 50%)}
+.sobre-stamp{position:absolute;bottom:-28px;right:-28px;background:var(--white);border-radius:var(--rl);padding:22px 26px;box-shadow:var(--sh-lg);display:flex;align-items:center;gap:16px;min-width:220px}
+.sobre-sn{font-family:'Poppins',sans-serif;font-size:40px;font-weight:900;color:var(--g5);line-height:1}
+.sobre-st strong{display:block;font-size:13px;color:var(--k8);font-weight:700}
+.sobre-st span{font-size:12px;color:var(--k3)}
+.sobre-content{display:flex;flex-direction:column;gap:24px}
+.sobre-bq{border-left:3px solid var(--g5);padding:16px 20px;background:var(--g0);border-radius:0 var(--r) var(--r) 0;font-size:14px;color:var(--k6);line-height:1.7;font-style:italic}
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.val{padding:18px 20px;background:var(--k1);border-radius:var(--r);display:flex;align-items:flex-start;gap:12px;border:1px solid transparent;transition:var(--tr)}
+.val:hover{border-color:rgba(45,170,69,.3);background:var(--g0)}
+.val-ic{font-size:22px;flex-shrink:0;margin-top:1px}
+.val h4{font-size:13px;font-weight:700;color:var(--k8);margin-bottom:4px}
+.val p{font-size:12px;color:var(--k3);line-height:1.5}
+
+/* SERVIÇOS */
+.servicos{background:var(--k1)}
+.sec-hd{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:64px}
+.sec-hd .h2{margin-bottom:16px}
+.srv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.srv{background:var(--white);border-radius:var(--rl);padding:28px 24px;border:1px solid var(--k2);transition:var(--tr);position:relative;overflow:hidden;cursor:pointer}
+.srv::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g5);transform:scaleX(0);transform-origin:left;transition:var(--tr)}
+.srv:hover{transform:translateY(-6px);box-shadow:var(--sh-lg);border-color:transparent}
+.srv:hover::after{transform:scaleX(1)}
+.srv-ic{width:52px;height:52px;border-radius:14px;background:var(--g1);color:var(--g7);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;transition:var(--tr)}
+.srv:hover .srv-ic{background:var(--g5);color:var(--white);transform:scale(1.08)}
+.srv h3{font-size:14px;font-weight:700;color:var(--k8);margin-bottom:8px;line-height:1.4}
+.srv p{font-size:12px;color:var(--k3);line-height:1.6}
+.srv-tag{display:inline-block;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g6);background:var(--g1);padding:4px 10px;border-radius:100px}
+
+/* COMO */
+.como{background:var(--k9)}
+.como .h2{color:var(--white)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative;gap:0}
+.steps::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g5),transparent)}
+.step{padding:0 16px;text-align:center}
+.step-num{width:88px;height:88px;border-radius:50%;border:1px solid rgba(45,170,69,.3);background:rgba(45,170,69,.06);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:28px;transition:var(--tr);position:relative;z-index:1}
+.step:hover .step-num{background:var(--g5);border-color:var(--g5);box-shadow:0 0 0 16px rgba(45,170,69,.08),var(--sh-g);transform:scale(1.08)}
+.step-badge{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--g5);color:var(--white);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:15px;font-weight:700;color:var(--white);margin-bottom:10px}
+.step p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.65}
+
+/* GALERIA */
+.galeria{background:var(--white)}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:270px 270px 220px 220px;gap:12px}
+.gi{border-radius:var(--rl);overflow:hidden;position:relative;cursor:zoom-in}
+.gi img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.gi:nth-child(1){grid-column:span 7;grid-row:span 2}
+.gi:nth-child(2){grid-column:span 5}
+.gi:nth-child(3){grid-column:span 5}
+.gi:nth-child(4){grid-column:span 6}
+.gi:nth-child(5){grid-column:span 6}
+.gi:nth-child(6){grid-column:span 6}
+.gi:nth-child(7){grid-column:span 6}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.gi:hover img{transform:scale(1.06)}
+.gi-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,12,11,.75) 0%,transparent 55%);opacity:0;transition:var(--tr);display:flex;align-items:flex-end;padding:20px 22px}
+.gi:hover .gi-ov{opacity:1}
+.gi-ov span{color:var(--white);font-size:13px;font-weight:700;font-family:'Poppins',sans-serif}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.lb.on{opacity:1;pointer-events:all}
+.lb img{max-width:92vw;max-height:88vh;border-radius:var(--rl);box-shadow:var(--sh-lg)}
+.lb-x{position:absolute;top:28px;right:32px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);color:white;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:var(--tr)}
+.lb-x:hover{background:rgba(255,255,255,.22)}
+
+/* DIFERENCIAIS */
+.dif{background:var(--g0)}
+.dif-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--k2);border-radius:var(--rx);overflow:hidden;box-shadow:var(--sh-md)}
+.dif-c{background:var(--white);padding:40px 36px;transition:var(--tr);display:flex;flex-direction:column;gap:16px}
+.dif-c:hover{background:var(--g0)}
+.dif-ic{width:60px;height:60px;border-radius:18px;background:var(--g1);color:var(--g7);display:flex;align-items:center;justify-content:center;font-size:28px;transition:var(--tr)}
+.dif-c:hover .dif-ic{background:var(--g5);color:var(--white);transform:scale(1.08)}
+.dif-c h3{font-size:17px;font-weight:700;color:var(--k9)}
+.dif-c p{font-size:14px;color:var(--k4);line-height:1.7}
+
+/* DEPOIMENTOS */
+.depo{background:var(--white)}
+.depo-wrap{overflow:hidden}
+.depo-track{display:flex;gap:0;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.d-card{min-width:0;padding:32px;background:var(--k1);border-radius:var(--rx);border:1px solid var(--k2);flex-shrink:0;transition:var(--tr)}
+.d-card:hover{border-color:rgba(45,170,69,.3);box-shadow:var(--sh-md)}
+.d-stars{font-size:16px;letter-spacing:2px;margin-bottom:18px;color:#f59e0b}
+.d-q{font-size:32px;color:var(--g3);font-family:Georgia,serif;line-height:1;margin-bottom:12px}
+.d-text{font-size:15px;color:var(--k6);line-height:1.75;margin-bottom:28px}
+.d-author{display:flex;align-items:center;gap:14px}
+.d-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--g6),var(--g4));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:16px}
+.d-name{font-weight:700;font-size:14px;color:var(--k8)}
+.d-role{font-size:12px;color:var(--k3)}
+.s-ctrl{display:flex;align-items:center;gap:16px;margin-top:32px}
+.s-btn{width:44px;height:44px;border-radius:50%;background:var(--k1);border:1px solid var(--k2);color:var(--k6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.s-btn:hover{background:var(--g5);border-color:var(--g5);color:white}
+.s-dots{display:flex;gap:8px}
+.s-dot{width:8px;height:8px;border-radius:50%;background:var(--k2);cursor:pointer;transition:var(--tr)}
+.s-dot.on{background:var(--g5);width:24px;border-radius:4px}
+
+/* FAQ */
+.faq{background:var(--k1)}
+.faq-wrap{display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start}
+.faq-left{display:flex;flex-direction:column;gap:24px;position:sticky;top:100px}
+.faq-list{display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--white);border-radius:var(--r);border:1px solid transparent;overflow:hidden;transition:var(--tr)}
+.faq-item.open{border-color:rgba(45,170,69,.3)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;cursor:pointer;font-weight:600;font-size:15px;color:var(--k8)}
+.faq-ic{width:30px;height:30px;border-radius:50%;background:var(--k1);color:var(--k6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:var(--tr)}
+.faq-item.open .faq-ic{background:var(--g5);color:white;transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-ai{padding:0 22px 20px;font-size:14px;color:var(--k4);line-height:1.75}
+.faq-item.open .faq-a{max-height:260px}
+
+/* CTA */
+.cta-sec{position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:var(--k9)}
+.cta-bg img{width:100%;height:100%;object-fit:cover;opacity:.25}
+.cta-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,42,20,.92) 0%,rgba(10,12,11,.85) 100%)}
+.cta-inner{position:relative;z-index:1;padding:120px 28px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.cta-t{font-family:'Poppins',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:20px}
+.cta-t em{font-style:normal;color:var(--g4)}
+.cta-s{font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:40px}
+.cta-acts{display:flex;gap:14px;flex-wrap:wrap}
+.cta-card{background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:var(--rx);padding:36px;display:flex;flex-direction:column;gap:20px}
+.cta-ci{display:flex;align-items:center;gap:16px}
+.cta-ci-ic{width:44px;height:44px;border-radius:12px;background:rgba(45,170,69,.2);color:var(--g4);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cta-ci-l{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.cta-ci-v{font-size:15px;font-weight:600;color:var(--white)}
+.cta-ci-v a{color:inherit}
+
+/* FOOTER */
+.footer{background:var(--k9);padding:72px 0 36px}
+.f-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1.4fr;gap:48px;margin-bottom:60px}
+.f-logo{display:flex;align-items:center;margin-bottom:20px}
+.f-logo img{height:48px;width:auto}
+.f-desc{font-size:14px;color:rgba(255,255,255,.38);line-height:1.75;max-width:280px;margin-bottom:24px}
+.f-social{display:flex;gap:10px}
+.f-soc{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.f-soc:hover{background:var(--g5);border-color:var(--g5);color:white}
+.footer h4{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
+.f-links{display:flex;flex-direction:column;gap:10px;list-style:none}
+.f-links a{font-size:14px;color:rgba(255,255,255,.45);transition:var(--tr)}
+.f-links a:hover{color:var(--g4)}
+.f-contact{display:flex;flex-direction:column;gap:14px}
+.f-ci{display:flex;align-items:flex-start;gap:12px}
+.f-ci-ic{font-size:16px;flex-shrink:0;margin-top:1px}
+.f-ci-v{font-size:13px;color:rgba(255,255,255,.45);line-height:1.5}
+.f-ci-v a{color:rgba(255,255,255,.45);transition:var(--tr)}
+.f-ci-v a:hover{color:var(--g4)}
+.f-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.f-bottom p{font-size:12px;color:rgba(255,255,255,.22)}
+
+/* WPP FLOAT */
+.fwpp{position:fixed;bottom:28px;right:28px;z-index:500;width:58px;height:58px;border-radius:50%;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,.5);transition:var(--tr)}
+.fwpp:hover{transform:scale(1.12);box-shadow:0 8px 40px rgba(37,211,102,.6)}
+.fwpp svg{width:28px;height:28px}
+.fwpp::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:ring 2.5s ease-in-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
+
+/* ANIM */
+.rev{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.rev.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .srv-grid{grid-template-columns:repeat(3,1fr)}
+  .f-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .cta-inner{grid-template-columns:1fr;gap:48px}
+  .sobre-grid{grid-template-columns:1fr;gap:60px}
+  .sobre-stamp{right:0}
+  .dif-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-menu,.nav-cta{display:none}
+  .burger{display:flex}
+  .nav{padding:0 20px}
+  .band-inner{flex-direction:column}
+  .band-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
+  .srv-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .gi:nth-child(1){grid-column:span 2;grid-row:span 1;height:240px}
+  .gi:nth-child(2){grid-column:span 2;height:200px}
+  .gi:nth-child(3),.gi:nth-child(4),.gi:nth-child(5),.gi:nth-child(6),.gi:nth-child(7){grid-column:span 1;height:160px}
+  .dif-grid{grid-template-columns:1fr}
+  .faq-wrap{grid-template-columns:1fr;gap:40px}
+  .faq-left{position:static}
+  .f-grid{grid-template-columns:1fr}
+  .f-bottom{flex-direction:column;text-align:center}
+  .d-card{min-width:0}
+}
+@media(max-width:480px){
+  .section{padding:72px 0}
+  .srv-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{justify-content:center}
+  .sobre-stamp{position:static;margin-top:20px}
+  .cta-inner{padding:80px 28px}
+}
+</style>
+</head>
+<body>
+
+<div class="lb" id="lb" onclick="closeLb()">
+  <div class="lb-x" onclick="closeLb()">✕</div>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<div class="m-menu" id="mMenu">
+  <div class="m-close" onclick="closeMob()">✕</div>
+  <a href="#sobre" onclick="closeMob()">Sobre</a>
+  <a href="#servicos" onclick="closeMob()">Serviços</a>
+  <a href="#como" onclick="closeMob()">Como Funciona</a>
+  <a href="#faq" onclick="closeMob()">FAQ</a>
+  <a href="#contato" onclick="closeMob()">Contato</a>
+  <a href="https://wa.me/5511976831891" class="btn btn-wpp" style="margin-top:8px;">💬 WhatsApp</a>
+</div>
+
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="GreenSeg NRS" loading="eager">
+  </a>
+  <ul class="nav-menu">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#como">Como Funciona</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://wa.me/5511976831891" class="btn btn-green" style="padding:11px 22px;font-size:14px;">💬 Solicitar Orçamento</a>
+  </div>
+  <div class="burger" onclick="openMob()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <img src="0ef6d8fa-db4e-48ed-bf49-d2a2b701096d.jpg" alt="GreenSeg em campo" loading="eager" id="heroBg">
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><div class="hero-dot"></div>Gestão de Saúde e Segurança do Trabalho</div>
+    <h1 class="hero-title rev">Sua empresa em conformidade.<br><em>Seus colaboradores,</em><br>protegidos.</h1>
+    <p class="hero-sub rev d1">Transformamos o que antes era um custo em um ativo estratégico para o seu negócio.</p>
+    <div class="hero-actions rev d2">
+      <a href="#servicos" class="btn btn-outline btn-lg">Ver Serviços</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-line"></div><span>Rolar</span></div>
+</section>
+
+<!-- BAND -->
+<div class="band">
+  <div class="band-inner">
+    <div class="band-item"><div class="band-ic">🛡️</div><div><div class="band-num" data-t="100">0+</div><div class="band-label">Empresas protegidas</div></div></div>
+    <div class="band-item"><div class="band-ic">🎓</div><div><div class="band-num" data-t="200">0+</div><div class="band-label">Treinamentos realizados</div></div></div>
+    <div class="band-item"><div class="band-ic">📜</div><div><div class="band-num" data-t="600">0+</div><div class="band-label">Certificados emitidos</div></div></div>
+    <div class="band-item"><div class="band-ic">⭐</div><div><div class="band-num" data-t="4">0+</div><div class="band-label">Anos de expertise</div></div></div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section class="sobre section" id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="sobre-media rev">
+        <div class="sobre-photo">
+          <img src="e72e46ff-14ea-4add-84b7-86b70da4a5ea.jpg" alt="GreenSeg — levantamento técnico LTCAT" loading="lazy">
+        </div>
+        <div class="sobre-stamp">
+          <div class="sobre-sn">4+</div>
+          <div class="sobre-st"><strong>Anos de experiência</strong><span>na linha de frente da SST</span></div>
+        </div>
+      </div>
+      <div class="sobre-content rev d1">
+        <div class="eyebrow">Sobre a GreenSeg</div>
+        <h2 class="h2">Nascemos da linha de frente.</h2>
+        <p class="body-t">A GreenSeg nasceu da vivência diária de quem entende o verdadeiro valor da vida no ambiente de trabalho. Fundada por <strong>João Carlos Galvão Bandeira</strong> — Tecnólogo e Técnico em Segurança do Trabalho, além de Bombeiro Profissional Civil —, nossa consultoria surgiu de uma inquietação: a percepção de que o mercado estava defasado, limitando-se a entregar burocracia em vez de promover a verdadeira Segurança do Trabalho.</p>
+        <p class="body-t">Para oferecer uma solução definitiva, o fundador aliou sua vasta vivência em diversos segmentos a uma formação técnica robusta: <strong>pós-graduações em Ergonomia e em Psicologia Positiva e Saúde Mental no Trabalho</strong>, além de especializações em Higiene Ocupacional, Construção Civil e atuação como Assistente Técnico em Periculosidade e Insalubridade.</p>
+        <p class="body-t">João Carlos também é instrutor qualificado para as principais operações de risco do mercado — <strong>NR-11</strong> (Empilhadeira), <strong>NR-12</strong> (Máquinas), <strong>NR-20</strong> (Inflamáveis), <strong>NR-33</strong> (Espaço Confinado) e <strong>NR-35</strong> (Trabalho em Altura).</p>
+        <div class="sobre-bq">"A Greenseg não apenas cumpre normas; nós vivenciamos a segurança. Somos o parceiro estratégico definitivo, cuidando da saúde e da vida dos seus colaboradores com o profissionalismo, a gestão e o respeito que a sua empresa merece."</div>
+        <div class="vals">
+          <div class="val"><div class="val-ic">🎯</div><div><h4>Missão</h4><p>Proteger vidas e transformar SST em vantagem competitiva real.</p></div></div>
+          <div class="val"><div class="val-ic">🚒</div><div><h4>Fundador</h4><p>Tecnólogo, Técnico de SST e Bombeiro Profissional Civil.</p></div></div>
+          <div class="val"><div class="val-ic">🎓</div><div><h4>Formação</h4><p>Pós-graduado em Ergonomia e Saúde Mental no Trabalho.</p></div></div>
+          <div class="val"><div class="val-ic">📈</div><div><h4>Resultado</h4><p>Redução de sinistros, multas e passivos trabalhistas.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section class="servicos section" id="servicos">
+  <div class="container">
+    <div class="sec-hd">
+      <div class="eyebrow">Soluções Completas</div>
+      <h2 class="h2">Tudo que sua empresa precisa em SST</h2>
+      <p class="lead" style="max-width:560px;">De documentação legal a treinamentos práticos — cobrimos todas as obrigações regulamentares do seu negócio.</p>
+    </div>
+    <div class="srv-grid">
+      <div class="srv rev"><div class="srv-ic">📊</div><h3>PGR</h3><p>Programa de Gerenciamento de Riscos — identificação, avaliação e controle de todos os riscos ocupacionais.</p><span class="srv-tag">NR-01 · Obrigatório</span></div>
+      <div class="srv rev d1"><div class="srv-ic">🏥</div><h3>PCMSO</h3><p>Programa de Controle Médico de Saúde Ocupacional — exames e monitoramento da saúde dos colaboradores.</p><span class="srv-tag">NR-07 · Obrigatório</span></div>
+      <div class="srv rev d2"><div class="srv-ic">📋</div><h3>ASO — Exames Ocupacionais</h3><p>Atestados de Saúde Ocupacional: admissional, periódico, retorno ao trabalho e demissional.</p><span class="srv-tag">Obrigatório</span></div>
+      <div class="srv rev d3"><div class="srv-ic">🔬</div><h3>LTCAT</h3><p>Laudo Técnico das Condições Ambientais de Trabalho — avaliação de agentes nocivos para fins previdenciários.</p><span class="srv-tag">NR-09</span></div>
+      <div class="srv rev"><div class="srv-ic">⚙️</div><h3>AET</h3><p>Análise Ergonômica do Trabalho — identificação de riscos ergonômicos e recomendações de melhoria.</p><span class="srv-tag">NR-17</span></div>
+      <div class="srv rev d1"><div class="srv-ic">👥</div><h3>CIPA — Implantação</h3><p>Estruturação completa da Comissão Interna de Prevenção de Acidentes, eleição e atas.</p><span class="srv-tag">NR-05</span></div>
+      <div class="srv rev d2"><div class="srv-ic">🗳️</div><h3>Votação Online de CIPA</h3><p>Sistema de votação digital para eleição da CIPA — prático, seguro e com documentação completa.</p><span class="srv-tag">NR-05</span></div>
+      <div class="srv rev d3"><div class="srv-ic">🔄</div><h3>Manutenção Mensal de CIPA</h3><p>Acompanhamento mensal, atas de reuniões, acompanhamento do mandato e renovações periódicas.</p><span class="srv-tag">NR-05 · Mensal</span></div>
+      <div class="srv rev"><div class="srv-ic">🎓</div><h3>Treinamento Designados de CIPA</h3><p>Capacitação para membros designados — teoria, prática e certificação conforme NR-05.</p><span class="srv-tag">NR-05</span></div>
+      <div class="srv rev d1"><div class="srv-ic">❤️‍🩹</div><h3>Primeiros Socorros</h3><p>Treinamento prático — RCP, desfibrilação, imobilização e atendimento a emergências no trabalho.</p><span class="srv-tag">Obrigatório</span></div>
+      <div class="srv rev d2"><div class="srv-ic">⚡</div><h3>Laudo Elétrico</h3><p>Laudo técnico de instalações elétricas para conformidade legal e segurança das operações.</p><span class="srv-tag">NR-10</span></div>
+      <div class="srv rev d3"><div class="srv-ic">🗺️</div><h3>Mapa de Risco</h3><p>Elaboração e atualização do mapa de risco das instalações com sinalização visual de perigos.</p><span class="srv-tag">NR-05</span></div>
+      <div class="srv rev"><div class="srv-ic">🚨</div><h3>Rota de Fuga</h3><p>Projeto e sinalização das rotas de emergência conforme normas do Corpo de Bombeiros e ABNT.</p><span class="srv-tag">NR-23</span></div>
+      <div class="srv rev d1"><div class="srv-ic">🚒</div><h3>Brigada de Incêndio</h3><p>Formação completa da brigada com teoria, prática e simulacros de emergência no local.</p><span class="srv-tag">NR-23</span></div>
+      <div class="srv rev d2"><div class="srv-ic">🏢</div><h3>Exames In Company</h3><p>Realização de exames ocupacionais diretamente na sua empresa — zero deslocamento dos colaboradores.</p><span class="srv-tag">NR-07</span></div>
+      <div class="srv rev d3"><div class="srv-ic">📈</div><h3>Gestão de Plano de Ação</h3><p>Elaboração e acompanhamento de planos de ação corretivos e preventivos em SST.</p><span class="srv-tag">Gestão</span></div>
+      <div class="srv rev"><div class="srv-ic">📉</div><h3>Gestão de Absenteísmo</h3><p>Análise e controle do absenteísmo — identificação de causas e estratégias de redução de afastamentos.</p><span class="srv-tag">Saúde</span></div>
+      <div class="srv rev d1"><div class="srv-ic">💻</div><h3>Envio de eSocial</h3><p>Gestão completa dos eventos de SST no eSocial — S-2210, S-2220 e S-2240 e demais obrigações.</p><span class="srv-tag">Digital · Obrigatório</span></div>
+      <div class="srv rev d2"><div class="srv-ic">📑</div><h3>Avaliação NR-01</h3><p>Diagnóstico completo de conformidade com a NR-01 e elaboração do Inventário de Riscos Ocupacionais.</p><span class="srv-tag">NR-01</span></div>
+      <div class="srv rev d3"><div class="srv-ic">⚖️</div><h3>Perícias Trabalhistas</h3><p>Suporte técnico em perícias trabalhistas — laudos periciais e assistência técnica especializada.</p><span class="srv-tag">Jurídico</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="como section" id="como">
+  <div class="container">
+    <div class="sec-hd" style="margin-bottom:80px;">
+      <div class="eyebrow" style="color:var(--g3);">Nosso Processo</div>
+      <h2 class="h2">Do diagnóstico à conformidade total</h2>
+      <p class="lead" style="color:rgba(255,255,255,.45);max-width:520px;">Um processo estruturado e transparente para proteger sua empresa em todas as etapas.</p>
+    </div>
+    <div class="steps">
+      <div class="step rev"><div class="step-num">🔍<div class="step-badge">1</div></div><h3>Diagnóstico</h3><p>Análise completa da situação atual — identificamos todas as pendências legais e riscos existentes.</p></div>
+      <div class="step rev d1"><div class="step-num">📊<div class="step-badge">2</div></div><h3>Levantamento</h3><p>Mapeamento detalhado de processos, agentes nocivos e obrigações regulamentares vigentes.</p></div>
+      <div class="step rev d2"><div class="step-num">🔧<div class="step-badge">3</div></div><h3>Adequação</h3><p>Elaboração e implementação de todos os documentos, laudos e programas obrigatórios.</p></div>
+      <div class="step rev d3"><div class="step-num">🎓<div class="step-badge">4</div></div><h3>Treinamento</h3><p>Capacitação prática dos colaboradores com certificação e registro nos sistemas legais.</p></div>
+      <div class="step rev d4"><div class="step-num">📈<div class="step-badge">5</div></div><h3>Acompanhamento</h3><p>Monitoramento contínuo para manter sua empresa sempre em conformidade e segurança.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DIFERENCIAIS -->
+<section class="dif section">
+  <div class="container">
+    <div class="sec-hd" style="margin-bottom:56px;">
+      <div class="eyebrow">Por que a GreenSeg</div>
+      <h2 class="h2">Segurança que vai além do papel</h2>
+      <p class="lead" style="max-width:520px;">Atuamos de forma imersiva e personalizada, entregando resultados que protegem e transformam.</p>
+    </div>
+    <div class="dif-grid">
+      <div class="dif-c rev"><div class="dif-ic">🎯</div><h3>Atendimento Personalizado</h3><p>Cada empresa é única. Soluções sob medida para o seu setor, porte e nível de risco — sem respostas genéricas.</p></div>
+      <div class="dif-c rev d1"><div class="dif-ic">👨‍💼</div><h3>Equipe Especializada</h3><p>Técnicos com formação sólida, experiência prática em campo e atualização constante nas normas regulamentadoras.</p></div>
+      <div class="dif-c rev d2"><div class="dif-ic">📲</div><h3>Suporte Ágil e Direto</h3><p>Atendimento rápido por WhatsApp. Dúvidas, urgências e atualizações — respondemos no mesmo dia.</p></div>
+      <div class="dif-c rev d3"><div class="dif-ic">🔄</div><h3>Atualização Automática</h3><p>Acompanhamos todas as mudanças na legislação e mantemos seus documentos sempre atualizados.</p></div>
+      <div class="dif-c rev d4"><div class="dif-ic">⚖️</div><h3>Zero Multas e Autuações</h3><p>Garantimos conformidade total com o MTE — nossos clientes passam por fiscalizações sem intercorrências.</p></div>
+      <div class="dif-c rev d1"><div class="dif-ic">📈</div><h3>SST como Ativo Estratégico</h3><p>Reduzimos sinistros, multas e passivos trabalhistas — transformando segurança em ganho competitivo real.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depo section" id="depoimentos">
+  <div class="container">
+    <div style="display:flex;flex-direction:column;align-items:flex-start;margin-bottom:44px;" class="rev">
+      <div class="eyebrow">Depoimentos</div>
+      <h2 class="h2">O que nossos clientes dizem</h2>
+    </div>
+    <div class="depo-wrap">
+      <div class="depo-track" id="dTrack">
+        <div class="d-card"><div class="d-stars">★★★★★</div><div class="d-q">"</div><p class="d-text">A GreenSeg mudou nossa visão sobre segurança. Antes víamos como burocracia — hoje é parte da nossa estratégia. Passamos por fiscalização do MTE sem nenhuma irregularidade.</p><div class="d-author"><div class="d-av">JR</div><div><div class="d-name">João Ricardo</div><div class="d-role">Gerente de Operações — Construtora</div></div></div></div>
+        <div class="d-card"><div class="d-stars">★★★★★</div><div class="d-q">"</div><p class="d-text">Equipe extremamente profissional. O treinamento de brigada de incêndio foi excelente — prático, didático e os colaboradores saíram muito mais preparados.</p><div class="d-author"><div class="d-av">AM</div><div><div class="d-name">Ana Martins</div><div class="d-role">Diretora Administrativa — Indústria</div></div></div></div>
+        <div class="d-card"><div class="d-stars">★★★★★</div><div class="d-q">"</div><p class="d-text">João Carlos é um especialista que se envolve de verdade com o cliente. PGR, PCMSO, eSocial — cuidou de tudo com agilidade e excelência. Recomendo sem hesitar.</p><div class="d-author"><div class="d-av">CS</div><div><div class="d-name">Carlos Souza</div><div class="d-role">Proprietário — Empresa de Logística</div></div></div></div>
+        <div class="d-card"><div class="d-stars">★★★★★</div><div class="d-q">"</div><p class="d-text">Com a GreenSeg, reduzimos significativamente nossos afastamentos. A gestão de absenteísmo e o acompanhamento mensal fazem diferença real nos resultados.</p><div class="d-author"><div class="d-av">ML</div><div><div class="d-name">Marcos Lima</div><div class="d-role">Supervisor de RH — Metalúrgica</div></div></div></div>
+      </div>
+    </div>
+    <div class="s-ctrl">
+      <button class="s-btn" onclick="slide(-1)">←</button>
+      <div class="s-dots">
+        <div class="s-dot on" onclick="gSlide(0)"></div>
+        <div class="s-dot" onclick="gSlide(1)"></div>
+        <div class="s-dot" onclick="gSlide(2)"></div>
+        <div class="s-dot" onclick="gSlide(3)"></div>
+      </div>
+      <button class="s-btn" onclick="slide(1)">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq section" id="faq">
+  <div class="container">
+    <div class="faq-wrap">
+      <div class="faq-left rev">
+        <div class="eyebrow">FAQ</div>
+        <h2 class="h2">Perguntas frequentes</h2>
+        <p class="body-t">Tire suas principais dúvidas sobre SST, obrigações legais e como trabalhamos.</p>
+        <a href="https://wa.me/5511976831891" class="btn btn-green" style="margin-top:8px;">💬 Falar com especialista</a>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item rev"><div class="faq-q" onclick="tFaq(this)">Todas as empresas precisam de PGR e PCMSO?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Sim. O PGR e o PCMSO são obrigatórios para a maioria das empresas com empregados CLT, independentemente do porte. A exigência varia conforme o grau de risco e número de colaboradores. Entre em contato para um diagnóstico específico da sua situação.</div></div></div>
+        <div class="faq-item rev d1"><div class="faq-q" onclick="tFaq(this)">Com que frequência os treinamentos NR precisam ser renovados?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Varia conforme a NR. A NR-35 (Trabalho em Altura) exige renovação bianual. NR-33 (Espaço Confinado) também é anual. Brigada de Incêndio (NR-23) é anual. CIPA tem mandato anual. Gerenciamos todos os vencimentos para você.</div></div></div>
+        <div class="faq-item rev d2"><div class="faq-q" onclick="tFaq(this)">Quais as multas por descumprir as NRs?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Multas do MTE variam de R$ 402,53 a R$ 4.025,33 por infração, multiplicadas pelo número de empregados expostos. Além das multas, a empresa pode ser interditada, enfrentar ações civis e criminais, e perder contratos com empresas que exigem conformidade em SST dos fornecedores.</div></div></div>
+        <div class="faq-item rev d3"><div class="faq-q" onclick="tFaq(this)">Os treinamentos podem ser feitos na minha empresa?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Sim. Realizamos treinamentos in company com datas e horários flexíveis para minimizar o impacto na operação. Para treinamentos práticos como brigada de incêndio e primeiros socorros, levamos todos os equipamentos e materiais necessários diretamente ao local.</div></div></div>
+        <div class="faq-item rev d4"><div class="faq-q" onclick="tFaq(this)">Como funciona o envio de SST para o eSocial?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Gerenciamos todo o processo — S-2210, S-2220 e S-2240 e demais eventos. Coletamos as informações, elaboramos os laudos e programas necessários e realizamos o envio dentro dos prazos legais, garantindo conformidade e evitando multas por atraso.</div></div></div>
+        <div class="faq-item rev d1"><div class="faq-q" onclick="tFaq(this)">Qual o prazo para elaborar o PGR?<div class="faq-ic">+</div></div><div class="faq-a"><div class="faq-ai">Geralmente entre 15 a 30 dias úteis após o levantamento de dados, dependendo do porte e complexidade da empresa. Para empresas menores, o prazo pode ser reduzido. Temos atendimento prioritário para casos urgentes — entre em contato e avaliamos sua situação.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contato">
+  <div class="cta-bg">
+    <img src="0ef6d8fa-db4e-48ed-bf49-d2a2b701096d.jpg" alt="" loading="lazy">
+  </div>
+  <div class="cta-inner">
+    <div class="rev">
+      <h2 class="cta-t">Proteja sua empresa.<br>Proteja <em>quem</em> importa.</h2>
+      <p class="cta-s">Solicite um diagnóstico gratuito e descubra o que sua empresa precisa para operar com segurança, dentro da lei e com tranquilidade.</p>
+      <div class="cta-acts">
+        <a href="https://wa.me/5511976831891" class="btn btn-wpp btn-lg">💬 WhatsApp Direto</a>
+      </div>
+    </div>
+    <div class="cta-card rev d1">
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;">Fale com a GreenSeg</div>
+      <div class="cta-ci"><div class="cta-ci-ic">📧</div><div><div class="cta-ci-l">E-mail Comercial</div><div class="cta-ci-v"><a href="mailto:Comercial@greensegnrs.com.br">Comercial@greensegnrs.com.br</a></div></div></div>
+      <div class="cta-ci"><div class="cta-ci-ic">📍</div><div><div class="cta-ci-l">Endereço</div><div class="cta-ci-v">R. Maria do Carmo Sene, 84</div></div></div>
+      <div class="cta-ci"><div class="cta-ci-ic">📱</div><div><div class="cta-ci-l">Instagram</div><div class="cta-ci-v"><a href="https://www.instagram.com/greenseg.nrs/" target="_blank">@greenseg.nrs</a></div></div></div>
+      <a href="https://wa.me/5511976831891" class="btn btn-wpp" style="margin-top:4px;">💬 Iniciar Conversa no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="f-grid">
+      <div>
+        <div class="f-logo"><img src="logo.png" alt="GreenSeg NRS" style="filter:brightness(0) invert(1);"></div>
+        <p class="f-desc">Gestão de Saúde e Segurança do Trabalho com excelência técnica, atendimento personalizado e compromisso com a vida dos colaboradores.</p>
+        <div class="f-social">
+          <a href="https://www.instagram.com/greenseg.nrs/" target="_blank" class="f-soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          <a href="https://www.linkedin.com/in/jo%C3%A3o-carlos-galv%C3%A3o-bandeira-4b337a138/" target="_blank" class="f-soc" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://wa.me/5511976831891" class="f-soc" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Serviços</h4>
+        <ul class="f-links">
+          <li><a href="#servicos">PGR</a></li><li><a href="#servicos">PCMSO</a></li><li><a href="#servicos">ASO</a></li><li><a href="#servicos">LTCAT</a></li><li><a href="#servicos">AET</a></li><li><a href="#servicos">Gestão SST</a></li><li><a href="#servicos">eSocial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Treinamentos</h4>
+        <ul class="f-links">
+          <li><a href="#servicos">CIPA</a></li><li><a href="#servicos">Brigada Incêndio</a></li><li><a href="#servicos">Primeiros Socorros</a></li><li><a href="#servicos">Exames In Company</a></li><li><a href="#servicos">Perícias Trabalhistas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <div class="f-contact">
+          <div class="f-ci"><span class="f-ci-ic">📧</span><div class="f-ci-v"><a href="mailto:Comercial@greensegnrs.com.br">Comercial@greensegnrs.com.br</a></div></div>
+          <div class="f-ci"><span class="f-ci-ic">📍</span><div class="f-ci-v">R. Maria do Carmo Sene, 84</div></div>
+          <div class="f-ci"><span class="f-ci-ic">📱</span><div class="f-ci-v"><a href="https://www.instagram.com/greenseg.nrs/" target="_blank">@greenseg.nrs</a></div></div>
+          <div class="f-ci"><span class="f-ci-ic">🏢</span><div class="f-ci-v">CNPJ: 46.822.442/0001-14</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <p>© 2025 GreenSeg NRS — 46.822.442 JOAO CARLOS GALVAO BANDEIRA. Todos os direitos reservados.</p>
+      <p>Gestão de Saúde e Segurança do Trabalho · São Paulo</p>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT -->
+<style>
+.cb-btn{position:fixed;bottom:100px;right:28px;z-index:500;width:58px;height:58px;border-radius:50%;background:var(--g5);color:white;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(45,170,69,.45);cursor:pointer;transition:var(--tr);border:none}
+.cb-btn:hover{transform:scale(1.12);box-shadow:0 8px 40px rgba(45,170,69,.6)}
+.cb-btn svg{width:26px;height:26px}
+.cb-notif{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:white;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;animation:notif-pop .4s ease}
+@keyframes notif-pop{from{transform:scale(0)}to{transform:scale(1)}}
+.cb-window{position:fixed;bottom:90px;left:50%;right:auto;z-index:501;width:360px;max-width:calc(100vw - 32px);background:white;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden;transform:translateX(-50%) scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.4,0,.2,1);transform-origin:bottom center}
+.cb-window.open{transform:translateX(-50%) scale(1) translateY(0);opacity:1;pointer-events:all}
+.cb-head{background:linear-gradient(135deg,var(--g8),var(--g6));padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+.cb-head-left{display:flex;align-items:center;gap:12px}
+.cb-avatar{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cb-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:white}
+.cb-status{font-size:11px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px;margin-top:2px}
+.cb-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.cb-close{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--tr)}
+.cb-close:hover{background:rgba(255,255,255,.25)}
+.cb-msgs{height:340px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:#f8faf8;scroll-behavior:smooth}
+.cb-msgs::-webkit-scrollbar{width:4px}
+.cb-msgs::-webkit-scrollbar-thumb{background:var(--k2);border-radius:2px}
+.cb-bubble{max-width:82%;padding:12px 16px;border-radius:18px;font-size:13px;line-height:1.6;animation:bubble-in .25s ease}
+@keyframes bubble-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.cb-bubble.bot{background:white;color:var(--k7);border-radius:18px 18px 18px 4px;box-shadow:0 2px 8px rgba(0,0,0,.07);align-self:flex-start}
+.cb-bubble.user{background:var(--g5);color:white;border-radius:18px 18px 4px 18px;align-self:flex-end}
+.cb-bubble.bot strong{color:var(--g6)}
+.cb-typing{display:flex;gap:4px;align-items:center;padding:12px 16px;background:white;border-radius:18px 18px 18px 4px;box-shadow:0 2px 8px rgba(0,0,0,.07);align-self:flex-start;width:56px}
+.cb-typing span{width:7px;height:7px;border-radius:50%;background:var(--k3);animation:dot 1.2s infinite}
+.cb-typing span:nth-child(2){animation-delay:.2s}
+.cb-typing span:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{transform:scale(.7);opacity:.4}40%{transform:scale(1);opacity:1}}
+.cb-chips{display:flex;flex-wrap:wrap;gap:7px;padding:12px 14px;border-top:1px solid var(--k1);background:white}
+.cb-chip{padding:7px 13px;border-radius:100px;background:var(--g1);color:var(--g7);font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(45,170,69,.2);transition:var(--tr);white-space:nowrap}
+.cb-chip:hover{background:var(--g5);color:white;border-color:var(--g5)}
+.cb-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--k1);background:white}
+.cb-input{flex:1;padding:10px 14px;border-radius:100px;border:1px solid var(--k2);font-size:13px;font-family:'Inter',sans-serif;outline:none;color:var(--k8);background:var(--k1);transition:var(--tr)}
+.cb-input:focus{border-color:var(--g4);background:white}
+.cb-send{width:38px;height:38px;border-radius:50%;background:var(--g5);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
+.cb-send:hover{background:var(--g6);transform:scale(1.08)}
+.cb-wpp-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 14px 14px;padding:11px;border-radius:12px;background:#25D366;color:white;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);border:none;width:calc(100% - 28px)}
+.cb-wpp-btn:hover{background:#1ebe58;transform:translateY(-1px)}
+</style>
+
+<button class="cb-btn" id="cbBtn" onclick="toggleChat()" aria-label="Chat">
+  <span class="cb-notif" id="cbNotif">1</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+</button>
+
+<div class="cb-window" id="cbWindow">
+  <div class="cb-head">
+    <div class="cb-head-left">
+      <div class="cb-avatar">🛡️</div>
+      <div>
+        <div class="cb-name">Assistente GreenSeg</div>
+        <div class="cb-status">Online agora</div>
+      </div>
+    </div>
+    <button class="cb-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="cb-msgs" id="cbMsgs"></div>
+  <div class="cb-chips" id="cbChips">
+    <span class="cb-chip" onclick="sendChip(this)">📋 Nossos serviços</span>
+    <span class="cb-chip" onclick="sendChip(this)">🎓 Treinamentos NR</span>
+    <span class="cb-chip" onclick="sendChip(this)">💰 Valores</span>
+    <span class="cb-chip" onclick="sendChip(this)">📍 Onde ficamos</span>
+    <span class="cb-chip" onclick="sendChip(this)">👤 Sobre o fundador</span>
+    <span class="cb-chip" onclick="sendChip(this)">⚡ eSocial</span>
+  </div>
+  <div class="cb-input-row">
+    <input class="cb-input" id="cbInput" placeholder="Digite sua dúvida..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="cb-send" onclick="sendMsg()">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <button class="cb-wpp-btn" onclick="window.open('https://wa.me/5511976831891','_blank')">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    Continuar no WhatsApp
+  </button>
+</div>
+
+<script>
+const KB = [
+  {k:['oi','olá','ola','bom dia','boa tarde','boa noite','boa','tudo','hey','opa'],r:`Olá! 👋 Seja bem-vindo à <strong>GreenSeg NRS</strong>!\n\nSou o assistente virtual e estou aqui para tirar todas as suas dúvidas sobre Saúde e Segurança do Trabalho.\n\nComo posso te ajudar hoje?`},
+  {k:['serviço','serviços','oferecem','oferecem','fazem','oferece','que faz','o que','atividades'],r:`A GreenSeg oferece uma solução <strong>completa em SST</strong>:\n\n📋 <strong>Documentação:</strong> PGR, PCMSO, ASO, LTCAT, AET, Laudo Elétrico, Mapa de Risco, Rota de Fuga\n\n👥 <strong>CIPA:</strong> Implantação, Votação Online, Manutenção Mensal e Treinamento\n\n🎓 <strong>Treinamentos:</strong> Brigada de Incêndio, Primeiros Socorros, Trabalho em Altura, Espaço Confinado\n\n💻 <strong>Gestão:</strong> eSocial, Plano de Ação, Absenteísmo, Exames In Company, Perícias Trabalhistas\n\nQuer saber mais sobre algum serviço específico?`},
+  {k:['pgr','programa gerenciamento','gerenciamento de risco','risco'],r:`📊 <strong>PGR — Programa de Gerenciamento de Riscos</strong>\n\nObrigatório pela <strong>NR-01</strong> para todas as empresas com colaboradores CLT.\n\nIdentifica, avalia e controla todos os riscos ocupacionais do ambiente de trabalho — físicos, químicos, biológicos, ergonômicos e acidentes.\n\nSem o PGR, sua empresa está sujeita a multas do MTE e autuações. A GreenSeg elabora e mantém esse documento atualizado.\n\n👉 Quer um diagnóstico gratuito?`},
+  {k:['pcmso','saúde ocupacional','médico'],r:`🏥 <strong>PCMSO — Programa de Controle Médico de Saúde Ocupacional</strong>\n\nObrigatório pela <strong>NR-07</strong>. Define quais exames cada colaborador deve realizar e com qual periodicidade.\n\nA GreenSeg elabora o PCMSO e coordena os exames admissionais, periódicos, retorno ao trabalho e demissional.\n\nTambém oferecemos <strong>Exames In Company</strong> — realizados diretamente na sua empresa, sem deslocamento dos colaboradores!`},
+  {k:['aso','atestado','exame'],r:`📋 <strong>ASO — Atestado de Saúde Ocupacional</strong>\n\nDocumento obrigatório para admissão, exame periódico, retorno ao trabalho e demissão.\n\nA GreenSeg também realiza <strong>Exames In Company</strong> — toda a estrutura vai até a sua empresa, sem precisar deslocar a equipe.\n\nEntre em contato para saber mais: <strong>(11) 97683-1891</strong>`},
+  {k:['ltcat','laudo técnico','condições ambientais','ambiente trabalho'],r:`🔬 <strong>LTCAT — Laudo Técnico das Condições Ambientais de Trabalho</strong>\n\nAvalia a presença de agentes nocivos (ruído, calor, vibração, produtos químicos) para fins previdenciários e do eSocial.\n\nA GreenSeg realiza medições e laudos com equipamentos calibrados, diretamente nos ambientes de trabalho — em fábricas, obras, ferrovias e mais.`},
+  {k:['aet','ergonomia','ergonômica'],r:`⚙️ <strong>AET — Análise Ergonômica do Trabalho</strong>\n\nObrigatória pela <strong>NR-17</strong>. Avalia postura, esforço físico, mobiliário, organização do trabalho e fatores psicossociais.\n\nJoão Carlos possui <strong>pós-graduação em Ergonomia</strong>, o que garante laudos de altíssima qualidade técnica para sua empresa.`},
+  {k:['cipa','comissão','prevenção acidente'],r:`👥 <strong>CIPA — Comissão Interna de Prevenção de Acidentes (NR-05)</strong>\n\nA GreenSeg oferece:\n\n✅ <strong>Implantação completa</strong> — eleição, atas e documentação\n✅ <strong>Votação Online</strong> — sistema digital seguro e prático\n✅ <strong>Manutenção Mensal</strong> — reuniões, atas e acompanhamento\n✅ <strong>Treinamento para Designados</strong> — teoria, prática e certificação\n\nGerenciamos todo o ciclo da CIPA para você não se preocupar.`},
+  {k:['brigada','incêndio','bombeiro','extintor'],r:`🚒 <strong>Brigada de Incêndio (NR-23)</strong>\n\nFormação completa da brigada com:\n\n🔥 Teoria sobre combate a incêndio\n🔥 Manuseio de extintores na prática\n🔥 Evacuação e rotas de fuga\n🔥 Simulacros de emergência no local\n🔥 Certificação de todos os participantes\n\nJoão Carlos é <strong>Bombeiro Profissional Civil</strong> — você terá o mais qualificado instrutor possível!`},
+  {k:['primeiros socorros','socorro','rcp','desfibrilação','emergência médica'],r:`❤️‍🩹 <strong>Treinamento de Primeiros Socorros</strong>\n\nCapacitação completa com:\n\n✅ RCP (Reanimação Cardiopulmonar)\n✅ Uso de DEA (Desfibrilador)\n✅ Atendimento a engasgamentos\n✅ Imobilização e transporte de vítimas\n✅ Controle de hemorragias\n\nRealizado diretamente na sua empresa com manequins e equipamentos profissionais.`},
+  {k:['altura','nr-35','nr35','trabalho altura'],r:`🧗 <strong>Trabalho em Altura — NR-35</strong>\n\nTreinamento <strong>obrigatório</strong> para qualquer trabalho realizado acima de 2 metros.\n\n⚠️ Renovação <strong>bianual</strong> ou sempre que houver acidente/mudança de procedimento.\n\nJoão Carlos é instrutor qualificado em NR-35 com vasta experiência em obras, torres e equipamentos elevados.`},
+  {k:['espaço confinado','confinado','nr-33','nr33'],r:`🔐 <strong>Espaço Confinado — NR-33</strong>\n\nObrigatório para trabalhos em tanques, cisternas, silos, dutos, fossas e qualquer espaço de acesso restrito.\n\n⚠️ Renovação <strong>anual</strong>.\n\nJoão Carlos é instrutor certificado em NR-33, capacitando Supervisores de Entrada, Vigia e Trabalhador Autorizado.`},
+  {k:['empilhadeira','nr-11','nr11'],r:`🚜 <strong>Operação de Empilhadeira — NR-11</strong>\n\nJoão Carlos é instrutor qualificado para operar e capacitar equipes em empilhadeiras e equipamentos de movimentação de carga.\n\nO treinamento inclui teoria, prática e certificação conforme NR-11.`},
+  {k:['máquina','equipamento','nr-12','nr12'],r:`⚙️ <strong>Máquinas e Equipamentos — NR-12</strong>\n\nCapacitação para operação segura de máquinas industriais. João Carlos é instrutor qualificado, com especialização direta na indústria.\n\nO treinamento cobre análise de risco, proteções e procedimentos de segurança.`},
+  {k:['inflamável','combustível','nr-20','nr20'],r:`⚡ <strong>Inflamáveis e Combustíveis — NR-20</strong>\n\nTreinamento obrigatório para empresas que armazenam, transportam ou utilizam produtos inflamáveis e combustíveis.\n\nJoão Carlos é instrutor certificado para NR-20.`},
+  {k:['laudo elétrico','elétrica','nr-10','nr10','eletricidade'],r:`⚡ <strong>Laudo Elétrico — NR-10</strong>\n\nElaboramos o Laudo de Instalações Elétricas para garantir a conformidade legal e a segurança das operações.\n\nIndispensável para empresas com equipamentos elétricos industriais, painéis e subestações.`},
+  {k:['esocial','e-social','social','digital'],r:`💻 <strong>Envio de SST para o eSocial</strong>\n\nA GreenSeg gerencia <strong>todos os eventos obrigatórios</strong>:\n\n📤 S-2210 — Monitoramento da Saúde do Trabalhador\n📤 S-2220 — Condições Ambientais de Trabalho\n📤 S-2240 — Treinamentos e Capacitações\n\nCuidamos do envio dentro dos prazos, evitando multas por atraso ou incorreções.`},
+  {k:['multa','autuação','fiscalização','mte','inspecão','inspeção'],r:`⚖️ <strong>Multas por descumprir as NRs:</strong>\n\nAs multas do MTE variam de <strong>R$ 402,53 a R$ 4.025,33 por infração</strong>, multiplicadas pelo número de empregados expostos.\n\nAlém disso, a empresa pode ser:\n❌ Interditada\n❌ Processada civilmente\n❌ Excluída de licitações e contratos corporativos\n\nCom a GreenSeg, sua empresa fica 100% em conformidade. Solicite um diagnóstico gratuito!`},
+  {k:['preço','valor','custo','quanto','orçamento','proposta'],r:`💰 <strong>Valores e Orçamentos</strong>\n\nOs valores variam conforme o porte da empresa, número de colaboradores, grau de risco e os serviços necessários.\n\nA GreenSeg oferece um <strong>Diagnóstico Gratuito</strong> para identificar exatamente o que sua empresa precisa — sem compromisso.\n\nClique no botão abaixo para falar direto com a equipe e receber uma proposta personalizada! 👇`},
+  {k:['fundador','joão carlos','joao carlos','galvão','bandeira','quem','história','historia'],r:`👤 <strong>João Carlos Galvão Bandeira</strong>\n\nFundador da GreenSeg, com formação robusta em SST:\n\n🎓 Tecnólogo e Técnico em Segurança do Trabalho\n🚒 Bombeiro Profissional Civil\n📚 Pós-graduado em Ergonomia\n📚 Pós-graduado em Psicologia Positiva e Saúde Mental no Trabalho\n🔬 Especialista em Higiene Ocupacional e Construção Civil\n⚖️ Assistente Técnico em Periculosidade e Insalubridade\n\n<strong>Instrutor certificado:</strong> NR-11, NR-12, NR-20, NR-33, NR-35`},
+  {k:['endereço','onde','local','localização','fica','rua'],r:`📍 <strong>Localização</strong>\n\nR. Maria do Carmo Sene, 84 — São Paulo/SP\n\n📞 <strong>(11) 97683-1891</strong>\n📧 <strong>Comercial@greensegnrs.com.br</strong>\n📱 Instagram: <strong>@greenseg.nrs</strong>\n\nAtendemos empresas em todo o Brasil!`},
+  {k:['contato','telefone','fone','ligar','email','e-mail','whatsapp','wpp'],r:`📞 <strong>Entre em contato com a GreenSeg:</strong>\n\n📱 WhatsApp: <strong>(11) 97683-1891</strong>\n📧 E-mail: <strong>Comercial@greensegnrs.com.br</strong>\n📍 R. Maria do Carmo Sene, 84 — SP\n📸 Instagram: <strong>@greenseg.nrs</strong>\n\nClique no botão abaixo para conversar agora! 👇`},
+  {k:['obrigado','valeu','obg','vlw','ótimo','perfeito','excelente','incrível'],r:`Fico feliz em ajudar! 😊\n\nSe tiver mais dúvidas, estou aqui. Também pode falar diretamente com nossa equipe pelo WhatsApp — eles adoram ajudar! 👇`},
+  {k:['absenteísmo','absenteismo','falta','afastamento'],r:`📉 <strong>Gestão de Absenteísmo</strong>\n\nAnalisamos as causas dos afastamentos e faltas da sua equipe, identificando padrões e propondo intervenções.\n\nJunto com o PCMSO e a pós-graduação em <strong>Psicologia Positiva e Saúde Mental</strong> do João Carlos, criamos estratégias reais para reduzir afastamentos e aumentar produtividade.`},
+  {k:['pericia','perícia','trabalhista','judicial','processo'],r:`⚖️ <strong>Perícias Trabalhistas</strong>\n\nA GreenSeg atua como Assistente Técnico em processos trabalhistas envolvendo:\n\n⚖️ Insalubridade\n⚖️ Periculosidade\n⚖️ Acidente de trabalho\n⚖️ Doenças ocupacionais\n\nElaboramos laudos técnicos com embasamento jurídico e científico para defesa ou avaliação.`},
+];
+
+function getBotReply(input){
+  const q=input.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  for(const item of KB){
+    if(item.k.some(k=>q.includes(k.normalize('NFD').replace(/[̀-ͯ]/g,'')))){
+      return item.r;
+    }
+  }
+  return `Boa pergunta! 🤔\n\nNão encontrei uma resposta exata para "<strong>${input}</strong>", mas nossa equipe pode te ajudar com isso.\n\nClique no botão abaixo para falar diretamente com o João Carlos no WhatsApp! Ele responde rapidinho. 👇`;
+}
+
+let chatOpen=false;
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('cbWindow').classList.toggle('open',chatOpen);
+  document.getElementById('cbNotif').style.display='none';
+  if(chatOpen && document.getElementById('cbMsgs').children.length===0){
+    setTimeout(()=>addBot('Olá! 👋 Seja bem-vindo à <strong>GreenSeg NRS</strong>!\n\nSou o assistente virtual e estou aqui para tirar suas dúvidas sobre Saúde e Segurança do Trabalho.\n\nComo posso te ajudar hoje?'),400);
+  }
+}
+
+function addBot(text){
+  const msgs=document.getElementById('cbMsgs');
+  const typing=document.createElement('div');
+  typing.className='cb-typing';
+  typing.innerHTML='<span></span><span></span><span></span>';
+  msgs.appendChild(typing);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    typing.remove();
+    const b=document.createElement('div');
+    b.className='cb-bubble bot';
+    b.innerHTML=text.replace(/\n/g,'<br>');
+    msgs.appendChild(b);
+    msgs.scrollTop=msgs.scrollHeight;
+  },900);
+}
+
+function addUser(text){
+  const msgs=document.getElementById('cbMsgs');
+  const b=document.createElement('div');
+  b.className='cb-bubble user';
+  b.textContent=text;
+  msgs.appendChild(b);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function sendMsg(){
+  const inp=document.getElementById('cbInput');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  addUser(txt);
+  setTimeout(()=>addBot(getBotReply(txt)),300);
+}
+
+function sendChip(el){
+  const txt=el.textContent.replace(/^[^\s]+\s/,'').trim();
+  addUser(el.textContent);
+  setTimeout(()=>addBot(getBotReply(txt)),300);
+}
+
+// Show notif after 3s
+setTimeout(()=>{
+  if(!chatOpen) document.getElementById('cbNotif').style.display='flex';
+},3000);
+</script>
+
+<a href="https://wa.me/5511976831891" class="fwpp" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60));
+function openMob(){document.getElementById('mMenu').classList.add('on')}
+function closeMob(){document.getElementById('mMenu').classList.remove('on')}
+function openLb(s){document.getElementById('lbImg').src=s;document.getElementById('lb').classList.add('on');document.body.style.overflow='hidden'}
+function closeLb(){document.getElementById('lb').classList.remove('on');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>e.key==='Escape'&&closeLb());
+function tFaq(btn){const it=btn.closest('.faq-item'),o=it.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!o)it.classList.add('open')}
+
+// Counter
+function counter(el,t){
+  const dur=1800,steps=dur/16,inc=t/steps;let c=0;
+  const tm=setInterval(()=>{c=Math.min(c+inc,t);el.textContent=Math.floor(c)+'+';if(c>=t)clearInterval(tm)},16);
+}
+
+// Slider
+let sc=0,st=4;
+function updSlider(){
+  const wrap=document.querySelector('.depo-wrap');
+  const w=wrap.offsetWidth;
+  document.querySelectorAll('.d-card').forEach(c=>{c.style.minWidth=w+'px';c.style.maxWidth=w+'px';});
+  document.getElementById('dTrack').style.transform=`translateX(-${sc*w}px)`;
+  document.querySelectorAll('.s-dot').forEach((d,i)=>d.classList.toggle('on',i===sc));
+}
+function slide(d){sc=(sc+d+st)%st;updSlider()}
+function gSlide(n){sc=n;updSlider()}
+window.addEventListener('resize',updSlider);
+document.addEventListener('DOMContentLoaded',updSlider);
+setInterval(()=>slide(1),5500);
+
+// IntersectionObserver
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-t]').forEach(el=>counter(el,+el.dataset.t));
+    io.unobserve(e.target);
+  });
+},{threshold:0.12});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+
+// Band counters
+const bandObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.querySelectorAll('[data-t]').forEach(el=>counter(el,+el.dataset.t));
+    bandObs.unobserve(e.target);
+  });
+},{threshold:0.3});
+const band=document.querySelector('.band');
+if(band)bandObs.observe(band);
+
+// Hero counters on load
+setTimeout(()=>{
+  document.querySelectorAll('.hero-pn').forEach(el=>{
+    const t=+el.dataset.t;
+    const inc=t/110;let c=0;
+    const tm=setInterval(()=>{c=Math.min(c+inc,t);el.textContent=Math.floor(c)+'+';if(c>=t)clearInterval(tm)},16);
+  });
+},800);
+
+// Parallax
+window.addEventListener('scroll',()=>{
+  const bg=document.getElementById('heroBg');
+  if(bg)bg.style.transform=`translateY(${scrollY*.25}px) scale(1.1)`;
+});
+</script>
+</body>
+</html>

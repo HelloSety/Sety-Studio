@@ -1,0 +1,74 @@
+<section class="craft-section">
+  <div class="craft-bg">
+    {%- if section.settings.image -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 1600 }}"
+        alt=""
+        width="1600"
+        height="900"
+        loading="lazy">
+    {%- endif -%}
+  </div>
+  <div class="craft-content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="craft-eyebrow" style="font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.6);margin-bottom:20px;text-transform:uppercase;">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <p class="craft-quote">{{ section.settings.quote | default: '"Mergulhe na nossa arte artesanal excepcional — cada peça, uma obra única feita à mão."' }}</p>
+    {%- if section.settings.cta_link != blank -%}
+      <a href="{{ section.settings.cta_link }}" class="btn-outline-white">{{ section.settings.cta_text | default: 'Ver Coleção' }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Craft Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagem"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagem de fundo"
+    },
+    {
+      "type": "header",
+      "content": "Textos"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto pequeno acima (eyebrow)",
+      "default": ""
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Frase em destaque",
+      "default": "\"Mergulhe na nossa arte artesanal excepcional — cada peça, uma obra única feita à mão.\""
+    },
+    {
+      "type": "header",
+      "content": "Botão"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão",
+      "default": "Ver Coleção"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link do botão"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Craft Banner"
+    }
+  ]
+}
+{% endschema %}

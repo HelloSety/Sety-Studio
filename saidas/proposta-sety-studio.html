@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta Comercial — SETY STUDIO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 0; }
+
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html, body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      background: #e8e8e8;
+    }
+
+    /* ── PAGE BASE ── */
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 13mm 18mm 12mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+      break-after: page;
+      background: #fff;
+      color: #0a0a0a;
+      margin: 0 auto 4mm;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: #0a0a0a;
+      color: #fff;
+      padding: 13mm 18mm 13mm;
+      gap: 0;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-eyebrow {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .cover-year {
+      font-size: 7.5pt;
+      font-weight: 400;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    .cover-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 12mm;
+    }
+
+    .cover-kicker {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 5mm;
+    }
+
+    .cover-rule {
+      width: 10mm;
+      height: 1px;
+      background: rgba(255,255,255,0.25);
+      margin-bottom: 6mm;
+    }
+
+    .cover-title {
+      font-size: 40pt;
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 7mm;
+      max-width: 160mm;
+    }
+
+    .cover-subtitle {
+      font-size: 10.5pt;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.52);
+      max-width: 128mm;
+    }
+
+    .cover-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 7mm 0;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .cover-brand {
+      font-size: 20pt;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .cover-footer-right {
+      text-align: right;
+    }
+
+    .cover-footer-right p {
+      font-size: 7.5pt;
+      font-weight: 400;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1.9;
+    }
+
+    /* ── SECTION HEADER ── */
+    .sh {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 3mm;
+      border-bottom: 1px solid #0a0a0a;
+      margin-bottom: 7mm;
+    }
+
+    .sh-label {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .sh-brand {
+      font-size: 7.5pt;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    /* ── SECTION TITLES ── */
+    .s-title {
+      font-size: 24pt;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      color: #0a0a0a;
+      margin-bottom: 3.5mm;
+    }
+
+    .s-lead {
+      font-size: 9.5pt;
+      font-weight: 300;
+      line-height: 1.85;
+      color: #555;
+      max-width: 145mm;
+      margin-bottom: 6mm;
+    }
+
+    /* ── PAGE FOOTER ── */
+    .pf {
+      margin-top: auto;
+      padding-top: 3.5mm;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pf-brand {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ccc;
+    }
+
+    .pf-num {
+      font-size: 7pt;
+      color: #ccc;
+    }
+
+    /* ── OVERVIEW ── */
+    .overview-section-label {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 2.5mm;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 9mm;
+      flex: 1;
+    }
+
+    .prob-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      padding: 3mm 0;
+      border-top: 1px solid #e4e4e4;
+    }
+
+    .prob-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #0a0a0a;
+      margin-top: 5.5px;
+      flex-shrink: 0;
+    }
+
+    .prob-text {
+      font-size: 9pt;
+      font-weight: 400;
+      line-height: 1.65;
+      color: #2e2e2e;
+    }
+
+    /* ── DELIVERABLES ── */
+    .del-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5mm;
+      flex: 1;
+    }
+
+    .del-item {
+      background: #f7f7f7;
+      padding: 5mm 5.5mm;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .del-num {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #ccc;
+      margin-bottom: 2.5mm;
+    }
+
+    .del-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 2mm;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+
+    .del-desc {
+      font-size: 8pt;
+      font-weight: 300;
+      line-height: 1.7;
+      color: #666;
+    }
+
+    /* ── DIFFERENTIALS ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 9mm;
+      flex: 1;
+    }
+
+    .diff-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 4mm 0;
+      border-top: 1.5px solid #0a0a0a;
+    }
+
+    .diff-check {
+      font-size: 13pt;
+      font-weight: 800;
+      color: #0a0a0a;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .diff-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 1.5mm;
+      letter-spacing: -0.01em;
+    }
+
+    .diff-desc {
+      font-size: 8pt;
+      font-weight: 300;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    /* ── PROCESS ── */
+    .process-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6mm 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4mm;
+    }
+
+    .proc-item {}
+
+    .proc-bar {
+      height: 2px;
+      background: #0a0a0a;
+      margin-bottom: 4mm;
+    }
+
+    .proc-num {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 2.5mm;
+    }
+
+    .proc-name {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #0a0a0a;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 3mm;
+    }
+
+    .proc-desc {
+      font-size: 8pt;
+      font-weight: 300;
+      line-height: 1.75;
+      color: #666;
+    }
+
+    /* ── TIMELINE ── */
+    .tl-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2mm;
+      margin-top: 2mm;
+    }
+
+    .tl-item {
+      padding: 5mm 5.5mm;
+      border: 1px solid #d4d4d4;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tl-item.dark {
+      background: #0a0a0a;
+      border-color: #0a0a0a;
+    }
+
+    .tl-svc {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 3mm;
+    }
+
+    .tl-item.dark .tl-svc { color: rgba(255,255,255,0.35); }
+
+    .tl-time {
+      font-size: 26pt;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #0a0a0a;
+      margin-bottom: 1.5mm;
+    }
+
+    .tl-item.dark .tl-time { color: #fff; }
+
+    .tl-unit {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: #888;
+      line-height: 1.4;
+    }
+
+    .tl-item.dark .tl-unit { color: rgba(255,255,255,0.4); }
+
+    /* ── INVESTMENT ── */
+    .invest-page {
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    .inv-sh {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 3mm;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 12mm;
+    }
+
+    .inv-label {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .inv-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .inv-kicker {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 4.5mm;
+    }
+
+    .inv-price {
+      font-size: 60pt;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 5mm;
+    }
+
+    .inv-or {
+      font-size: 7.5pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 2.5mm;
+    }
+
+    .inv-inst {
+      font-size: 20pt;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: -0.015em;
+      margin-bottom: 9mm;
+    }
+
+    .inv-note {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.28);
+      max-width: 110mm;
+      line-height: 1.75;
+    }
+
+    .inv-includes {
+      margin-top: 8mm;
+      padding-top: 7mm;
+      border-top: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .inv-inc-label {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 4mm;
+    }
+
+    .inv-inc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5mm 4mm;
+    }
+
+    .inv-inc-item {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.42);
+      padding: 2mm 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .inv-footer {
+      margin-top: auto;
+      padding-top: 4mm;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inv-footer span {
+      font-size: 7pt;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.18em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ── CLOSING ── */
+    .closing-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6mm 0;
+    }
+
+    .closing-quote {
+      font-size: 21pt;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.22;
+      color: #0a0a0a;
+      max-width: 155mm;
+      margin-bottom: 6mm;
+    }
+
+    .closing-text {
+      font-size: 9.5pt;
+      font-weight: 300;
+      line-height: 1.85;
+      color: #555;
+      max-width: 132mm;
+      margin-bottom: 10mm;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background: #0a0a0a;
+      color: #fff;
+      padding: 3.5mm 8mm;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .contact-row {
+      display: flex;
+      gap: 9mm;
+      margin-top: 10mm;
+    }
+
+    .contact-label {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 1.5mm;
+    }
+
+    .contact-val {
+      font-size: 9pt;
+      font-weight: 600;
+      color: #0a0a0a;
+      letter-spacing: -0.01em;
+    }
+
+    @media print {
+      html, body { background: white; }
+      .page { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     01  CAPA
+════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-top">
+    <span class="cover-eyebrow">Proposta Comercial</span>
+    <span class="cover-year">2026</span>
+  </div>
+
+  <div class="cover-body">
+    <p class="cover-kicker">Sety Studio — Agência Digital</p>
+    <div class="cover-rule"></div>
+    <h1 class="cover-title">Estrutura Digital para Empresas que Querem Crescer</h1>
+    <p class="cover-subtitle">Solução desenvolvida para acelerar resultados, aumentar a presença digital e profissionalizar a operação comercial.</p>
+  </div>
+
+  <div class="cover-divider"></div>
+  <div class="cover-footer">
+    <span class="cover-brand">SETY STUDIO</span>
+    <div class="cover-footer-right">
+      <p>Agência Digital</p>
+      <p>Alto Desempenho</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     02  VISÃO GERAL
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">01 / Visão Geral</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Uma estrutura digital<br>que trabalha por você.</h2>
+  <p class="s-lead">Empresas de alto ticket perdem negócios todos os dias por falta de estrutura digital — não por falta de produto ou serviço. A SETY STUDIO cria a base necessária para transformar atenção em clientes.</p>
+
+  <p class="overview-section-label">Problemas que resolvemos</p>
+  <div class="problem-grid">
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Ausência de presença online profissional e confiável</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Processo de atendimento lento e sem padronização</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Dificuldade em converter visitantes em clientes pagantes</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Gestão de leads sem CRM — oportunidades se perdem</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Ausência de automação no comercial e no atendimento</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Imagem visual desalinhada com o posicionamento desejado</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Dependência exclusiva de indicações para gerar clientes</span>
+    </div>
+    <div class="prob-item">
+      <div class="prob-dot"></div>
+      <span class="prob-text">Falta de dados e métricas para decisões estratégicas</span>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">02</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     03  O QUE ESTÁ INCLUSO
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">02 / O que está incluso</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Tudo o que você precisa para<br>operar com presença profissional.</h2>
+
+  <div class="del-grid">
+    <div class="del-item">
+      <div class="del-num">01</div>
+      <div class="del-title">Site ou Landing Page</div>
+      <div class="del-desc">Página profissional otimizada para conversão, com design premium alinhado à identidade visual da empresa.</div>
+    </div>
+    <div class="del-item">
+      <div class="del-num">02</div>
+      <div class="del-title">CRM Personalizado</div>
+      <div class="del-desc">Pipeline de vendas visual com gestão de leads, follow-ups e controle de oportunidades em tempo real.</div>
+    </div>
+    <div class="del-item">
+      <div class="del-num">03</div>
+      <div class="del-title">Aurora IA</div>
+      <div class="del-desc">Assistente de inteligência artificial treinada para atender, qualificar e converter leads via WhatsApp — 24h por dia.</div>
+    </div>
+    <div class="del-item">
+      <div class="del-num">04</div>
+      <div class="del-title">Automação de WhatsApp</div>
+      <div class="del-desc">Fluxos automáticos de atendimento, follow-up e nutrição de leads, sem esforço manual recorrente.</div>
+    </div>
+    <div class="del-item">
+      <div class="del-num">05</div>
+      <div class="del-title">Identidade Visual Aplicada</div>
+      <div class="del-desc">Marca coesa em todos os pontos de contato: site, redes sociais e materiais comerciais.</div>
+    </div>
+    <div class="del-item">
+      <div class="del-num">06</div>
+      <div class="del-title">Setup de Tráfego Pago</div>
+      <div class="del-desc">Configuração de campanhas no Meta Ads e Google Ads para geração constante de oportunidades qualificadas.</div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">03</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     04  DIFERENCIAIS
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">03 / Diferenciais</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Por que a SETY STUDIO.</h2>
+  <p class="s-lead">Não somos mais uma agência. Somos um parceiro de crescimento com foco em resultado real — sem enrolação, sem promessa vazia.</p>
+
+  <div class="diff-grid">
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Entrega rápida</div>
+        <div class="diff-desc">Prazos curtos e cumpridos. Sem meses de espera para começar a gerar resultados.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Atendimento próximo</div>
+        <div class="diff-desc">Acesso direto à equipe responsável. Sem burocracia e sem intermediários desnecessários.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Design profissional</div>
+        <div class="diff-desc">Criação visual alinhada ao posicionamento e ao público de cada negócio.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Estrutura comercial moderna</div>
+        <div class="diff-desc">Tecnologia de ponta aplicada de forma simples e eficiente para o negócio.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Implantação simplificada</div>
+        <div class="diff-desc">Cuidamos de tudo do início ao fim — você não precisa entender de tecnologia.</div>
+      </div>
+    </div>
+    <div class="diff-item">
+      <span class="diff-check">✓</span>
+      <div>
+        <div class="diff-title">Foco em conversão</div>
+        <div class="diff-desc">Cada peça criada para transformar visitantes em clientes, não apenas para parecer bonito.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">04</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     05  PROCESSO DE IMPLEMENTAÇÃO
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">04 / Processo de Implementação</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Do briefing à entrega.</h2>
+  <p class="s-lead">Um processo direto e transparente, sem etapas desnecessárias. Você aprova cada fase antes de avançar.</p>
+
+  <div class="process-wrap">
+    <div class="process-grid">
+      <div class="proc-item">
+        <div class="proc-bar"></div>
+        <div class="proc-num">Etapa 01</div>
+        <div class="proc-name">Briefing</div>
+        <div class="proc-desc">Entendemos objetivos, público e posicionamento para criar uma solução sob medida para o negócio.</div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-bar"></div>
+        <div class="proc-num">Etapa 02</div>
+        <div class="proc-name">Desenvolvimento</div>
+        <div class="proc-desc">Construímos a estrutura completa — site, CRM, automações ou IA — conforme o escopo aprovado.</div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-bar"></div>
+        <div class="proc-num">Etapa 03</div>
+        <div class="proc-name">Aprovação</div>
+        <div class="proc-desc">Você valida o projeto antes da publicação. Ajustes incluídos sem custo adicional.</div>
+      </div>
+      <div class="proc-item">
+        <div class="proc-bar"></div>
+        <div class="proc-num">Etapa 04</div>
+        <div class="proc-name">Entrega</div>
+        <div class="proc-desc">Publicação, treinamento e suporte pós-entrega para garantir que tudo funcione desde o primeiro dia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">05</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     06  PRAZO
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">05 / Prazo de Entrega</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Velocidade sem abrir<br>mão da qualidade.</h2>
+  <p class="s-lead">Prazos definidos desde o início e rigorosamente cumpridos. Sem surpresas, sem atrasos sem justificativa.</p>
+
+  <div class="tl-grid">
+    <div class="tl-item">
+      <div class="tl-svc">Landing Page</div>
+      <div class="tl-time">48h</div>
+      <div class="tl-unit">horas úteis</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-svc">Website Completo</div>
+      <div class="tl-time">5</div>
+      <div class="tl-unit">dias úteis</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-svc">CRM</div>
+      <div class="tl-time">5</div>
+      <div class="tl-unit">dias úteis</div>
+    </div>
+    <div class="tl-item dark">
+      <div class="tl-svc">Aurora IA</div>
+      <div class="tl-time">5</div>
+      <div class="tl-unit">dias úteis</div>
+    </div>
+    <div class="tl-item dark" style="grid-column: span 2;">
+      <div class="tl-svc">Operação Completa</div>
+      <div class="tl-time">7–15</div>
+      <div class="tl-unit">dias úteis — escopo completo implantado</div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">06</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     07  INVESTIMENTO
+════════════════════════════════════════════════ -->
+<div class="page invest-page">
+  <div class="inv-sh">
+    <span class="inv-label">06 / Investimento</span>
+    <span class="inv-label">Sety Studio</span>
+  </div>
+
+  <div class="inv-main">
+    <p class="inv-kicker">Investimento total</p>
+    <div class="inv-price">R$ X.XXX</div>
+    <p class="inv-or">ou</p>
+    <div class="inv-inst">12x de R$ XXX</div>
+    <p class="inv-note">Valor sob consulta conforme escopo definido. Entre em contato para receber uma proposta personalizada para o seu projeto.</p>
+
+    <div class="inv-includes">
+      <div class="inv-inc-label">Incluso neste investimento</div>
+      <div class="inv-inc-grid">
+        <div class="inv-inc-item">Site ou Landing Page</div>
+        <div class="inv-inc-item">CRM Personalizado</div>
+        <div class="inv-inc-item">Aurora IA</div>
+        <div class="inv-inc-item">Automação WhatsApp</div>
+        <div class="inv-inc-item">Identidade Visual</div>
+        <div class="inv-inc-item">Suporte Pós-entrega</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inv-footer">
+    <span>Sety Studio</span>
+    <span>07</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     08  ENCERRAMENTO
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">07 / Próximos Passos</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <div class="closing-main">
+    <h2 class="closing-quote">Mais do que páginas<br>e sistemas.</h2>
+    <p class="closing-text">A SETY STUDIO entrega mais do que páginas e sistemas. Criamos estruturas digitais capazes de gerar oportunidades, organizar processos e fortalecer a presença da sua empresa.</p>
+    <div class="cta-btn">Aprovar Proposta</div>
+
+    <div class="contact-row">
+      <div>
+        <div class="contact-label">E-mail</div>
+        <div class="contact-val">sevendsgnn@gmail.com</div>
+      </div>
+      <div>
+        <div class="contact-label">Instagram</div>
+        <div class="contact-val">@setystudio</div>
+      </div>
+      <div>
+        <div class="contact-label">Site</div>
+        <div class="contact-val">setystudio.com.br</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">08</span>
+  </div>
+</div>
+
+</body>
+</html>

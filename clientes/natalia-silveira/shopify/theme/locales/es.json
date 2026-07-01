@@ -1,0 +1,33 @@
+{
+  "general": {
+    "currency": { "price": "R$ {{amount}}" }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Agregar al Carrito",
+      "sold_out": "Agotado",
+      "unavailable": "No Disponible",
+      "on_sale": "Oferta"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Mi Carrito",
+      "checkout": "Finalizar Pedido",
+      "empty": "Tu carrito está vacío.",
+      "continue_shopping": "Seguir Comprando"
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Entrar",
+      "email": "Correo",
+      "password": "Contraseña",
+      "submit": "Entrar"
+    }
+  },
+  "pagination": {
+    "previous": "Anterior",
+    "next": "Siguiente"
+  }
+}

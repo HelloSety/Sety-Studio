@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,300;0,900;1,900&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#080808; font-family:'Barlow Condensed',sans-serif; }
+.c { width:1080px; height:1350px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; }
+
+/* Background: grade de linhas cruzadas */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 119px, rgba(255,255,255,0.022) 119px, rgba(255,255,255,0.022) 120px),
+    repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(255,255,255,0.022) 119px, rgba(255,255,255,0.022) 120px);
+}
+
+/* Glow central */
+.glow {
+  position:absolute; top:45%; left:50%; transform:translate(-50%,-50%);
+  width:900px; height:800px; z-index:1; border-radius:50%;
+  background:radial-gradient(ellipse, rgba(0,229,113,0.09) 0%, transparent 65%);
+}
+
+.blade { position:absolute; top:0; left:0; z-index:10; width:3px; height:100%; background:linear-gradient(to bottom, transparent, #00E571 20%, #00E571 80%, transparent); }
+
+.hdr { position:absolute; top:52px; left:60px; right:60px; z-index:20; display:flex; align-items:center; justify-content:space-between; }
+.hdr-brand { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:6px; color:rgba(255,255,255,0.28); text-transform:uppercase; }
+.hdr-handle { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:4px; color:#00E571; text-transform:lowercase; }
+
+/* Conteúdo central */
+.main {
+  position:absolute; top:50%; left:60px; right:60px; transform:translateY(-54%);
+  z-index:20;
+}
+
+.label {
+  font-size:14px; font-weight:700; letter-spacing:8px; color:#00E571;
+  text-transform:uppercase; margin-bottom:40px;
+  display:flex; align-items:center; gap:16px;
+}
+.label::before { content:''; display:block; width:36px; height:2px; background:#00E571; }
+
+.statement {
+  font-size:148px; font-weight:900; line-height:0.85;
+  color:#fff; text-transform:uppercase; letter-spacing:-6px;
+  margin-bottom:52px;
+}
+.statement em { color:#00E571; font-style:normal; display:block; }
+.statement span { font-weight:100; -webkit-text-stroke:2px rgba(255,255,255,0.28); color:transparent; display:block; }
+
+.context {
+  font-family:'Barlow',sans-serif; font-size:26px; font-weight:300; line-height:1.6;
+  color:rgba(255,255,255,0.55); max-width:820px;
+}
+.context strong { color:rgba(255,255,255,0.9); font-weight:600; }
+
+/* Footer */
+.ftr {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:24px 60px 52px; border-top:1px solid rgba(255,255,255,0.08);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.ftr-l { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:5px; color:rgba(255,255,255,0.22); text-transform:uppercase; }
+.ftr-r { font-family:'Barlow',sans-serif; font-size:12px; font-weight:600; letter-spacing:4px; color:#00E571; text-transform:uppercase; }
+
+/* Linha decorativa lateral */
+.line-r {
+  position:absolute; right:0; top:30%; height:40%; width:1px; z-index:5;
+  background:linear-gradient(to bottom, transparent, rgba(0,229,113,0.2) 40%, rgba(0,229,113,0.2) 60%, transparent);
+}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="bg"></div>
+  <div class="glow"></div>
+  <div class="blade"></div>
+
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Opinião</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="line-r"></div>
+
+  <div class="main">
+    <div class="label">Opinião forte</div>
+    <div class="statement">
+      Uniforme<br>
+      <em>barato</em>
+      <span>custa caro.</span>
+    </div>
+    <div class="context">
+      Clubes que economizam no uniforme perdem em <strong>identidade, respeito e atração de patrocinador</strong>.<br><br>
+      A primeira impressão do seu time é a camisa. Não o resultado de domingo.
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div class="ftr-l">Concorda? Comenta abaixo</div>
+    <div class="ftr-r">Design Esportivo</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natalia Silveira — Produto</title>
+  <meta name="description" content="Peça artesanal em macramê Natalia Silveira. Alta-costura contemporânea feita à mão, sob medida.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:    #FFFFFF;
+      --f:     #111111;
+      --mid:   #767676;
+      --light: #AAAAAA;
+      --border:#E5E5E5;
+      --hover: #F7F7F7;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--f); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    .logo { display: flex; flex-direction: column; align-items: center; line-height: 1.35; letter-spacing: 6px; text-transform: uppercase; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 15px; color: var(--f); }
+    .logo-footer { letter-spacing: 6px; text-transform: uppercase; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 15px; color: #fff; line-height: 1.35; }
+
+    /* HEADER */
+    .hdr { position: sticky; top: 0; z-index: 200; background: #fff; border-bottom: 1px solid var(--border); }
+    .hdr-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 40px; height: 72px; }
+    .hdr-left, .hdr-right { display: flex; align-items: center; gap: 20px; }
+    .hdr-right { justify-content: flex-end; }
+    .hdr-icon { background: none; border: none; padding: 6px; display: flex; align-items: center; gap: 7px; font-size: 11px; letter-spacing: 2px; color: var(--f); transition: color .2s; }
+    .hdr-icon:hover { color: var(--mid); }
+
+    .lang-wrap { position: relative; }
+    .lang-btn { background: none; border: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--f); display: flex; align-items: center; gap: 5px; padding: 4px 0; }
+    .lang-btn svg { transition: transform .2s; }
+    .lang-wrap:hover .lang-btn svg { transform: rotate(180deg); }
+    .lang-dd { position: absolute; right: 0; top: calc(100% + 6px); min-width: 130px; background: #fff; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,.06); display: none; z-index: 100; }
+    .lang-wrap:hover .lang-dd { display: block; }
+    .lang-dd a { display: block; padding: 11px 16px; font-size: 11px; letter-spacing: 2px; color: var(--f); transition: background .15s; }
+    .lang-dd a:hover { background: var(--hover); }
+    .lang-dd a.active { font-weight: 500; }
+
+    .hdr-nav { display: flex; justify-content: center; border-top: 1px solid var(--border); }
+    .hdr-nav > a, .nav-trigger { padding: 14px 24px; font-size: 10px; letter-spacing: 3px; font-weight: 400; text-transform: uppercase; color: var(--f); border-bottom: 2px solid transparent; transition: border-bottom-color .2s; background: none; border-left: none; border-right: none; border-top: none; }
+    .hdr-nav > a:hover, .nav-trigger:hover { border-bottom-color: var(--f); }
+    .nav-drop { position: relative; }
+    .nav-menu { position: absolute; left: 0; top: 100%; min-width: 200px; background: #fff; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,.06); display: none; z-index: 100; }
+    .nav-drop:hover .nav-menu { display: block; }
+    .nav-menu a { display: block; padding: 12px 20px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--f); transition: background .15s; border-bottom: 1px solid var(--border); }
+    .nav-menu a:last-child { border-bottom: none; }
+    .nav-menu a:hover { background: var(--hover); }
+    .hamburger { display: none; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 22px; height: 1px; background: var(--f); }
+    .mob-nav { display: none; position: fixed; inset: 0; z-index: 500; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mob-nav.open { display: flex; }
+    .mob-nav a { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; }
+    .mob-close { position: absolute; top: 24px; right: 28px; background: none; border: none; font-size: 28px; color: var(--f); }
+
+    /* BREADCRUMB */
+    .bc { padding: 18px 40px; font-size: 10px; letter-spacing: 2px; color: var(--mid); border-bottom: 1px solid var(--border); }
+    .bc a { color: var(--mid); transition: color .2s; }
+    .bc a:hover { color: var(--f); }
+    .bc span { margin: 0 8px; }
+
+    /* PRODUCT LAYOUT */
+    .pd-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 80vh; }
+
+    /* GALLERY */
+    .gal { position: sticky; top: 72px; height: calc(100vh - 72px); display: grid; grid-template-rows: 1fr auto; background: #F9F9F9; }
+    .gal-main { overflow: hidden; }
+    .gal-main img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: opacity .3s; }
+    .gal-thumbs { display: flex; gap: 6px; padding: 10px; background: #fff; border-top: 1px solid var(--border); overflow-x: auto; }
+    .gt { width: 60px; height: 72px; flex-shrink: 0; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; }
+    .gt.on { border-color: var(--f); }
+    .gt img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+    /* PRODUCT INFO */
+    .pd-info { padding: 48px 56px 80px; }
+    .pd-name { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; letter-spacing: 2px; margin-bottom: 6px; }
+    .pd-cat { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--mid); margin-bottom: 20px; }
+    .pd-price { font-family: 'Cormorant Garamond', serif; font-size: 24px; margin-bottom: 4px; }
+    .pd-price.nc { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--mid); }
+    .pd-weight { font-size: 11px; letter-spacing: 1px; color: var(--light); margin-bottom: 28px; }
+    .pd-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+    /* SIZE */
+    .pd-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+    .pd-label span { color: var(--mid); font-weight: 300; }
+    .sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .sz { width: 44px; height: 44px; border: 1px solid var(--border); background: none; font-size: 11px; letter-spacing: 1px; color: var(--f); transition: all .2s; }
+    .sz:hover { border-color: var(--f); }
+    .sz.on { background: var(--f); color: #fff; border-color: var(--f); }
+
+    /* COLOR */
+    .clr-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .ct { padding: 10px 20px; background: none; border: none; border-bottom: 2px solid transparent; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--mid); margin-bottom: -1px; transition: all .2s; }
+    .ct.on { color: var(--f); border-bottom-color: var(--f); }
+    .clr-panel { display: none; }
+    .clr-panel.on { display: flex; flex-wrap: wrap; gap: 8px; }
+    .csw { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; position: relative; transition: all .2s; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+    .csw:hover { transform: scale(1.15); }
+    .csw.on { border-color: var(--f); box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--f); }
+    .csw[title]:hover::after { content: attr(title); position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); background: var(--f); color: #fff; font-size: 9px; white-space: nowrap; padding: 3px 7px; letter-spacing: 1px; pointer-events: none; z-index: 10; }
+
+    /* QTY */
+    .qty-wrap { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+    .qty-btn { width: 40px; height: 40px; border: 1px solid var(--border); background: none; font-size: 18px; color: var(--f); }
+    .qty-n { width: 48px; height: 40px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); border-left: none; border-right: none; text-align: center; font-family: 'Jost', sans-serif; font-size: 14px; outline: none; }
+
+    /* CTA */
+    .btn-fill { display: block; width: 100%; padding: 16px; background: var(--f); color: #fff; border: none; font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; margin-bottom: 10px; transition: opacity .2s; }
+    .btn-fill:hover { opacity: .8; }
+    .btn-wpp { display: block; width: 100%; padding: 15px; background: transparent; color: var(--f); border: 1px solid var(--f); font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; margin-bottom: 24px; transition: all .2s; text-align: center; }
+    .btn-wpp:hover { background: #25D366; color: #fff; border-color: #25D366; }
+
+    /* FSE */
+    .fse { background: #FAF8F5; padding: 20px; margin-bottom: 20px; }
+    .fse-ti { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .fse-bd { font-size: 12px; line-height: 1.8; color: var(--mid); }
+
+    /* ACCORDION */
+    .acc-item { border-top: 1px solid var(--border); }
+    .acc-item:last-child { border-bottom: 1px solid var(--border); }
+    .acc-trig { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; background: none; border: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--f); }
+    .acc-trig svg { transition: transform .25s; flex-shrink: 0; }
+    .acc-trig.open svg { transform: rotate(180deg); }
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .acc-body p { padding: 0 0 16px; font-size: 13px; line-height: 1.85; color: var(--mid); }
+
+    /* RECOMMENDATIONS */
+    .recs { padding: 64px 40px; border-top: 1px solid var(--border); }
+    .recs-ti { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; text-align: center; margin-bottom: 32px; }
+    .recs-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px 16px; }
+    .rcard { cursor: pointer; }
+    .rcard-img { aspect-ratio: 3/4; overflow: hidden; background: #F8F8F8; margin-bottom: 10px; }
+    .rcard-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .45s; }
+    .rcard:hover .rcard-img img { transform: scale(1.04); }
+    .rcard-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; margin-bottom: 3px; }
+    .rcard-pr { font-family: 'Cormorant Garamond', serif; font-size: 15px; }
+    .rcard-pr.nc { font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); }
+
+    /* FOOTER */
+    footer { background: var(--f); color: #fff; padding: 64px 64px 32px; }
+    .ftgrid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 48px; }
+    .ft-tagline { font-size: 12px; line-height: 1.85; color: rgba(255,255,255,.5); margin-top: 16px; }
+    .ft-col-ti { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 18px; font-weight: 400; }
+    .ft-col a { display: block; font-size: 12px; letter-spacing: 1px; color: rgba(255,255,255,.65); margin-bottom: 10px; transition: color .2s; }
+    .ft-col a:hover { color: #fff; }
+    .ft-nl { display: flex; margin-top: 6px; }
+    .ft-nl-i { flex: 1; padding: 10px 12px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-right: none; color: #fff; font-family: 'Jost', sans-serif; font-size: 12px; outline: none; }
+    .ft-nl-i::placeholder { color: rgba(255,255,255,.35); }
+    .ft-nl-b { padding: 10px 16px; background: #fff; color: var(--f); border: none; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+    .ft-nl-b:hover { opacity: .85; }
+    .ft-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ft-copy { font-size: 10px; color: rgba(255,255,255,.35); letter-spacing: 1px; }
+    .ft-lang { display: flex; gap: 16px; }
+    .ft-lang a { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.35); transition: color .2s; }
+    .ft-lang a:hover, .ft-lang a.active { color: #fff; }
+
+    /* WPP FLOAT */
+    .wpp-float { position: fixed; bottom: 28px; right: 24px; z-index: 400; width: 44px; height: 44px; background: var(--f); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 16px rgba(0,0,0,.18); transition: background .2s; }
+    .wpp-float:hover { background: #333; }
+
+    @media (max-width: 900px) {
+      .pd-wrap { grid-template-columns: 1fr; }
+      .gal { position: static; height: auto; }
+      .gal-main { aspect-ratio: 4/5; }
+      .pd-info { padding: 32px 20px 60px; }
+      .recs-grid { grid-template-columns: repeat(3,1fr); }
+      .hdr-nav { display: none; }
+      .hamburger { display: flex; }
+      .hdr-top { padding: 0 20px; }
+      .bc { padding: 14px 20px; }
+      footer { padding: 40px 24px 24px; }
+      .ftgrid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 540px) {
+      .recs-grid { grid-template-columns: repeat(2,1fr); }
+      .ftgrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-left">
+      <button class="hdr-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span data-i18n="nav_search">Pesquisar</span>
+      </button>
+    </div>
+    <a href="index.html" class="logo"><span>NATALIA</span><span>SILVEIRA</span></a>
+    <div class="hdr-right">
+      <div class="lang-wrap">
+        <button class="lang-btn">
+          <span id="langLbl">PT</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="lang-dd">
+          <a href="#" class="active" data-sl="pt">Português</a>
+          <a href="#" data-sl="en">English</a>
+          <a href="#" data-sl="es">Español</a>
+        </div>
+      </div>
+      <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="hdr-nav">
+    <a href="index.html" data-i18n="n_home">CASA</a>
+    <div class="nav-drop">
+      <button class="nav-trigger" data-i18n="n_shop">COMPRAR</button>
+      <div class="nav-menu">
+        <a href="index.html#colecao" data-i18n="n_all">Todos os Produtos</a>
+        <a href="index.html#colecao" data-i18n="n_sets">Conjuntos</a>
+        <a href="index.html#colecao" data-i18n="n_dresses">Vestidos</a>
+        <a href="index.html#colecao" data-i18n="n_pieces">Peças Exclusivas</a>
+      </div>
+    </div>
+    <a href="index.html#sobre" data-i18n="n_about">SOBRE</a>
+    <a href="index.html#politicas" data-i18n="n_policies">POLÍTICAS</a>
+  </nav>
+</div>
+
+<div class="mob-nav" id="mobNav">
+  <button class="mob-close" id="mobClose">×</button>
+  <a href="index.html" data-i18n="n_home" onclick="closeMob()">CASA</a>
+  <a href="index.html#colecao" data-i18n="n_shop" onclick="closeMob()">COMPRAR</a>
+  <a href="index.html#sobre" data-i18n="n_about" onclick="closeMob()">SOBRE</a>
+  <a href="index.html#politicas" data-i18n="n_policies" onclick="closeMob()">POLÍTICAS</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="bc">
+  <a href="index.html" data-i18n="n_home">Casa</a>
+  <span>›</span>
+  <a href="index.html#colecao" data-i18n="n_shop">Comprar</a>
+  <span>›</span>
+  <span id="bcName">—</span>
+</div>
+
+<!-- PRODUCT -->
+<div class="pd-wrap">
+  <div class="gal">
+    <div class="gal-main"><img id="galMain" src="" alt=""></div>
+    <div class="gal-thumbs" id="galThumbs"></div>
+  </div>
+  <div class="pd-info">
+    <h1 class="pd-name" id="pdName">—</h1>
+    <p class="pd-cat" id="pdCat">—</p>
+    <p class="pd-price" id="pdPrice">—</p>
+    <p class="pd-weight" id="pdWeight">—</p>
+    <hr class="pd-divider">
+
+    <p class="pd-label"><span data-i18n="sz_label">TAMANHO</span></p>
+    <div class="sizes">
+      <button class="sz" data-sz="PP">PP</button>
+      <button class="sz" data-sz="P">P</button>
+      <button class="sz" data-sz="M">M</button>
+      <button class="sz" data-sz="G">G</button>
+      <button class="sz" data-sz="GG">GG</button>
+      <button class="sz" data-sz="ÚNICO">ÚNICO</button>
+    </div>
+
+    <p class="pd-label"><span data-i18n="cl_label">LINHA DE COR</span> — <span id="clrName" style="color:var(--mid);text-transform:none;letter-spacing:0;" data-i18n="cl_select">Selecione uma cor</span></p>
+    <div class="clr-tabs">
+      <button class="ct on" data-cp="premium" data-i18n="cl_premium_s">PREMIUM</button>
+      <button class="ct" data-cp="gold" data-i18n="cl_gold_s">LUREX DOURADO</button>
+      <button class="ct" data-cp="copper" data-i18n="cl_copper_s">LUREX COBRE</button>
+    </div>
+    <div class="clr-panel on" id="cp-premium" style="margin-bottom:20px;"></div>
+    <div class="clr-panel" id="cp-gold" style="margin-bottom:20px;"></div>
+    <div class="clr-panel" id="cp-copper" style="margin-bottom:20px;"></div>
+
+    <hr class="pd-divider">
+
+    <p class="pd-label" data-i18n="qty_label">QUANTIDADE</p>
+    <div class="qty-wrap">
+      <button class="qty-btn" id="qtyMinus">−</button>
+      <input class="qty-n" id="qtyN" type="number" value="1" min="1" max="10" readonly>
+      <button class="qty-btn" id="qtyPlus">+</button>
+    </div>
+
+    <button class="btn-fill" id="btnCart" data-i18n="btn_cart">ADICIONAR AO CARRINHO</button>
+    <a class="btn-wpp" id="btnWpp" href="#" target="_blank" data-i18n="btn_wpp">COMPRAR PELO WHATSAPP</a>
+
+    <div class="fse">
+      <p class="fse-ti" data-i18n="fse_ti">FEITO SOB ENCOMENDA</p>
+      <p class="fse-bd" data-i18n="fse_bd">Cada peça é produzida exclusivamente sob medida. Prazo de produção: até 20 dias corridos, além do prazo de envio. Após confirmar o pedido, entraremos em contato para tirar todas as suas medidas.</p>
+    </div>
+
+    <div class="acc-item">
+      <button class="acc-trig">
+        <span data-i18n="acc_details">DETALHES DA PEÇA</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="acc-body"><p data-i18n="acc_details_bd">Peça artesanal em macramê premium. Confeccionada à mão nó a nó. Peso: 1,5 kg. Personalização disponível em 43 cores nas 3 linhas do catálogo.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trig">
+        <span data-i18n="acc_ship">ENVIO E PRAZO</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="acc-body"><p data-i18n="acc_ship_bd">Enviamos para todo o Brasil e exterior. Frete calculado pelo endereço de destino. Origem: Maringá — Paraná, Brasil. Peso: 1,5 kg por peça.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trig">
+        <span data-i18n="acc_care">CUIDADOS COM A PEÇA</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="acc-body"><p data-i18n="acc_care_bd">Lavar à mão com água fria e sabão neutro. Não torcer. Secar à sombra, esticada. Guardar dobrada ou pendurada em local seco e arejado. Evitar exposição prolongada ao sol.</p></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trig">
+        <span data-i18n="acc_return">TROCAS E DEVOLUÇÕES</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="acc-body"><p data-i18n="acc_return_bd">Cada peça é feita exclusivamente sob medida. Não aceitamos trocas por arrependimento, escolha de cor ou modelo. Aceitamos análise em caso de defeito de fabricação (até 7 dias do recebimento) ou ajuste de caimento (mão de obra gratuita, fretes por conta da cliente).</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<section class="recs">
+  <h2 class="recs-ti" data-i18n="recs_ti">VOCÊ TAMBÉM VAI AMAR</h2>
+  <div class="recs-grid" id="recsGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftgrid">
+    <div>
+      <span class="logo-footer">NATALIA<br>SILVEIRA</span>
+      <p class="ft-tagline" data-i18n="ft_tag">Arte em macramê premium, criada à mão no Brasil.</p>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_links">LINKS</p>
+      <a href="index.html" data-i18n="n_home">Casa</a>
+      <a href="index.html#colecao" data-i18n="n_shop">Comprar</a>
+      <a href="index.html#sobre" data-i18n="n_about">Sobre</a>
+      <a href="index.html#politicas" data-i18n="n_policies">Políticas</a>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_info">INFORMAÇÕES</p>
+      <a href="index.html#politicas" data-i18n="ft_returns">Trocas e Devoluções</a>
+      <a href="index.html#politicas" data-i18n="ft_ship">Frete e Envio</a>
+      <a href="index.html#sobre" data-i18n="ft_brand">Sobre a Marca</a>
+      <a href="index.html#sobre" data-i18n="ft_founder">Sobre a Fundadora</a>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_nl">NEWSLETTER</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;" data-i18n="nl_sub">Acesso antecipado a novos produtos</p>
+      <form class="ft-nl" onsubmit="return false">
+        <input class="ft-nl-i" type="email" data-i18n-ph="nl_ph" placeholder="Seu e-mail" required>
+        <button type="submit" class="ft-nl-b" data-i18n="nl_btn">ASSINAR</button>
+      </form>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p class="ft-copy" data-i18n="ft_copy">© 2026 Natalia Silveira. Todos os direitos reservados.</p>
+    <div class="ft-lang">
+      <a href="#" class="active" data-sl="pt">Português</a>
+      <a href="#" data-sl="en">English</a>
+      <a href="#" data-sl="es">Español</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WPP FLOAT -->
+<a href="https://wa.me/5511999999999" target="_blank" class="wpp-float" aria-label="WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const WPP = '5511999999999';
+
+const T = {
+  pt:{
+    nav_search:'Pesquisar', n_home:'CASA', n_shop:'COMPRAR', n_all:'Todos os Produtos',
+    n_sets:'Conjuntos', n_dresses:'Vestidos', n_pieces:'Peças Exclusivas',
+    n_about:'SOBRE', n_policies:'POLÍTICAS', n_colors:'CATÁLOGO DE CORES',
+    sz_label:'TAMANHO', cl_label:'LINHA DE COR', cl_select:'Selecione uma cor',
+    cl_premium_s:'PREMIUM', cl_gold_s:'LUREX DOURADO', cl_copper_s:'LUREX COBRE',
+    qty_label:'QUANTIDADE', btn_cart:'ADICIONAR AO CARRINHO', btn_wpp:'COMPRAR PELO WHATSAPP',
+    fse_ti:'FEITO SOB ENCOMENDA',
+    fse_bd:'Cada peça é produzida exclusivamente sob medida. Prazo de produção: até 20 dias corridos, além do prazo de envio. Após confirmar o pedido, entraremos em contato para tirar todas as suas medidas.',
+    acc_details:'DETALHES DA PEÇA', acc_details_bd:'Peça artesanal em macramê premium. Confeccionada à mão nó a nó. Peso: 1,5 kg. Personalização em 43 cores nas 3 linhas do catálogo.',
+    acc_ship:'ENVIO E PRAZO', acc_ship_bd:'Enviamos para todo o Brasil e exterior. Frete calculado pelo endereço de destino. Origem: Maringá — Paraná, Brasil. Peso: 1,5 kg por peça.',
+    acc_care:'CUIDADOS COM A PEÇA', acc_care_bd:'Lavar à mão com água fria e sabão neutro. Não torcer. Secar à sombra, esticada. Guardar em local seco e arejado. Evitar exposição prolongada ao sol.',
+    acc_return:'TROCAS E DEVOLUÇÕES', acc_return_bd:'Cada peça é feita exclusivamente sob medida. Não aceitamos trocas por arrependimento, escolha de cor ou modelo. Aceitamos análise em caso de defeito de fabricação (7 dias do recebimento) ou ajuste de caimento (mão de obra gratuita).',
+    recs_ti:'VOCÊ TAMBÉM VAI AMAR', p_consult:'Sob consulta',
+    cat_conjunto:'Conjunto', cat_vestido:'Vestido', cat_peca:'Peça Exclusiva',
+    nl_sub:'Acesso antecipado a novos produtos', nl_ph:'Seu e-mail', nl_btn:'ASSINAR',
+    ft_tag:'Arte em macramê premium, criada à mão no Brasil.', ft_links:'LINKS', ft_info:'INFORMAÇÕES',
+    ft_nl:'NEWSLETTER', ft_returns:'Trocas e Devoluções', ft_ship:'Frete e Envio',
+    ft_brand:'Sobre a Marca', ft_founder:'Sobre a Fundadora', ft_copy:'© 2026 Natalia Silveira. Todos os direitos reservados.',
+    wt:'Peso:',
+  },
+  en:{
+    nav_search:'Search', n_home:'HOME', n_shop:'SHOP', n_all:'All Products',
+    n_sets:'Sets', n_dresses:'Dresses', n_pieces:'Exclusive Pieces',
+    n_about:'ABOUT', n_policies:'POLICIES', n_colors:'COLOR CATALOG',
+    sz_label:'SIZE', cl_label:'COLOR LINE', cl_select:'Select a color',
+    cl_premium_s:'PREMIUM', cl_gold_s:'GOLD LUREX', cl_copper_s:'COPPER LUREX',
+    qty_label:'QUANTITY', btn_cart:'ADD TO CART', btn_wpp:'BUY VIA WHATSAPP',
+    fse_ti:'MADE TO ORDER',
+    fse_bd:'Each piece is produced exclusively to measure. Production time: up to 20 calendar days, plus shipping. After confirming your order, we will contact you to take your measurements.',
+    acc_details:'PIECE DETAILS', acc_details_bd:'Premium macramé handcrafted piece. Made by hand, knot by knot. Weight: 1.5 kg. Customization in 43 colors across 3 catalog lines.',
+    acc_ship:'SHIPPING & TIMELINE', acc_ship_bd:'We ship throughout Brazil and internationally. Shipping calculated by destination. Origin: Maringá — Paraná, Brazil. Weight: 1.5 kg per piece.',
+    acc_care:'CARE INSTRUCTIONS', acc_care_bd:'Hand wash with cold water and mild soap. Do not wring. Dry flat in the shade. Store in a dry, airy place. Avoid prolonged sun exposure.',
+    acc_return:'RETURNS & EXCHANGES', acc_return_bd:'Each piece is made to measure. We do not accept exchanges for change of mind, color, or model. Manufacturing defects accepted within 7 days of receipt. Fitting adjustments: labor free, shipping at client\'s expense.',
+    recs_ti:'YOU MAY ALSO LOVE', p_consult:'On request',
+    cat_conjunto:'Set', cat_vestido:'Dress', cat_peca:'Exclusive Piece',
+    nl_sub:'Early access to new products', nl_ph:'Your email', nl_btn:'SUBSCRIBE',
+    ft_tag:'Premium macramé art, handcrafted in Brazil.', ft_links:'QUICK LINKS', ft_info:'INFORMATION',
+    ft_nl:'NEWSLETTER', ft_returns:'Returns & Exchanges', ft_ship:'Shipping & Delivery',
+    ft_brand:'About the Brand', ft_founder:'About the Founder', ft_copy:'© 2026 Natalia Silveira. All rights reserved.',
+    wt:'Weight:',
+  },
+  es:{
+    nav_search:'Buscar', n_home:'INICIO', n_shop:'TIENDA', n_all:'Todos los Productos',
+    n_sets:'Conjuntos', n_dresses:'Vestidos', n_pieces:'Piezas Exclusivas',
+    n_about:'SOBRE NOSOTROS', n_policies:'POLÍTICAS', n_colors:'CATÁLOGO DE COLORES',
+    sz_label:'TALLA', cl_label:'LÍNEA DE COLOR', cl_select:'Selecciona un color',
+    cl_premium_s:'PREMIUM', cl_gold_s:'LUREX DORADO', cl_copper_s:'LUREX COBRE',
+    qty_label:'CANTIDAD', btn_cart:'AÑADIR AL CARRITO', btn_wpp:'COMPRAR POR WHATSAPP',
+    fse_ti:'HECHO A PEDIDO',
+    fse_bd:'Cada pieza se produce exclusivamente a medida. Plazo de producción: hasta 20 días corridos, más el envío. Tras confirmar el pedido, nos pondremos en contacto para tomar tus medidas.',
+    acc_details:'DETALLES DE LA PIEZA', acc_details_bd:'Pieza artesanal en macramé premium. Confeccionada a mano, nudo a nudo. Peso: 1,5 kg. Personalización en 43 colores en las 3 líneas del catálogo.',
+    acc_ship:'ENVÍO Y PLAZO', acc_ship_bd:'Enviamos a todo Brasil y al exterior. Flete calculado según la dirección de destino. Origen: Maringá — Paraná, Brasil. Peso: 1,5 kg por pieza.',
+    acc_care:'CUIDADO DE LA PIEZA', acc_care_bd:'Lavar a mano con agua fría y jabón neutro. No retorcer. Secar a la sombra. Guardar en lugar seco y ventilado. Evitar exposición prolongada al sol.',
+    acc_return:'CAMBIOS Y DEVOLUCIONES', acc_return_bd:'Cada pieza se hace a medida. No aceptamos cambios por arrepentimiento, color o modelo. Defecto de fabricación: análisis hasta 7 días del recibo. Ajuste de caída: mano de obra gratuita, fletes a cargo de la cliente.',
+    recs_ti:'TAMBIÉN TE VA A ENCANTAR', p_consult:'Consultar',
+    cat_conjunto:'Conjunto', cat_vestido:'Vestido', cat_peca:'Pieza Exclusiva',
+    nl_sub:'Acceso anticipado a nuevos productos', nl_ph:'Tu correo electrónico', nl_btn:'SUSCRIBIRSE',
+    ft_tag:'Arte en macramé premium, hecha a mano en Brasil.', ft_links:'ENLACES', ft_info:'INFORMACIÓN',
+    ft_nl:'BOLETÍN', ft_returns:'Cambios y Devoluciones', ft_ship:'Flete y Envío',
+    ft_brand:'Sobre la Marca', ft_founder:'Sobre la Fundadora', ft_copy:'© 2026 Natalia Silveira. Todos los derechos reservados.',
+    wt:'Peso:',
+  }
+};
+
+const PRODS = [
+  {id:'celeste',   cat:'conjunto', price:null, images:['assets/celeste.png']},
+  {id:'amanda',    cat:'conjunto', price:1490, images:['assets/amanda.png','assets/amanda-2.png']},
+  {id:'sunset',    cat:'vestido',  price:1990, images:['assets/sunset.png','assets/sunset-2.png','assets/sunset-3.png']},
+  {id:'fani',      cat:'peca',     price:1790, images:['assets/fani.png']},
+  {id:'artemiza',  cat:'peca',     price:1390, images:['assets/artemiza.png']},
+  {id:'talia',     cat:'peca',     price:1490, images:['assets/talia.png','assets/talia-2.png']},
+  {id:'sienna',    cat:'conjunto', price:1490, images:['assets/sienna.png']},
+  {id:'mavi',      cat:'peca',     price:1390, images:['assets/mavi.png']},
+  {id:'erica',     cat:'conjunto', price:1490, images:['assets/erica.png']},
+  {id:'leticia',   cat:'conjunto', price:1490, images:['assets/leticia.png','assets/leticia-2.png']},
+  {id:'geonavva',  cat:'conjunto', price:1490, images:['assets/geonavva.png']},
+  {id:'mistica',   cat:'vestido',  price:1390, images:['assets/mistica.png','assets/mistica-2.png']},
+  {id:'selene',    cat:'conjunto', price:1390, images:['assets/selene.png','assets/selene-2.png']},
+  {id:'lunar',     cat:'conjunto', price:1390, images:['assets/lunar.png']},
+  {id:'maita',     cat:'conjunto', price:1390, images:['assets/maita.png']},
+  {id:'laskimi',   cat:'conjunto', price:1390, images:['assets/laskimi.png']},
+  {id:'maia',      cat:'conjunto', price:1390, images:['assets/maia.png']},
+  {id:'maia-correntes',cat:'conjunto',price:1390,images:['assets/maia-correntes.png','assets/maia-correntes-2.png','assets/maia-correntes-3.png']},
+  {id:'luana',     cat:'conjunto', price:1290, images:['assets/luana.png']},
+  {id:'aura',      cat:'vestido',  price:1290, images:['assets/aura.png','assets/aura-2.png','assets/aura-3.png']},
+  {id:'emily',     cat:'vestido',  price:1290, images:['assets/emily.png','assets/emily-2.png','assets/emily-3.png','assets/emily-4.png']},
+  {id:'atena',     cat:'conjunto', price:990,  images:['assets/atena.png','assets/atena-2.png']},
+  {id:'bianca',    cat:'conjunto', price:990,  images:['assets/bianca.png','assets/bianca-2.png','assets/bianca-3.png','assets/bianca-4.png']},
+  {id:'helena',    cat:'vestido',  price:990,  images:['assets/helena.png']},
+  {id:'stella',    cat:'conjunto', price:890,  images:['assets/stella.png']},
+  {id:'isa',       cat:'vestido',  price:890,  images:['assets/isa.png','assets/isa-2.png']},
+  {id:'eurama',    cat:'conjunto', price:null, images:['assets/eurama.png','assets/eurama-2.png']},
+  {id:'isadora',   cat:'vestido',  price:null, images:['assets/isadora.png']},
+];
+const NAMES = {
+  celeste:'Celeste',amanda:'Amanda',sunset:'Sunset',fani:'Fani',
+  artemiza:'Artemiza',talia:'Talia',sienna:'Sienna',mavi:'Mavi',
+  erica:'Érica',leticia:'Letícia',geonavva:'Geonavva',mistica:'Mística',
+  selene:'Selene',lunar:'Lunar',maita:'Maita',laskimi:'Laskimi',
+  maia:'Maia','maia-correntes':'Maia com Correntes',luana:'Luana',
+  aura:'Aura',emily:'Emily',atena:'Atena',bianca:'Bianca',
+  helena:'Helena',stella:'Stella',isa:'Isa',eurama:'Eurama',isadora:'Isadora',
+};
+
+const COLORS = {
+  premium:[
+    {n:'Branco',c:'#F2EEE8',b:true},{n:'Creme',c:'#E2D4B8'},{n:'Porcelana',c:'#C8B890'},{n:'Castanha',c:'#7A4830'},
+    {n:'Valência',c:'#B84E20'},{n:'Terracota',c:'#A83A1A'},{n:'Cobre',c:'#A05018'},{n:'Chocolate',c:'#4A2010'},
+    {n:'Brasa',c:'#B82808'},{n:'Verm. Círculo',c:'#B80C18'},{n:'Valentino',c:'#7A0C18'},{n:'Azul Petróleo',c:'#0A2838'},
+    {n:'Militar',c:'#404C24'},{n:'Musgo',c:'#283018'},{n:'Pergaminho',c:'#A8A090',b:true},{n:'Alumínio',c:'#8A8A8A'},{n:'Preto',c:'#1A1210'},
+  ],
+  gold:[
+    {n:'Marrom Lurex',c:'#5A3018'},{n:'Pingo de Ouro',c:'#C8A030'},{n:'Ouro Branco',c:'#E0D080',b:true},
+    {n:'Pingo Ouro Claro',c:'#D4B830'},{n:'Bege Dourado',c:'#C0985A'},{n:'Champanhe',c:'#D8C080',b:true},
+    {n:'Branco',c:'#EEEAC8',b:true},{n:'Prata',c:'#B0B8C0'},{n:'Verde Oliva',c:'#7A7848'},
+    {n:'Cobre',c:'#A86030'},{n:'Rami Escuro',c:'#4A3020'},{n:'Cinza',c:'#707070'},
+    {n:'Capim Dourado',c:'#C09810'},{n:'Branco L. Cobre',c:'#E8DCA8',b:true},{n:'Noite Estrelada',c:'#18182A'},
+  ],
+  copper:[
+    {n:'Off-White',c:'#EEECE0',b:true},{n:'Champanhe',c:'#D8C090',b:true},{n:'Ramy',c:'#885A38'},
+    {n:'Nude Perolado',c:'#C8A898'},{n:'Bege',c:'#C8BCA0',b:true},{n:'Marsala',c:'#882040'},
+    {n:'Verde Musgo',c:'#384028'},{n:'Chocolate',c:'#422018'},{n:'Marrom',c:'#603020'},
+    {n:'Cinza',c:'#808080'},{n:'Preto',c:'#181210'},
+  ]
+};
+
+let LANG = localStorage.getItem('ns_lang') || 'pt';
+let selSz = null, selClrName = null, selClrLine = null;
+let curProd = null;
+
+function t(k){ return (T[LANG]||T.pt)[k] || T.pt[k] || k; }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='pt'?'pt-BR':LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-sl]').forEach(a=>{ a.classList.toggle('active',a.dataset.sl===LANG); });
+  document.getElementById('langLbl').textContent=LANG.toUpperCase();
+  if(curProd) updateInfo();
+}
+
+function updateInfo(){
+  const p=curProd;
+  document.getElementById('pdCat').textContent=t('cat_'+p.cat);
+  const prEl=document.getElementById('pdPrice');
+  if(p.price){ prEl.textContent=`R$ ${p.price.toLocaleString('pt-BR')}`; prEl.className='pd-price'; }
+  else { prEl.textContent=t('p_consult'); prEl.className='pd-price nc'; }
+  document.getElementById('pdWeight').textContent=`${t('wt')} 1,5 kg`;
+}
+
+function buildColors(){
+  ['premium','gold','copper'].forEach(line=>{
+    const wrap=document.getElementById('cp-'+line);
+    wrap.innerHTML='';
+    COLORS[line].forEach(c=>{
+      const dot=document.createElement('div');
+      dot.className='csw';
+      dot.style.background=c.c;
+      if(c.b) dot.style.boxShadow='0 0 0 1px #ccc';
+      dot.title=c.n;
+      dot.addEventListener('click',()=>{
+        document.querySelectorAll('.csw').forEach(x=>x.classList.remove('on'));
+        dot.classList.add('on');
+        selClrName=c.n; selClrLine=line;
+        const el=document.getElementById('clrName');
+        el.textContent=c.n;
+        el.removeAttribute('data-i18n');
+        updateWpp();
+      });
+      wrap.appendChild(dot);
+    });
+  });
+}
+
+function buildGallery(imgs){
+  const main=document.getElementById('galMain');
+  const thumbs=document.getElementById('galThumbs');
+  main.src=imgs[0]; main.alt='';
+  thumbs.innerHTML='';
+  imgs.forEach((src,i)=>{
+    const thumb=document.createElement('div');
+    thumb.className='gt'+(i===0?' on':'');
+    thumb.innerHTML=`<img src="${src}" loading="lazy">`;
+    thumb.addEventListener('click',()=>{
+      main.style.opacity='0';
+      setTimeout(()=>{ main.src=src; main.style.opacity='1'; },180);
+      document.querySelectorAll('.gt').forEach(x=>x.classList.remove('on'));
+      thumb.classList.add('on');
+    });
+    thumbs.appendChild(thumb);
+  });
+  thumbs.style.display=imgs.length<2?'none':'flex';
+}
+
+function buildRecs(excludeId){
+  const grid=document.getElementById('recsGrid');
+  grid.innerHTML='';
+  const others=PRODS.filter(p=>p.id!==excludeId).sort(()=>Math.random()-.5).slice(0,5);
+  others.forEach(p=>{
+    const prStr=p.price?`R$ ${p.price.toLocaleString('pt-BR')}`:t('p_consult');
+    const card=document.createElement('div');
+    card.className='rcard';
+    card.innerHTML=`<div class="rcard-img"><img src="${p.images[0]}" alt="${NAMES[p.id]}" loading="lazy"></div><p class="rcard-name">${NAMES[p.id]}</p><p class="rcard-pr${!p.price?' nc':''}">${prStr}</p>`;
+    card.addEventListener('click',()=>{ window.location.href=`produto.html?id=${p.id}`; });
+    grid.appendChild(card);
+  });
+}
+
+function updateWpp(){
+  if(!curProd) return;
+  const name=NAMES[curProd.id];
+  const price=curProd.price?`R$ ${curProd.price.toLocaleString('pt-BR')}`:t('p_consult');
+  const sz=selSz||'(a definir)';
+  const line=selClrLine||'(a definir)';
+  const color=selClrName||'(a definir)';
+  const qty=document.getElementById('qtyN').value||1;
+  const msg=`Olá! Quero encomendar:\n\n*Peça:* ${name}\n*Preço:* ${price}\n*Tamanho:* ${sz}\n*Linha:* ${line}\n*Cor:* ${color}\n*Quantidade:* ${qty}\n\nPor favor, me envie mais informações!`;
+  document.getElementById('btnWpp').href=`https://wa.me/${WPP}?text=${encodeURIComponent(msg)}`;
+}
+
+/* SIZE */
+document.querySelectorAll('.sz').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); selSz=b.dataset.sz; updateWpp();
+  });
+});
+
+/* COLOR TABS */
+document.querySelectorAll('.ct').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.ct').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    document.querySelectorAll('.clr-panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById('cp-'+b.dataset.cp).classList.add('on');
+  });
+});
+
+/* QTY */
+document.getElementById('qtyMinus').addEventListener('click',()=>{ const n=document.getElementById('qtyN'); if(+n.value>1){n.value=+n.value-1; updateWpp();} });
+document.getElementById('qtyPlus').addEventListener('click',()=>{ const n=document.getElementById('qtyN'); if(+n.value<10){n.value=+n.value+1; updateWpp();} });
+
+/* CART → WPP */
+document.getElementById('btnCart').addEventListener('click',()=>{ document.getElementById('btnWpp').click(); });
+
+/* ACCORDION */
+document.querySelectorAll('.acc-trig').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const body=b.nextElementSibling;
+    const open=b.classList.toggle('open');
+    body.style.maxHeight=open?body.scrollHeight+'px':'0';
+  });
+});
+
+/* HAMBURGER */
+document.getElementById('ham').addEventListener('click',()=>document.getElementById('mobNav').classList.add('open'));
+document.getElementById('mobClose').addEventListener('click',closeMob);
+function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
+
+/* LANGUAGE */
+document.querySelectorAll('[data-sl]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault(); LANG=a.dataset.sl; localStorage.setItem('ns_lang',LANG); applyLang();
+  });
+});
+
+/* INIT */
+buildColors();
+const pid=new URLSearchParams(location.search).get('id');
+const prod=PRODS.find(p=>p.id===pid);
+if(prod){
+  curProd=prod;
+  document.title=`${NAMES[prod.id]} — Natalia Silveira`;
+  document.getElementById('bcName').textContent=NAMES[prod.id];
+  document.getElementById('pdName').textContent=NAMES[prod.id];
+  buildGallery(prod.images);
+  buildRecs(prod.id);
+  updateWpp();
+} else {
+  window.location.href='index.html';
+}
+applyLang();
+</script>
+</body>
+</html>

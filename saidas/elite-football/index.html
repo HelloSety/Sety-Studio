@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULTRAGOL — Veste quem é de verdade</title>
+  <meta name="description" content="Camisas de futebol premium. Seleções, Brasileirão, Europeu, Retrô. Frete grátis acima de R$ 299.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPO PROMO -->
+<div class="topo-promo">
+  🔥 <span>COPA DO MUNDO 2026</span> — Frete Grátis acima de R$ 299 &nbsp;|&nbsp; 10% OFF no PIX &nbsp;|&nbsp; Parcelamento em até 12x sem juros
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        ⚽ <div><span class="verde">ULTRA</span>GOL<span class="sub">CAMISAS PREMIUM</span></div>
+      </a>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar camisa, seleção, clube..." autocomplete="off">
+        <button class="btn-search" onclick="abrirBusca()">🔍</button>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="abrirBusca()" title="Buscar">🔍</button>
+        <button class="btn-icon" title="Minha conta">👤</button>
+        <button class="btn-cart" onclick="toggleCart()">
+          🛒 <span>Sacola</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVEGAÇÃO -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div class="nav-item" style="position:relative">
+        <a class="nav-link active" onclick="irCategoria('selecoes')">Seleções</a>
+        <div class="mega-menu">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <h4>América do Sul</h4>
+              <a class="mega-link" onclick="irSub('brasil')"><span class="flag">🇧🇷</span> Brasil</a>
+              <a class="mega-link" onclick="irSub('argentina')"><span class="flag">🇦🇷</span> Argentina</a>
+              <a class="mega-link" onclick="irSub('colombia')"><span class="flag">🇨🇴</span> Colômbia</a>
+              <a class="mega-link" onclick="irSub('uruguai')"><span class="flag">🇺🇾</span> Uruguai</a>
+            </div>
+            <div class="mega-col">
+              <h4>Europa</h4>
+              <a class="mega-link" onclick="irSub('franca')"><span class="flag">🇫🇷</span> França</a>
+              <a class="mega-link" onclick="irSub('portugal')"><span class="flag">🇵🇹</span> Portugal</a>
+              <a class="mega-link" onclick="irSub('alemanha')"><span class="flag">🇩🇪</span> Alemanha</a>
+              <a class="mega-link" onclick="irSub('espanha')"><span class="flag">🇪🇸</span> Espanha</a>
+              <a class="mega-link" onclick="irSub('inglaterra')"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> Inglaterra</a>
+              <a class="mega-link" onclick="irSub('italia')"><span class="flag">🇮🇹</span> Itália</a>
+            </div>
+            <div class="mega-col">
+              <h4>Outros</h4>
+              <a class="mega-link" onclick="irSub('holanda')"><span class="flag">🇳🇱</span> Holanda</a>
+              <a class="mega-link" onclick="irSub('belgica')"><span class="flag">🇧🇪</span> Bélgica</a>
+              <a class="mega-link" onclick="irSub('croacia')"><span class="flag">🇭🇷</span> Croácia</a>
+              <a class="mega-link" onclick="irSub('marrocos')"><span class="flag">🇲🇦</span> Marrocos</a>
+              <a class="mega-link" onclick="irSub('japao')"><span class="flag">🇯🇵</span> Japão</a>
+              <a class="mega-link" onclick="irSub('mexico')"><span class="flag">🇲🇽</span> México</a>
+              <a class="mega-link" onclick="irSub('eua')"><span class="flag">🇺🇸</span> EUA</a>
+              <a class="mega-link" onclick="irSub('senegal')"><span class="flag">🇸🇳</span> Senegal</a>
+            </div>
+            <div class="mega-col">
+              <h4>Copa 2026</h4>
+              <a class="mega-link" onclick="irCategoria('selecoes')">🏆 Todas as Seleções</a>
+              <a class="mega-link" onclick="irSub('brasil')">⭐ Versão Jogador Brasil</a>
+              <a class="mega-link" onclick="irSub('argentina')">⭐ Versão Jogador Argentina</a>
+            </div>
+            <div class="mega-col">
+              <h4>Destaques</h4>
+              <a class="mega-link" onclick="irCategoria('selecoes')">🔥 Lançamentos</a>
+              <a class="mega-link" onclick="irCategoria('selecoes')">⚡ Mais Vendidos</a>
+              <a class="mega-link" onclick="irCategoria('selecoes')">💎 Versão Jogador</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" onclick="irCategoria('brasileirao')">Brasileirão</a>
+      <div class="nav-item" style="position:relative">
+        <a class="nav-link" onclick="irCategoria('europeu')">Europeu</a>
+        <div class="mega-menu">
+          <div class="mega-grid">
+            <div class="mega-col">
+              <h4>Premier League</h4>
+              <a class="mega-link" onclick="irSub('manchester')">🔴 Manchester United</a>
+              <a class="mega-link" onclick="irSub('liverpool')">🔴 Liverpool</a>
+              <a class="mega-link" onclick="irSub('chelsea')">🔵 Chelsea</a>
+              <a class="mega-link" onclick="irSub('arsenal')">🔴 Arsenal</a>
+              <a class="mega-link" onclick="irSub('manchestercity')">🔵 Manchester City</a>
+              <a class="mega-link" onclick="irSub('tottenham')">⚪ Tottenham</a>
+            </div>
+            <div class="mega-col">
+              <h4>La Liga</h4>
+              <a class="mega-link" onclick="irSub('realmadrid')">⚪ Real Madrid</a>
+              <a class="mega-link" onclick="irSub('barcelona')">🔵 Barcelona</a>
+            </div>
+            <div class="mega-col">
+              <h4>Ligue 1 / Bundesliga</h4>
+              <a class="mega-link" onclick="irSub('psg')">🔵 PSG</a>
+              <a class="mega-link" onclick="irSub('borussia')">🟡 Borussia Dortmund</a>
+            </div>
+            <div class="mega-col">
+              <h4>Serie A</h4>
+              <a class="mega-link" onclick="irSub('juventus')">⚫ Juventus</a>
+              <a class="mega-link" onclick="irSub('inter')">🔵 Inter de Milão</a>
+              <a class="mega-link" onclick="irSub('milan')">🔴 AC Milan</a>
+            </div>
+            <div class="mega-col">
+              <h4>Outros</h4>
+              <a class="mega-link" onclick="irSub('ajax')">⚪ Ajax</a>
+              <a class="mega-link" onclick="irCategoria('europeu')">🏆 Champions League</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" onclick="irCategoria('infantil')">Infantil</a>
+      <a class="nav-link" onclick="irCategoria('retro')">Retrô</a>
+      <a class="nav-link" onclick="irCategoria('feminino')">Feminino</a>
+      <a class="nav-link destaque" onclick="irCategoria('outlet')">🔥 Outlet</a>
+      <a class="nav-link destaque" onclick="irCategoria('selecoes')" style="color:#FFD700">⭐ Versão Jogador</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<section class="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide" onclick="irCategoria('selecoes')">
+      <img src="assets/banners/hero-1.png" alt="Copa do Mundo 2026" loading="eager">
+      <div class="hero-slide-overlay">
+        <div class="hero-content">
+          <span class="hero-tag">COPA DO MUNDO 2026</span>
+          <h1>Veste quem<br>é de <span style="color:var(--verde)">verdade</span></h1>
+          <p>Camisas oficiais das melhores seleções do mundo</p>
+          <a class="btn-hero" onclick="event.stopPropagation();irCategoria('selecoes')">Ver Coleção →</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" onclick="irCategoria('selecoes')">
+      <img src="assets/banners/hero-2.png" alt="Seleções 2026" loading="lazy">
+      <div class="hero-slide-overlay">
+        <div class="hero-content">
+          <span class="hero-tag">LANÇAMENTO</span>
+          <h1>Novas Coleções<br><span style="color:var(--verde)">2026</span></h1>
+          <p>As últimas camisas das maiores seleções do planeta</p>
+          <a class="btn-hero" onclick="event.stopPropagation();irCategoria('selecoes')">Comprar Agora →</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" onclick="irCategoria('brasileirao')">
+      <img src="assets/banners/sec-1.png" alt="Brasileirão 2025/26" loading="lazy">
+      <div class="hero-slide-overlay">
+        <div class="hero-content">
+          <span class="hero-tag">BRASILEIRÃO 2025/26</span>
+          <h1>Mostre suas<br><span style="color:var(--verde)">Cores</span></h1>
+          <p>Os maiores clubes do Brasil em um só lugar</p>
+          <a class="btn-hero" onclick="event.stopPropagation();irCategoria('brasileirao')">Ver Clubes →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="hero-arrow prev" onclick="slideHero(-1)">‹</button>
+  <button class="hero-arrow next" onclick="slideHero(1)">›</button>
+  <div class="hero-dots" id="heroDots">
+    <div class="hero-dot active" onclick="goSlide(0)"></div>
+    <div class="hero-dot" onclick="goSlide(1)"></div>
+    <div class="hero-dot" onclick="goSlide(2)"></div>
+  </div>
+</section>
+
+<!-- FAIXA BENEFÍCIOS -->
+<div class="banner-faixa">
+  <div class="banner-faixa-inner" id="faixaInner">
+    <span class="faixa-item"><span class="icon">🚚</span> Frete Grátis acima de R$ 299</span>
+    <span class="faixa-item"><span class="icon">🔒</span> Compra 100% Segura</span>
+    <span class="faixa-item"><span class="icon">💳</span> 12x sem juros</span>
+    <span class="faixa-item"><span class="icon">🔄</span> Troca Grátis em 7 dias</span>
+    <span class="faixa-item"><span class="icon">⚡</span> Entrega Expressa SP/RJ</span>
+    <span class="faixa-item"><span class="icon">🛡️</span> Produto 100% Original</span>
+    <span class="faixa-item"><span class="icon">📱</span> Atendimento WhatsApp</span>
+    <span class="faixa-item"><span class="icon">🏆</span> Mais de 50.000 clientes</span>
+    <!-- duplicar para loop -->
+    <span class="faixa-item"><span class="icon">🚚</span> Frete Grátis acima de R$ 299</span>
+    <span class="faixa-item"><span class="icon">🔒</span> Compra 100% Segura</span>
+    <span class="faixa-item"><span class="icon">💳</span> 12x sem juros</span>
+    <span class="faixa-item"><span class="icon">🔄</span> Troca Grátis em 7 dias</span>
+    <span class="faixa-item"><span class="icon">⚡</span> Entrega Expressa SP/RJ</span>
+    <span class="faixa-item"><span class="icon">🛡️</span> Produto 100% Original</span>
+    <span class="faixa-item"><span class="icon">📱</span> Atendimento WhatsApp</span>
+    <span class="faixa-item"><span class="icon">🏆</span> Mais de 50.000 clientes</span>
+  </div>
+</div>
+
+<!-- CATEGORIAS POR SELEÇÃO -->
+<section class="secao" style="padding-bottom:24px">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">Sua <span>Seleção</span></h2>
+        <p class="secao-sub">Escolha pelo escudo da sua nação</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('selecoes')">Ver todas</a>
+    </div>
+    <div class="cats-grid" id="selecoesGrid"></div>
+  </div>
+</section>
+
+<!-- BANNER SECUNDÁRIO 1 -->
+<section class="secao" style="padding:0 0 40px">
+  <div class="container">
+    <div class="banner-full" onclick="irCategoria('selecoes')">
+      <img src="assets/banners/sec-2.png" alt="Copa do Mundo 2026">
+      <div class="banner-full-overlay">
+        <div class="banner-full-content">
+          <h2>Copa do Mundo<br><span style="color:var(--verde)">2026</span></h2>
+          <p>Todas as seleções classificadas. Vista a sua nação.</p>
+          <a class="btn-banner">Ver Coleção →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANÇAMENTOS -->
+<section class="secao">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">🔥 <span>Lançamentos</span></h2>
+        <p class="secao-sub">As camisas que acabaram de chegar</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('selecoes')">Ver todos</a>
+    </div>
+    <div class="produtos-grid" id="lancamentosGrid"></div>
+  </div>
+</section>
+
+<!-- BANNERS DUPLOS - BRASILEIRÃO + EUROPEU -->
+<section class="secao" style="padding:0 0 40px">
+  <div class="container">
+    <div class="banners-duplo">
+      <div class="banner-half" onclick="irCategoria('brasileirao')">
+        <img src="assets/banners/sec-3.png" alt="Brasileirão">
+        <div class="banner-half-overlay">
+          <h3>Brasileirão<br>2025/26</h3>
+          <p>Os maiores clubes do Brasil</p>
+          <a class="btn-sm">Ver Clubes →</a>
+        </div>
+      </div>
+      <div class="banner-half" onclick="irCategoria('europeu')">
+        <img src="assets/banners/sec-4.png" alt="Europeu">
+        <div class="banner-half-overlay">
+          <h3>Europeu<br>2025/26</h3>
+          <p>Premier League, La Liga, Champions e mais</p>
+          <a class="btn-sm">Ver Clubes →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRASILEIRÃO -->
+<section class="secao">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">⚽ <span>Brasileirão</span> 2025/26</h2>
+        <p class="secao-sub">Os grandes clubes do futebol brasileiro</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('brasileirao')">Ver todos</a>
+    </div>
+    <div class="produtos-grid" id="brasileiraoGrid"></div>
+  </div>
+</section>
+
+<!-- BANNER FRETE GRÁTIS -->
+<section class="secao" style="padding:0 0 40px">
+  <div class="container">
+    <div class="banner-full" onclick="irCategoria('selecoes')" style="border-radius:12px;overflow:hidden">
+      <img src="assets/banners/sec-5.png" alt="Frete Grátis" style="max-height:240px;object-fit:cover">
+      <div class="banner-full-overlay" style="background:linear-gradient(90deg,rgba(0,0,0,.8) 0%,transparent 70%)">
+        <div class="banner-full-content">
+          <h2 style="font-size:32px">FRETE GRÁTIS<br><span style="color:var(--verde)">Acima de R$ 299</span></h2>
+          <p>Para todo o Brasil. Aproveite!</p>
+          <a class="btn-banner">Comprar Agora →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERSÃO JOGADOR -->
+<section class="secao" style="background:var(--preto2);padding:56px 0">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">⭐ Versão <span>Jogador</span></h2>
+        <p class="secao-sub">A camisa mais próxima do que os atletas usam em campo</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('selecoes')">Ver todos</a>
+    </div>
+    <div class="produtos-grid" id="jogadorGrid"></div>
+  </div>
+</section>
+
+<!-- BANNER DUPLO RETRÔ + SELEÇÕES -->
+<section class="secao" style="padding:40px 0">
+  <div class="container">
+    <div class="banners-duplo">
+      <div class="banner-half" onclick="irCategoria('retro')">
+        <img src="assets/banners/sec-6.png" alt="Retrô">
+        <div class="banner-half-overlay">
+          <h3>Coleção Retrô</h3>
+          <p>Clássicos que marcaram a história</p>
+          <a class="btn-sm">Ver Retrô →</a>
+        </div>
+      </div>
+      <div class="banner-half" onclick="irCategoria('selecoes')">
+        <img src="assets/banners/sec-7.png" alt="Seleções">
+        <div class="banner-half-overlay">
+          <h3>Todas as Seleções</h3>
+          <p>Mais de 30 seleções disponíveis</p>
+          <a class="btn-sm">Ver Seleções →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EUROPEU -->
+<section class="secao">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">🏆 <span>Europeu</span></h2>
+        <p class="secao-sub">Premier League, La Liga, Champions e mais</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('europeu')">Ver todos</a>
+    </div>
+    <div class="produtos-grid" id="europeuGrid"></div>
+  </div>
+</section>
+
+<!-- BANNER OUTLET -->
+<section class="secao" style="padding:0 0 40px">
+  <div class="container">
+    <div class="banner-full" onclick="irCategoria('outlet')" style="border-radius:12px;overflow:hidden">
+      <img src="assets/banners/sec-8.png" alt="Outlet" style="max-height:260px;object-fit:cover">
+      <div class="banner-full-overlay">
+        <div class="banner-full-content">
+          <h2 style="font-size:36px"><span style="color:var(--laranja)">OUTLET</span><br>Até 50% OFF</h2>
+          <p>Últimas unidades. Aproveite antes que acabe!</p>
+          <a class="btn-banner" style="background:var(--laranja)">Ver Outlet →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIS VENDIDOS -->
+<section class="secao">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">📦 Mais <span>Vendidos</span></h2>
+        <p class="secao-sub">Os favoritos dos nossos clientes</p>
+      </div>
+      <a class="ver-todos" onclick="irCategoria('selecoes')">Ver todos</a>
+    </div>
+    <div class="produtos-grid" id="maisVendidosGrid"></div>
+  </div>
+</section>
+
+<!-- INFANTIL E FEMININO -->
+<section class="secao" style="padding:0 0 56px">
+  <div class="container">
+    <div class="banners-triplo" style="grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <div class="banner-half" onclick="irCategoria('infantil')" style="grid-column:1">
+        <img src="assets/banners/sec-1.png" alt="Infantil" style="height:260px">
+        <div class="banner-half-overlay">
+          <h3>👦 Infantil</h3>
+          <p>Para o futuro craque</p>
+          <a class="btn-sm">Ver Kits →</a>
+        </div>
+      </div>
+      <div class="banner-half" onclick="irCategoria('feminino')" style="grid-column:2">
+        <img src="assets/banners/sec-2.png" alt="Feminino" style="height:260px">
+        <div class="banner-half-overlay">
+          <h3>👩 Feminino</h3>
+          <p>Estilo em campo e fora</p>
+          <a class="btn-sm">Ver Feminino →</a>
+        </div>
+      </div>
+      <div class="banner-half" onclick="irCategoria('retro')" style="grid-column:3">
+        <img src="assets/banners/sec-3.png" alt="Retrô" style="height:260px">
+        <div class="banner-half-overlay">
+          <h3>🏆 Retrô</h3>
+          <p>A história em jogo</p>
+          <a class="btn-sm">Ver Retrô →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VANTAGENS -->
+<div class="vantagens">
+  <div class="container">
+    <div class="vantagens-grid">
+      <div class="vantagem">
+        <div class="vantagem-icon">🚚</div>
+        <div>
+          <h4>Frete Grátis</h4>
+          <p>Compras acima de R$ 299 com envio gratuito para todo o Brasil</p>
+        </div>
+      </div>
+      <div class="vantagem">
+        <div class="vantagem-icon">🔒</div>
+        <div>
+          <h4>Compra Segura</h4>
+          <p>Ambiente criptografado e dados protegidos em todas as transações</p>
+        </div>
+      </div>
+      <div class="vantagem">
+        <div class="vantagem-icon">🔄</div>
+        <div>
+          <h4>Troca Grátis</h4>
+          <p>Não gostou? Troque em até 7 dias sem custo adicional</p>
+        </div>
+      </div>
+      <div class="vantagem">
+        <div class="vantagem-icon">💬</div>
+        <div>
+          <h4>Suporte 7 dias</h4>
+          <p>Atendimento via WhatsApp de segunda a sábado, das 8h às 20h</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<section class="secao">
+  <div class="container">
+    <div class="secao-topo">
+      <div>
+        <h2 class="secao-titulo">❤️ O que nossos <span>clientes</span> dizem</h2>
+        <p class="secao-sub">+50.000 clientes satisfeitos em todo o Brasil</p>
+      </div>
+    </div>
+    <div class="depo-grid" id="depoGrid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="secao" style="background:var(--preto2);padding:56px 0">
+  <div class="container">
+    <div class="secao-topo" style="justify-content:center;margin-bottom:40px">
+      <div style="text-align:center">
+        <h2 class="secao-titulo">❓ Dúvidas <span>Frequentes</span></h2>
+      </div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>O site é seguro?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! Utilizamos criptografia SSL em todas as páginas e pagamentos. Seus dados estão 100% protegidos. Aceitamos cartão, PIX e boleto com total segurança.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>E se a camisa não servir?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Sem problema! Você tem 7 dias após o recebimento para solicitar troca ou devolução gratuitamente. Basta entrar em contato pelo WhatsApp e a gente resolve.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Como acompanho meu pedido?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Assim que seu pedido for aprovado, você receberá um código de rastreamento por e-mail e WhatsApp. Você pode acompanhar em tempo real pelo site dos Correios ou transportadora.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Quais formas de pagamento vocês aceitam?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Aceitamos PIX (com 10% de desconto!), cartão de crédito em até 12x sem juros (Visa, Master, Elo, Amex, Hipercard), boleto bancário e transferência bancária.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Em quanto tempo minha camisa chega?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Prazo médio: SP capital 1-2 dias, SP interior 2-4 dias, RJ/MG/PR/RS 3-5 dias, demais estados 5-8 dias úteis. Temos opção de entrega expressa para SP e RJ.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Vocês fazem personalização (nome e número)?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim! Personalizamos com nome e número na própria página do produto. O processo leva 2 dias úteis a mais para a produção. Disponível para a maioria dos modelos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="container">
+    <h2>🔔 Fique por dentro dos <span style="color:var(--verde)">lançamentos</span></h2>
+    <p>Receba em primeira mão as novas coleções, ofertas exclusivas e cupons especiais.</p>
+    <form class="newsletter-form" onsubmit="assinarNewsletter(event)">
+      <input type="email" placeholder="Digite seu e-mail">
+      <button type="submit">Quero Receber!</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">⚽ <span style="color:var(--verde)">ULTRA</span>GOL</div>
+        <p class="footer-desc">A maior loja de camisas de futebol do Brasil. Qualidade premium, entrega rápida e preço justo para todos os torcedores.</p>
+        <div class="footer-social">
+          <div class="social-btn" title="Instagram">📸</div>
+          <div class="social-btn" title="WhatsApp">💬</div>
+          <div class="social-btn" title="Facebook">👥</div>
+          <div class="social-btn" title="TikTok">🎵</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Menu do Rogué</h4>
+        <a class="footer-link">Aviso Legal</a>
+        <a class="footer-link">FAQ</a>
+        <a class="footer-link">Política de Privacidade</a>
+        <a class="footer-link">Política de Origem do Produto</a>
+        <a class="footer-link">Política de Envio e Prazo</a>
+        <a class="footer-link">Política de Trocas</a>
+      </div>
+      <div class="footer-col">
+        <h4>Central de Atendimento</h4>
+        <a class="footer-link">Seg a Sáb, 09 às 18h</a>
+        <a class="footer-link">📞 (11) 9999-9999</a>
+        <a class="footer-link">📧 contato@ultragol.com.br</a>
+        <br>
+        <h4 style="margin-top:8px">Formas de Pagamento</h4>
+        <div class="footer-pagamentos">
+          <span class="pgto-icon">VISA</span>
+          <span class="pgto-icon">MASTER</span>
+          <span class="pgto-icon">ELO</span>
+          <span class="pgto-icon">PIX</span>
+          <span class="pgto-icon">BOLETO</span>
+          <span class="pgto-icon">AMEX</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Loja Verificada</h4>
+        <a class="footer-link">✅ Compra Segura</a>
+        <a class="footer-link">🛡️ Ambiente Criptografado</a>
+        <a class="footer-link">📦 Embalagem Premium</a>
+        <br>
+        <h4 style="margin-top:8px">Contato WhatsApp</h4>
+        <div onclick="window.open('https://wa.me/5511999999999')" style="cursor:pointer;background:#25D366;color:#fff;font-weight:700;padding:12px 20px;border-radius:8px;font-size:13px;display:inline-flex;align-items:center;gap:8px;margin-top:4px">
+          💬 Falar agora
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ULTRAGOL — Todos os direitos reservados</span>
+      <div class="footer-selos">
+        <span class="selo">🔒 SSL Seguro</span>
+        <span class="selo">✅ Loja Verificada</span>
+        <span class="selo">🛡️ Compra Protegida</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CARRINHO LATERAL -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>🛒 Sua Sacola (<span id="cartCountDrawer">0</span> itens)</h3>
+    <button class="btn-fechar" onclick="toggleCart()">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div style="text-align:center;padding:48px 24px;color:var(--texto2)">
+      <div style="font-size:48px;margin-bottom:12px">🛒</div>
+      <p style="font-size:14px">Sua sacola está vazia.</p>
+      <p style="font-size:12px;margin-top:8px">Adicione produtos para continuar!</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">R$ 0,00</span></div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">R$ 0,00</span></div>
+    <div class="cart-parcelas" id="cartParcelas"></div>
+    <div class="cart-frete">🚚 Frete calculado no checkout</div>
+    <button class="btn-checkout" onclick="irCheckout()">Finalizar Compra</button>
+    <button class="btn-continuar" onclick="toggleCart()">← Continuar Comprando</button>
+  </div>
+</div>
+
+<!-- BUSCA OVERLAY -->
+<div class="search-overlay" id="searchOverlay" onclick="fecharBusca(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <span style="font-size:20px;color:var(--texto2)">🔍</span>
+      <input type="text" id="searchFull" placeholder="Buscar camisa, seleção, clube..." autofocus oninput="buscarProdutos(this.value)">
+      <button class="btn-fechar" onclick="fecharBusca()">×</button>
+    </div>
+    <div class="search-results" id="searchResults">
+      <p class="search-tag">Buscas populares</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span onclick="document.getElementById('searchFull').value='Brasil';buscarProdutos('Brasil')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">🇧🇷 Brasil</span>
+        <span onclick="document.getElementById('searchFull').value='Flamengo';buscarProdutos('Flamengo')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">Flamengo</span>
+        <span onclick="document.getElementById('searchFull').value='Real Madrid';buscarProdutos('Real Madrid')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">Real Madrid</span>
+        <span onclick="document.getElementById('searchFull').value='Argentina';buscarProdutos('Argentina')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">🇦🇷 Argentina</span>
+        <span onclick="document.getElementById('searchFull').value='Corinthians';buscarProdutos('Corinthians')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">Corinthians</span>
+        <span onclick="document.getElementById('searchFull').value='Retrô';buscarProdutos('Retrô')" style="background:var(--cinza);border-radius:50px;padding:6px 14px;font-size:12px;cursor:pointer">Retrô</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICAÇÃO CARRINHO -->
+<div class="notif-cart" id="notifCart">✅ Produto adicionado à sacola!</div>
+
+<!-- POPUP NEWSLETTER -->
+<div class="popup-sucesso" id="popupNewsletter">
+  <div class="popup-box">
+    <div class="popup-icon">🎉</div>
+    <h2>Você está dentro!</h2>
+    <p>Seu e-mail foi cadastrado com sucesso. Prepare-se para receber ofertas exclusivas e lançamentos em primeira mão!</p>
+    <a class="btn-sm" onclick="document.getElementById('popupNewsletter').classList.remove('open')">Fechar</a>
+  </div>
+</div>
+
+<script src="dados.js"></script>
+<script>
+// ===================== ESTADO =====================
+let cart = JSON.parse(localStorage.getItem('ug_cart') || '[]');
+let heroIdx = 0;
+let heroAuto;
+
+// ===================== RENDER HOME =====================
+function renderHome() {
+  renderSelecoes();
+  renderLancamentos();
+  renderBrasileirao();
+  renderJogador();
+  renderEuropeu();
+  renderMaisVendidos();
+  renderDepoimentos();
+  updateCartUI();
+  startHeroAuto();
+}
+
+function renderSelecoes() {
+  const flags = [
+    {flag:'🇧🇷',label:'Brasil',sub:'brasil'},
+    {flag:'🇦🇷',label:'Argentina',sub:'argentina'},
+    {flag:'🇫🇷',label:'França',sub:'franca'},
+    {flag:'🇵🇹',label:'Portugal',sub:'portugal'},
+    {flag:'🇩🇪',label:'Alemanha',sub:'alemanha'},
+    {flag:'🇪🇸',label:'Espanha',sub:'espanha'},
+    {flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',label:'Inglaterra',sub:'inglaterra'},
+    {flag:'🇮🇹',label:'Itália',sub:'italia'},
+    {flag:'🇳🇱',label:'Holanda',sub:'holanda'},
+    {flag:'🇧🇪',label:'Bélgica',sub:'belgica'},
+    {flag:'🇭🇷',label:'Croácia',sub:'croacia'},
+    {flag:'🇨🇴',label:'Colômbia',sub:'colombia'},
+    {flag:'🇺🇾',label:'Uruguai',sub:'uruguai'},
+    {flag:'🇲🇦',label:'Marrocos',sub:'marrocos'},
+    {flag:'🇯🇵',label:'Japão',sub:'japao'},
+    {flag:'🇲🇽',label:'México',sub:'mexico'},
+    {flag:'🇺🇸',label:'EUA',sub:'eua'},
+    {flag:'🇸🇳',label:'Senegal',sub:'senegal'},
+  ];
+  const el = document.getElementById('selecoesGrid');
+  if (!el) return;
+  el.style.gridTemplateColumns = 'repeat(9,1fr)';
+  el.innerHTML = flags.slice(0,9).map(f => `
+    <div class="cat-card" onclick="irSub('${f.sub}')">
+      <span class="cat-flag">${f.flag}</span>
+      <div class="cat-label">${f.label}</div>
+    </div>
+  `).join('');
+}
+
+function renderLancamentos() {
+  const prods = PRODUTOS.filter(p => p.tags.includes('lancamento')).slice(0,5);
+  document.getElementById('lancamentosGrid').innerHTML = prods.map(cardHTML).join('');
+}
+
+function renderBrasileirao() {
+  const prods = PRODUTOS.filter(p => p.cat === 'brasileirao').slice(0,5);
+  document.getElementById('brasileiraoGrid').innerHTML = prods.map(cardHTML).join('');
+}
+
+function renderJogador() {
+  const prods = PRODUTOS.filter(p => p.tags.includes('jogador')).slice(0,5);
+  const fallback = PRODUTOS.filter(p => p.cat === 'selecoes').slice(0,5);
+  document.getElementById('jogadorGrid').innerHTML = (prods.length ? prods : fallback).map(cardHTML).join('');
+}
+
+function renderEuropeu() {
+  const prods = PRODUTOS.filter(p => p.cat === 'europeu').slice(0,5);
+  document.getElementById('europeuGrid').innerHTML = prods.map(cardHTML).join('');
+}
+
+function renderMaisVendidos() {
+  const prods = [...PRODUTOS].sort(() => Math.random() - 0.5).slice(0,5);
+  document.getElementById('maisVendidosGrid').innerHTML = prods.map(cardHTML).join('');
+}
+
+function renderDepoimentos() {
+  const el = document.getElementById('depoGrid');
+  if (!el) return;
+  el.innerHTML = AVALIAÇÕES.map(a => `
+    <div class="depo-card">
+      <div class="depo-stars">${'★'.repeat(a.nota)}${'☆'.repeat(5-a.nota)}</div>
+      <p class="depo-texto">"${a.texto}"</p>
+      <div class="depo-autor">
+        <div class="depo-avatar">${a.nome[0]}</div>
+        <div>
+          <div class="depo-nome">${a.nome}</div>
+          <div class="depo-data">${a.data}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===================== CARD HTML =====================
+function cardHTML(p) {
+  const desc = pct(p.de, p.preco);
+  const badgeClass = p.badge === 'OUTLET' ? 'vermelho' : p.badge === 'LANÇAMENTO' || p.badge === 'JOGADOR' ? '' : 'amarelo';
+  return `
+    <div class="card-produto" onclick="irProduto('${p.id}')">
+      <div class="card-img">
+        <img src="${p.img}" alt="${p.nome}" loading="lazy">
+        <span class="card-badge ${badgeClass}">${p.badge}</span>
+        <button class="card-fav" onclick="event.stopPropagation();favProd(this)" title="Favoritar">♡</button>
+      </div>
+      <div class="card-info">
+        <div class="card-nome">${p.nome}</div>
+        <div class="card-precos">
+          <span class="card-preco">${fmt(p.preco)}</span>
+          <span class="card-de">${fmt(p.de)}</span>
+          <span class="card-desconto">-${desc}%</span>
+        </div>
+        <div class="card-parcelas">em até ${p.parcelas}x de ${fmt(p.preco/p.parcelas)}</div>
+        <div class="card-stars">★★★★★ <span style="color:var(--texto2);font-size:10px">(${Math.floor(Math.random()*200)+50})</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function favProd(btn) {
+  btn.innerHTML = btn.innerHTML === '♡' ? '♥' : '♡';
+  btn.style.color = btn.innerHTML === '♥' ? '#ef4444' : '';
+}
+
+// ===================== HERO SLIDER =====================
+function slideHero(dir) {
+  const slides = document.querySelectorAll('.hero-slide');
+  heroIdx = (heroIdx + dir + slides.length) % slides.length;
+  updateHero();
+}
+function goSlide(i) { heroIdx = i; updateHero(); }
+function updateHero() {
+  const slides = document.querySelectorAll('.hero-slide');
+  document.getElementById('heroSlides').style.transform = `translateX(-${heroIdx * 100}%)`;
+  document.querySelectorAll('.hero-dot').forEach((d,i) => d.classList.toggle('active', i===heroIdx));
+}
+function startHeroAuto() {
+  heroAuto = setInterval(() => slideHero(1), 5000);
+}
+document.querySelector('.hero')?.addEventListener('mouseenter', () => clearInterval(heroAuto));
+document.querySelector('.hero')?.addEventListener('mouseleave', startHeroAuto);
+
+// ===================== NAVEGAÇÃO =====================
+function irProduto(id) {
+  localStorage.setItem('ug_prod', id);
+  window.location.href = 'produto.html';
+}
+function irCategoria(cat) {
+  localStorage.setItem('ug_cat', cat);
+  localStorage.removeItem('ug_sub');
+  window.location.href = 'categoria.html';
+}
+function irSub(sub) {
+  localStorage.setItem('ug_sub', sub);
+  localStorage.removeItem('ug_cat');
+  window.location.href = 'categoria.html';
+}
+function irCheckout() {
+  window.location.href = 'checkout.html';
+}
+
+// ===================== CARRINHO =====================
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartDrawer').classList.toggle('open');
+}
+function addToCart(prod, tam, per) {
+  const item = cart.find(i => i.id === prod.id && i.tam === tam && i.per === per);
+  if (item) item.qtd++;
+  else cart.push({id:prod.id, nome:prod.nome, img:prod.img, preco:prod.preco, tam, per, qtd:1});
+  saveCart();
+  updateCartUI();
+  showNotif();
+}
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  saveCart();
+  updateCartUI();
+}
+function changeQtd(idx, d) {
+  cart[idx].qtd = Math.max(1, cart[idx].qtd + d);
+  saveCart();
+  updateCartUI();
+}
+function saveCart() { localStorage.setItem('ug_cart', JSON.stringify(cart)); }
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.preco*i.qtd, 0);
+  const qtd = cart.reduce((s,i) => s + i.qtd, 0);
+  document.querySelectorAll('#cartCount,#cartCountDrawer').forEach(el => el.textContent = qtd);
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+  if (!itemsEl) return;
+  if (!cart.length) {
+    itemsEl.innerHTML = `<div style="text-align:center;padding:48px 24px;color:var(--texto2)"><div style="font-size:48px;margin-bottom:12px">🛒</div><p>Sua sacola está vazia.</p></div>`;
+    if (footerEl) footerEl.style.display='none';
+    return;
+  }
+  itemsEl.innerHTML = cart.map((item,idx) => `
+    <div class="cart-item">
+      <div class="cart-item-img"><img src="${item.img}" alt="${item.nome}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-nome">${item.nome}</div>
+        <div class="cart-item-var">Tamanho: ${item.tam} ${item.per ? '| '+item.per : ''}</div>
+        <div class="cart-item-qtd">
+          <button class="qtd-btn" onclick="changeQtd(${idx},-1)">−</button>
+          <span class="qtd-num">${item.qtd}</span>
+          <button class="qtd-btn" onclick="changeQtd(${idx},1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <button class="btn-rm" onclick="removeFromCart(${idx})">🗑</button>
+        <span class="cart-item-preco">${fmt(item.preco*item.qtd)}</span>
+      </div>
+    </div>
+  `).join('');
+  if (footerEl) {
+    footerEl.style.display = 'block';
+    document.getElementById('cartSubtotal').textContent = fmt(total);
+    document.getElementById('cartTotal').textContent = fmt(total);
+    document.getElementById('cartParcelas').textContent = `ou em 12x de ${fmt(total/12)} sem juros`;
+  }
+}
+function showNotif() {
+  const n = document.getElementById('notifCart');
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3000);
+}
+
+// ===================== BUSCA =====================
+function abrirBusca() {
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('searchFull')?.focus(), 100);
+}
+function fecharBusca(e) {
+  if (!e || e.target === document.getElementById('searchOverlay'))
+    document.getElementById('searchOverlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fecharBusca();
+  if (e.key === '/') { e.preventDefault(); abrirBusca(); }
+});
+function buscarProdutos(q) {
+  const el = document.getElementById('searchResults');
+  if (!q || q.length < 2) {
+    el.innerHTML = '<p class="search-tag">Digite para buscar...</p>';
+    return;
+  }
+  const res = searchProdutos(q).slice(0,8);
+  if (!res.length) { el.innerHTML = '<p class="search-tag">Nenhum resultado encontrado.</p>'; return; }
+  el.innerHTML = '<p class="search-tag">Resultados</p>' + res.map(p => `
+    <div class="search-result-item" onclick="irProduto('${p.id}');fecharBusca()">
+      <div class="search-result-img"><img src="${p.img}" alt="${p.nome}"></div>
+      <div class="search-result-info">
+        <div class="nome">${p.nome}</div>
+        <div class="preco">${fmt(p.preco)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===================== FAQ =====================
+function toggleFaq(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+// ===================== NEWSLETTER =====================
+function assinarNewsletter(e) {
+  e.preventDefault();
+  document.getElementById('popupNewsletter').classList.add('open');
+}
+
+// ===================== INIT =====================
+renderHome();
+</script>
+</body>
+</html>

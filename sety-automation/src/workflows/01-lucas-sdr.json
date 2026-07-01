@@ -1,0 +1,317 @@
+{
+  "name": "Sety Studio — Lucas SDR IA",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evolution",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "sdr-001",
+      "name": "Receber Mensagem WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Extrair dados da Evolution API v2 ─────────────────────────────────────\nconst body = $input.first().json;\nconst msgData = body.data;\n\nif (!msgData) return [];\nif (msgData.key?.fromMe === true) return [];\n\nconst message = (\n  msgData.message?.conversation ||\n  msgData.message?.extendedTextMessage?.text ||\n  ''\n).trim();\n\nif (!message) return [];\n\nconst phone = (msgData.key?.remoteJid || '').replace('@s.whatsapp.net', '');\nif (!phone) return [];\n\nreturn [{ json: { phone, message, timestamp: new Date().toISOString() } }];"
+      },
+      "id": "sdr-002",
+      "name": "Extrair Mensagem",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/rpc/upsert_lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_phone\": \"{{ $json.phone }}\"\n}",
+        "options": {}
+      },
+      "id": "sdr-003",
+      "name": "Buscar ou Criar Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 400]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/conversations?phone=eq.{{ $('Extrair Mensagem').item.json.phone }}&order=created_at.asc&limit=20",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sdr-004",
+      "name": "Carregar Histórico",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [800, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Montar payload para Claude API ───────────────────────────────────────\nconst history = $input.first().json;\nconst phone = $('Extrair Mensagem').item.json.phone;\nconst userMessage = $('Extrair Mensagem').item.json.message;\nconst leadData = $('Buscar ou Criar Lead').item.json;\n\n// Montar histórico no formato messages da Anthropic\nconst messages = [];\n\nif (Array.isArray(history)) {\n  for (const h of history) {\n    messages.push({ role: h.role, content: h.content });\n  }\n}\n\n// Adicionar mensagem atual do usuário\nmessages.push({ role: 'user', content: userMessage });\n\n// System prompt do Lucas (resumido — versão completa no arquivo separado)\nconst systemPrompt = `Você é Lucas, Consultor Comercial da Sety Studio. Brasileiro, amigável, direto e profissional. Conversa naturalmente — nunca como robô.\n\nNunca revele que é IA. Nunca use menus numerados.\n\nSETY STUDIO — Serviços:\n- Lojas Shopify: R$ 1.500 a R$ 9.000\n- Lojas Nuvemshop: R$ 800 a R$ 3.000\n- Landing Pages: R$ 800 a R$ 2.000\n- Design de e-commerce, sites institucionais\n- Entrega em 7 a 15 dias úteis\n\nREGRAS:\n1. Nunca mais de uma pergunta por mensagem\n2. Sempre responda antes de perguntar\n3. Respostas curtas (máximo 3 linhas)\n4. Tom descontraído mas profissional\n5. Use o nome do cliente ao longo da conversa\n\nQUALIFICAÇÃO (descubra naturalmente, uma por vez):\n1. Tipo de projeto (loja, site, landing page)\n2. Nicho do negócio\n3. Situação atual (já vende? onde?)\n4. Número de produtos\n5. Urgência / prazo\n6. Orçamento disponível\n\nSCORE INTERNO:\n- Urgência alta (esta semana/mês): 25pts\n- Orçamento >R$3k: 25pts, R$1.5-3k: 15pts, R$800-1.5k: 8pts\n- Já vende (demanda comprovada): 20pts\n- >50 produtos: 15pts, 20-50: 10pts\n- Shopify como preferência: 15pts\n\nCLASSIFICAÇÃO: HOT (71-100), WARM (41-70), COLD (0-40)\n\nQUEBRA DE OBJEÇÕES:\n- Está caro: liste o que inclui, pergunte quanto investe hoje\n- Vou pensar: ofereça enviar resumo por escrito\n- Estou vendo outros: destaque suporte pós-entrega\n- Sem dinheiro: mencione entrada + parcelas\n\nTRANSFERÊNCIA PARA HUMANO quando:\n- Cliente pede para falar com humano\n- Score >90 e pronto para fechar\n- Projeto muito complexo\n\nDados conhecidos do lead: ${JSON.stringify(leadData || {})}\n\nRETORNE SEMPRE UM JSON VÁLIDO (sem markdown, sem texto fora do JSON):\n{\n  \"message\": \"mensagem para o cliente\",\n  \"extracted_data\": {\n    \"name\": null,\n    \"nicho\": null,\n    \"tipo_projeto\": null,\n    \"situacao_atual\": null,\n    \"num_produtos\": null,\n    \"urgencia\": null,\n    \"orcamento\": null\n  },\n  \"score\": 0,\n  \"classification\": \"COLD\",\n  \"stage\": \"qualification\",\n  \"send_portfolio\": false,\n  \"request_human\": false\n}`;\n\nreturn [{\n  json: {\n    phone,\n    userMessage,\n    systemPrompt,\n    messages,\n    leadId: leadData?.id || null\n  }\n}];"
+      },
+      "id": "sdr-005",
+      "name": "Montar Payload Claude",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001' }}\",\n  \"max_tokens\": 1024,\n  \"system\": \"{{ $json.systemPrompt }}\",\n  \"messages\": {{ JSON.stringify($json.messages) }}\n}",
+        "options": {}
+      },
+      "id": "sdr-006",
+      "name": "Chamar Claude API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Parsear resposta do Lucas ─────────────────────────────────────────────\nconst response = $input.first().json;\nconst phone = $('Montar Payload Claude').item.json.phone;\nconst userMessage = $('Montar Payload Claude').item.json.userMessage;\nconst leadId = $('Montar Payload Claude').item.json.leadId;\n\nlet rawText = '';\ntry {\n  rawText = response.content[0].text;\n} catch(e) {\n  return [{ json: { phone, message: 'Oi! Tudo bem? Como posso ajudar?', score: 0, classification: 'COLD', stage: 'qualification', send_portfolio: false, request_human: false, extracted_data: {}, leadId, userMessage } }];\n}\n\nlet lucas = {};\ntry {\n  // Remove markdown code blocks se houver\n  const clean = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  lucas = JSON.parse(clean);\n} catch(e) {\n  lucas = { message: rawText.substring(0, 500), score: 0, classification: 'COLD', stage: 'qualification', send_portfolio: false, request_human: false, extracted_data: {} };\n}\n\nreturn [{\n  json: {\n    phone,\n    userMessage,\n    leadId,\n    message: lucas.message || 'Como posso ajudar?',\n    score: lucas.score || 0,\n    classification: lucas.classification || 'COLD',\n    stage: lucas.stage || 'qualification',\n    send_portfolio: lucas.send_portfolio || false,\n    request_human: lucas.request_human || false,\n    extracted_data: lucas.extracted_data || {}\n  }\n}];"
+      },
+      "id": "sdr-007",
+      "name": "Parsear Resposta Lucas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1400, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.EVOLUTION_API_URL }}/message/sendText/{{ $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.phone }}\",\n  \"text\": \"{{ $json.message }}\"\n}",
+        "options": {}
+      },
+      "id": "sdr-008",
+      "name": "Enviar Resposta WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/conversations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=[\n  { \"lead_id\": \"{{ $('Parsear Resposta Lucas').item.json.leadId }}\", \"phone\": \"{{ $('Parsear Resposta Lucas').item.json.phone }}\", \"role\": \"user\", \"content\": \"{{ $('Parsear Resposta Lucas').item.json.userMessage }}\" },\n  { \"lead_id\": \"{{ $('Parsear Resposta Lucas').item.json.leadId }}\", \"phone\": \"{{ $('Parsear Resposta Lucas').item.json.phone }}\", \"role\": \"assistant\", \"content\": \"{{ $('Parsear Resposta Lucas').item.json.message }}\" }\n]",
+        "options": {}
+      },
+      "id": "sdr-009",
+      "name": "Salvar Conversa Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1800, 300]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/leads?phone=eq.{{ $('Parsear Resposta Lucas').item.json.phone }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"score\": {{ $('Parsear Resposta Lucas').item.json.score }},\n  \"classification\": \"{{ $('Parsear Resposta Lucas').item.json.classification }}\",\n  \"stage\": \"{{ $('Parsear Resposta Lucas').item.json.stage }}\",\n  \"last_contact\": \"{{ new Date().toISOString() }}\",\n  \"name\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.name || null }}\",\n  \"nicho\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.nicho || null }}\",\n  \"tipo_projeto\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.tipo_projeto || null }}\",\n  \"situacao_atual\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.situacao_atual || null }}\",\n  \"num_produtos\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.num_produtos || null }}\",\n  \"urgencia\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.urgencia || null }}\",\n  \"orcamento\": \"{{ $('Parsear Resposta Lucas').item.json.extracted_data.orcamento || null }}\",\n  \"human_requested\": {{ $('Parsear Resposta Lucas').item.json.request_human }},\n  \"status\": \"active\"\n}",
+        "options": {}
+      },
+      "id": "sdr-010",
+      "name": "Atualizar Lead Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1800, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "cond_human",
+              "leftValue": "={{ $('Parsear Resposta Lucas').item.json.request_human }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "sdr-011",
+      "name": "Transferir Humano?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2000, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🔥 LEAD QUENTE — Quer falar com humano!\n\n📞 WhatsApp: https://wa.me/{{ $('Parsear Resposta Lucas').item.json.phone }}\n📊 Score: {{ $('Parsear Resposta Lucas').item.json.score }}/100\n🏷️ Stage: {{ $('Parsear Resposta Lucas').item.json.stage }}\n\nDados coletados:\n{{ JSON.stringify($('Parsear Resposta Lucas').item.json.extracted_data, null, 2) }}",
+        "additionalFields": {}
+      },
+      "id": "sdr-012",
+      "name": "Alertar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2200, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CRED_ID",
+          "name": "Telegram Sety Studio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "cond_hot",
+              "leftValue": "={{ $('Parsear Resposta Lucas').item.json.score }}",
+              "rightValue": 71,
+              "operator": { "type": "number", "operation": "gte" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "sdr-013",
+      "name": "Lead HOT?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2200, 500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=⚡ LEAD HOT — Score {{ $('Parsear Resposta Lucas').item.json.score }}/100\n\n📞 https://wa.me/{{ $('Parsear Resposta Lucas').item.json.phone }}\n🏷️ Nicho: {{ $('Parsear Resposta Lucas').item.json.extracted_data.nicho || 'N/A' }}\n💰 Orçamento: {{ $('Parsear Resposta Lucas').item.json.extracted_data.orcamento || 'N/A' }}\n⏰ Urgência: {{ $('Parsear Resposta Lucas').item.json.extracted_data.urgencia || 'N/A' }}",
+        "additionalFields": {}
+      },
+      "id": "sdr-014",
+      "name": "Notificar Hot Lead",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2400, 500],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CRED_ID",
+          "name": "Telegram Sety Studio"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Receber Mensagem WhatsApp": {
+      "main": [[{ "node": "Extrair Mensagem", "type": "main", "index": 0 }]]
+    },
+    "Extrair Mensagem": {
+      "main": [[{ "node": "Buscar ou Criar Lead", "type": "main", "index": 0 }]]
+    },
+    "Buscar ou Criar Lead": {
+      "main": [[{ "node": "Carregar Histórico", "type": "main", "index": 0 }]]
+    },
+    "Carregar Histórico": {
+      "main": [[{ "node": "Montar Payload Claude", "type": "main", "index": 0 }]]
+    },
+    "Montar Payload Claude": {
+      "main": [[{ "node": "Chamar Claude API", "type": "main", "index": 0 }]]
+    },
+    "Chamar Claude API": {
+      "main": [[{ "node": "Parsear Resposta Lucas", "type": "main", "index": 0 }]]
+    },
+    "Parsear Resposta Lucas": {
+      "main": [[{ "node": "Enviar Resposta WhatsApp", "type": "main", "index": 0 }]]
+    },
+    "Enviar Resposta WhatsApp": {
+      "main": [
+        [
+          { "node": "Salvar Conversa Supabase", "type": "main", "index": 0 },
+          { "node": "Atualizar Lead Supabase", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Salvar Conversa Supabase": {
+      "main": [[{ "node": "Transferir Humano?", "type": "main", "index": 0 }]]
+    },
+    "Atualizar Lead Supabase": {
+      "main": [[{ "node": "Transferir Humano?", "type": "main", "index": 0 }]]
+    },
+    "Transferir Humano?": {
+      "main": [
+        [{ "node": "Alertar Telegram", "type": "main", "index": 0 }],
+        [{ "node": "Lead HOT?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Lead HOT?": {
+      "main": [
+        [{ "node": "Notificar Hot Lead", "type": "main", "index": 0 }],
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Belem"
+  },
+  "tags": [{ "name": "sety-studio" }, { "name": "lucas-sdr" }, { "name": "ia" }]
+}

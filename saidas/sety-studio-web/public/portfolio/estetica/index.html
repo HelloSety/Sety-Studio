@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura Estética Premium — Beleza, Luxo & Transformação | São Paulo SP</title>
+<meta name="description" content="Aura Estética Premium: clínica de estética avançada em São Paulo. Botox, preenchimento, bioestimuladores, skincare e procedimentos corporais de alto padrão.">
+<meta property="og:title" content="Aura Estética Premium">
+<meta property="og:description" content="Beleza que vai além do reflexo. Procedimentos premium com resultados duradouros.">
+<meta property="og:image" content="images/hero.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BeautySalon","name":"Aura Estética Premium","description":"Clínica de estética avançada em São Paulo","telephone":"+55 11 99999-0000","address":{"@type":"PostalAddress","addressLocality":"São Paulo","addressRegion":"SP"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"312"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A96E;--gold-light:#F5ECD9;--gold-dark:#A8833D;
+  --beige:#FAF6F0;--beige2:#F0E8D8;
+  --dark:#1A1209;--gray:#7A6E63;--border:#E8DDD0;
+  --white:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:90px;display:flex;align-items:center;justify-content:space-between;transition:all .5s;}
+nav.scrolled{background:rgba(250,246,240,.97);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--border);}
+.logo-aura{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;letter-spacing:.2em;color:var(--dark);text-decoration:none;}
+.logo-aura span{color:var(--gold);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-book{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dark);border:1px solid var(--gold);padding:14px 28px;text-decoration:none;transition:all .3s;}
+.nav-book:hover{background:var(--gold);color:white;}
+
+/* HERO */
+#hero{height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(26,18,9,.75) 0%,rgba(26,18,9,.3) 60%,transparent 100%);}
+.hero-content{position:relative;z-index:1;padding:0 8%;max-width:720px;}
+.hero-pre{font-size:.65rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;line-height:1.1;color:white;margin-bottom:1.5rem;}
+h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:460px;font-weight:300;margin-bottom:3rem;}
+.hero-btns{display:flex;gap:1.25rem;flex-wrap:wrap;}
+.btn-gold{background:var(--gold);color:white;font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:18px 36px;text-decoration:none;transition:all .3s;}
+.btn-gold:hover{background:var(--gold-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,169,110,.4);}
+.btn-outline-w{border:1px solid rgba(255,255,255,.5);color:white;font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:18px 36px;text-decoration:none;transition:all .3s;}
+.btn-outline-w:hover{border-color:var(--gold);color:var(--gold);}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:1;}
+.hero-scroll span{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollLine 2s ease-in-out infinite;}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* INTRO */
+#intro{padding:7rem 5%;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.intro-text{}
+.intro-quote{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;line-height:1.3;color:var(--dark);margin-bottom:2rem;}
+.intro-quote em{font-style:italic;color:var(--gold);}
+.intro-p{font-size:.95rem;color:var(--gray);line-height:1.8;margin-bottom:1.5rem;}
+.intro-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
+.intro-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.5rem;}
+.istat{background:white;padding:1.5rem 1rem;text-align:center;}
+.istat strong{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--gold);display:block;}
+.istat span{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);}
+.intro-imgs{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.intro-imgs div{border-radius:4px;overflow:hidden;}
+.intro-imgs div:first-child{grid-column:1/-1;aspect-ratio:16/9;}
+.intro-imgs div:not(:first-child){aspect-ratio:1;}
+.intro-imgs img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.intro-imgs div:hover img{transform:scale(1.05);}
+
+/* PROCEDIMENTOS */
+#procedimentos{padding:7rem 5%;background:var(--beige);}
+.proc-header{text-align:center;max-width:600px;margin:0 auto 4rem;}
+.proc-header .tag{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:400;line-height:1.2;color:var(--dark);}
+h2 em{font-style:italic;color:var(--gold);}
+.proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.proc-card{background:white;border:1px solid var(--border);overflow:hidden;transition:all .4s;cursor:pointer;}
+.proc-card:hover{box-shadow:0 16px 48px rgba(201,169,110,.15);}
+.proc-img{aspect-ratio:4/3;overflow:hidden;}
+.proc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.proc-card:hover .proc-img img{transform:scale(1.08);}
+.proc-body{padding:1.75rem;}
+.proc-num{font-size:.6rem;color:var(--gold);letter-spacing:.2em;font-weight:600;margin-bottom:.5rem;}
+.proc-body h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin-bottom:.5rem;}
+.proc-body p{font-size:.85rem;color:var(--gray);line-height:1.6;}
+.proc-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-top:1rem;text-decoration:none;}
+
+/* DIFERENCIAS */
+#diferenciais{padding:7rem 5%;background:var(--dark);color:white;}
+.dif-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.dif-img{border-radius:4px;overflow:hidden;aspect-ratio:4/5;position:relative;}
+.dif-img img{width:100%;height:100%;object-fit:cover;}
+.dif-img::before{content:'AURA';position:absolute;bottom:-1.5rem;right:-1.5rem;font-family:'Cormorant Garamond',serif;font-size:8rem;font-weight:700;color:rgba(201,169,110,.08);letter-spacing:-.05em;line-height:1;pointer-events:none;}
+.dif-content .tag{color:var(--gold);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:1rem;}
+.dif-content h2{color:white;margin-bottom:2rem;}
+.dif-items{display:flex;flex-direction:column;gap:1.5rem;}
+.dif-item{display:flex;gap:1.25rem;align-items:flex-start;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.07);}
+.dif-item:last-child{border-bottom:none;}
+.dif-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--gold);line-height:1;flex-shrink:0;width:2.5rem;}
+.dif-item h3{font-size:.9rem;font-weight:700;color:white;margin-bottom:.3rem;}
+.dif-item p{font-size:.83rem;color:rgba(255,255,255,.5);line-height:1.6;}
+
+/* RESULTADO */
+#resultados{padding:7rem 5%;}
+.res-header{margin-bottom:3rem;}
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.res-card{aspect-ratio:3/4;overflow:hidden;position:relative;cursor:pointer;}
+.res-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.res-card:hover img{transform:scale(1.1);}
+.res-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,9,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;}
+.res-card:hover::after{opacity:1;}
+.res-label{position:absolute;bottom:0;left:0;right:0;padding:1.25rem;color:white;transform:translateY(100%);transition:transform .3s;}
+.res-card:hover .res-label{transform:translateY(0);}
+.res-label h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;}
+.res-label span{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+
+/* DEPOIMENTOS */
+#depoimentos{padding:7rem 5%;background:var(--gold-light);}
+.dep-header{text-align:center;margin-bottom:4rem;}
+.dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.dep-card{background:white;padding:2.5rem;border:1px solid var(--border);}
+.dep-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.dep-rating{font-size:.7rem;color:var(--gold);letter-spacing:.1em;}
+.dep-proc-tag{font-size:.6rem;background:var(--gold-light);color:var(--gold-dark);padding:4px 10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;}
+.dep-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--dark);line-height:1.7;margin-bottom:1.5rem;font-style:italic;}
+.dep-name{font-size:.75rem;font-weight:700;color:var(--dark);}
+.dep-loc{font-size:.7rem;color:var(--gray);}
+
+/* CTA */
+#cta{padding:7rem 5%;background:linear-gradient(135deg,var(--dark) 0%,#2D1F0A 100%);position:relative;overflow:hidden;text-align:center;}
+#cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);}
+.cta-tag{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+.cta-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:400;color:white;line-height:1.15;margin-bottom:1.5rem;}
+.cta-h2 em{font-style:italic;color:var(--gold);}
+.cta-p{color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.7;max-width:500px;margin:0 auto 3rem;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+footer{background:var(--dark);color:white;padding:4rem 5% 2rem;}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:2rem;}
+.foot-brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.2em;color:white;margin-bottom:.75rem;}
+.foot-brand span{color:var(--gold);}
+.foot-desc{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.7;}
+.foot-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.foot-links a{font-size:.82rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+.foot-links a:hover{color:var(--gold);}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;}
+.foot-bottom p{font-size:.72rem;color:rgba(255,255,255,.25);}
+.foot-sig{font-size:.65rem;color:var(--gold);}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:1024px){
+  #intro,.dif-grid,.sobre-grid{grid-template-columns:1fr;}
+  .proc-grid,.dep-grid{grid-template-columns:1fr 1fr;}
+  .res-grid{grid-template-columns:repeat(2,1fr);}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  .proc-grid,.dep-grid,.res-grid,.foot-grid{grid-template-columns:1fr;}
+  .intro-stats{grid-template-columns:1fr 1fr;}
+  .nav-links,.nav-book{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="logo-aura">AURA <span>◆</span></a>
+  <ul class="nav-links">
+    <li><a href="#procedimentos">Procedimentos</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#depoimentos">Avaliações</a></li>
+  </ul>
+  <a href="https://wa.me/5511999990000" class="nav-book">Agendar Visita</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"><img src="images/hero.jpg" alt="Aura Estética Premium"></div>
+  <div class="hero-content">
+    <p class="hero-pre">Estética de Alto Padrão — São Paulo</p>
+    <h1>Beleza que vai<br>além do <em>reflexo.</em></h1>
+    <p class="hero-sub">Procedimentos estéticos de alta performance, realizados por especialistas em um ambiente pensado para o seu bem-estar e transformação.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/5511999990000?text=Olá! Gostaria de agendar uma avaliação na Aura Estética." class="btn-gold">Agendar Avaliação</a>
+      <a href="#procedimentos" class="btn-outline-w">Ver Procedimentos</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<section id="intro">
+  <div class="intro-text reveal">
+    <p class="intro-tag">◆ Sobre a Aura</p>
+    <p class="intro-quote">Cada detalhe é pensado para <em>realçar</em> o que já existe em você.</p>
+    <p class="intro-p">A Aura Estética Premium nasceu da convicção de que beleza é expressão. Nossa clínica combina ciência avançada, técnica refinada e um olhar apurado para resultado natural e duradouro.</p>
+    <p class="intro-p">Atendemos mulheres que valorizam qualidade, privacidade e resultados reais — sem exageros, sem promessas vazias.</p>
+    <a href="#procedimentos" class="btn-gold">Explorar Procedimentos →</a>
+    <div class="intro-stats">
+      <div class="istat"><strong>312</strong><span>Avaliações 5★</span></div>
+      <div class="istat"><strong>6+</strong><span>Anos de atuação</span></div>
+      <div class="istat"><strong>98%</strong><span>Satisfação</span></div>
+    </div>
+  </div>
+  <div class="intro-imgs reveal" style="transition-delay:.15s">
+    <div><img src="images/clinic.jpg" alt="Clínica Aura"></div>
+    <div><img src="images/luxury.jpg" alt="Ambiente Aura"></div>
+    <div><img src="images/skincare.jpg" alt="Skincare Aura"></div>
+  </div>
+</section>
+
+<section id="procedimentos">
+  <div class="proc-header reveal">
+    <p class="tag">◆ Tratamentos</p>
+    <h2>Procedimentos que <em>transformam</em></h2>
+    <p style="font-size:.9rem;color:var(--gray);margin-top:1rem;line-height:1.7">Protocolos exclusivos desenvolvidos para cada perfil, com os melhores insumos e tecnologia de última geração.</p>
+  </div>
+  <div class="proc-grid">
+    <div class="proc-card reveal">
+      <div class="proc-img"><img src="images/treatment.jpg" alt="Botox & Toxina"></div>
+      <div class="proc-body"><div class="proc-num">01</div><h3>Toxina Botulínica</h3><p>Aplicação precisa para suavizar rugas de expressão, elevar o olhar e rejuvenescer o rosto com naturalidade.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+    <div class="proc-card reveal" style="transition-delay:.1s">
+      <div class="proc-img"><img src="images/skincare.jpg" alt="Preenchimento"></div>
+      <div class="proc-body"><div class="proc-num">02</div><h3>Preenchimento Facial</h3><p>Ácido hialurônico premium para volume, contorno e harmonização com resultado imediato e duradouro.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+    <div class="proc-card reveal" style="transition-delay:.2s">
+      <div class="proc-img"><img src="images/ambiance.jpg" alt="Bioestimuladores"></div>
+      <div class="proc-body"><div class="proc-num">03</div><h3>Bioestimuladores</h3><p>Sculptra e Radiesse para estimular colágeno próprio e restaurar volumes perdidos com naturalidade progressiva.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+    <div class="proc-card reveal" style="transition-delay:.05s">
+      <div class="proc-img"><img src="images/result.jpg" alt="Skincare"></div>
+      <div class="proc-body"><div class="proc-num">04</div><h3>Skincare Profissional</h3><p>Protocolos de peeling, microagulhamento e laserterapia para pele radiante, uniforme e com tonus renovado.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+    <div class="proc-card reveal" style="transition-delay:.15s">
+      <div class="proc-img"><img src="images/luxury.jpg" alt="Corporal"></div>
+      <div class="proc-body"><div class="proc-num">05</div><h3>Estética Corporal</h3><p>Criolipólise, radiofrequência e drenagem linfática para modelar, firmar e definir o corpo com eficiência.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+    <div class="proc-card reveal" style="transition-delay:.25s">
+      <div class="proc-img"><img src="images/team.jpg" alt="Harmonização"></div>
+      <div class="proc-body"><div class="proc-num">06</div><h3>Harmonização Facial</h3><p>Planejamento digital completo para equilibrar proporções e realçar os traços únicos do seu rosto.</p><a href="#cta" class="proc-link">Saiba mais →</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="diferenciais">
+  <div class="dif-grid">
+    <div class="dif-img reveal"><img src="images/clinic.jpg" alt="Aura Clínica Premium"></div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="dif-content">
+        <p class="tag">◆ Nosso Diferencial</p>
+        <h2 style="color:white;margin-bottom:2rem">Por que escolher <em>a Aura</em></h2>
+        <div class="dif-items">
+          <div class="dif-item"><div class="dif-num">01</div><div><h3>Equipe Certificada</h3><p>Médicos com formação em dermatologia e medicina estética pelos melhores centros do Brasil e exterior.</p></div></div>
+          <div class="dif-item"><div class="dif-num">02</div><div><h3>Insumos Premium</h3><p>Utilizamos exclusivamente produtos com registro ANVISA e das marcas líderes mundiais em estética médica.</p></div></div>
+          <div class="dif-item"><div class="dif-num">03</div><div><h3>Ambiente Exclusivo</h3><p>Espaço projetado para proporcionar conforto, privacidade e uma experiência sensorial diferenciada.</p></div></div>
+          <div class="dif-item"><div class="dif-num">04</div><div><h3>Resultado Natural</h3><p>Nossa filosofia é realçar a beleza natural — nunca transformar, sempre aperfeiçoar com elegância.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="resultados">
+  <div class="res-header reveal">
+    <p style="font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem">◆ Galeria</p>
+    <h2>Resultados que <em>inspiram</em></h2>
+  </div>
+  <div class="res-grid">
+    <div class="res-card reveal"><img src="images/result.jpg" alt="R1"><div class="res-label"><span>Harmonização Facial</span><h3>Realce natural</h3></div></div>
+    <div class="res-card reveal" style="transition-delay:.07s"><img src="images/skincare.jpg" alt="R2"><div class="res-label"><span>Skincare</span><h3>Pele renovada</h3></div></div>
+    <div class="res-card reveal" style="transition-delay:.14s"><img src="images/treatment.jpg" alt="R3"><div class="res-label"><span>Toxina Botulínica</span><h3>Rejuvenescimento</h3></div></div>
+    <div class="res-card reveal" style="transition-delay:.21s"><img src="images/ambiance.jpg" alt="R4"><div class="res-label"><span>Bioestimuladores</span><h3>Volume & Firmeza</h3></div></div>
+  </div>
+</section>
+
+<section id="depoimentos">
+  <div class="dep-header reveal">
+    <p class="proc-header" style="font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.75rem">◆ Depoimentos</p>
+    <h2>O que nossas <em>clientes</em> dizem</h2>
+  </div>
+  <div class="dep-grid">
+    <div class="dep-card reveal">
+      <div class="dep-top"><div class="dep-rating">★★★★★ 5.0</div><div class="dep-proc-tag">Harmonização</div></div>
+      <p class="dep-text">"Resultado impecável e extremamente natural. A Dra. Amanda tem um olhar artístico incrível — entendeu exatamente o que eu queria sem eu precisar explicar muito. Me sinto eu mesma, só que melhor."</p>
+      <p class="dep-name">Isabela Rodrigues</p><p class="dep-loc">São Paulo, SP</p>
+    </div>
+    <div class="dep-card reveal" style="transition-delay:.1s">
+      <div class="dep-top"><div class="dep-rating">★★★★★ 5.0</div><div class="dep-proc-tag">Bioestimuladores</div></div>
+      <p class="dep-text">"Comecei os bioestimuladores há 6 meses e a diferença é absurda. Minha pele ficou muito mais firme e com vida. O ambiente da clínica é lindo, parece um spa cinco estrelas. Recomendo de olhos fechados!"</p>
+      <p class="dep-name">Carolina Mendes</p><p class="dep-loc">Alphaville, SP</p>
+    </div>
+    <div class="dep-card reveal" style="transition-delay:.2s">
+      <div class="dep-top"><div class="dep-rating">★★★★★ 5.0</div><div class="dep-proc-tag">Toxina Botulínica</div></div>
+      <p class="dep-text">"Fiz botox pela primeira vez aqui e não tive medo nenhum — a equipe me deixou completamente à vontade. O resultado ficou incrivelmente natural, as pessoas dizem que estou mais descansada, não que 'fiz algo'."</p>
+      <p class="dep-name">Renata Souza</p><p class="dep-loc">Jardins, SP</p>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div style="position:relative;z-index:1">
+    <p class="cta-tag reveal">◆ Sua transformação começa aqui</p>
+    <h2 class="cta-h2 reveal">Agende sua <em>avaliação</em><br>exclusiva</h2>
+    <p class="cta-p reveal">Uma conversa sem compromisso para entender seus objetivos e apresentar o protocolo ideal para você. Vagas limitadas.</p>
+    <div class="cta-btns reveal">
+      <a href="https://wa.me/5511999990000?text=Olá! Gostaria de agendar minha avaliação na Aura Estética Premium." class="btn-gold">→ Agendar pelo WhatsApp</a>
+      <a href="tel:+5511999990000" class="btn-outline-w">Ligar Agora</a>
+    </div>
+    <p style="color:rgba(255,255,255,.3);font-size:.75rem;margin-top:2rem">📍 Av. Brigadeiro Luís Antônio, 3530 — Jardim Paulista, São Paulo SP</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div><p class="foot-brand">AURA <span>◆</span></p><p class="foot-desc">Clínica de estética avançada em São Paulo. Procedimentos de alto padrão para mulheres que valorizam qualidade e resultado natural.</p></div>
+    <div><p class="foot-title">Procedimentos</p><ul class="foot-links"><li><a href="#">Toxina Botulínica</a></li><li><a href="#">Preenchimento Facial</a></li><li><a href="#">Bioestimuladores</a></li><li><a href="#">Skincare Profissional</a></li><li><a href="#">Estética Corporal</a></li></ul></div>
+    <div><p class="foot-title">Clínica</p><ul class="foot-links"><li><a href="#">Sobre a Aura</a></li><li><a href="#">Equipe Médica</a></li><li><a href="#">Resultados</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div><p class="foot-title">Contato</p><ul class="foot-links"><li><a href="tel:+5511999990000">(11) 99999-0000</a></li><li><a href="mailto:ola@aurastetica.com.br">ola@aurastetica.com.br</a></li><li><a href="#">Av. Brig. Luís Antônio, 3530</a></li><li><a href="#">Jardim Paulista — São Paulo SP</a></li></ul></div>
+  </div>
+  <div class="foot-bottom"><p>© 2025 Aura Estética Premium. Todos os direitos reservados.</p><p class="foot-sig">Desenvolvido por Sety Studio</p></div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>

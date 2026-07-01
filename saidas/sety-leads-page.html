@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sety Leads — Empresas prontas para comprar seus serviços</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #050505;
+      --card: #0d0d0d;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.14);
+      --white: #fafafa;
+      --muted: rgba(255,255,255,0.35);
+      --dim: rgba(255,255,255,0.12);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Utils ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-family: 'Montserrat', sans-serif; }
+    .section { padding: 96px 0; border-top: 1px solid var(--border); }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      padding: 0 24px;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(5,5,5,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 17px; letter-spacing: -0.03em;
+      color: var(--white); text-decoration: none;
+    }
+    .logo span { color: rgba(255,255,255,0.22); }
+    .nav-cta {
+      background: var(--white); color: #000;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 13px;
+      padding: 8px 18px; border-radius: 8px; border: none;
+      cursor: pointer; text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 0%, transparent 100%);
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 0%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-glow-ball {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%);
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+    @keyframes glowPulse { 0%,100%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 36px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+    .headline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: 32px;
+    }
+    .headline .dim { color: rgba(255,255,255,0.18); }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 16px; line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+
+    /* Niche pills */
+    .niche-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 48px;
+      max-width: 620px;
+    }
+    .pill {
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.2s;
+    }
+    .pill:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--white); color: #000;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 14px;
+      padding: 14px 28px; border-radius: 10px; border: none;
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-outline {
+      background: transparent; color: rgba(255,255,255,0.5);
+      font-size: 14px; font-weight: 600;
+      padding: 14px 28px; border-radius: 10px;
+      border: 1px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { color: var(--white); border-color: rgba(255,255,255,0.22); }
+
+    /* ── Counters ── */
+    .counters-strip {
+      display: flex; flex-wrap: wrap; gap: 0;
+      border-top: 1px solid var(--border);
+      margin-top: 64px;
+    }
+    .counter-item {
+      flex: 1 1 140px;
+      padding: 24px 0;
+      border-right: 1px solid var(--border);
+    }
+    .counter-item:last-child { border-right: none; }
+    .counter-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      letter-spacing: -0.04em;
+      color: var(--white);
+      line-height: 1;
+    }
+    .counter-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* ── Nichos ── */
+    .nichos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      margin-top: 48px;
+    }
+    .nicho-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.25s, background 0.25s;
+      cursor: default;
+    }
+    .nicho-card:hover {
+      border-color: var(--border-hover);
+      background: #111;
+    }
+    .nicho-icon {
+      font-size: 24px; margin-bottom: 14px;
+      display: block;
+    }
+    .nicho-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 15px;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .nicho-count {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900; font-size: 24px;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .nicho-count span { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 4px; }
+    .nicho-subs {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .nicho-subs li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--muted);
+    }
+    .nicho-subs li::before {
+      content: '';
+      display: inline-block;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    /* ── Authority block ── */
+    .authority-block {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .authority-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: -0.06em;
+      line-height: 0.9;
+      color: var(--white);
+      margin: 24px 0 16px;
+    }
+    .authority-desc { color: var(--muted); font-size: 15px; max-width: 400px; line-height: 1.7; margin-bottom: 48px; }
+
+    .data-points {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      max-width: 640px;
+    }
+    .data-tag {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.2s;
+    }
+    .data-tag:hover { color: var(--white); border-color: var(--border-hover); }
+    .data-tag svg { opacity: 0.4; }
+
+    /* ── CTA section ── */
+    .cta-box {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 72px 40px;
+      text-align: center;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 70%);
+    }
+    .cta-headline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+      margin-bottom: 20px;
+    }
+    .cta-sub { color: var(--muted); font-size: 15px; margin-bottom: 40px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: rgba(255,255,255,0.18);
+      font-size: 12px;
+    }
+
+    /* ── Animations ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .nichos-grid { grid-template-columns: 1fr; }
+      .counters-strip { gap: 0; }
+      .counter-item { flex: 1 1 40%; border-bottom: 1px solid var(--border); }
+      .authority-number { font-size: clamp(3rem, 18vw, 6rem); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#">SETY<span>LEADS</span></a>
+    <a class="nav-cta" href="#cta">Começar agora</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"><div class="hero-glow-ball"></div></div>
+
+  <div class="container hero-content">
+    <div class="hero-badge fade-in">
+      <div class="hero-badge-dot"></div>
+      <span class="eyebrow">Prospecção qualificada</span>
+    </div>
+
+    <h1 class="headline fade-in delay-1">
+      Encontre empresas<br>
+      <span class="dim">prontas para comprar</span><br>
+      seus serviços.
+    </h1>
+
+    <p class="hero-sub fade-in delay-2">
+      Base com mais de <strong style="color:var(--white)">51.000 empresas</strong> de alto valor disponíveis para prospecção imediata — com WhatsApp, Instagram, site e localização.
+    </p>
+
+    <div class="niche-pills fade-in delay-3">
+      <span class="pill">Clínicas Odontológicas</span>
+      <span class="pill">Energia Solar</span>
+      <span class="pill">Consórcios</span>
+      <span class="pill">Advocacia</span>
+      <span class="pill">Clínicas de Estética</span>
+      <span class="pill">Imobiliárias</span>
+    </div>
+
+    <div class="hero-actions fade-in delay-4">
+      <a class="btn-primary" href="#cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.399 5.61L0 24l6.596-1.371A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.516-5.162-1.414l-.37-.22-3.817.793.812-3.723-.244-.386A9.937 9.937 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+        Falar pelo WhatsApp
+      </a>
+      <a class="btn-outline" href="#nichos">Ver nichos atendidos ↓</a>
+    </div>
+
+    <!-- Counters -->
+    <div class="counters-strip fade-in delay-5">
+      <div class="counter-item">
+        <div class="counter-number" data-count="12847">0</div>
+        <div class="counter-label">Dentistas</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-number" data-count="8214">0</div>
+        <div class="counter-label">Clínicas de Estética</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-number" data-count="5931">0</div>
+        <div class="counter-label">Energia Solar</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-number" data-count="7422">0</div>
+        <div class="counter-label">Advogados</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-number" data-count="4318">0</div>
+        <div class="counter-label">Imobiliárias</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-number" data-count="3104">0</div>
+        <div class="counter-label">Consórcios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NICHOS -->
+<section class="section" id="nichos">
+  <div class="container">
+    <p class="eyebrow">Nichos atendidos</p>
+    <h2 style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.75rem,4vw,3rem);letter-spacing:-0.04em;line-height:1;margin-top:12px;margin-bottom:8px;">
+      Empresas de alto valor.<br>
+      <span style="color:rgba(255,255,255,0.25)">Prontas para fechar.</span>
+    </h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:12px;max-width:480px;line-height:1.7;">
+      Focamos em negócios que dependem de geração de clientes diariamente e têm ticket médio alto.
+    </p>
+
+    <div class="nichos-grid">
+
+      <div class="nicho-card">
+        <span class="nicho-icon">🦷</span>
+        <div class="nicho-title">Clínicas Odontológicas</div>
+        <div class="nicho-count">12.847 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Dentistas clínicos gerais</li>
+          <li>Especialistas em implantes</li>
+          <li>Ortodontia e aparelhos</li>
+          <li>Harmonização orofacial</li>
+          <li>Clínicas multidisciplinares</li>
+        </ul>
+      </div>
+
+      <div class="nicho-card">
+        <span class="nicho-icon">☀️</span>
+        <div class="nicho-title">Energia Solar</div>
+        <div class="nicho-count">5.931 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Empresas de instalação</li>
+          <li>Projetistas e integradores</li>
+          <li>Franquias de energia solar</li>
+          <li>Distribuidores de equipamentos</li>
+        </ul>
+      </div>
+
+      <div class="nicho-card">
+        <span class="nicho-icon">📈</span>
+        <div class="nicho-title">Consórcios</div>
+        <div class="nicho-count">3.104 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Consórcio de imóveis</li>
+          <li>Consórcio automotivo</li>
+          <li>Consultores independentes</li>
+          <li>Administradoras de consórcio</li>
+        </ul>
+      </div>
+
+      <div class="nicho-card">
+        <span class="nicho-icon">⚖️</span>
+        <div class="nicho-title">Advocacia</div>
+        <div class="nicho-count">7.422 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Direito previdenciário</li>
+          <li>Direito trabalhista</li>
+          <li>Advocacia empresarial</li>
+          <li>Tributário e direito civil</li>
+        </ul>
+      </div>
+
+      <div class="nicho-card">
+        <span class="nicho-icon">✨</span>
+        <div class="nicho-title">Clínicas de Estética</div>
+        <div class="nicho-count">8.214 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Harmonização facial</li>
+          <li>Estética avançada</li>
+          <li>Emagrecimento e corpo</li>
+          <li>Depilação a laser</li>
+          <li>Biomedicina estética</li>
+        </ul>
+      </div>
+
+      <div class="nicho-card">
+        <span class="nicho-icon">🏢</span>
+        <div class="nicho-title">Imobiliárias</div>
+        <div class="nicho-count">4.318 <span>empresas</span></div>
+        <ul class="nicho-subs">
+          <li>Imóveis de alto padrão</li>
+          <li>Corretores autônomos</li>
+          <li>Incorporadoras</li>
+          <li>Lançamentos imobiliários</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AUTHORITY -->
+<section class="section">
+  <div class="container">
+    <div class="authority-block">
+      <p class="eyebrow">Base de dados</p>
+      <div class="authority-number">51.836</div>
+      <p class="authority-desc">
+        Empresas de alto valor disponíveis para prospecção qualificada — organizadas por nicho, cidade e potencial de compra.
+      </p>
+
+      <div class="data-points">
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.82 19.79 19.79 0 01.79 1.2 2 2 0 012.78 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          WhatsApp
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+          Instagram
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          Site
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Google Maps
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Avaliações
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Contato Comercial
+        </div>
+        <div class="data-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Endereço
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <p class="eyebrow" style="margin-bottom:20px;">Começar hoje</p>
+      <h2 class="cta-headline">
+        Sua próxima<br>
+        <span style="color:rgba(255,255,255,0.25)">venda começa aqui.</span>
+      </h2>
+      <p class="cta-sub">
+        Diagnóstico gratuito. Sem burocracia. Acesso imediato após o pedido.
+      </p>
+      <div class="cta-actions">
+        <a class="btn-primary" href="https://wa.me/55SEUNUMERO?text=Ol%C3%A1%2C%20quero%20acessar%20a%20base%20de%20leads" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.399 5.61L0 24l6.596-1.371A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.516-5.162-1.414l-.37-.22-3.817.793.812-3.723-.244-.386A9.937 9.937 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          </svg>
+          Falar pelo WhatsApp
+        </a>
+        <a class="btn-outline" href="mailto:contato@setystudio.com.br">contato@setystudio.com.br</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>© 2026 Sety Studio — Sety Leads. Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Animated counters
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const value = Math.round(eased * target);
+      el.textContent = value.toLocaleString('pt-BR');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  // IntersectionObserver to trigger counters when visible
+  const counterEls = document.querySelectorAll('[data-count]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  counterEls.forEach(el => observer.observe(el));
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.nicho-card, .data-tag');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = `fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 0.05}s both`;
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<section class="newsletter-section">
+  <h2 class="newsletter-title">{{ section.settings.title | default: 'CADASTRE-SE PARA EXCLUSIVIDADES' }}</h2>
+  <p class="newsletter-sub">{{ section.settings.subtitle | default: 'Acesso antecipado a novos produtos e ofertas especiais' }}</p>
+
+  {%- form 'customer', class: 'newsletter-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    {%- if form.posted_successfully? -%}
+      <p class="newsletter-success" style="display:block;">{{ section.settings.success_text | default: 'Obrigada! Você receberá nossas novidades em breve.' }}</p>
+    {%- else -%}
+      <input
+        class="newsletter-input"
+        type="email"
+        name="contact[email]"
+        placeholder="{{ section.settings.placeholder | default: 'Seu endereço de e-mail' }}"
+        required>
+      <button type="submit" class="newsletter-btn">{{ section.settings.button_text | default: 'ASSINAR' }}</button>
+    {%- endif -%}
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Textos"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "CADASTRE-SE PARA EXCLUSIVIDADES"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Acesso antecipado a novos produtos e ofertas especiais"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder do campo de e-mail",
+      "default": "Seu endereço de e-mail"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto do botão",
+      "default": "ASSINAR"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Mensagem de confirmação",
+      "default": "Obrigada! Você receberá nossas novidades em breve."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sety Vision — AI-Powered Business</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0c0e1a;
+    --bg2: #10121f;
+    --bg3: #13152a;
+    --card2: #161826;
+    --border: #1e2240;
+    --border2: #252849;
+    --text: #ffffff;
+    --text2: #7b82a8;
+    --text3: #4a5080;
+    --accent: #6c5ce7;
+    --accent2: #8b7cf8;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --blue: #3b82f6;
+    --sidebar-w: 230px;
+    --right-w: 320px;
+  }
+  html, body { height: 100%; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+
+  .app { display: flex; height: 100vh; overflow: hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: var(--bg2); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; transition: width .3s; overflow: hidden; z-index: 10;
+  }
+  .sidebar.collapsed { width: 60px; min-width: 60px; }
+  .sidebar-top {
+    padding: 18px 16px 14px; display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border); min-height: 64px;
+  }
+  .logo-img { width: 32px; height: 32px; filter: invert(1) brightness(2); flex-shrink: 0; object-fit: contain; }
+  .logo-text { display: flex; flex-direction: column; overflow: hidden; }
+  .logo-name { font-size: 14px; font-weight: 700; white-space: nowrap; letter-spacing: .3px; }
+  .logo-sub { font-size: 10px; color: var(--text2); white-space: nowrap; }
+  .sidebar.collapsed .logo-text { display: none; }
+
+  .sidebar-user { padding: 20px 16px 16px; border-bottom: 1px solid var(--border); }
+  .user-welcome { font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .user-last { font-size: 11px; color: var(--accent2); margin-top: 4px; }
+  .sidebar.collapsed .user-welcome, .sidebar.collapsed .user-last { display: none; }
+
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 12px 8px; scrollbar-width: none; }
+  .sidebar-nav::-webkit-scrollbar { display: none; }
+  .nav-section { margin-bottom: 8px; }
+  .nav-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--text3); padding: 6px 8px 4px; white-space: nowrap; overflow: hidden;
+  }
+  .sidebar.collapsed .nav-label { opacity: 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+    border-radius: 8px; cursor: pointer; transition: background .15s;
+    font-size: 13px; color: var(--text2); white-space: nowrap;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--text); }
+  .nav-item.active { background: var(--bg3); color: var(--text); }
+  .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .nav-item .label { overflow: hidden; transition: opacity .2s; }
+  .sidebar.collapsed .nav-item .label { opacity: 0; width: 0; }
+  .nav-badge { margin-left: auto; background: var(--accent); border-radius: 4px; width: 7px; height: 7px; flex-shrink: 0; }
+  .sidebar.collapsed .nav-badge { display: none; }
+  .badge-num { margin-left: auto; background: var(--text3); border-radius: 10px; font-size: 10px; padding: 1px 6px; color: #fff; flex-shrink: 0; }
+  .sidebar.collapsed .badge-num { display: none; }
+
+  .sidebar-bottom { border-top: 1px solid var(--border); padding: 10px 8px; }
+
+  .btn-collapse {
+    position: fixed; top: 20px; left: calc(var(--sidebar-w) - 14px);
+    width: 28px; height: 28px; background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: left .3s; z-index: 20; color: var(--text2);
+  }
+  .btn-collapse:hover { background: var(--bg3); color: var(--text); }
+  .sidebar-collapsed .btn-collapse { left: 46px; }
+
+  /* MAIN */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+  /* HEADER */
+  .header {
+    height: 56px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; padding: 0 20px;
+    background: var(--bg); flex-shrink: 0;
+  }
+  .breadcrumb { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 6px; }
+  .breadcrumb .sep { color: var(--text3); }
+  .breadcrumb .current { color: var(--text); font-weight: 600; }
+  .search { flex: 1; max-width: 480px; margin: 0 12px; position: relative; }
+  .search input {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 36px 7px 14px; font-size: 13px; color: var(--text); outline: none;
+  }
+  .search input::placeholder { color: var(--text3); }
+  .search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: 8px; background: var(--bg3);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text2); position: relative;
+  }
+  .icon-btn:hover { color: var(--text); }
+  .notif-dot { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .wallet-pill {
+    display: flex; align-items: center; gap: 8px; background: var(--bg3);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 12px;
+  }
+  .wallet-pill .wname { font-weight: 600; }
+  .wallet-pill .waddr { color: var(--text2); }
+
+  /* TICKER */
+  .ticker { height: 36px; border-bottom: 1px solid var(--border); overflow: hidden; flex-shrink: 0; background: var(--bg); display: flex; align-items: center; }
+  .ticker-track { display: flex; align-items: center; animation: ticker-scroll 40s linear infinite; white-space: nowrap; }
+  .ticker-item { display: flex; align-items: center; gap: 8px; padding: 0 24px; font-size: 12px; border-right: 1px solid var(--border); white-space: nowrap; }
+  .ticker-label { color: var(--text2); }
+  .ticker-val { font-weight: 600; }
+  .ticker-change.up { color: var(--green); }
+  .ticker-change.dn { color: var(--red); }
+  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* CONTENT */
+  .content-row { flex: 1; display: flex; min-height: 0; overflow: hidden; }
+  .content-main { flex: 1; overflow-y: auto; padding: 20px 24px; min-width: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .content-main::-webkit-scrollbar { width: 4px; }
+  .content-main::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  /* HERO */
+  .hero-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .hero-meta { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .hero-title { font-size: 36px; font-weight: 800; line-height: 1.1; }
+  .hero-title .highlight { color: var(--accent2); }
+  .hero-filters { display: flex; align-items: center; gap: 8px; align-self: flex-end; }
+  .filter-select {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 12px; font-size: 12px; color: var(--text); cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .see-all { font-size: 12px; color: var(--accent2); cursor: pointer; display: flex; align-items: center; gap: 2px; }
+
+  /* CARDS */
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .service-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; position: relative; overflow: hidden; cursor: pointer; transition: border-color .2s;
+  }
+  .service-card:hover { border-color: var(--border2); }
+  .card-accent-bar { position: absolute; left: 0; top: 10%; bottom: 10%; width: 3px; border-radius: 0 2px 2px 0; }
+  .service-card.crm .card-accent-bar { background: var(--accent); }
+  .service-card.wa .card-accent-bar { background: var(--blue); }
+  .service-card.ads .card-accent-bar { background: var(--orange); }
+
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .card-coin { display: flex; align-items: center; gap: 10px; }
+  .coin-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .coin-icon.crm { background: #6c5ce720; }
+  .coin-icon.wa { background: #3b82f620; }
+  .coin-icon.ads { background: #f59e0b20; }
+  .coin-ticker { font-size: 11px; color: var(--text2); }
+  .coin-name { font-size: 15px; font-weight: 700; }
+  .card-menu { width: 28px; height: 28px; border-radius: 8px; background: var(--bg3); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); font-size: 16px; }
+
+  .card-price-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .card-price { font-size: 32px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 10px; }
+  .card-change {
+    display: inline-flex; align-items: center; gap: 6px; border-radius: 20px;
+    padding: 4px 10px; font-size: 12px; font-weight: 600; margin-bottom: 14px;
+  }
+  .card-change.up { background: #22c55e22; color: var(--green); }
+  .card-change.dn { background: #ef444422; color: var(--red); }
+  .card-chart { height: 80px; }
+  svg.sparkline { width: 100%; height: 100%; }
+
+  /* TABLE */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-title-group { display: flex; align-items: center; gap: 8px; }
+  .section-title { font-size: 16px; font-weight: 700; }
+  .section-live { font-size: 10px; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+  .tabs { display: flex; gap: 4px; }
+  .tab { padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--text2); transition: background .15s; }
+  .tab:hover { background: var(--bg3); color: var(--text); }
+  .tab.active { background: var(--accent); color: #fff; }
+  .tab.border { background: var(--bg3); border: 1px solid var(--border); }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { padding: 10px 12px; text-align: left; color: var(--text3); font-weight: 500; font-size: 11px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; cursor: pointer; }
+  tbody tr:hover { background: var(--bg3); }
+  tbody td { padding: 12px 12px; white-space: nowrap; vertical-align: middle; }
+  .t-num { color: var(--text3); }
+  .t-coin { display: flex; align-items: center; gap: 10px; }
+  .t-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .t-name { font-weight: 600; font-size: 13px; }
+  .t-sym { font-size: 11px; color: var(--text2); }
+  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge.up { background: #22c55e1a; color: var(--green); }
+  .badge.dn { background: #ef44441a; color: var(--red); }
+  .badge.neu { background: #6c5ce71a; color: var(--accent2); }
+  .sparkline-sm { width: 80px; height: 32px; }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    width: var(--right-w); min-width: var(--right-w); border-left: 1px solid var(--border);
+    background: var(--bg2); overflow-y: auto; scrollbar-width: none; display: flex; flex-direction: column;
+  }
+  .right-panel::-webkit-scrollbar { display: none; }
+
+  .promo-bar {
+    background: linear-gradient(135deg, #1a1230, #0f0a1e);
+    border-bottom: 1px solid var(--border); padding: 8px 16px;
+    display: flex; align-items: center; justify-content: space-between; font-size: 12px;
+  }
+  .promo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0; animation: pulse 1.5s infinite; }
+  .promo-text { flex: 1; padding: 0 8px; color: var(--text2); }
+  .promo-time { font-weight: 700; font-family: monospace; color: var(--text); }
+
+  .rblock { padding: 20px 18px; border-bottom: 1px solid var(--border); }
+  .rblock-head { display: flex; align-items: flex-start; margin-bottom: 16px; }
+  .rblock-titles { flex: 1; }
+  .rblock-title { font-size: 16px; font-weight: 700; }
+  .rblock-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .rblock-expand { width: 28px; height: 28px; border-radius: 8px; background: var(--bg3); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); }
+
+  .toggle-tabs { display: flex; background: var(--bg3); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
+  .ttab { flex: 1; text-align: center; padding: 7px 0; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text2); transition: background .15s; }
+  .ttab.active { background: var(--bg2); color: var(--text); }
+
+  .plan-row { display: flex; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: border-color .2s; gap: 10px; }
+  .plan-row:hover { border-color: var(--accent); }
+  .plan-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .plan-info { flex: 1; min-width: 0; }
+  .plan-name { font-size: 13px; font-weight: 600; }
+  .plan-desc { font-size: 11px; color: var(--text2); }
+  .plan-price { font-size: 13px; font-weight: 700; text-align: right; }
+  .plan-price .cur { font-size: 10px; font-weight: 400; color: var(--text2); }
+
+  .igroup { margin-bottom: 10px; }
+  .ilabel { font-size: 10px; color: var(--text2); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .irow { display: flex; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px; }
+  .irow input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-size: 14px; }
+  .irow input::placeholder { color: var(--text3); }
+  .tpill { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text2); }
+  .swap-center { display: flex; justify-content: center; margin: -4px 0; position: relative; z-index: 1; }
+  .swap-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); }
+
+  .rate-line { font-size: 11px; color: var(--text2); margin: 6px 0 10px; }
+  .slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .slider { flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; outline: none; cursor: pointer; background: linear-gradient(to right, var(--accent) 62%, var(--border) 62%); }
+  .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent2); cursor: pointer; }
+  .slider-pct { font-size: 12px; font-weight: 700; color: var(--text2); white-space: nowrap; }
+
+  .fee-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+  .fee-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
+  .fee-price { margin-left: auto; font-weight: 600; color: var(--text); }
+
+  .cta-btn { width: 100%; padding: 14px; border-radius: 10px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background .2s; }
+  .cta-btn:hover { background: #7c6cf8; }
+
+  .total-block { padding: 18px 18px; }
+  .total-lbl { font-size: 12px; color: var(--text2); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+  .total-val { font-size: 28px; font-weight: 800; }
+  .total-chg { font-size: 12px; color: var(--green); margin-top: 2px; }
+  .candle-chart { height: 100px; width: 100%; margin-top: 12px; }
+
+  @media (max-width: 1100px) { .right-panel { display: none; } .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) { .sidebar { width: 60px; min-width: 60px; } .search { display: none; } .cards-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <img class="logo-img" src="logo.png" alt="Sety Vision">
+      <div class="logo-text">
+        <span class="logo-name">Sety Vision</span>
+        <span class="logo-sub">AI-Powered Business</span>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-welcome">Welcome<br>Back, Seven</div>
+      <div class="user-last">Último acesso: 27 Jun 2026</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span class="label">Dashboard</span>
+          <div style="margin-left:auto;width:3px;background:var(--accent);height:18px;border-radius:2px"></div>
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Conta</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8L6 7h12l-2-4z"/></svg>
+          <span class="label">Projetos</span>
+          <div class="nav-badge"></div>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          <span class="label">Faturamento</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span class="label">Pipeline</span>
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Atividade</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M14 8l4 4-4 4"/></svg>
+          <span class="label">Contratar</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 16l-4-4 4-4M17 8l4 4-4 4"/></svg>
+          <span class="label">Histórico</span>
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l3-9 4 18 3-9h6"/></svg>
+          <span class="label">Relatórios</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="8" height="8" rx="2"/><rect x="14" y="2" width="8" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><path d="M18 14v8M14 18h8"/></svg>
+          <span class="label">Analytics</span>
+          <span class="badge-num" style="background:var(--accent)">Beta</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="label">Tendências</span>
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Outros</div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span class="label">Suporte</span>
+          <span class="badge-num">2</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          <span class="label">Configurações</span>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="nav-item" style="color:var(--red)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        <span class="label">Sair</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- COLLAPSE BTN -->
+  <button class="btn-collapse" id="collapseBtn" onclick="toggleSidebar()" style="border:none;outline:none">
+    <svg id="collapseIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="breadcrumb">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        <span>Overview</span><span class="sep">/</span><span class="current">Dashboard</span>
+      </div>
+      <div class="search">
+        <input type="text" placeholder="Buscar serviço, cliente...">
+        <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+      </div>
+      <div class="header-right">
+        <div class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="notif-dot"></div></div>
+        <div class="wallet-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          <span class="wname">Seu Plano</span>
+          <span class="waddr">Growth ↓</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Ticker -->
+    <div class="ticker"><div class="ticker-track" id="tickerTrack"></div></div>
+
+    <!-- Content Row -->
+    <div class="content-row">
+      <div class="content-main">
+
+        <!-- Hero -->
+        <div class="hero-header">
+          <div>
+            <div class="hero-meta"><div class="live-dot"></div>Última atualização: agora mesmo</div>
+            <h1 class="hero-title">Soluções <span class="highlight">Ativas</span><br>e em Tempo Real 🚀</h1>
+          </div>
+          <div class="hero-filters">
+            <div class="filter-select">Mensal <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="filter-select">Top Serviços <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="filter-select">7D <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+            <span class="see-all">Ver todos <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-grid">
+
+          <!-- CRM IA -->
+          <div class="service-card crm">
+            <div class="card-accent-bar"></div>
+            <div class="card-header">
+              <div class="card-coin">
+                <div class="coin-icon crm">🤖</div>
+                <div><div class="coin-ticker">CRM / LEADS</div><div class="coin-name">CRM com IA</div></div>
+              </div>
+              <div class="card-menu">⋮</div>
+            </div>
+            <div class="card-price-label">Clientes Ativos</div>
+            <div class="card-price">47 clientes</div>
+            <div class="card-change up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>+ 12,4%
+            </div>
+            <div class="card-chart">
+              <svg class="sparkline" viewBox="0 0 200 80" preserveAspectRatio="none">
+                <defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#6c5ce7" stop-opacity=".3"/><stop offset="100%" stop-color="#6c5ce7" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,60 L20,50 L40,55 L60,35 L80,40 L100,25 L120,30 L140,15 L160,20 L180,10 L200,5" fill="none" stroke="#6c5ce7" stroke-width="2"/>
+                <path d="M0,60 L20,50 L40,55 L60,35 L80,40 L100,25 L120,30 L140,15 L160,20 L180,10 L200,5 L200,80 L0,80Z" fill="url(#g1)"/>
+                <circle cx="180" cy="10" r="3" fill="#6c5ce7"/>
+                <rect x="150" y="2" width="38" height="14" rx="3" fill="#0c0e1a" stroke="#1e2240"/>
+                <text x="169" y="12" font-size="9" fill="#6c5ce7" text-anchor="middle" font-family="sans-serif">+0,8%</text>
+                <circle cx="80" cy="40" r="2.5" fill="white" opacity=".4"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="service-card wa">
+            <div class="card-accent-bar"></div>
+            <div class="card-header">
+              <div class="card-coin">
+                <div class="coin-icon wa">💬</div>
+                <div><div class="coin-ticker">WA / BOTS</div><div class="coin-name">WhatsApp IA</div></div>
+              </div>
+              <div class="card-menu">⋮</div>
+            </div>
+            <div class="card-price-label">Msgs / Dia</div>
+            <div class="card-price">3.821 msgs</div>
+            <div class="card-change dn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 7L7 17M7 17H17M7 17V7"/></svg>- 2,1%
+            </div>
+            <div class="card-chart">
+              <svg class="sparkline" viewBox="0 0 200 80" preserveAspectRatio="none">
+                <defs><linearGradient id="g2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity=".3"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,20 L20,25 L40,15 L60,30 L80,20 L100,35 L120,30 L140,45 L160,40 L180,50 L200,55" fill="none" stroke="#ef4444" stroke-width="2"/>
+                <path d="M0,20 L20,25 L40,15 L60,30 L80,20 L100,35 L120,30 L140,45 L160,40 L180,50 L200,55 L200,80 L0,80Z" fill="url(#g2)"/>
+                <circle cx="140" cy="45" r="3" fill="white" opacity=".5"/>
+                <rect x="108" y="37" width="40" height="14" rx="3" fill="#0c0e1a" stroke="#1e2240"/>
+                <text x="128" y="47" font-size="9" fill="#ef4444" text-anchor="middle" font-family="sans-serif">-0,03%</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Sites & Ads -->
+          <div class="service-card ads">
+            <div class="card-accent-bar"></div>
+            <div class="card-header">
+              <div class="card-coin">
+                <div class="coin-icon ads">📣</div>
+                <div><div class="coin-ticker">ADS / SITES</div><div class="coin-name">Tráfego & Sites</div></div>
+              </div>
+              <div class="card-menu">⋮</div>
+            </div>
+            <div class="card-price-label">Leads / Mês</div>
+            <div class="card-price">1.204 leads</div>
+            <div class="card-change up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>+ 8,3%
+            </div>
+            <div class="card-chart">
+              <svg class="sparkline" viewBox="0 0 200 80" preserveAspectRatio="none">
+                <defs><linearGradient id="g3" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity=".3"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,65 L20,55 L40,60 L60,45 L80,50 L100,35 L120,40 L140,25 L160,30 L180,15 L200,10" fill="none" stroke="#22c55e" stroke-width="2"/>
+                <path d="M0,65 L20,55 L40,60 L60,45 L80,50 L100,35 L120,40 L140,25 L160,30 L180,15 L200,10 L200,80 L0,80Z" fill="url(#g3)"/>
+                <circle cx="180" cy="15" r="3" fill="#22c55e"/>
+                <rect x="148" y="7" width="38" height="14" rx="3" fill="#0c0e1a" stroke="#1e2240"/>
+                <text x="167" y="17" font-size="9" fill="#22c55e" text-anchor="middle" font-family="sans-serif">+1,2%</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Market Overview -->
+        <div class="section-header">
+          <div class="section-title-group">
+            <div class="section-live">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Live Updates
+            </div>
+            <div class="section-title">Catálogo de Soluções</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="tabs">
+              <div class="tab active">Todos</div>
+              <div class="tab border">Automação</div>
+              <div class="tab border">Tráfego</div>
+              <div class="tab border">Sites</div>
+              <div class="tab border">Top Picks</div>
+            </div>
+            <span class="see-all">Ver todos <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th><th>Serviço</th><th>Resultado típico ↕</th>
+                <th>Entrega</th><th>Conversão</th><th>ROI médio</th>
+                <th>Volume (Mensal) ↕</th><th>Gráfico</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <aside class="right-panel">
+        <div class="promo-bar">
+          <div class="promo-dot"></div>
+          <span class="promo-text">Ganhe 2 semanas grátis no próximo upgrade</span>
+          <span class="promo-time" id="promoTimer">23:59:59</span>
+        </div>
+
+        <div class="rblock">
+          <div class="rblock-head">
+            <div class="rblock-titles">
+              <div class="rblock-title">Contratar Solução</div>
+              <div class="rblock-sub">Ferramenta rápida de pedido</div>
+            </div>
+            <div class="rblock-expand"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          </div>
+
+          <div class="toggle-tabs">
+            <div class="ttab active">Mensal</div>
+            <div class="ttab">Semestral</div>
+            <div class="ttab">Anual</div>
+          </div>
+
+          <div class="plan-row">
+            <div class="plan-icon" style="background:#6c5ce720">🤖</div>
+            <div class="plan-info"><div class="plan-name">CRM IA</div><div class="plan-desc">Gestão inteligente de leads</div></div>
+            <div class="plan-price"><span class="cur">R$</span><br>997</div>
+          </div>
+          <div class="plan-row">
+            <div class="plan-icon" style="background:#3b82f620">💬</div>
+            <div class="plan-info"><div class="plan-name">WhatsApp Bot</div><div class="plan-desc">Atendimento 24/7 automatizado</div></div>
+            <div class="plan-price"><span class="cur">R$</span><br>697</div>
+          </div>
+          <div class="plan-row">
+            <div class="plan-icon" style="background:#f59e0b20">📣</div>
+            <div class="plan-info"><div class="plan-name">Tráfego + Site</div><div class="plan-desc">Meta/Google + landing page</div></div>
+            <div class="plan-price"><span class="cur">R$</span><br>2.497</div>
+          </div>
+
+          <div style="margin-top:14px">
+            <div class="igroup">
+              <div class="ilabel">Investimento</div>
+              <div class="irow">
+                <input type="text" value="2.497,00">
+                <div class="tpill"><span style="width:18px;height:18px;border-radius:4px;background:#1e2240;display:flex;align-items:center;justify-content:center;font-size:10px">R$</span> BRL ▾</div>
+              </div>
+            </div>
+            <div class="swap-center">
+              <div class="swap-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg></div>
+            </div>
+            <div class="igroup">
+              <div class="ilabel">Resultado Estimado</div>
+              <div class="irow">
+                <input type="text" value="~12-20 leads/mês" readonly style="color:var(--text2)">
+                <div class="tpill"><span style="width:18px;height:18px;border-radius:4px;background:#1e2240;display:flex;align-items:center;justify-content:center;font-size:10px">📊</span> ROI ▾</div>
+              </div>
+            </div>
+            <div class="rate-line">1 mês de serviço = até 3× retorno estimado</div>
+            <div class="slider-row">
+              <input type="range" class="slider" min="0" max="100" value="62">
+              <span class="slider-pct">62%</span>
+            </div>
+            <div class="fee-row">
+              <div class="fee-dot"></div>Taxa de setup
+              <span class="fee-price">Grátis</span>
+            </div>
+            <button class="cta-btn">Contratar Agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+
+        <div class="total-block">
+          <div class="total-lbl">Total de Projetos Entregues <div class="card-menu">⋮</div></div>
+          <div class="total-val">R$ 147.320</div>
+          <div class="total-chg">+23% Crescimento Anual</div>
+          <div class="candle-chart">
+            <svg width="100%" height="100%" viewBox="0 0 280 100" preserveAspectRatio="none">
+              <rect x="4"   y="55" width="8" height="30" rx="2" fill="#22c55e"/>
+              <rect x="8"   y="45" width="1" height="15" fill="#22c55e"/>
+              <rect x="20"  y="40" width="8" height="40" rx="2" fill="#22c55e"/>
+              <rect x="24"  y="30" width="1" height="15" fill="#22c55e"/>
+              <rect x="36"  y="60" width="8" height="20" rx="2" fill="#ef4444"/>
+              <rect x="40"  y="55" width="1" height="30" fill="#ef4444"/>
+              <rect x="52"  y="45" width="8" height="30" rx="2" fill="#22c55e"/>
+              <rect x="56"  y="35" width="1" height="15" fill="#22c55e"/>
+              <rect x="68"  y="50" width="8" height="25" rx="2" fill="#ef4444"/>
+              <rect x="72"  y="45" width="1" height="35" fill="#ef4444"/>
+              <rect x="84"  y="35" width="8" height="40" rx="2" fill="#22c55e"/>
+              <rect x="88"  y="25" width="1" height="15" fill="#22c55e"/>
+              <rect x="100" y="55" width="8" height="20" rx="2" fill="#ef4444"/>
+              <rect x="104" y="50" width="1" height="30" fill="#ef4444"/>
+              <rect x="116" y="30" width="8" height="45" rx="2" fill="#22c55e"/>
+              <rect x="120" y="20" width="1" height="15" fill="#22c55e"/>
+              <rect x="132" y="45" width="8" height="30" rx="2" fill="#22c55e"/>
+              <rect x="136" y="38" width="1" height="12" fill="#22c55e"/>
+              <rect x="148" y="60" width="8" height="18" rx="2" fill="#ef4444"/>
+              <rect x="152" y="55" width="1" height="28" fill="#ef4444"/>
+              <rect x="164" y="25" width="8" height="50" rx="2" fill="#22c55e"/>
+              <rect x="168" y="15" width="1" height="15" fill="#22c55e"/>
+              <rect x="180" y="40" width="8" height="30" rx="2" fill="#22c55e"/>
+              <rect x="184" y="30" width="1" height="15" fill="#22c55e"/>
+              <rect x="196" y="55" width="8" height="22" rx="2" fill="#ef4444"/>
+              <rect x="200" y="48" width="1" height="32" fill="#ef4444"/>
+              <rect x="212" y="20" width="8" height="55" rx="2" fill="#22c55e"/>
+              <rect x="216" y="12" width="1" height="12" fill="#22c55e"/>
+              <rect x="228" y="35" width="8" height="40" rx="2" fill="#22c55e"/>
+              <rect x="232" y="25" width="1" height="14" fill="#22c55e"/>
+              <rect x="244" y="50" width="8" height="25" rx="2" fill="#ef4444"/>
+              <rect x="248" y="44" width="1" height="36" fill="#ef4444"/>
+              <rect x="260" y="15" width="8" height="60" rx="2" fill="#22c55e"/>
+              <rect x="264" y="8"  width="1" height="10" fill="#22c55e"/>
+            </svg>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script>
+const tickerData = [
+  {label:'LEADS',val:'1.204',change:'+8,3%',up:true},
+  {label:'CLIENTES',val:'47',change:'+12,4%',up:true},
+  {label:'MRR',val:'R$ 28.400',change:'+5,2%',up:true},
+  {label:'TAXA CONV.',val:'18,7%',change:'+1,9%',up:true},
+  {label:'WA MSGS/DIA',val:'3.821',change:'-2,1%',up:false},
+  {label:'ROAS MÉDIO',val:'4,2x',change:'+0,6%',up:true},
+  {label:'NPS',val:'87',change:'+3pt',up:true},
+  {label:'PROJETOS',val:'23 ativos',change:'+4',up:true},
+  {label:'AUTOMAÇÕES',val:'142 flows',change:'+18',up:true},
+  {label:'SATISFAÇÃO',val:'96%',change:'+2%',up:true},
+];
+function buildTicker(){
+  const t=document.getElementById('tickerTrack');
+  t.innerHTML=[...tickerData,...tickerData].map(x=>`
+    <div class="ticker-item">
+      <span class="ticker-label">${x.label}</span>
+      <span class="ticker-val">${x.val}</span>
+      <span class="ticker-change ${x.up?'up':'dn'}">${x.up?'▲':'▼'} ${x.change}</span>
+    </div>`).join('');
+}
+buildTicker();
+
+const rows=[
+  {no:1,icon:'🤖',name:'CRM com IA',sym:'CRM',result:'47 clientes',delivery:'7 dias',conv:'+12,4%',cup:true,roi:'+8,3%',rup:true,vol:'R$ 84k',c:'#6c5ce7',up:true},
+  {no:2,icon:'💬',name:'WhatsApp Bot',sym:'WA',result:'3.821 msgs/dia',delivery:'3 dias',conv:'+34%',cup:true,roi:'-2,1%',rup:false,vol:'R$ 47k',c:'#ef4444',up:false},
+  {no:3,icon:'📣',name:'Tráfego Pago',sym:'ADS',result:'1.204 leads/mês',delivery:'5 dias',conv:'+8,3%',cup:true,roi:'+18%',rup:true,vol:'R$ 62k',c:'#22c55e',up:true},
+  {no:4,icon:'🌐',name:'Landing Page',sym:'SITE',result:'CR 8% / 3,4s',delivery:'2 dias',conv:'+4,5%',cup:true,roi:'+21%',rup:true,vol:'R$ 29k',c:'#22c55e',up:true},
+  {no:5,icon:'🎨',name:'Design & Motion',sym:'DSN',result:'30+ artes/mês',delivery:'1 dia',conv:'+1,2%',cup:true,roi:'+6%',rup:true,vol:'R$ 18k',c:'#6c5ce7',up:true},
+  {no:6,icon:'🔍',name:'SEO & Conteúdo',sym:'SEO',result:'Top 3 Google',delivery:'30 dias',conv:'-0,9%',cup:false,roi:'+45%',rup:true,vol:'R$ 22k',c:'#f59e0b',up:true},
+];
+function spark(color,up){
+  const p=up?[60,50,55,35,40,25,30,15,20,10,5]:[10,20,15,30,25,40,35,50,45,55,60];
+  const d=p.map((y,i)=>`${i===0?'M':'L'}${i*20},${y}`).join(' ');
+  return `<svg class="sparkline-sm" viewBox="0 0 200 70"><path d="${d}" fill="none" stroke="${color}" stroke-width="2.5"/></svg>`;
+}
+document.getElementById('tableBody').innerHTML=rows.map(r=>`
+  <tr>
+    <td class="t-num">#${r.no}</td>
+    <td><div class="t-coin"><div class="t-icon" style="background:${r.c}22">${r.icon}</div><div><div class="t-name">${r.name}</div><div class="t-sym">${r.sym}</div></div></div></td>
+    <td style="font-weight:600">${r.result}</td>
+    <td><span class="badge neu">${r.delivery}</span></td>
+    <td><span class="badge ${r.cup?'up':'dn'}">${r.cup?'▲':'▼'} ${r.conv}</span></td>
+    <td><span class="badge ${r.rup?'up':'dn'}">${r.rup?'▲':'▼'} ${r.roi}</span></td>
+    <td>${r.vol}</td>
+    <td>${spark(r.c,r.up)}</td>
+  </tr>`).join('');
+
+function toggleSidebar(){
+  const s=document.getElementById('sidebar');
+  const ic=document.getElementById('collapseIcon');
+  s.classList.toggle('collapsed');
+  const col=s.classList.contains('collapsed');
+  const btn=document.getElementById('collapseBtn');
+  btn.style.left=col?'46px':'calc(var(--sidebar-w) - 14px)';
+  ic.innerHTML=col?'<path d="M9 18l6-6-6-6"/>':'<path d="M15 18l-6-6 6-6"/>';
+  ic.setAttribute('viewBox','0 0 24 24');
+}
+
+let secs=23*3600+59*60+59;
+function tick(){
+  const h=String(Math.floor(secs/3600)).padStart(2,'0');
+  const m=String(Math.floor((secs%3600)/60)).padStart(2,'0');
+  const s=String(secs%60).padStart(2,'0');
+  const el=document.getElementById('promoTimer');
+  if(el)el.textContent=`${h}:${m}:${s}`;
+  if(secs>0)secs--;
+}
+setInterval(tick,1000);tick();
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    t.closest('[class*="tabs"]').querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+document.querySelectorAll('.ttab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    t.closest('.toggle-tabs').querySelectorAll('.ttab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+document.querySelector('.slider').addEventListener('input',function(){
+  this.style.background=`linear-gradient(to right,var(--accent) ${this.value}%,var(--border) ${this.value}%)`;
+  this.nextElementSibling.textContent=this.value+'%';
+});
+</script>
+</body>
+</html>

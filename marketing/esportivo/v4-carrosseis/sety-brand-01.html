@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#08070f; }
+
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* ── BACKGROUND GRADIENT MESH STYLE LINEAR/STRIPE ── */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:#08070f;
+}
+
+/* Blobs de gradiente estilo Linear/Stripe */
+.blob-1 {
+  position:absolute; z-index:1; pointer-events:none;
+  width:700px; height:700px;
+  left:-120px; top:-80px;
+  border-radius:50%;
+  background:radial-gradient(ellipse, rgba(124,58,237,0.18) 0%, transparent 70%);
+  filter:blur(60px);
+}
+.blob-2 {
+  position:absolute; z-index:1; pointer-events:none;
+  width:600px; height:600px;
+  right:-100px; top:180px;
+  border-radius:50%;
+  background:radial-gradient(ellipse, rgba(59,130,246,0.14) 0%, transparent 70%);
+  filter:blur(55px);
+}
+.blob-3 {
+  position:absolute; z-index:1; pointer-events:none;
+  width:500px; height:500px;
+  left:200px; bottom:-60px;
+  border-radius:50%;
+  background:radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%);
+  filter:blur(50px);
+}
+.blob-4 {
+  position:absolute; z-index:1; pointer-events:none;
+  width:400px; height:400px;
+  right:80px; bottom:200px;
+  border-radius:50%;
+  background:radial-gradient(ellipse, rgba(168,85,247,0.1) 0%, transparent 70%);
+  filter:blur(45px);
+}
+
+/* Grain */
+.grain {
+  position:absolute; inset:0; z-index:9; pointer-events:none; opacity:0.042;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* ── MOCKUP CSS: Browser window com dashboard ── */
+.mockup-wrap {
+  position:absolute; left:64px; right:64px; top:108px; z-index:10;
+  height:680px;
+}
+
+/* Brilho sutil atrás do mockup */
+.mockup-glow {
+  position:absolute; inset:-30px; z-index:0; pointer-events:none;
+  background:radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 70%);
+  filter:blur(20px);
+}
+
+.browser {
+  position:relative; z-index:1;
+  width:100%; height:100%;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter:blur(2px);
+}
+
+/* Barra do browser */
+.browser-bar {
+  height:44px;
+  background:rgba(255,255,255,0.04);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; gap:8px;
+  padding:0 16px;
+}
+.dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.dot-r { background:rgba(255,100,100,0.5); }
+.dot-y { background:rgba(255,200,80,0.5); }
+.dot-g { background:rgba(80,200,120,0.5); }
+.url-bar {
+  flex:1; margin:0 20px;
+  height:24px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;
+  display:flex; align-items:center; padding:0 10px;
+}
+.url-txt {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:300;
+  color:rgba(255,255,255,0.3); letter-spacing:0.5px;
+}
+
+/* Conteúdo do dashboard */
+.browser-content {
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:14px;
+  height:calc(100% - 44px);
+}
+
+/* Cards de métricas */
+.metric-card {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;
+  padding:18px 16px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.metric-label {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+}
+.metric-value {
+  font-family:'Bebas Neue',sans-serif; font-size:36px; line-height:1;
+  background:linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  letter-spacing:1px;
+}
+.metric-trend {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:400;
+  color:rgba(134,239,172,0.8); letter-spacing:0.5px;
+}
+
+/* Gráfico de barras fake */
+.chart-card {
+  grid-column:1 / -1;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;
+  padding:20px 20px 14px;
+  display:flex; flex-direction:column; gap:16px;
+  flex:1;
+}
+.chart-top {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.chart-title {
+  font-family:'Barlow',sans-serif; font-size:10px; font-weight:400;
+  letter-spacing:2px; color:rgba(255,255,255,0.35); text-transform:uppercase;
+}
+.chart-badge {
+  background:rgba(134,239,172,0.12);
+  border:1px solid rgba(134,239,172,0.2);
+  border-radius:2px; padding:3px 8px;
+  font-family:'Barlow',sans-serif; font-size:9px;
+  color:rgba(134,239,172,0.8); letter-spacing:1px;
+}
+.bars {
+  display:flex; align-items:flex-end; gap:10px;
+  height:100px;
+}
+.bar-group {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.bar {
+  width:100%; border-radius:2px 2px 0 0;
+  background:linear-gradient(to top, rgba(124,58,237,0.6), rgba(99,102,241,0.3));
+}
+.bar-lbl {
+  font-family:'Barlow',sans-serif; font-size:8px;
+  color:rgba(255,255,255,0.2); letter-spacing:1px;
+}
+/* Bar heights */
+.b1 { height:40%; }
+.b2 { height:60%; }
+.b3 { height:52%; }
+.b4 { height:78%; }
+.b5 { height:65%; }
+.b6 { height:90%; background:linear-gradient(to top, rgba(168,85,247,0.8), rgba(99,102,241,0.5)); }
+.b7 { height:72%; }
+
+/* ── HEADLINE BLOCK ── */
+.main {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:0 64px 68px;
+}
+
+/* Linha sutil de separação */
+.sep {
+  width:100%; height:1px; margin-bottom:44px;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent);
+}
+
+/* Tag */
+.tag {
+  display:inline-flex; align-items:center; gap:8px;
+  margin-bottom:24px;
+}
+.tag-dot { width:4px; height:4px; border-radius:50%; background:linear-gradient(135deg, #7C3AED, #3B82F6); flex-shrink:0; }
+.tag-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:4px; color:rgba(255,255,255,0.3); text-transform:uppercase;
+}
+
+/* Headline principal */
+.headline {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:100px; line-height:0.88;
+  letter-spacing:-1px;
+  margin-bottom:24px;
+}
+.hl-white { color:#fff; }
+.hl-grad {
+  background:linear-gradient(135deg, #7C3AED 0%, #6366F1 40%, #3B82F6 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* Subline */
+.sub {
+  font-family:'Barlow',sans-serif; font-size:13px; font-weight:300;
+  color:rgba(255,255,255,0.4); letter-spacing:0.4px; line-height:1.7;
+  margin-bottom:36px;
+  max-width:700px;
+}
+
+/* Footer row */
+.footer-row {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.cta-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:5px; color:rgba(255,255,255,0.25); text-transform:uppercase;
+}
+.brand-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.15); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="blob-1"></div>
+  <div class="blob-2"></div>
+  <div class="blob-3"></div>
+  <div class="blob-4"></div>
+  <div class="grain"></div>
+
+  <!-- MOCKUP BROWSER/DASHBOARD -->
+  <div class="mockup-wrap">
+    <div class="mockup-glow"></div>
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="url-bar">
+          <span class="url-txt">seusite.com.br/dashboard</span>
+        </div>
+      </div>
+      <div class="browser-content">
+        <div class="metric-card">
+          <div class="metric-label">Conversões</div>
+          <div class="metric-value">4.2K</div>
+          <div class="metric-trend">↑ 34% esse mês</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Receita</div>
+          <div class="metric-value">R$87K</div>
+          <div class="metric-trend">↑ 61% vs antes</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Taxa conv.</div>
+          <div class="metric-value">7.8%</div>
+          <div class="metric-trend">↑ 2.3× média</div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-top">
+            <div class="chart-title">Leads por semana</div>
+            <div class="chart-badge">+219%</div>
+          </div>
+          <div class="bars">
+            <div class="bar-group"><div class="bar b1"></div><div class="bar-lbl">S1</div></div>
+            <div class="bar-group"><div class="bar b2"></div><div class="bar-lbl">S2</div></div>
+            <div class="bar-group"><div class="bar b3"></div><div class="bar-lbl">S3</div></div>
+            <div class="bar-group"><div class="bar b4"></div><div class="bar-lbl">S4</div></div>
+            <div class="bar-group"><div class="bar b5"></div><div class="bar-lbl">S5</div></div>
+            <div class="bar-group"><div class="bar b6"></div><div class="bar-lbl">S6</div></div>
+            <div class="bar-group"><div class="bar b7"></div><div class="bar-lbl">S7</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="main">
+    <div class="sep"></div>
+    <div class="tag">
+      <div class="tag-dot"></div>
+      <span class="tag-txt">Sites que convertem</span>
+    </div>
+    <div class="headline">
+      <span class="hl-white">seu site<br>está </span><span class="hl-grad">vendendo?</span>
+    </div>
+    <div class="sub">
+      A maioria dos sites afasta 96% dos visitantes.<br>
+      O seu pode ser diferente.
+    </div>
+    <div class="footer-row">
+      <div class="cta-txt">→ deslize para entender</div>
+      <div class="brand-txt">@setystudio</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

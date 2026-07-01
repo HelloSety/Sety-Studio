@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "show_date": true,
+        "show_author": false,
+        "show_back_link": true,
+        "back_text": "← Voltar ao Blog"
+      }
+    }
+  },
+  "order": ["main"]
+}

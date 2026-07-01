@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta · Sety Vision</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #0A0A0A;
+      --card:   #141414;
+      --bd:     rgba(255,255,255,0.1);
+      --txt:    #FFFFFF;
+      --muted:  rgba(255,255,255,0.42);
+      --red:    #FF2A2A;
+      --green:  #4ADE80;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Montserrat', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SLIDE ──────────────────────────────────────────────────────── */
+    .slide {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────────── */
+    .hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 44px;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .hd-logo {
+      height: 22px;
+    }
+
+    .hd-logo-txt {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hd-meta {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── BODY ────────────────────────────────────────────────────────── */
+    .body {
+      flex: 1;
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PILL ───────────────────────────────────────────────────────── */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      align-self: flex-start;
+      margin-bottom: 30px;
+    }
+
+    .pill-arrow { opacity: .4; }
+
+    /* ── TITLE ──────────────────────────────────────────────────────── */
+    .ttl {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-style: italic;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    /* ── PACKAGES ───────────────────────────────────────────────────── */
+    .pkg {
+      border-top: 1px solid var(--bd);
+      padding: 26px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .pkg-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .pkg-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .pkg-price {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .pkg-price sup {
+      font-size: 18px;
+      font-weight: 700;
+      vertical-align: top;
+      margin-top: 9px;
+      display: inline-block;
+    }
+
+    .pkg-price .plus {
+      font-size: 24px;
+      color: var(--muted);
+    }
+
+    .pkg-price .mes {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .pkg-price.dim { color: rgba(255,255,255,0.55); }
+
+    .items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .items li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.35;
+    }
+
+    .ic {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 8px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    .ft {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 44px;
+      border-top: 1px solid var(--bd);
+    }
+
+    .ft-num {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .ft-more {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── PAYMENT PAGE ───────────────────────────────────────────────── */
+    .lbl {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .pay-ttl {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 10px;
+    }
+
+    .pay-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .pay-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 520px;
+    }
+
+    .pay-card {
+      background: var(--card);
+      border: 1px solid var(--bd);
+      padding: 24px 22px;
+      position: relative;
+    }
+
+    .pay-card.rec { border-color: rgba(255,255,255,0.22); }
+
+    .rec-badge {
+      position: absolute;
+      top: 0; right: 0;
+      background: var(--txt);
+      color: var(--bg);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+    }
+
+    .c-type {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .c-val {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--green);
+      margin-bottom: 7px;
+      line-height: 1;
+    }
+
+    .c-val sup {
+      font-size: 16px;
+      vertical-align: top;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    .c-val.wh { color: var(--txt); }
+
+    .c-hint {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .cta-row {
+      margin-top: auto;
+      padding-top: 44px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: var(--txt);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .btn:hover { border-color: rgba(255,255,255,0.5); }
+
+    .btn.red {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .author { text-align: right; }
+    .author-name { font-size: 13px; font-weight: 700; }
+    .author-co { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* ── STEPS PAGE ──────────────────────────────────────────────────── */
+    .steps-ttl {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 10px;
+    }
+
+    .steps-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .step {
+      border: 1px solid var(--bd);
+      padding: 24px;
+    }
+
+    .step-n {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .step-t {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-d {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media print {
+      .slide { page-break-after: always; min-height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 1 — PROPOSTA
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="pill">
+      <span id="client-pill">Nome do Cliente</span>
+      <span class="pill-arrow">→</span>
+      <span>Sety Studio</span>
+    </div>
+
+    <h1 class="ttl">Sety Vision<br>instalado na<br>sua empresa.</h1>
+
+    <p class="sub">IA, CRM, automações, sistemas internos e um site preparado para gerar vendas — tudo integrado, em 15 dias no ar.</p>
+
+    <!-- Pacote Base -->
+    <div class="pkg">
+      <div>
+        <div class="pkg-tag">Implementação</div>
+        <div class="pkg-name">Sety Vision<br>Setup Completo</div>
+        <div class="pkg-price"><sup>R$</sup>9.000</div>
+      </div>
+      <ul class="items">
+        <li><span class="ic">✓</span>Diagnóstico comercial completo</li>
+        <li><span class="ic">✓</span>Site preparado para gerar vendas</li>
+        <li><span class="ic">✓</span>WhatsApp com IA (qualifica + agenda 24h)</li>
+        <li><span class="ic">✓</span>CRM com pipeline de vendas integrado</li>
+        <li><span class="ic">✓</span>Automações internas da operação</li>
+        <li><span class="ic">✓</span>Setup de Meta Ads (estrutura pronta)</li>
+      </ul>
+    </div>
+
+    <!-- Adicional -->
+    <div class="pkg">
+      <div>
+        <div class="pkg-tag">Adicional</div>
+        <div class="pkg-name">Sety Vision<br>Operação Mensal</div>
+        <div class="pkg-price dim">
+          <span class="plus">+</span><sup>R$</sup>2.500<span class="mes">/mês</span>
+        </div>
+      </div>
+      <ul class="items">
+        <li><span class="ic">✓</span>Gestão de tráfego pago (Meta + Google)</li>
+        <li><span class="ic">✓</span>Otimizações e melhorias mensais</li>
+        <li><span class="ic">✓</span>Relatório mensal de resultados</li>
+        <li><span class="ic">✓</span>Suporte prioritário WhatsApp</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">01 / 03</span>
+    <span class="ft-more">CONTINUA →</span>
+  </footer>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 2 — FORMAS DE PAGAMENTO
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date-2">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="lbl">Condições</div>
+
+    <h2 class="pay-ttl">Formas de<br>pagamento.</h2>
+    <p class="pay-sub">Implementação completa do Sety Vision por</p>
+
+    <div class="pay-cards">
+      <div class="pay-card rec">
+        <div class="rec-badge">Recomendado</div>
+        <div class="c-type">À Vista</div>
+        <div class="c-val"><sup>R$</sup>7.000</div>
+        <div class="c-hint">Pacote completo · economia de R$2.000</div>
+      </div>
+      <div class="pay-card">
+        <div class="c-type">Parcelado</div>
+        <div class="c-val wh">3× <sup>R$</sup>3.000</div>
+        <div class="c-hint">Pacote completo · sem juros</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="https://wa.me/55" class="btn">Fechou? →</a>
+      <div class="author">
+        <div class="author-name">Seven</div>
+        <div class="author-co">Sety Studio</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">02 / 03</span>
+    <span class="ft-more">CONTINUA →</span>
+  </footer>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 3 — PRÓXIMOS PASSOS
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date-3">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="lbl">O que acontece depois</div>
+
+    <h2 class="steps-ttl">Próximos<br>passos.</h2>
+    <p class="steps-sub">Do fechamento ao sistema rodando em 15 dias.</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-n">Dia 1</div>
+        <div class="step-t">Diagnóstico</div>
+        <div class="step-d">Reunião de 1h para mapear a operação atual, público-alvo e concorrentes.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Dia 3 – 5</div>
+        <div class="step-t">Site + WhatsApp</div>
+        <div class="step-d">Landing page entregue e bot de WhatsApp configurado, testado e no ar.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Dia 7 – 10</div>
+        <div class="step-t">CRM + Campanhas</div>
+        <div class="step-d">CRM integrado e primeiras campanhas de Meta Ads rodando e capturando leads.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Dia 15</div>
+        <div class="step-t">Sistema no ar</div>
+        <div class="step-d">Leads chegando, sendo qualificados e organizados automaticamente.</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="https://wa.me/55" class="btn red">Quero começar →</a>
+      <div class="author">
+        <div class="author-name">Seven</div>
+        <div class="author-co">Sety Studio</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">03 / 03</span>
+  </footer>
+</section>
+
+<script>
+  // Preenche o nome do cliente via URL: ?cliente=Clinica+Sorriso
+  const params = new URLSearchParams(location.search);
+  const cliente = params.get('cliente') || 'Nome do Cliente';
+  document.getElementById('client-pill').textContent = cliente;
+
+  // Atualiza o mês automaticamente
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const now = new Date();
+  const label = `Proposta · ${meses[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('hd-date').textContent = label;
+  document.getElementById('hd-date-2').textContent = label;
+  document.getElementById('hd-date-3').textContent = label;
+</script>
+
+</body>
+</html>

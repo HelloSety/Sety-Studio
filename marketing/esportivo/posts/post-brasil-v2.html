@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,300;0,700;0,900;1,900&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#060606; font-family:'Barlow Condensed',sans-serif; }
+.c { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* Produto — herói */
+.product {
+  position:absolute; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:flex-end;
+}
+.product img {
+  height:110%; width:auto;
+  object-fit:contain;
+  object-position:right center;
+  margin-right:-60px;
+  filter:brightness(0.82) contrast(1.12) saturate(0.7);
+  mix-blend-mode:luminosity;
+}
+
+/* Overlays */
+.ov-l {
+  position:absolute; inset:0; z-index:2;
+  background:linear-gradient(105deg,
+    rgba(6,6,6,1) 0%,
+    rgba(6,6,6,0.96) 30%,
+    rgba(6,6,6,0.65) 55%,
+    rgba(6,6,6,0.15) 75%,
+    transparent 100%);
+}
+.ov-b {
+  position:absolute; bottom:0; left:0; right:0; height:45%; z-index:3;
+  background:linear-gradient(to top, rgba(6,6,6,1) 0%, rgba(6,6,6,0.6) 50%, transparent 100%);
+}
+.ov-t {
+  position:absolute; top:0; left:0; right:0; height:25%; z-index:3;
+  background:linear-gradient(to bottom, rgba(6,6,6,0.8) 0%, transparent 100%);
+}
+
+/* Glow verde sobre o produto */
+.glow-product {
+  position:absolute; right:-100px; top:50%; transform:translateY(-50%);
+  width:700px; height:700px; z-index:2;
+  background:radial-gradient(circle, rgba(0,229,113,0.07) 0%, transparent 65%);
+  border-radius:50%;
+}
+
+/* Linha lateral */
+.blade {
+  position:absolute; top:0; left:0; z-index:10; width:3px; height:100%;
+  background:linear-gradient(to bottom, #00E571 0%, rgba(0,229,113,0) 80%);
+}
+
+/* Barra topo */
+.topbar {
+  position:absolute; top:0; left:0; right:0; height:3px; z-index:10;
+  background:linear-gradient(to right, #00E571 0%, rgba(0,229,113,0) 45%);
+}
+
+/* Header */
+.hdr {
+  position:absolute; top:52px; left:60px; right:60px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-brand { font-size:13px; font-weight:300; letter-spacing:6px; color:rgba(255,255,255,0.35); text-transform:uppercase; }
+.hdr-handle { font-size:12px; font-weight:300; letter-spacing:4px; color:#00E571; text-transform:lowercase; font-family:'Barlow',sans-serif; }
+
+/* Conteúdo */
+.main {
+  position:absolute; left:60px; bottom:80px; z-index:20; max-width:640px;
+}
+
+.eyebrow {
+  display:flex; align-items:center; gap:18px; margin-bottom:22px;
+}
+.eyebrow-line { width:40px; height:2px; background:#00E571; flex-shrink:0; }
+.eyebrow-txt { font-size:14px; font-weight:700; letter-spacing:7px; color:#00E571; text-transform:uppercase; }
+
+.title {
+  font-size:128px; font-weight:900; line-height:0.86;
+  color:#fff; text-transform:uppercase; letter-spacing:-5px;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.9);
+  margin-bottom:6px;
+}
+.title em { color:#00E571; font-style:normal; display:block; }
+.title span { font-weight:100; -webkit-text-stroke:1.5px rgba(255,255,255,0.35); color:transparent; display:block; }
+
+.detail {
+  font-size:20px; font-weight:300; letter-spacing:5px;
+  color:rgba(255,255,255,0.45); text-transform:uppercase;
+  margin-top:24px; margin-bottom:40px;
+}
+
+/* Row preço + CTA */
+.cta-row { display:flex; align-items:center; gap:28px; }
+
+.price {
+  font-size:56px; font-weight:900; color:#fff; letter-spacing:-2px;
+  line-height:1;
+}
+.price small { font-size:22px; font-weight:300; color:rgba(255,255,255,0.45); margin-right:4px; }
+
+.btn {
+  background:#00E571; color:#000;
+  font-size:17px; font-weight:900; letter-spacing:4px;
+  text-transform:uppercase; padding:20px 48px; border-radius:60px;
+  white-space:nowrap;
+}
+
+/* Footer */
+.ftr {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:20px 60px 32px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.ftr-l { font-size:13px; font-weight:300; letter-spacing:4px; color:rgba(255,255,255,0.22); text-transform:uppercase; }
+.ftr-r { font-size:13px; font-weight:700; letter-spacing:4px; color:#00E571; text-transform:uppercase; }
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="product">
+    <img src="../../../saidas/shopify-produtos-2026/imagens/SELEÇÕES/brasil/imagem-principal.jpg" alt="Brasil">
+  </div>
+  <div class="glow-product"></div>
+  <div class="ov-l"></div>
+  <div class="ov-b"></div>
+  <div class="ov-t"></div>
+  <div class="blade"></div>
+  <div class="topbar"></div>
+
+  <div class="hdr">
+    <div class="hdr-brand">Empório Norte Belém</div>
+    <div class="hdr-handle">@emporionortebelem</div>
+  </div>
+
+  <div class="main">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <div class="eyebrow-txt">Seleção Brasileira</div>
+    </div>
+    <div class="title">
+      A Camisa<br>
+      <em>Mais</em>
+      <span>Amada.</span>
+    </div>
+    <div class="detail">Dry-fit · P ao XG · Entrega nacional</div>
+    <div class="cta-row">
+      <div class="price"><small>R$</small>179,90</div>
+      <div class="btn">Link na Bio ↗</div>
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div class="ftr-l">Belém do Pará</div>
+    <div class="ftr-r">Comprar agora</div>
+  </div>
+</div>
+</body>
+</html>

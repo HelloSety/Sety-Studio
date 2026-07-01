@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;200;300;700;900&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;}
+body{width:1080px;height:1350px;overflow:hidden;background:#080808;}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;}
+
+.car{position:absolute;inset:0;z-index:1;}
+.car img{width:100%;height:100%;object-fit:cover;object-position:68% center;
+  filter:brightness(.72) contrast(1.15) saturate(.9);}
+
+/* Gradiente esquerda — zona de texto limpa */
+.ov-l{position:absolute;inset:0;z-index:2;
+  background:linear-gradient(108deg,
+    rgba(8,8,8,.98) 0%,rgba(8,8,8,.92) 32%,
+    rgba(8,8,8,.6) 52%,rgba(8,8,8,.1) 72%,transparent 100%);}
+.ov-b{position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to top,rgba(8,8,8,.82) 0%,rgba(8,8,8,.1) 18%,transparent 36%);}
+
+.blade{position:absolute;top:0;left:0;z-index:5;
+  width:3px;height:100%;
+  background:linear-gradient(to bottom,#D71920 40%,rgba(215,25,32,0) 100%);}
+
+/* Header */
+.header{position:absolute;top:46px;left:58px;right:58px;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;}
+.h-brand{display:flex;align-items:center;gap:10px;}
+.h-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;
+  color:#fff;letter-spacing:5px;text-transform:uppercase;}
+.h-pipe{color:rgba(255,255,255,.35);margin:0 8px;}
+.h-dealer{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:16px;
+  color:rgba(255,255,255,.7);letter-spacing:4px;text-transform:uppercase;}
+.h-url{font-family:'Inter',sans-serif;font-size:10px;font-weight:400;
+  letter-spacing:3px;color:rgba(255,255,255,.55);}
+
+.rule{position:absolute;top:140px;left:58px;z-index:20;display:flex;align-items:center;}
+.r-red{width:52px;height:2.5px;background:#D71920;}
+.r-line{width:340px;height:1px;background:rgba(255,255,255,.1);}
+
+.eye{position:absolute;top:161px;left:58px;z-index:20;
+  font-family:'Inter',sans-serif;font-size:9px;font-weight:500;
+  letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+
+/* Headline — tipografia dominante */
+.headline{position:absolute;top:196px;left:54px;z-index:20;}
+.hl-s{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:210px;
+  line-height:.84;text-transform:uppercase;letter-spacing:-4px;color:#fff;}
+.hl-o{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:210px;
+  line-height:.84;text-transform:uppercase;letter-spacing:-4px;
+  -webkit-text-stroke:2px rgba(255,255,255,.45);color:transparent;}
+.red{color:#D71920;-webkit-text-stroke:0;}
+
+/* Sub — legível */
+.sub{position:absolute;top:650px;left:58px;z-index:20;
+  font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:26px;
+  letter-spacing:8px;text-transform:uppercase;color:rgba(255,255,255,.65);}
+
+/* Model badge — bottom right sobre o carro */
+.model{position:absolute;bottom:94px;right:58px;z-index:20;text-align:right;}
+.m-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:68px;
+  line-height:.88;text-transform:uppercase;letter-spacing:-1px;color:#fff;}
+.m-s{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:18px;
+  letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:10px;}
+
+/* Footer */
+.footer{position:absolute;bottom:46px;left:58px;z-index:20;
+  display:flex;align-items:center;gap:14px;}
+.f-city{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
+  letter-spacing:5px;color:rgba(255,255,255,.6);text-transform:uppercase;}
+.f-dot{width:3px;height:3px;background:#D71920;border-radius:50%;}
+.f-tag{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:5px;color:#D71920;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="car"><img src="../imagens/h6gt-dark.webp" alt=""></div>
+  <div class="ov-l"></div>
+  <div class="ov-b"></div>
+  <div class="blade"></div>
+
+  <div class="header">
+    <div class="h-brand">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="12.5" stroke="white" stroke-width="1.2"/>
+        <text x="14" y="18.5" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="7.5" font-weight="900" fill="white">GWM</text>
+      </svg>
+      <span class="h-name">GWM</span><span class="h-pipe">|</span><span class="h-dealer">DAHRUJ</span>
+    </div>
+    <div class="h-url">gwmdahruj.com.br</div>
+  </div>
+
+  <div class="rule"><div class="r-red"></div><div class="r-line"></div></div>
+  <div class="eye">Mobilidade · Tecnologia · Desempenho</div>
+
+  <div class="headline">
+    <div class="hl-s">O<br>FUTURO</div>
+    <div class="hl-o">NÃO<br>ESPERA<span class="red">.</span></div>
+  </div>
+
+  <div class="sub">Nova geração híbrida e elétrica</div>
+
+  <div class="model">
+    <div class="m-n">HAVAL<br>H6 GT</div>
+    <div class="m-s">PHEV · 2026</div>
+  </div>
+
+  <div class="footer">
+    <div class="f-city">Jundiaí — SP</div>
+    <div class="f-dot"></div>
+    <div class="f-tag">GWM Dahruj</div>
+  </div>
+</div>
+</body>
+</html>

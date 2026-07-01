@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_wpp_checkout": true,
+        "wpp_checkout_text": "Prefere confirmar pelo WhatsApp?",
+        "wpp_btn_text": "FINALIZAR PELO WHATSAPP",
+        "checkout_text": "FINALIZAR PEDIDO",
+        "empty_text": "Seu carrinho está vazio.",
+        "continue_text": "EXPLORAR COLEÇÃO"
+      }
+    }
+  },
+  "order": ["main"]
+}

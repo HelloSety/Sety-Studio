@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — ULTRAGOL</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">⚽ <div><span class="verde">ULTRA</span>GOL<span class="sub">CHECKOUT SEGURO</span></div></a>
+      <div style="display:flex;align-items:center;gap:16px;font-size:13px;color:var(--texto2)">
+        <span>🔒 Ambiente Criptografado</span>
+        <span>🛡️ Dados Protegidos</span>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</header>
+
+<div style="background:var(--preto3);border-bottom:1px solid var(--cinza);padding:12px 0">
+  <div class="container" style="display:flex;align-items:center;justify-content:center;gap:32px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--verde)">
+      <span style="width:24px;height:24px;border-radius:50%;background:var(--verde);color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:12px">1</span>
+      Sacola
+    </div>
+    <div style="flex:1;height:1px;background:var(--verde);max-width:80px"></div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--verde)">
+      <span style="width:24px;height:24px;border-radius:50%;background:var(--verde);color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:12px">2</span>
+      Checkout
+    </div>
+    <div style="flex:1;height:1px;background:var(--cinza);max-width:80px"></div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--texto2)">
+      <span style="width:24px;height:24px;border-radius:50%;background:var(--cinza);color:var(--texto);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:12px">3</span>
+      Confirmação
+    </div>
+  </div>
+</div>
+
+<main class="checkout-page">
+  <div class="container">
+    <div class="checkout-grid">
+      <!-- FORMULÁRIO -->
+      <div>
+        <!-- IDENTIFICAÇÃO -->
+        <div class="checkout-box">
+          <h3>👤 Identificação</h3>
+          <div class="campo-group">
+            <div class="campo">
+              <label>Nome Completo *</label>
+              <input type="text" placeholder="Seu nome completo" id="nome">
+            </div>
+            <div class="campo">
+              <label>CPF *</label>
+              <input type="text" placeholder="000.000.000-00" id="cpf" oninput="mascaraCpf(this)" maxlength="14">
+            </div>
+            <div class="campo">
+              <label>E-mail *</label>
+              <input type="email" placeholder="seu@email.com" id="email">
+            </div>
+            <div class="campo">
+              <label>WhatsApp *</label>
+              <input type="tel" placeholder="(11) 99999-9999" id="fone" oninput="mascaraFone(this)" maxlength="15">
+            </div>
+          </div>
+        </div>
+
+        <!-- ENDEREÇO -->
+        <div class="checkout-box">
+          <h3>📦 Endereço de Entrega</h3>
+          <div class="campo-group">
+            <div class="campo">
+              <label>CEP *</label>
+              <input type="text" placeholder="00000-000" id="cep" oninput="mascaraCep(this)" maxlength="9" onblur="buscaCep(this.value)">
+            </div>
+            <div class="campo full">
+              <label>Rua *</label>
+              <input type="text" placeholder="Nome da rua" id="rua">
+            </div>
+            <div class="campo">
+              <label>Número *</label>
+              <input type="text" placeholder="123" id="numero">
+            </div>
+            <div class="campo">
+              <label>Complemento</label>
+              <input type="text" placeholder="Apto, bloco..." id="complemento">
+            </div>
+            <div class="campo">
+              <label>Bairro *</label>
+              <input type="text" placeholder="Bairro" id="bairro">
+            </div>
+            <div class="campo">
+              <label>Cidade *</label>
+              <input type="text" placeholder="Cidade" id="cidade">
+            </div>
+            <div class="campo">
+              <label>Estado *</label>
+              <select id="estado">
+                <option>Selecione</option>
+                <option>SP</option><option>RJ</option><option>MG</option><option>RS</option>
+                <option>PR</option><option>SC</option><option>BA</option><option>CE</option>
+                <option>PE</option><option>GO</option><option>DF</option><option>AM</option>
+                <option>PA</option><option>MT</option><option>MS</option><option>ES</option>
+                <option>RN</option><option>PB</option><option>AL</option><option>SE</option>
+                <option>PI</option><option>MA</option><option>TO</option><option>AP</option>
+                <option>RO</option><option>AC</option><option>RR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRETE -->
+        <div class="checkout-box">
+          <h3>🚚 Frete</h3>
+          <div id="freteOpcoes">
+            <div onclick="selFrete(this,'gratis')" style="display:flex;align-items:center;justify-content:space-between;padding:14px;border:2px solid var(--verde);border-radius:8px;cursor:pointer;margin-bottom:10px;background:rgba(34,197,94,.05)">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:18px;height:18px;border-radius:50%;background:var(--verde);display:flex;align-items:center;justify-content:center;font-size:10px">✓</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600">PAC — Grátis (acima de R$ 299)</div>
+                  <div style="font-size:11px;color:var(--texto2)">Prazo: 5-8 dias úteis</div>
+                </div>
+              </div>
+              <span style="color:var(--verde);font-weight:700">GRÁTIS</span>
+            </div>
+            <div onclick="selFrete(this,'sedex')" style="display:flex;align-items:center;justify-content:space-between;padding:14px;border:2px solid var(--cinza);border-radius:8px;cursor:pointer">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:18px;height:18px;border-radius:50%;border:2px solid var(--cinza)"></div>
+                <div>
+                  <div style="font-size:13px;font-weight:600">SEDEX — Expresso</div>
+                  <div style="font-size:11px;color:var(--texto2)">Prazo: 1-3 dias úteis</div>
+                </div>
+              </div>
+              <span style="font-weight:700">R$ 29,90</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGAMENTO -->
+        <div class="checkout-box">
+          <h3>💳 Forma de Pagamento</h3>
+          <div class="pagto-opcoes">
+            <button class="pagto-btn active" onclick="selPagto('pix',this)">
+              <span class="icon">🟢</span> PIX
+            </button>
+            <button class="pagto-btn" onclick="selPagto('cartao',this)">
+              <span class="icon">💳</span> Cartão
+            </button>
+            <button class="pagto-btn" onclick="selPagto('boleto',this)">
+              <span class="icon">📄</span> Boleto
+            </button>
+          </div>
+
+          <!-- PIX -->
+          <div id="pix-dados" class="pix-dados">
+            <div style="font-size:14px;font-weight:700;margin-bottom:12px">Pague com PIX e ganhe <span style="color:var(--verde)">10% de desconto!</span></div>
+            <div class="pix-qr">📱</div>
+            <div style="font-size:12px;color:var(--texto2);margin-bottom:8px">Escaneie o QR Code ou copie o código:</div>
+            <div class="pix-code">00020101021226830014br.gov.bcb.pix2561qrcode.ultragol.com.br/v2/a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6520400005303986540179.905802BR5913ULTRAGOL STORE6009SAO PAULO62290525ULTRAGOL-2026-06-26-14306304B89A</div>
+            <button onclick="copiarPix()" style="background:var(--verde);color:#000;font-weight:700;padding:10px 20px;border-radius:6px;font-size:13px;transition:.2s">📋 Copiar código PIX</button>
+          </div>
+
+          <!-- CARTÃO -->
+          <div id="cartao-dados" style="display:none">
+            <div class="campo-group">
+              <div class="campo full">
+                <label>Número do Cartão *</label>
+                <input type="text" placeholder="0000 0000 0000 0000" oninput="mascaraCartao(this)" maxlength="19">
+              </div>
+              <div class="campo full">
+                <label>Nome no Cartão *</label>
+                <input type="text" placeholder="Como está no cartão">
+              </div>
+              <div class="campo">
+                <label>Validade *</label>
+                <input type="text" placeholder="MM/AA" maxlength="5">
+              </div>
+              <div class="campo">
+                <label>CVV *</label>
+                <input type="text" placeholder="123" maxlength="3">
+              </div>
+              <div class="campo full">
+                <label>Parcelamento *</label>
+                <select id="parcelas">
+                  <option>1x sem juros</option>
+                  <option>2x sem juros</option>
+                  <option>3x sem juros</option>
+                  <option>4x sem juros</option>
+                  <option>5x sem juros</option>
+                  <option>6x sem juros</option>
+                  <option>7x sem juros</option>
+                  <option>8x sem juros</option>
+                  <option>9x sem juros</option>
+                  <option>10x sem juros</option>
+                  <option>11x sem juros</option>
+                  <option>12x sem juros</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOLETO -->
+          <div id="boleto-dados" style="display:none;padding:16px;background:var(--cinza);border-radius:8px;text-align:center">
+            <div style="font-size:32px;margin-bottom:8px">📄</div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:4px">Boleto Bancário</div>
+            <div style="font-size:12px;color:var(--texto2)">O boleto será gerado após finalizar o pedido.<br>Prazo de compensação: 1-2 dias úteis.</div>
+          </div>
+        </div>
+
+        <button class="btn-finalizar" onclick="finalizarPedido()">
+          🔒 Finalizar Pedido com Segurança
+        </button>
+        <div class="seguranca">
+          <span class="icon">🔒</span>
+          <span>Compra protegida por SSL · Dados criptografados</span>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px">
+          <span class="pgto-icon">VISA</span>
+          <span class="pgto-icon">MASTER</span>
+          <span class="pgto-icon">ELO</span>
+          <span class="pgto-icon">AMEX</span>
+          <span class="pgto-icon">HIPERCARD</span>
+          <span class="pgto-icon">PIX</span>
+          <span class="pgto-icon">BOLETO</span>
+        </div>
+      </div>
+
+      <!-- RESUMO -->
+      <div>
+        <div class="checkout-box" style="position:sticky;top:80px">
+          <h3>📋 Resumo do Pedido</h3>
+
+          <div id="resumoItens">
+            <!-- renderizado -->
+          </div>
+
+          <div class="cupom-form" style="margin-top:16px">
+            <input type="text" placeholder="Código de cupom" id="cupomInput">
+            <button onclick="aplicarCupom()">Aplicar</button>
+          </div>
+
+          <div class="resumo-totais">
+            <div class="resumo-linha"><span>Subtotal</span><span id="resumoSub">R$ 0,00</span></div>
+            <div class="resumo-linha"><span>Frete</span><span id="resumoFrete" style="color:var(--verde)">Grátis</span></div>
+            <div class="resumo-linha"><span>Desconto</span><span id="resumoDesc" style="color:var(--verde)">–</span></div>
+            <div class="resumo-linha total"><span>Total</span><span id="resumoTotal">R$ 0,00</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--texto2);margin-top:8px" id="resumoParcelas"></div>
+
+          <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:8px;padding:12px;margin-top:16px;font-size:12px;color:var(--verde)">
+            🚚 Você ganhou <strong>FRETE GRÁTIS!</strong> Entrega em todo o Brasil.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- POPUP SUCESSO -->
+<div class="popup-sucesso" id="popupSucesso">
+  <div class="popup-box">
+    <div class="popup-icon">🎉</div>
+    <h2>Pedido Realizado!</h2>
+    <p>Seu pedido foi recebido com sucesso! Em breve você receberá um e-mail de confirmação com o código de rastreamento.</p>
+    <div style="background:rgba(34,197,94,.1);border-radius:8px;padding:12px;margin:16px 0;font-size:13px">
+      <strong>Nº do Pedido:</strong> #UG-<span id="numPedido"></span>
+    </div>
+    <a class="btn-sm" onclick="window.location.href='index.html'" style="margin:0 auto">Voltar à loja</a>
+  </div>
+</div>
+
+<script src="dados.js"></script>
+<script>
+let cart = JSON.parse(localStorage.getItem('ug_cart') || '[]');
+let freteAtivo = 'gratis';
+let pagtoAtivo = 'pix';
+let cupomAtivo = false;
+
+function init() {
+  renderResumo();
+}
+
+function renderResumo() {
+  const total = cart.reduce((s,i) => s+i.preco*i.qtd, 0);
+  const el = document.getElementById('resumoItens');
+  if (!cart.length) {
+    el.innerHTML = '<p style="color:var(--texto2);font-size:13px;text-align:center;padding:16px">Sacola vazia. <a onclick="window.location.href=\'index.html\'" style="color:var(--verde);cursor:pointer">Voltar à loja</a></p>';
+    return;
+  }
+  el.innerHTML = cart.map(item => `
+    <div class="resumo-item">
+      <div class="resumo-img"><img src="${item.img}" alt="${item.nome}"></div>
+      <div class="resumo-info">
+        <div class="nome">${item.nome}</div>
+        <div class="var">Tamanho: ${item.tam} · Qtd: ${item.qtd}${item.per?' · '+item.per:''}</div>
+      </div>
+      <div class="resumo-preco">${fmt(item.preco*item.qtd)}</div>
+    </div>
+  `).join('');
+  atualizarTotais();
+}
+
+function atualizarTotais() {
+  let sub = cart.reduce((s,i) => s+i.preco*i.qtd, 0);
+  let frete = freteAtivo === 'sedex' ? 29.90 : 0;
+  let desc = cupomAtivo ? sub*0.1 : 0;
+  let total = sub + frete - desc;
+  document.getElementById('resumoSub').textContent = fmt(sub);
+  document.getElementById('resumoFrete').textContent = frete ? fmt(frete) : 'Grátis';
+  document.getElementById('resumoDesc').textContent = desc ? '-'+fmt(desc) : '–';
+  document.getElementById('resumoTotal').textContent = fmt(total);
+  document.getElementById('resumoParcelas').textContent = `ou em 12x de ${fmt(total/12)} sem juros`;
+}
+
+function selFrete(el, tipo) {
+  freteAtivo = tipo;
+  document.querySelectorAll('#freteOpcoes > div').forEach(d => d.style.borderColor='var(--cinza)');
+  el.style.borderColor = 'var(--verde)';
+  atualizarTotais();
+}
+
+function selPagto(tipo, btn) {
+  pagtoAtivo = tipo;
+  document.querySelectorAll('.pagto-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pix-dados').style.display = tipo==='pix' ? 'block' : 'none';
+  document.getElementById('cartao-dados').style.display = tipo==='cartao' ? 'block' : 'none';
+  document.getElementById('boleto-dados').style.display = tipo==='boleto' ? 'block' : 'none';
+}
+
+function aplicarCupom() {
+  const c = document.getElementById('cupomInput').value.toUpperCase();
+  if (c === 'ULTRAGOL10' || c === 'COPA2026' || c === 'FRETE') {
+    cupomAtivo = true;
+    document.getElementById('cupomInput').style.borderColor = 'var(--verde)';
+    alert('Cupom aplicado! 10% de desconto.');
+    atualizarTotais();
+  } else {
+    alert('Cupom inválido.');
+  }
+}
+
+function finalizarPedido() {
+  const nome = document.getElementById('nome')?.value;
+  const email = document.getElementById('email')?.value;
+  if (!nome || !email) { alert('Por favor, preencha os campos obrigatórios.'); return; }
+  if (!cart.length) { alert('Sua sacola está vazia!'); return; }
+  document.getElementById('numPedido').textContent = Math.floor(Math.random()*90000)+10000;
+  document.getElementById('popupSucesso').classList.add('open');
+  localStorage.removeItem('ug_cart');
+  cart = [];
+}
+
+function copiarPix() {
+  navigator.clipboard?.writeText('00020101021226830014br.gov.bcb.pix...')
+    .then(() => alert('Código PIX copiado!'))
+    .catch(() => alert('Copie manualmente o código acima.'));
+}
+
+function mascaraCpf(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if (v.length > 9) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+  else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+  el.value = v;
+}
+function mascaraFone(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if (v.length > 10) v = '('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if (v.length > 6) v = '('+v.slice(0,2)+') '+v.slice(2,6)+'-'+v.slice(6);
+  else if (v.length > 2) v = '('+v.slice(0,2)+') '+v.slice(2);
+  el.value = v;
+}
+function mascaraCep(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,8);
+  if (v.length > 5) v = v.slice(0,5)+'-'+v.slice(5);
+  el.value = v;
+}
+function mascaraCartao(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,16);
+  v = v.replace(/(.{4})/g,'$1 ').trim();
+  el.value = v;
+}
+function buscaCep(cep) {
+  const c = cep.replace(/\D/g,'');
+  if (c.length < 8) return;
+  document.getElementById('rua').placeholder = 'Buscando...';
+  setTimeout(() => { document.getElementById('rua').placeholder = 'Nome da rua'; }, 500);
+}
+
+init();
+</script>
+</body>
+</html>

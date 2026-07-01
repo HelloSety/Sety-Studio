@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta Comercial — SETY STUDIO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 0; }
+
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html, body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      background: #e8e8e8;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 13mm 18mm 12mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+      break-after: page;
+      background: #fff;
+      color: #0a0a0a;
+      margin: 0 auto 4mm;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: #0a0a0a;
+      color: #fff;
+      padding: 13mm 18mm 13mm;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cover-eyebrow {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .cover-year {
+      font-size: 7.5pt;
+      font-weight: 400;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    .cover-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 12mm;
+    }
+
+    .cover-kicker {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 5mm;
+    }
+
+    .cover-rule {
+      width: 10mm;
+      height: 1px;
+      background: rgba(255,255,255,0.25);
+      margin-bottom: 6mm;
+    }
+
+    .cover-title {
+      font-size: 38pt;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 7mm;
+      max-width: 160mm;
+    }
+
+    .cover-subtitle {
+      font-size: 10.5pt;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.52);
+      max-width: 128mm;
+    }
+
+    .cover-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 7mm 0;
+    }
+
+    .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .cover-brand {
+      font-size: 20pt;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .cover-footer-right {
+      text-align: right;
+    }
+
+    .cover-footer-right p {
+      font-size: 7.5pt;
+      font-weight: 400;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 1.9;
+    }
+
+    /* ── SECTION HEADER ── */
+    .sh {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 3mm;
+      border-bottom: 1px solid #0a0a0a;
+      margin-bottom: 8mm;
+    }
+
+    .sh-label {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .sh-brand {
+      font-size: 7.5pt;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .s-title {
+      font-size: 24pt;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      color: #0a0a0a;
+      margin-bottom: 3mm;
+    }
+
+    .s-lead {
+      font-size: 9.5pt;
+      font-weight: 300;
+      line-height: 1.85;
+      color: #555;
+      max-width: 145mm;
+      margin-bottom: 7mm;
+    }
+
+    /* ── SERVICE ITEMS ── */
+    .svc-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .svc-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 5.5mm 0;
+      border-top: 1px solid #e4e4e4;
+      gap: 8mm;
+    }
+
+    .svc-left {
+      flex: 1;
+    }
+
+    .svc-num {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #ccc;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+
+    .svc-name {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #0a0a0a;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.5mm;
+      line-height: 1.2;
+    }
+
+    .svc-desc {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: #666;
+      line-height: 1.7;
+      max-width: 120mm;
+    }
+
+    .svc-price {
+      font-size: 14pt;
+      font-weight: 800;
+      color: #0a0a0a;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      padding-top: 6mm;
+    }
+
+    .svc-price.monthly {
+      font-size: 11pt;
+    }
+
+    .svc-price-note {
+      font-size: 7pt;
+      font-weight: 400;
+      color: #aaa;
+      text-align: right;
+      margin-top: 1mm;
+    }
+
+    /* ── PAGE FOOTER ── */
+    .pf {
+      margin-top: auto;
+      padding-top: 3.5mm;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pf-brand {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ccc;
+    }
+
+    .pf-num {
+      font-size: 7pt;
+      color: #ccc;
+    }
+
+    /* ── INVESTMENT PAGE ── */
+    .invest-page {
+      background: #0a0a0a;
+      color: #fff;
+    }
+
+    .inv-sh {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 3mm;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 10mm;
+    }
+
+    .inv-label {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .inv-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .inv-kicker {
+      font-size: 7.5pt;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 3mm;
+    }
+
+    .inv-de {
+      font-size: 16pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: -0.01em;
+      text-decoration: line-through;
+      margin-bottom: 1.5mm;
+    }
+
+    .inv-price {
+      font-size: 64pt;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8mm;
+    }
+
+    .inv-payment-row {
+      display: flex;
+      gap: 12mm;
+      margin-bottom: 10mm;
+    }
+
+    .inv-payment-item {}
+
+    .inv-payment-label {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 2.5mm;
+    }
+
+    .inv-payment-val {
+      font-size: 16pt;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: -0.015em;
+    }
+
+    .inv-payment-desc {
+      font-size: 8pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      margin-top: 1mm;
+    }
+
+    .inv-urgency {
+      padding: 5mm 6mm;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 9pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+      max-width: 140mm;
+      margin-bottom: 8mm;
+    }
+
+    .inv-includes {
+      padding-top: 7mm;
+      border-top: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .inv-inc-label {
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 4mm;
+    }
+
+    .inv-inc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5mm 4mm;
+    }
+
+    .inv-inc-item {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.42);
+      padding: 2.5mm 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .inv-inc-item::before {
+      content: '—';
+      font-size: 7pt;
+      color: rgba(255,255,255,0.18);
+    }
+
+    .cta-block {
+      display: flex;
+      align-items: center;
+      gap: 8mm;
+      margin-top: 8mm;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background: #fff;
+      color: #0a0a0a;
+      padding: 3.5mm 8mm;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .cta-contact {
+      font-size: 8.5pt;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .cta-contact strong {
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .inv-footer {
+      margin-top: auto;
+      padding-top: 4mm;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inv-footer span {
+      font-size: 7pt;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.18em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    @media print {
+      html, body { background: white; }
+      .page { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     01  CAPA
+═══════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-top">
+    <span class="cover-eyebrow">Proposta Comercial</span>
+    <span class="cover-year">2026</span>
+  </div>
+
+  <div class="cover-body">
+    <p class="cover-kicker">Sety Studio — Agência Digital</p>
+    <div class="cover-rule"></div>
+    <h1 class="cover-title">Sua empresa vendendo<br>todo dia pela internet.</h1>
+    <p class="cover-subtitle">Site profissional, loja virtual, presença no Google e clientes chegando via anúncios — tudo no lugar certo, funcionando junto.</p>
+  </div>
+
+  <div class="cover-divider"></div>
+  <div class="cover-footer">
+    <span class="cover-brand">SETY STUDIO</span>
+    <div class="cover-footer-right">
+      <p>Presença Digital</p>
+      <p>Tráfego Pago</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     02  ESCOPO
+═══════════════════════════════ -->
+<div class="page">
+  <div class="sh">
+    <span class="sh-label">01 / O que está incluso</span>
+    <span class="sh-brand">Sety Studio</span>
+  </div>
+
+  <h2 class="s-title">Quatro frentes.<br>Um resultado só.</h2>
+  <p class="s-lead">Cada serviço abaixo resolve uma parte da sua operação digital. Juntos, criam um sistema que atrai, converte e fideliza clientes de forma contínua.</p>
+
+  <div class="svc-list">
+    <div class="svc-item">
+      <div class="svc-left">
+        <div class="svc-num">01</div>
+        <div class="svc-name">Landing Page de Alta Conversão</div>
+        <div class="svc-desc">Página profissional focada em transformar visitantes em contatos. Design sob medida, texto persuasivo e integração com WhatsApp ou formulário de captura.</div>
+      </div>
+      <div>
+        <div class="svc-price">R$ 900</div>
+        <div class="svc-price-note">pagamento único</div>
+      </div>
+    </div>
+
+    <div class="svc-item">
+      <div class="svc-left">
+        <div class="svc-num">02</div>
+        <div class="svc-name">Loja Virtual Profissional</div>
+        <div class="svc-desc">Loja online completa com catálogo de produtos, carrinho de compras, checkout e integração com meios de pagamento. Pronta para vender no primeiro dia.</div>
+      </div>
+      <div>
+        <div class="svc-price">R$ 1.500</div>
+        <div class="svc-price-note">pagamento único</div>
+      </div>
+    </div>
+
+    <div class="svc-item">
+      <div class="svc-left">
+        <div class="svc-num">03</div>
+        <div class="svc-name">Google Meu Negócio — Otimização Completa</div>
+        <div class="svc-desc">Perfil otimizado para aparecer nos resultados locais do Google. Fotos, descrição, categorias, palavras-chave e estratégia de avaliações.</div>
+      </div>
+      <div>
+        <div class="svc-price">R$ 900</div>
+        <div class="svc-price-note">pagamento único</div>
+      </div>
+    </div>
+
+    <div class="svc-item">
+      <div class="svc-left">
+        <div class="svc-num">04</div>
+        <div class="svc-name">Gestão de Tráfego Pago</div>
+        <div class="svc-desc">Campanhas ativas no Meta Ads e Google Ads com criação de criativos, segmentação de público, otimização semanal e relatório mensal de resultados.</div>
+      </div>
+      <div>
+        <div class="svc-price monthly">R$ 1.500</div>
+        <div class="svc-price-note">por mês</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span class="pf-brand">Sety Studio</span>
+    <span class="pf-num">02</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     03  INVESTIMENTO
+═══════════════════════════════ -->
+<div class="page invest-page">
+  <div class="inv-sh">
+    <span class="inv-label">02 / Investimento</span>
+    <span class="inv-label">Sety Studio</span>
+  </div>
+
+  <div class="inv-main">
+    <p class="inv-kicker">Investimento total (implantação + 1º mês)</p>
+    <div class="inv-de">R$ 4.800</div>
+    <div class="inv-price">R$ 3.900</div>
+
+    <div class="inv-payment-row">
+      <div class="inv-payment-item">
+        <div class="inv-payment-label">Na aprovação</div>
+        <div class="inv-payment-val">R$ 1.950</div>
+        <div class="inv-payment-desc">50% para reservar a agenda</div>
+      </div>
+      <div class="inv-payment-item">
+        <div class="inv-payment-label">Na entrega</div>
+        <div class="inv-payment-val">R$ 1.950</div>
+        <div class="inv-payment-desc">50% após aprovação do projeto</div>
+      </div>
+    </div>
+
+    <div class="inv-urgency">
+      Tenho poucas vagas disponíveis para os próximos projetos. Confirmando a proposta, reservo sua produção na agenda imediatamente.
+    </div>
+
+    <div class="inv-includes">
+      <div class="inv-inc-label">O que você leva</div>
+      <div class="inv-inc-grid">
+        <div class="inv-inc-item">Landing Page de Alta Conversão</div>
+        <div class="inv-inc-item">Loja Virtual Profissional</div>
+        <div class="inv-inc-item">Google Meu Negócio Otimizado</div>
+        <div class="inv-inc-item">Gestão Meta Ads + Google Ads</div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <div class="cta-btn">Aprovar Proposta</div>
+      <div class="cta-contact">WhatsApp ou e-mail — <strong>sevendsgnn@gmail.com</strong></div>
+    </div>
+  </div>
+
+  <div class="inv-footer">
+    <span>Sety Studio</span>
+    <span>03</span>
+  </div>
+</div>
+
+</body>
+</html>

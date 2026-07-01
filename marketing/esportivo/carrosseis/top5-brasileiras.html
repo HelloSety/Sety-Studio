@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 5 Camisas Brasileiras</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Arial Black', 'Arial', sans-serif;
+    background: #000;
+    width: 1080px;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+  }
+
+  /* SLIDE 1 — CAPA */
+  .slide-capa {
+    background: linear-gradient(145deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .slide-capa::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,200,100,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .slide-capa::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,150,255,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #00c864;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .capa-titulo {
+    font-size: 88px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+  }
+
+  .capa-titulo span {
+    color: #00c864;
+    display: block;
+  }
+
+  .capa-sub {
+    font-size: 28px;
+    color: #888;
+    margin-top: 40px;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+
+  .capa-badge {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 40px;
+    border-radius: 60px;
+  }
+
+  .capa-badge span {
+    font-size: 22px;
+    color: #aaa;
+    letter-spacing: 2px;
+  }
+
+  /* SLIDES RANKING */
+  .slide-rank {
+    background: #0d0d0d;
+    justify-content: space-between;
+  }
+
+  .rank-header {
+    padding: 60px 80px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .rank-numero {
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    letter-spacing: -10px;
+    position: absolute;
+    right: 40px;
+    top: 30px;
+  }
+
+  .rank-label {
+    font-size: 20px;
+    letter-spacing: 5px;
+    color: #00c864;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .rank-posicao {
+    background: #00c864;
+    color: #000;
+    font-size: 18px;
+    font-weight: 900;
+    padding: 8px 20px;
+    border-radius: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .rank-img-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 80px;
+    position: relative;
+  }
+
+  .rank-img-container img {
+    max-height: 800px;
+    max-width: 800px;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 60px rgba(0,200,100,0.2));
+    position: relative;
+    z-index: 2;
+  }
+
+  .rank-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,200,100,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .rank-info {
+    padding: 0 80px 60px;
+  }
+
+  .rank-time {
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .rank-detalhe {
+    font-size: 24px;
+    color: #666;
+    margin-top: 16px;
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+
+  .rank-preco {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 28px;
+    font-weight: 900;
+    color: #00c864;
+    background: rgba(0,200,100,0.1);
+    border: 1px solid rgba(0,200,100,0.3);
+    padding: 10px 28px;
+    border-radius: 40px;
+  }
+
+  /* SLIDE FINAL */
+  .slide-final {
+    background: linear-gradient(145deg, #0d0d0d 0%, #111 100%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .final-pergunta {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    margin-bottom: 40px;
+    padding: 0 80px;
+  }
+
+  .final-pergunta span {
+    color: #00c864;
+  }
+
+  .final-cta {
+    font-size: 28px;
+    color: #888;
+    margin-bottom: 80px;
+  }
+
+  .final-link {
+    background: #00c864;
+    color: #000;
+    font-size: 26px;
+    font-weight: 900;
+    padding: 24px 60px;
+    border-radius: 60px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: inline-block;
+  }
+
+  .brand-footer {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide slide-capa">
+  <div class="tag">Edição Especial</div>
+  <h1 class="capa-titulo">
+    Top 5<br>
+    <span>Camisas</span>
+    Brasileiras
+  </h1>
+  <p class="capa-sub">As mais pedidas do mês</p>
+  <div class="capa-badge">
+    <span>⚽ FUTEBOL BRASILEIRO</span>
+  </div>
+</div>
+
+<!-- SLIDE 2: #5 Vasco -->
+<div class="slide slide-rank">
+  <div class="rank-numero">5</div>
+  <div class="rank-header">
+    <div class="rank-label">Top 5 Camisas BR</div>
+    <div class="rank-posicao">#5</div>
+  </div>
+  <div class="rank-img-container">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/vasco/imagem-principal.jpg" alt="Vasco">
+  </div>
+  <div class="rank-info">
+    <div class="rank-time">Vasco</div>
+    <div class="rank-detalhe">Tradição desde 1898 · Coleção Brasileiro</div>
+    <div class="rank-preco">R$ 179,90</div>
+  </div>
+</div>
+
+<!-- SLIDE 3: #4 Corinthians -->
+<div class="slide slide-rank">
+  <div class="rank-numero">4</div>
+  <div class="rank-header">
+    <div class="rank-label">Top 5 Camisas BR</div>
+    <div class="rank-posicao">#4</div>
+  </div>
+  <div class="rank-img-container">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/corinthians/imagem-principal.jpg" alt="Corinthians">
+  </div>
+  <div class="rank-info">
+    <div class="rank-time">Corinthians</div>
+    <div class="rank-detalhe">O time do povo · Coleção Brasileiro</div>
+    <div class="rank-preco">R$ 179,90</div>
+  </div>
+</div>
+
+<!-- SLIDE 4: #3 São Paulo -->
+<div class="slide slide-rank">
+  <div class="rank-numero">3</div>
+  <div class="rank-header">
+    <div class="rank-label">Top 5 Camisas BR</div>
+    <div class="rank-posicao">#3</div>
+  </div>
+  <div class="rank-img-container">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/sao-paulo/imagem-principal.jpg" alt="São Paulo">
+  </div>
+  <div class="rank-info">
+    <div class="rank-time">São Paulo</div>
+    <div class="rank-detalhe">Tricampeão mundial · Coleção Brasileiro</div>
+    <div class="rank-preco">R$ 179,90</div>
+  </div>
+</div>
+
+<!-- SLIDE 5: #2 Palmeiras -->
+<div class="slide slide-rank">
+  <div class="rank-numero">2</div>
+  <div class="rank-header">
+    <div class="rank-label">Top 5 Camisas BR</div>
+    <div class="rank-posicao">#2</div>
+  </div>
+  <div class="rank-img-container">
+    <div class="rank-glow"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/palmeiras/imagem-principal.jpg" alt="Palmeiras">
+  </div>
+  <div class="rank-info">
+    <div class="rank-time">Palmeiras</div>
+    <div class="rank-detalhe">Maior campeão brasileiro · Coleção Brasileiro</div>
+    <div class="rank-preco">R$ 179,90</div>
+  </div>
+</div>
+
+<!-- SLIDE 6: #1 Flamengo -->
+<div class="slide slide-rank">
+  <div class="rank-numero">1</div>
+  <div class="rank-header">
+    <div class="rank-label">Top 5 Camisas BR</div>
+    <div class="rank-posicao" style="background: #FFD700; color: #000;">#1 🏆</div>
+  </div>
+  <div class="rank-img-container">
+    <div class="rank-glow" style="background: radial-gradient(circle, rgba(255,50,50,0.2) 0%, transparent 70%);"></div>
+    <img src="../../../saidas/shopify-produtos-2026/imagens/BRASILEIRO/flamengo/imagem-principal.jpg" alt="Flamengo">
+  </div>
+  <div class="rank-info">
+    <div class="rank-time" style="color: #FF3232;">Flamengo</div>
+    <div class="rank-detalhe">Maior torcida do Brasil · Coleção Brasileiro</div>
+    <div class="rank-preco" style="color: #FFD700; background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3);">R$ 179,90</div>
+  </div>
+</div>
+
+<!-- SLIDE 7: FINAL -->
+<div class="slide slide-final">
+  <div class="final-pergunta">
+    Qual você <span>escolheria?</span>
+  </div>
+  <p class="final-cta">Comenta o nome do seu time ⬇️</p>
+  <div class="final-link">Link na Bio 🛒</div>
+  <div class="brand-footer">@emporioinortebelém</div>
+</div>
+
+</body>
+</html>

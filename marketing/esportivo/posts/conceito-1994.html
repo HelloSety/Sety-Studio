@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;300;900&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#000; }
+.c { width:1080px; height:1350px; position:relative; }
+
+/* Produto: herói absoluto, full frame */
+.product {
+  position:absolute; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.product img {
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center 30%;
+  filter: brightness(0.78) contrast(1.18);
+}
+
+/* Sombra apenas nas bordas — produto respira no centro */
+.vignette {
+  position:absolute; inset:0; z-index:2;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 42%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.95) 100%);
+}
+
+/* Gradiente forte apenas no bottom para ancorar o texto */
+.shadow-bottom {
+  position:absolute; bottom:0; left:0; right:0; height:38%; z-index:3;
+  background: linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+}
+
+/* Gradiente leve no topo */
+.shadow-top {
+  position:absolute; top:0; left:0; right:0; height:20%; z-index:3;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 100%);
+}
+
+/* Linha lateral — assinatura da marca */
+.blade {
+  position:absolute; top:0; left:0; z-index:10;
+  width:3px; height:100%;
+  background:linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.6) 25%,
+    rgba(255,255,255,0.6) 75%,
+    rgba(255,255,255,0) 100%);
+}
+
+/* Handle discreto no topo */
+.handle {
+  position:absolute; top:52px; right:56px; z-index:20;
+  font-family:'Barlow',sans-serif;
+  font-size:12px; font-weight:300; letter-spacing:4px;
+  color:rgba(255,255,255,0.3); text-transform:lowercase;
+}
+
+/* O conceito — texto mínimo, baixo, esquerda */
+.copy {
+  position:absolute; bottom:72px; left:60px; z-index:20;
+}
+
+.year {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:200px; font-weight:900; line-height:0.85;
+  color:#fff; letter-spacing:-8px;
+  display:block;
+  text-shadow: 0 0 120px rgba(255,255,255,0.08);
+}
+
+.line {
+  width:56px; height:2px; background:rgba(255,255,255,0.5);
+  margin: 18px 0 20px;
+}
+
+.tagline {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:26px; font-weight:300; letter-spacing:6px;
+  color:rgba(255,255,255,0.55); text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="product">
+    <img src="../../../saidas/shopify-produtos-2026/imagens/SELEÇÕES/brasil/imagem-principal.jpg" alt="">
+  </div>
+  <div class="vignette"></div>
+  <div class="shadow-bottom"></div>
+  <div class="shadow-top"></div>
+  <div class="blade"></div>
+
+  <div class="handle">@emporionortebelem</div>
+
+  <div class="copy">
+    <span class="year">1994</span>
+    <div class="line"></div>
+    <div class="tagline">A camisa que parou o Brasil.</div>
+  </div>
+</div>
+</body>
+</html>

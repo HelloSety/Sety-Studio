@@ -1,0 +1,130 @@
+<div class="cart-page">
+  <h1 class="cart-title">{{ section.settings.title | default: 'MEU CARRINHO' }}</h1>
+
+  {%- if cart.item_count > 0 -%}
+    {%- form 'cart', cart -%}
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <div class="cart-item-image">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 200 }}"
+                alt="{{ item.title }}" width="200" height="250">
+            {%- endif -%}
+          </div>
+          <div class="cart-item-details">
+            <p class="cart-item-name">{{ item.product.title }}</p>
+            <p class="cart-item-variant">{{ item.variant.option1 }}</p>
+            {%- for prop in item.properties -%}
+              {%- if prop.last != blank -%}
+                <p class="cart-item-variant" style="font-size:11px;color:#767676;">{{ prop.first }}: {{ prop.last }}</p>
+              {%- endif -%}
+            {%- endfor -%}
+            <div class="cart-item-qty">
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="qty-link">−</a>
+              <span>{{ item.quantity }}</span>
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="qty-link">+</a>
+            </div>
+            <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="cart-remove">Remover</a>
+          </div>
+          <p class="cart-item-price">{{ item.line_price | money }}</p>
+        </div>
+      {%- endfor -%}
+
+      <div class="cart-totals">
+        <span class="cart-total-label">TOTAL</span>
+        <span class="cart-total-price">{{ cart.total_price | money }}</span>
+      </div>
+
+      <button type="submit" name="checkout" class="btn-fill" style="display:block;width:100%;text-align:center;padding:16px;margin-top:16px;">
+        {{ section.settings.checkout_text | default: 'FINALIZAR PEDIDO' }}
+      </button>
+    {%- endform -%}
+
+    {%- if section.settings.show_wpp_checkout -%}
+      <div style="margin-top:16px;text-align:center;">
+        <p style="font-size:11px;color:#767676;letter-spacing:1px;margin-bottom:12px;">
+          {{ section.settings.wpp_checkout_text | default: 'Prefere confirmar pelo WhatsApp?' }}
+        </p>
+        <a href="https://wa.me/{{ settings.wpp_number }}?text={{ 'Olá! Quero finalizar meu pedido pelo WhatsApp.' | url_encode }}"
+          target="_blank" class="btn-outline" style="display:inline-block;">
+          {{ section.settings.wpp_btn_text | default: 'FINALIZAR PELO WHATSAPP' }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  {%- else -%}
+    <div style="text-align:center;padding:80px 0;">
+      <p style="font-size:13px;color:#767676;letter-spacing:1px;margin-bottom:32px;">
+        {{ section.settings.empty_text | default: 'Seu carrinho está vazio.' }}
+      </p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn-fill">
+        {{ section.settings.continue_text | default: 'EXPLORAR COLEÇÃO' }}
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  .cart-item { display:grid;grid-template-columns:80px 1fr auto;gap:16px;padding:20px 0;border-bottom:1px solid #E5E5E5; }
+  .cart-item-image img { width:80px;height:100px;object-fit:cover; }
+  .cart-item-name { font-size:13px;letter-spacing:1px;margin-bottom:4px; }
+  .cart-item-variant { font-size:11px;color:#767676;letter-spacing:1px; }
+  .cart-item-qty { display:flex;align-items:center;gap:12px;margin-top:8px;font-size:13px; }
+  .qty-link { color:#111;text-decoration:none;font-size:16px; }
+  .cart-remove { font-size:10px;letter-spacing:1px;color:#767676;text-decoration:underline;cursor:pointer;border:none;background:none;margin-top:4px;display:block; }
+  .cart-item-price { font-size:13px;letter-spacing:1px;align-self:start;padding-top:4px; }
+</style>
+
+{% schema %}
+{
+  "name": "Carrinho",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título da página",
+      "default": "MEU CARRINHO"
+    },
+    {
+      "type": "text",
+      "id": "checkout_text",
+      "label": "Texto botão finalizar",
+      "default": "FINALIZAR PEDIDO"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Texto carrinho vazio",
+      "default": "Seu carrinho está vazio."
+    },
+    {
+      "type": "text",
+      "id": "continue_text",
+      "label": "Botão continuar comprando",
+      "default": "EXPLORAR COLEÇÃO"
+    },
+    {
+      "type": "header",
+      "content": "Checkout WhatsApp"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wpp_checkout",
+      "label": "Mostrar opção WhatsApp",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wpp_checkout_text",
+      "label": "Texto acima do botão",
+      "default": "Prefere confirmar pelo WhatsApp?"
+    },
+    {
+      "type": "text",
+      "id": "wpp_btn_text",
+      "label": "Texto botão WhatsApp",
+      "default": "FINALIZAR PELO WHATSAPP"
+    }
+  ]
+}
+{% endschema %}

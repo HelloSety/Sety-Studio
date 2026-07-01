@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;200;300;700;900&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet"><style>
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;}
+body{width:1080px;height:1350px;overflow:hidden;background:#050505;}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;}
+.hdr{position:absolute;top:46px;left:58px;right:58px;z-index:20;display:flex;align-items:center;justify-content:space-between;}
+.hb{display:flex;align-items:center;gap:10px;}
+.hn{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;color:#fff;letter-spacing:4px;text-transform:uppercase;}
+.hp{color:rgba(255,255,255,.3);font-size:13px;margin:0 3px;}
+.hd{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;color:rgba(255,255,255,.6);letter-spacing:4px;text-transform:uppercase;}
+.hu{font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:3px;color:#E10613;font-style:normal;text-transform:lowercase;}
+.bot{position:absolute;bottom:0;left:0;right:0;z-index:25;padding:0 58px 42px;}
+.seal{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);margin-bottom:14px;}
+.s-bar{width:2.5px;height:40px;background:#E10613;flex-shrink:0;}
+.s-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:#fff;letter-spacing:3px;text-transform:uppercase;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.8);}
+.s-role{font-family:'Inter',sans-serif;font-size:9px;font-weight:400;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.70);margin-top:4px;}
+.s-cta{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:2.5px;color:#E10613;text-transform:uppercase;white-space:nowrap;text-shadow:none;}
+.ftr{display:flex;align-items:center;justify-content:space-between;}
+.fc{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:11px;letter-spacing:4px;color:rgba(255,255,255,.58);text-transform:uppercase;}
+.ft{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;color:#E10613;text-transform:lowercase;}
+
+.car{position:absolute;inset:0;z-index:1;}
+.car img{width:100%;height:100%;object-fit:cover;object-position:50% 36%;filter:brightness(0.7) contrast(1.15) saturate(.88);}
+.ov-l{position:absolute;inset:0;z-index:2;background:linear-gradient(108deg,rgba(5,5,5,.99) 0%,rgba(5,5,5,.92) 26%,rgba(5,5,5,.58) 50%,rgba(5,5,5,.08) 72%,transparent 100%);}
+.ov-b{position:absolute;inset:0;z-index:3;background:linear-gradient(to top,rgba(5,5,5,.92) 0%,rgba(5,5,5,.1) 18%,transparent 36%);}
+.blade{position:absolute;top:0;left:0;z-index:5;width:3px;height:100%;background:linear-gradient(to bottom,#E10613 40%,rgba(225,6,19,0) 100%);}
+.eye{position:absolute;top:158px;left:58px;z-index:20;font-family:'Inter',sans-serif;font-size:9px;font-weight:500;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.headline{position:absolute;top:194px;left:54px;z-index:20;}
+.hl-s{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:190px;line-height:.84;text-transform:uppercase;letter-spacing:-4px;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.75),0 1px 8px rgba(0,0,0,.9);}
+.hl-o{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:190px;line-height:.84;text-transform:uppercase;letter-spacing:-4px;-webkit-text-stroke:2px rgba(255,255,255,.48);color:transparent;text-shadow:none;}
+.sub{position:absolute;top:862px;left:58px;z-index:20;font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:26px;letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.80);text-shadow:0 1px 12px rgba(0,0,0,.8);}
+.badge{position:absolute;bottom:168px;right:58px;z-index:20;text-align:right;}
+.badge-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:56px;line-height:.88;text-transform:uppercase;letter-spacing:-1px;color:rgba(255,255,255,.88);text-shadow:0 2px 16px rgba(0,0,0,.8);}
+.badge-s{font-family:'Barlow Condensed',sans-serif;font-weight:200;font-size:15px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:8px;}
+</style></head><body><div class="c">
+  <div class="car"><img src="../imagens/fabrica/lineup-dusk.png" alt=""></div>
+  <div class="ov-l"></div><div class="ov-b"></div><div class="blade"></div>
+  <div class="hdr"><div class="hb"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9.5" stroke="white" stroke-width="1.2"/><text x="11" y="15" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="5.5" font-weight="900" fill="white">GWM</text></svg><span class="hn">ALEX MESSIAS</span><span class="hp">·</span><span class="hd">Consultor GWM</span></div><div class="hu">@alexmessiasoficial</div></div>
+  <div class="eye">GWM · Linha Completa · Jundiaí</div>
+  <div class="headline">
+    <div class="hl-s">TODA A<br>LINHA.</div>
+    <div class="hl-o">UM ÚNICO<br>ESPECIALISTA.</div>
+  </div>
+  <div class="sub">Alex Messias. Do H6 ao H9. Do híbrido ao elétrico.</div>
+  
+  <div class="bot"><div class="seal"><div class="s-bar"></div><div><div class="s-name">ALEX MESSIAS</div><div class="s-role">Consultoria Premium GWM</div></div></div><div class="ftr"><span class="fc">Campinas • Jundiaí • São Paulo</span><span class="ft">@alexmessiasoficial</span></div></div>
+</div></body></html>

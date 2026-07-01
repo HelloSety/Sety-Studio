@@ -1,0 +1,125 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "hero_eyebrow": "ARTE EM MACRAMÊ DO BRASIL",
+        "title_line1": "Feita à mão,",
+        "title_line2": "com alma do Brasil",
+        "cta_text": "VER COLEÇÃO",
+        "cta_url": "/collections/all"
+      }
+    },
+    "category-tiles": {
+      "type": "category-tiles",
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "blocks": {
+        "t1": {
+          "type": "tile",
+          "settings": {
+            "name": "CONJUNTOS",
+            "cta": "Comprar",
+            "link": "/collections/conjuntos"
+          }
+        },
+        "t2": {
+          "type": "tile",
+          "settings": {
+            "name": "VESTIDOS",
+            "cta": "Comprar",
+            "link": "/collections/vestidos"
+          }
+        },
+        "t3": {
+          "type": "tile",
+          "settings": {
+            "name": "PEÇAS EXCLUSIVAS",
+            "cta": "Comprar",
+            "link": "/collections/pecas-exclusivas"
+          }
+        },
+        "t4": {
+          "type": "tile",
+          "settings": {
+            "name": "VER TUDO",
+            "cta": "Comprar",
+            "link": "/collections/all"
+          }
+        }
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Coleção",
+        "title": "PEÇAS MAIS AMADAS",
+        "filter_all": "TODOS",
+        "filter_sets": "CONJUNTOS",
+        "filter_dresses": "VESTIDOS",
+        "filter_pieces": "PEÇAS EXCLUSIVAS",
+        "products_to_show": 8
+      }
+    },
+    "story": {
+      "type": "story",
+      "settings": {
+        "eyebrow": "Nossa História",
+        "title": "Nossa História,\nNossa Promessa",
+        "body": "Cada peça nasce de um processo artesanal único — fio a fio, nó a nó. Criadas à mão no Brasil com macramê de alta qualidade, nossas criações carregam a alma da arte manual e a beleza do estilo contemporâneo. Mais do que roupas, criamos peças atemporais feitas para celebrar momentos inesquecíveis.",
+        "cta_text": "SAIBA MAIS",
+        "cta_link": "/pages/sobre"
+      }
+    },
+    "craft-banner": {
+      "type": "craft-banner",
+      "settings": {
+        "eyebrow": "HANDMADE IN BRAZIL",
+        "quote": "\"Mergulhe na nossa arte artesanal excepcional — cada peça, uma obra única feita à mão.\"",
+        "cta_text": "VER COLEÇÃO",
+        "cta_link": "/collections/all"
+      }
+    },
+    "collection-premium": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Exclusividades",
+        "title": "COLEÇÃO PREMIUM",
+        "filter_all": "TODOS",
+        "filter_sets": "CONJUNTOS",
+        "filter_dresses": "VESTIDOS",
+        "filter_pieces": "PEÇAS EXCLUSIVAS",
+        "products_to_show": 4
+      }
+    },
+    "instagram": {
+      "type": "instagram-feed",
+      "settings": {
+        "eyebrow": "SIGA NOSSAS REDES",
+        "title": "INSTAGRAM",
+        "handle": "@nataliasilveira",
+        "photos_count": 6,
+        "cta_text": "SEGUIR NO INSTAGRAM"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "CADASTRE-SE PARA EXCLUSIVIDADES",
+        "subtitle": "Acesso antecipado a novos produtos e ofertas especiais",
+        "placeholder": "Seu endereço de e-mail",
+        "button_text": "ASSINAR",
+        "success_text": "Obrigada! Você receberá nossas novidades em breve."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "category-tiles",
+    "featured-collection",
+    "story",
+    "craft-banner",
+    "collection-premium",
+    "instagram",
+    "newsletter"
+  ]
+}

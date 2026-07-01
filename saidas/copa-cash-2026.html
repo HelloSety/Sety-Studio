@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copa Cash 2026 — Templates Canva para Lojas de Camisa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #F5C518;
+      --gold-dark: #D4A017;
+      --green: #00A651;
+      --green-dark: #007A3D;
+      --bg: #080808;
+      --bg2: #111111;
+      --bg3: #181818;
+      --text: #ffffff;
+      --muted: #888888;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── URGENCY BAR ── */
+    .urgency-bar {
+      background: var(--green);
+      color: #fff;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .urgency-bar span { color: var(--gold); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: #000;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 80px 24px 100px;
+      text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,166,81,0.15) 0%, transparent 70%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 50%, rgba(245,197,24,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 90% 50%, rgba(0,166,81,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,197,24,0.12);
+      border: 1px solid rgba(245,197,24,0.3);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 900px;
+      margin: 0 auto 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .hero p.lead {
+      font-size: clamp(16px, 2vw, 20px);
+      color: #ccc;
+      max-width: 620px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-cta-group { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      font-weight: 900;
+      font-size: 18px;
+      padding: 20px 48px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 8px 40px rgba(245,197,24,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); background: var(--gold-dark); }
+    .hero-cta-group small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .hero-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    .hero-proof .stars { color: var(--gold); letter-spacing: 1px; }
+
+    /* ── PREVIEW CARDS ── */
+    .preview-strip {
+      padding: 0 0 80px;
+      overflow: hidden;
+    }
+    .marquee-wrapper {
+      display: flex;
+      gap: 16px;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .preview-card {
+      width: 220px;
+      height: 220px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .pc-1  { background: linear-gradient(135deg, #003087 0%, #00A651 100%); }
+    .pc-2  { background: linear-gradient(135deg, #000000 0%, #FFD700 100%); }
+    .pc-3  { background: linear-gradient(135deg, #CC0000 0%, #111111 100%); }
+    .pc-4  { background: linear-gradient(135deg, #0A2240 0%, #CC0000 100%); }
+    .pc-5  { background: linear-gradient(135deg, #00A651 0%, #FFD700 100%); }
+    .pc-6  { background: linear-gradient(135deg, #003087 0%, #FF4400 100%); }
+    .pc-7  { background: linear-gradient(135deg, #1d1d1d 0%, #888 100%); }
+    .pc-8  { background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%); }
+    .preview-card .card-emoji { font-size: 36px; }
+    .preview-card .card-label { color: rgba(255,255,255,0.9); text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+    .preview-card .card-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.5);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section { padding: 80px 24px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-title em { font-style: normal; color: var(--gold); }
+    .section-sub {
+      font-size: 17px;
+      color: #aaa;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* ── PAIN ── */
+    .pain-section { background: var(--bg2); }
+    .pain-list { margin-top: 48px; display: grid; gap: 16px; }
+    .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .pain-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .pain-item strong { display: block; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .pain-item span { color: #888; font-size: 14px; }
+
+    /* ── WHAT'S INCLUDED ── */
+    .included-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .included-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .included-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+    }
+    .included-card .ic-count {
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 8px;
+    }
+    .included-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .included-card p { color: #888; font-size: 14px; line-height: 1.6; }
+    .included-card .ic-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .ic-tag {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      color: #aaa;
+    }
+
+    /* ── COUNTRIES ── */
+    .countries-section { background: var(--bg2); }
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 48px;
+    }
+    .country-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .country-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .country-card .flag { font-size: 36px; margin-bottom: 8px; }
+    .country-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .country-card span { font-size: 11px; color: var(--muted); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .testimonial {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .testimonial .stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; }
+    .testimonial p { font-size: 15px; color: #ddd; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .av1 { background: linear-gradient(135deg, #003087, #00A651); }
+    .av2 { background: linear-gradient(135deg, #CC0000, #FFD700); }
+    .av3 { background: linear-gradient(135deg, #1d1d1d, #888); }
+    .author-name { font-size: 14px; font-weight: 700; }
+    .author-info { font-size: 12px; color: var(--muted); }
+
+    /* ── BONUS ── */
+    .bonus-section { background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%); }
+    .bonus-list { margin-top: 48px; display: grid; gap: 16px; }
+    .bonus-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+      background: var(--bg3);
+      border: 1px solid rgba(245,197,24,0.2);
+      border-radius: 12px;
+      position: relative;
+    }
+    .bonus-number {
+      width: 44px; height: 44px;
+      background: var(--gold);
+      color: #000;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .bonus-content { flex: 1; }
+    .bonus-content h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .bonus-content p { font-size: 13px; color: #888; }
+    .bonus-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .bonus-value strong { display: block; font-size: 18px; color: var(--gold); }
+
+    /* ── OFFER ── */
+    .offer-section {
+      background: var(--bg2);
+      text-align: center;
+    }
+    .offer-box {
+      max-width: 560px;
+      margin: 48px auto 0;
+      background: var(--bg3);
+      border: 1px solid rgba(245,197,24,0.25);
+      border-radius: 16px;
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+    }
+    .offer-label {
+      display: inline-block;
+      background: rgba(245,197,24,0.12);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .offer-from {
+      font-size: 20px;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+    .offer-price {
+      font-size: 72px;
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .offer-price sup {
+      font-size: 28px;
+      vertical-align: super;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .offer-or { color: var(--muted); font-size: 14px; margin: 8px 0 4px; }
+    .offer-installment { font-size: 16px; color: #ccc; margin-bottom: 32px; }
+    .offer-installment strong { color: var(--gold); }
+    .offer-includes {
+      text-align: left;
+      margin-bottom: 32px;
+      display: grid;
+      gap: 10px;
+    }
+    .offer-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .offer-line::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .btn-buy {
+      display: block;
+      background: var(--gold);
+      color: #000;
+      font-weight: 900;
+      font-size: 20px;
+      padding: 22px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 8px 40px rgba(245,197,24,0.4);
+      margin-bottom: 16px;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 12px 50px rgba(245,197,24,0.5); }
+    .offer-security {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── GUARANTEE ── */
+    .guarantee-section { text-align: center; }
+    .guarantee-box {
+      max-width: 600px;
+      margin: 48px auto 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      text-align: left;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+    }
+    .guarantee-icon { font-size: 56px; flex-shrink: 0; }
+    .guarantee-box h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+    .guarantee-box p { color: #aaa; font-size: 15px; line-height: 1.7; }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--bg2); }
+    .faq-list { margin-top: 48px; display: grid; gap: 12px; max-width: 720px; }
+    details {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    details[open] { border-color: rgba(245,197,24,0.3); }
+    summary {
+      padding: 20px 24px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    summary::after {
+      content: '+';
+      font-size: 22px;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p {
+      padding: 0 24px 20px;
+      color: #aaa;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      text-align: center;
+      padding: 100px 24px;
+      background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(0,166,81,0.12) 0%, transparent 70%);
+    }
+    .final-cta h2 {
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+    .final-cta p { color: #aaa; font-size: 17px; margin-bottom: 40px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+    .stat-item h3 {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      color: var(--gold);
+    }
+    .stat-item p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .guarantee-box { flex-direction: column; }
+      .bonus-item { flex-wrap: wrap; }
+      .bonus-value { width: 100%; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  ⚽ A Copa do Mundo 2026 já começou — <span>cada jogo é uma chance de venda que não volta</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Copa<span>Cash</span> 2026</div>
+  <a href="#oferta" class="nav-cta">Quero os Templates →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">⚽ Kit Definitivo para Lojas de Camisa</div>
+    <h1>Sua loja pronta para a Copa<br>em <em>10 minutos</em></h1>
+    <p class="lead">
+      100 templates profissionais no Canva. Abre, troca o logo, posta e vende.
+      Sem designer. Sem Photoshop. Sem enrolação.
+    </p>
+    <div class="hero-cta-group">
+      <a href="#oferta" class="btn-primary">QUERO MEU KIT AGORA →</a>
+      <small>Acesso imediato · Canva gratuito funciona · Garantia de 7 dias</small>
+    </div>
+    <div class="hero-proof">
+      <span class="stars">★★★★★</span>
+      <span>+500 lojas já usando durante a Copa</span>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW STRIP -->
+<section class="preview-strip">
+  <div class="marquee-wrapper">
+    <div class="preview-card pc-1"><div class="card-emoji">🇧🇷</div><div class="card-label">Matchday Brasil</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-2"><div class="card-emoji">⚡</div><div class="card-label">Oferta Relâmpago</div><div class="card-tag">Story</div></div>
+    <div class="preview-card pc-3"><div class="card-emoji">🔴</div><div class="card-label">Últimas Unidades</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-4"><div class="card-emoji">🇦🇷</div><div class="card-label">Camisa Argentina</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-5"><div class="card-emoji">🏆</div><div class="card-label">Campeão Copa</div><div class="card-tag">Story</div></div>
+    <div class="preview-card pc-6"><div class="card-emoji">👶</div><div class="card-label">Kit Infantil</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-7"><div class="card-emoji">🎫</div><div class="card-label">Frete Grátis</div><div class="card-tag">Banner</div></div>
+    <div class="preview-card pc-8"><div class="card-emoji">🇵🇹</div><div class="card-label">Matchday Portugal</div><div class="card-tag">Feed</div></div>
+    <!-- duplica pro loop infinito -->
+    <div class="preview-card pc-1"><div class="card-emoji">🇧🇷</div><div class="card-label">Matchday Brasil</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-2"><div class="card-emoji">⚡</div><div class="card-label">Oferta Relâmpago</div><div class="card-tag">Story</div></div>
+    <div class="preview-card pc-3"><div class="card-emoji">🔴</div><div class="card-label">Últimas Unidades</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-4"><div class="card-emoji">🇦🇷</div><div class="card-label">Camisa Argentina</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-5"><div class="card-emoji">🏆</div><div class="card-label">Campeão Copa</div><div class="card-tag">Story</div></div>
+    <div class="preview-card pc-6"><div class="card-emoji">👶</div><div class="card-label">Kit Infantil</div><div class="card-tag">Feed</div></div>
+    <div class="preview-card pc-7"><div class="card-emoji">🎫</div><div class="card-label">Frete Grátis</div><div class="card-tag">Banner</div></div>
+    <div class="preview-card pc-8"><div class="card-emoji">🇵🇹</div><div class="card-label">Matchday Portugal</div><div class="card-tag">Feed</div></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><h3>100</h3><p>Templates prontos no Canva</p></div>
+    <div class="stat-item"><h3>10min</h3><p>Da compra ao primeiro post</p></div>
+    <div class="stat-item"><h3>10</h3><p>Seleções da Copa cobertas</p></div>
+    <div class="stat-item"><h3>R$0</h3><p>Precisa de Photoshop</p></div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="section pain-section">
+  <div class="container">
+    <div class="section-tag">A realidade das lojas de camisa</div>
+    <h2 class="section-title">Sua loja pode estar <em>perdendo</em><br>vendas agora mesmo</h2>
+    <p class="section-sub">A Copa é o maior evento de vendas do ano para quem vende camisa. E ela já começou.</p>
+
+    <div class="pain-list">
+      <div class="pain-item">
+        <div class="pain-icon">📸</div>
+        <div>
+          <strong>Foto tirada no celular com fundo branco</strong>
+          <span>Enquanto lojas profissionais postam artes impecáveis, você ainda usa a foto do fornecedor. O cliente compra de quem passa mais confiança.</span>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">💸</div>
+        <div>
+          <strong>Designer custa caro e demora</strong>
+          <span>R$80–150 por arte. Prazo de 2–3 dias. No ritmo da Copa, quando o jogo do Brasil é amanhã, você não tem tempo pra isso.</span>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">😓</div>
+        <div>
+          <strong>Canva parece simples, mas o resultado parece amador</strong>
+          <span>Você entra, não sabe por onde começar, usa uma fonte qualquer, e o post fica genérico. Não passa profissionalismo.</span>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">⏰</div>
+        <div>
+          <strong>Não sobra tempo para criar conteúdo</strong>
+          <span>Você está cuidando do estoque, atendimento e entrega. Não tem horas por dia para ficar criando arte do zero.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDED -->
+<section class="section">
+  <div class="container">
+    <div class="section-tag">O que está no kit</div>
+    <h2 class="section-title">Tudo que sua loja precisa<br>para <em>dominar a Copa</em></h2>
+    <p class="section-sub">Templates profissionais, organizados por tema, prontos para editar no Canva gratuito.</p>
+
+    <div class="included-grid">
+      <div class="included-card">
+        <div class="ic-count">50</div>
+        <h3>Templates Feed Instagram</h3>
+        <p>Formato 1080×1080. Temas: lançamento, promoção, oferta relâmpago, frete grátis, últimas unidades, Copa, retrô.</p>
+        <div class="ic-tags">
+          <span class="ic-tag">Lançamento</span>
+          <span class="ic-tag">Promoção</span>
+          <span class="ic-tag">Copa</span>
+          <span class="ic-tag">Retrô</span>
+          <span class="ic-tag">Kit Infantil</span>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="ic-count">30</div>
+        <h3>Templates Stories</h3>
+        <p>Formato 1080×1920. Arrasta pra cima, promoção de hoje, estoque acabando, cupom, contagem regressiva.</p>
+        <div class="ic-tags">
+          <span class="ic-tag">Arrasta pra cima</span>
+          <span class="ic-tag">Cupom</span>
+          <span class="ic-tag">Urgência</span>
+          <span class="ic-tag">Copa</span>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="ic-count">20</div>
+        <h3>Banners para Site/Loja</h3>
+        <p>Desktop e mobile. Temas: Copa 2026, seleções, uniformes novos, kits infantis, promoções.</p>
+        <div class="ic-tags">
+          <span class="ic-tag">Desktop</span>
+          <span class="ic-tag">Mobile</span>
+          <span class="ic-tag">Promoção</span>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="ic-count">10</div>
+        <h3>Linha Seleções da Copa</h3>
+        <p>Matchday, resultado final, escalação, artilheiro, próximo jogo — por seleção. Brasil, Argentina, Portugal e mais.</p>
+        <div class="ic-tags">
+          <span class="ic-tag">🇧🇷 Brasil</span>
+          <span class="ic-tag">🇦🇷 Argentina</span>
+          <span class="ic-tag">🇵🇹 Portugal</span>
+          <span class="ic-tag">+7</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTRIES -->
+<section class="section countries-section">
+  <div class="container">
+    <div class="section-tag">Linha Copa do Mundo 2026</div>
+    <h2 class="section-title">Templates para as <em>10 seleções</em><br>que mais vendem camisa</h2>
+    <p class="section-sub">Cada seleção tem templates de matchday, resultado, escalação e artilheiro.</p>
+    <div class="countries-grid">
+      <div class="country-card"><div class="flag">🇧🇷</div><h4>Brasil</h4><span>12 templates</span></div>
+      <div class="country-card"><div class="flag">🇦🇷</div><h4>Argentina</h4><span>12 templates</span></div>
+      <div class="country-card"><div class="flag">🇵🇹</div><h4>Portugal</h4><span>10 templates</span></div>
+      <div class="country-card"><div class="flag">🇫🇷</div><h4>França</h4><span>10 templates</span></div>
+      <div class="country-card"><div class="flag">🇩🇪</div><h4>Alemanha</h4><span>8 templates</span></div>
+      <div class="country-card"><div class="flag">🇪🇸</div><h4>Espanha</h4><span>8 templates</span></div>
+      <div class="country-card"><div class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><h4>Inglaterra</h4><span>8 templates</span></div>
+      <div class="country-card"><div class="flag">🇳🇱</div><h4>Holanda</h4><span>8 templates</span></div>
+      <div class="country-card"><div class="flag">🇺🇾</div><h4>Uruguai</h4><span>6 templates</span></div>
+      <div class="country-card"><div class="flag">🇲🇦</div><h4>Marrocos</h4><span>6 templates</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <div class="section-tag">Quem já usa</div>
+    <h2 class="section-title">Lojas que pararam de <em>improvisar</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Eu gastava R$120 por semana com designer. Agora pago uma vez e tenho tudo pronto. No dia do jogo do Brasil eu postei 4 stories em menos de 15 minutos."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar av1">R</div>
+          <div>
+            <div class="author-name">Rafael M.</div>
+            <div class="author-info">Loja Boleiro Store · Belém/PA</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Nunca soube usar o Canva direito. Com esses templates eu abro, troco o preço e a foto da camisa, e já fica profissional. Minhas vendas no Instagram dobraram na Copa."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar av2">K</div>
+          <div>
+            <div class="author-name">Karina S.</div>
+            <div class="author-info">Fut Zone · Curitiba/PR</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"O template de 'últimas unidades' foi o que mais converteu pra mim. Postei, coloquei no story e vendi 8 camisas em 3 horas. Produto que paga o investimento no primeiro post."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar av3">M</div>
+          <div>
+            <div class="author-name">Marcelo T.</div>
+            <div class="author-info">MantoCamisa · Porto Alegre/RS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BONUS -->
+<section class="section bonus-section">
+  <div class="container">
+    <div class="section-tag">Bônus exclusivos</div>
+    <h2 class="section-title">Você também leva <em>grátis</em></h2>
+    <p class="section-sub">Bônus pensados para aumentar suas vendas na Copa, não para encher o produto.</p>
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-number">1</div>
+        <div class="bonus-content">
+          <h4>50 Criativos Campeões para Anúncio</h4>
+          <p>Copy pronta + estrutura visual para Meta Ads. Só adaptar e subir. Headline, subheadline, CTA e público indicado em cada um.</p>
+        </div>
+        <div class="bonus-value">Valor<strong>R$97</strong></div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-number">2</div>
+        <div class="bonus-content">
+          <h4>Calendário de Postagem Copa 2026</h4>
+          <p>Qual template usar antes, durante e depois de cada jogo do Brasil. Tira a dúvida de "o que postar hoje".</p>
+        </div>
+        <div class="bonus-value">Valor<strong>R$47</strong></div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-number">3</div>
+        <div class="bonus-content">
+          <h4>Pack: 7 Stories Contagem Regressiva</h4>
+          <p>Um story para cada dia antes do jogo do Brasil. Cria expectativa e mantém sua loja em alta na semana do jogo.</p>
+        </div>
+        <div class="bonus-value">Valor<strong>R$67</strong></div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-number">4</div>
+        <div class="bonus-content">
+          <h4>50 Legendas Prontas para Instagram</h4>
+          <p>Para os 50 templates do feed. Só copiar, colar e adaptar o preço. Zero tempo gasto pensando no que escrever.</p>
+        </div>
+        <div class="bonus-value">Valor<strong>R$37</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="section offer-section" id="oferta">
+  <div class="container">
+    <div class="section-tag">Oferta especial Copa 2026</div>
+    <h2 class="section-title">Tudo isso por<br>muito <em>menos</em> do que vale</h2>
+
+    <div class="offer-box">
+      <div class="offer-label">Acesso imediato</div>
+
+      <div class="offer-from">De R$197</div>
+      <div class="offer-price"><sup>R$</sup>47</div>
+      <div class="offer-or">ou</div>
+      <div class="offer-installment">2× de <strong>R$25</strong> sem juros</div>
+
+      <div class="offer-includes">
+        <div class="offer-line">50 Templates Feed Instagram (1080×1080)</div>
+        <div class="offer-line">30 Templates Stories (1080×1920)</div>
+        <div class="offer-line">20 Banners para site desktop e mobile</div>
+        <div class="offer-line">Linha completa 10 Seleções da Copa</div>
+        <div class="offer-line">Bônus: 50 Criativos para Anúncio</div>
+        <div class="offer-line">Bônus: Calendário de Postagem Copa</div>
+        <div class="offer-line">Bônus: 7 Stories Contagem Regressiva</div>
+        <div class="offer-line">Bônus: 50 Legendas prontas para feed</div>
+      </div>
+
+      <a href="#" class="btn-buy">QUERO MEU KIT AGORA →</a>
+      <div class="offer-security">🔒 Pagamento seguro · Acesso imediato via Canva · Hotmart</div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="section guarantee-section">
+  <div class="container">
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🛡️</div>
+      <div>
+        <h3>Garantia de 7 dias, sem pergunta</h3>
+        <p>Se você entrar, olhar os templates e achar que não vale, manda uma mensagem e devolvemos tudo. Sem burocracia, sem questionamento. O risco é 100% nosso — não seu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section">
+  <div class="container">
+    <div class="section-tag">Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas <em>respondidas</em></h2>
+    <div class="faq-list">
+      <details>
+        <summary>Precisa ter o Canva Pro?</summary>
+        <p>Não. Todos os templates funcionam no Canva gratuito. Você recebe o link, clica, e o template abre direto na sua conta. Nenhum recurso pago é necessário.</p>
+      </details>
+      <details>
+        <summary>Como recebo os templates?</summary>
+        <p>Assim que o pagamento é confirmado, você recebe um e-mail com o link de acesso. Clica no link, os templates aparecem no seu Canva. Menos de 2 minutos do pagamento ao primeiro template aberto.</p>
+      </details>
+      <details>
+        <summary>Posso usar para mais de uma loja?</summary>
+        <p>A licença é pessoal — para uma loja ou perfil. Se precisar de uso para múltiplas lojas ou revenda, fale comigo que temos uma licença comercial.</p>
+      </details>
+      <details>
+        <summary>Funciona no celular?</summary>
+        <p>Sim. O Canva tem app para iOS e Android. Você pode editar e postar direto do celular, sem precisar de computador.</p>
+      </details>
+      <details>
+        <summary>Os templates têm logomarca de outra loja?</summary>
+        <p>Não. Todos são genéricos — sem logo, sem nome de loja. Você adiciona a identidade da sua loja em cada um.</p>
+      </details>
+      <details>
+        <summary>E depois da Copa, os templates ainda servem?</summary>
+        <p>Os templates de feed, stories e banners são evergreen — servem para qualquer temporada. Apenas os de seleções da Copa são temáticos. Você tem valor além do evento.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>A Copa não espera.<br>Sua loja <em>também não</em> deveria.</h2>
+    <p>Cada jogo que passa sem um post profissional é uma venda que foi pro concorrente.</p>
+    <a href="#oferta" class="btn-primary" style="font-size:20px; padding:22px 56px;">GARANTIR MEU KIT — R$47 →</a>
+    <p style="margin-top:16px; font-size:13px;">Acesso imediato · Canva gratuito · Garantia de 7 dias</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Copa Cash 2026 · Produto digital · Todos os direitos reservados</p>
+  <p style="margin-top:8px;">Dúvidas? <a href="https://wa.me/55" style="color:var(--gold); text-decoration:none;">Fale no WhatsApp</a></p>
+</footer>
+
+<script>
+  // Countdown no urgency bar
+  const bar = document.querySelector('.urgency-bar');
+  let minutes = 14, seconds = 59;
+  setInterval(() => {
+    seconds--;
+    if (seconds < 0) { seconds = 59; minutes--; }
+    if (minutes < 0) { minutes = 14; seconds = 59; }
+    const pad = n => String(n).padStart(2,'0');
+    bar.innerHTML = `⚽ Oferta especial expira em <span>${pad(minutes)}:${pad(seconds)}</span> — não perca a Copa sem estar pronto`;
+  }, 1000);
+</script>
+
+</body>
+</html>

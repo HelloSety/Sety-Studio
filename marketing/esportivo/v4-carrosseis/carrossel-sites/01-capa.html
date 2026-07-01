@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#08080F; }
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% -5%, rgba(100,60,220,0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 35% at 15% 85%, rgba(26,86,219,0.09) 0%, transparent 60%),
+    #08080F;
+}
+
+.grain {
+  position:absolute; inset:0; z-index:9; pointer-events:none; opacity:0.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* Top bar */
+.top-bar {
+  position:absolute; top:0; left:0; right:0; z-index:20;
+  height:60px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 52px;
+}
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-sq { width:7px; height:7px; background:#E85D00; }
+.brand-txt {
+  font-family:'Barlow',sans-serif; font-weight:400; font-size:9px;
+  letter-spacing:4px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+.counter {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:11px;
+  letter-spacing:3px; color:rgba(255,255,255,0.25);
+}
+.counter b { color:#E85D00; font-weight:700; }
+
+/* BROWSER MOCKUP */
+.browser-wrap {
+  position:absolute; top:90px; left:52px; right:52px; z-index:10;
+  height:570px;
+}
+
+.browser {
+  width:100%; height:100%;
+  background:#0F1020;
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px; overflow:hidden;
+  box-shadow:
+    0 60px 120px rgba(0,0,0,0.75),
+    0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+.b-bar {
+  height:40px; background:#161727;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex; align-items:center; gap:7px; padding:0 16px;
+}
+.b-dot { width:11px; height:11px; border-radius:50%; }
+.b-r { background:rgba(255,80,80,0.55); }
+.b-y { background:rgba(255,190,50,0.55); }
+.b-g { background:rgba(50,200,90,0.55); }
+.b-url {
+  flex:1; margin:0 20px; height:24px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.07); border-radius:4px;
+  display:flex; align-items:center; padding:0 12px;
+  font-family:'Barlow',sans-serif; font-size:10px;
+  color:rgba(255,255,255,0.22); letter-spacing:0.3px;
+}
+
+.b-content { height:calc(100% - 40px); display:flex; flex-direction:column; }
+
+/* Website hero section inside browser */
+.w-hero {
+  height:52%; position:relative; overflow:hidden;
+  background:linear-gradient(130deg, #E85D00 0%, #FF8844 45%, #1A56DB 100%);
+  display:flex; flex-direction:column; justify-content:flex-end; padding:28px 36px;
+}
+.w-hero::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.35) 100%);
+}
+.w-label {
+  position:relative; z-index:1;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:3px; color:rgba(255,255,255,0.65); text-transform:uppercase;
+  margin-bottom:6px;
+}
+.w-title {
+  position:relative; z-index:1;
+  font-family:'Barlow',sans-serif; font-weight:800; font-size:28px;
+  color:#fff; line-height:1.1; margin-bottom:14px;
+}
+.w-btn {
+  position:relative; z-index:1; width:fit-content;
+  background:#fff; color:#E85D00;
+  padding:9px 22px; border-radius:4px;
+  font-family:'Barlow',sans-serif; font-weight:700; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase;
+}
+
+/* Features row */
+.w-features {
+  height:48%; background:#0A0B15;
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:0;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.w-feat {
+  padding:18px 20px; border-right:1px solid rgba(255,255,255,0.04);
+  display:flex; flex-direction:column; gap:7px;
+}
+.w-feat:last-child { border-right:none; }
+.w-feat-num {
+  font-family:'Bebas Neue',sans-serif; font-size:28px; color:#E85D00; line-height:1;
+}
+.w-feat-t {
+  font-family:'Barlow',sans-serif; font-weight:600; font-size:11px;
+  color:rgba(255,255,255,0.75); letter-spacing:0.3px;
+}
+.w-feat-s {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:9px;
+  color:rgba(255,255,255,0.28); line-height:1.4;
+}
+.w-feat-bar { width:100%; height:2px; background:rgba(255,255,255,0.05); margin-top:4px; border-radius:1px; }
+.w-feat-fill { height:100%; border-radius:1px; }
+.f1 .w-feat-fill { width:78%; background:#E85D00; }
+.f2 .w-feat-fill { width:61%; background:#1A56DB; }
+.f3 .w-feat-fill { width:90%; background:rgba(255,255,255,0.4); }
+
+/* HEADLINE BLOCK */
+.headline-block {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:0 52px 52px;
+}
+
+.hl-tag {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex; align-items:center; gap:12px;
+}
+.hl-tag::before { content:''; display:block; width:20px; height:1px; background:#E85D00; }
+
+.hl-main {
+  font-family:'Bebas Neue',sans-serif; font-size:116px; line-height:0.87;
+  letter-spacing:-1px; margin-bottom:36px;
+}
+.hl-dim { color:rgba(255,255,255,0.35); }
+.hl-white { color:#fff; }
+.hl-orange { color:#E85D00; }
+
+.bottom-row {
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,0.07); padding-top:18px;
+}
+.bt-handle {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.18); text-transform:lowercase;
+}
+.bt-save {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:4px; color:rgba(255,255,255,0.18); text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="grain"></div>
+
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-sq"></div>
+      <div class="brand-txt">Sety Studio</div>
+    </div>
+    <div class="counter"><b>01</b> / 07</div>
+  </div>
+
+  <!-- BROWSER MOCKUP -->
+  <div class="browser-wrap">
+    <div class="browser">
+      <div class="b-bar">
+        <div class="b-dot b-r"></div>
+        <div class="b-dot b-y"></div>
+        <div class="b-dot b-g"></div>
+        <div class="b-url">seusite.com.br</div>
+      </div>
+      <div class="b-content">
+        <div class="w-hero">
+          <div class="w-label">Design & Conversão</div>
+          <div class="w-title">Transforme visitantes<br>em clientes reais.</div>
+          <div class="w-btn">Quero um site que vende</div>
+        </div>
+        <div class="w-features">
+          <div class="w-feat f1">
+            <div class="w-feat-num">78%</div>
+            <div class="w-feat-t">Taxa de Retenção</div>
+            <div class="w-feat-s">Visitantes que ficam e leem</div>
+            <div class="w-feat-bar"><div class="w-feat-fill"></div></div>
+          </div>
+          <div class="w-feat f2">
+            <div class="w-feat-num">4.2K</div>
+            <div class="w-feat-t">Leads / mês</div>
+            <div class="w-feat-s">Formulários preenchidos</div>
+            <div class="w-feat-bar"><div class="w-feat-fill"></div></div>
+          </div>
+          <div class="w-feat f3">
+            <div class="w-feat-num">R$87K</div>
+            <div class="w-feat-t">Receita gerada</div>
+            <div class="w-feat-s">Direto pelo site em 30 dias</div>
+            <div class="w-feat-bar"><div class="w-feat-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="headline-block">
+    <div class="hl-tag">Estratégia de Conversão</div>
+    <div class="hl-main">
+      <span class="hl-dim">5 detalhes</span><br>
+      <span class="hl-white">que fazem</span><br>
+      <span class="hl-white">um site</span><br>
+      <span class="hl-orange">vender.</span>
+    </div>
+    <div class="bottom-row">
+      <div class="bt-handle">@setystudio</div>
+      <div class="bt-save">↓ salvar pra depois</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

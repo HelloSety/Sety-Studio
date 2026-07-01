@@ -1,0 +1,16 @@
+{
+  "name": "sety-prospector",
+  "version": "1.0.0",
+  "description": "Prospecção automática de clientes via Google Maps + WhatsApp",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dry": "node index.js --dry-run",
+    "export": "node index.js --only-export"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.4.0"
+  }
+}

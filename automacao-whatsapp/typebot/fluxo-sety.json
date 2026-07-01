@@ -1,0 +1,372 @@
+{
+  "version": "6",
+  "id": "sety-qualificacao-2026",
+  "name": "Qualificação Sety Studio",
+  "groups": [
+    {
+      "id": "g_start",
+      "title": "Start",
+      "graphCoordinates": { "x": 0, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_start",
+          "type": "start",
+          "groupId": "g_start",
+          "label": "Start"
+        }
+      ]
+    },
+    {
+      "id": "g_boasvindas",
+      "title": "Boas-vindas",
+      "graphCoordinates": { "x": 300, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_boasvindas",
+          "type": "text",
+          "groupId": "g_boasvindas",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Olá! Sou a assistente da Sety Studio. 👋" }] },
+              { "type": "p", "children": [{ "text": "Vou te fazer algumas perguntas rápidas para entender seu projeto e te enviar uma proposta personalizada." }] },
+              { "type": "p", "children": [{ "text": "Leva menos de 2 minutos!" }] }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_nome",
+      "title": "Nome",
+      "graphCoordinates": { "x": 600, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_nome",
+          "type": "text",
+          "groupId": "g_nome",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Qual é o seu nome?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_nome",
+          "type": "text input",
+          "groupId": "g_nome",
+          "options": {
+            "variableId": "v_nome",
+            "labels": { "placeholder": "Digite seu nome...", "button": "Enviar" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_instagram",
+      "title": "Instagram",
+      "graphCoordinates": { "x": 900, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_insta",
+          "type": "text",
+          "groupId": "g_instagram",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Ótimo, {{nome}}! 😊 Qual é o seu Instagram?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_insta",
+          "type": "text input",
+          "groupId": "g_instagram",
+          "options": {
+            "variableId": "v_instagram",
+            "labels": { "placeholder": "@seuperfil", "button": "Enviar" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_cidade",
+      "title": "Cidade",
+      "graphCoordinates": { "x": 1200, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_cidade",
+          "type": "text",
+          "groupId": "g_cidade",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "De qual cidade você é?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_cidade",
+          "type": "text input",
+          "groupId": "g_cidade",
+          "options": {
+            "variableId": "v_cidade",
+            "labels": { "placeholder": "Cidade / Estado", "button": "Enviar" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_nicho",
+      "title": "Nicho",
+      "graphCoordinates": { "x": 1500, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_nicho",
+          "type": "text",
+          "groupId": "g_nicho",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Qual é o nicho do seu e-commerce?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_nicho",
+          "type": "choice input",
+          "groupId": "g_nicho",
+          "items": [
+            { "id": "nicho_1", "content": "Moda / Vestuário" },
+            { "id": "nicho_2", "content": "Esportes / Fitness" },
+            { "id": "nicho_3", "content": "Eletrônicos" },
+            { "id": "nicho_4", "content": "Casa e Decoração" },
+            { "id": "nicho_5", "content": "Outro" }
+          ],
+          "options": {
+            "variableId": "v_nicho",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_plataforma",
+      "title": "Plataforma",
+      "graphCoordinates": { "x": 1800, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_plat",
+          "type": "text",
+          "groupId": "g_plataforma",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Qual plataforma você prefere para sua loja?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_plat",
+          "type": "choice input",
+          "groupId": "g_plataforma",
+          "items": [
+            { "id": "plat_1", "content": "Shopify" },
+            { "id": "plat_2", "content": "Nuvemshop" },
+            { "id": "plat_3", "content": "Não sei ainda" }
+          ],
+          "options": {
+            "variableId": "v_plataforma",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_produtos",
+      "title": "Produtos",
+      "graphCoordinates": { "x": 2100, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_prod",
+          "type": "text",
+          "groupId": "g_produtos",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Quantos produtos você vai vender?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_prod",
+          "type": "choice input",
+          "groupId": "g_produtos",
+          "items": [
+            { "id": "prod_1", "content": "Menos de 20 produtos" },
+            { "id": "prod_2", "content": "20 a 50 produtos" },
+            { "id": "prod_3", "content": "Mais de 50 produtos" }
+          ],
+          "options": {
+            "variableId": "v_qtd_produtos",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_fornecedor",
+      "title": "Fornecedor",
+      "graphCoordinates": { "x": 2400, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_forn",
+          "type": "text",
+          "groupId": "g_fornecedor",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Você já possui fornecedor(es)?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_forn",
+          "type": "choice input",
+          "groupId": "g_fornecedor",
+          "items": [
+            { "id": "forn_1", "content": "Sim, já tenho" },
+            { "id": "forn_2", "content": "Ainda estou buscando" },
+            { "id": "forn_3", "content": "Não tenho" }
+          ],
+          "options": {
+            "variableId": "v_fornecedor",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_prazo",
+      "title": "Prazo",
+      "graphCoordinates": { "x": 2700, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_prazo",
+          "type": "text",
+          "groupId": "g_prazo",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Quando você quer lançar a loja?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_prazo",
+          "type": "choice input",
+          "groupId": "g_prazo",
+          "items": [
+            { "id": "prazo_1", "content": "O mais rápido possível" },
+            { "id": "prazo_2", "content": "Este mês" },
+            { "id": "prazo_3", "content": "Nos próximos 3 meses" },
+            { "id": "prazo_4", "content": "Sem prazo definido" }
+          ],
+          "options": {
+            "variableId": "v_prazo",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_investimento",
+      "title": "Investimento",
+      "graphCoordinates": { "x": 3000, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_inv",
+          "type": "text",
+          "groupId": "g_investimento",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Qual faixa de investimento você considera?" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_inp_inv",
+          "type": "choice input",
+          "groupId": "g_investimento",
+          "items": [
+            { "id": "inv_1", "content": "Até R$ 800" },
+            { "id": "inv_2", "content": "R$ 800 a R$ 1.500" },
+            { "id": "inv_3", "content": "R$ 1.500 a R$ 3.000" },
+            { "id": "inv_4", "content": "Acima de R$ 3.000" }
+          ],
+          "options": {
+            "variableId": "v_investimento",
+            "isMultipleChoice": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_fim",
+      "title": "Fim + Webhook",
+      "graphCoordinates": { "x": 3300, "y": 0 },
+      "blocks": [
+        {
+          "id": "b_txt_fim",
+          "type": "text",
+          "groupId": "g_fim",
+          "content": {
+            "richText": [
+              { "type": "p", "children": [{ "text": "Perfeito, {{nome}}! 🎉" }] },
+              { "type": "p", "children": [{ "text": "Recebi suas informações. Nossa equipe entrará em contato em breve com uma proposta personalizada. Fique atento ao WhatsApp! 📱" }] }
+            ]
+          }
+        },
+        {
+          "id": "b_webhook",
+          "type": "webhook",
+          "groupId": "g_fim",
+          "options": {
+            "url": "http://67.207.90.199:5678/webhook/lead-sety",
+            "method": "POST",
+            "headers": [],
+            "queryParams": [],
+            "body": "{\"nome\":\"{{nome}}\",\"instagram\":\"{{instagram}}\",\"cidade\":\"{{cidade}}\",\"nicho\":\"{{nicho}}\",\"plataforma\":\"{{plataforma}}\",\"qtd_produtos\":\"{{qtd_produtos}}\",\"fornecedor\":\"{{fornecedor}}\",\"prazo\":\"{{prazo}}\",\"investimento\":\"{{investimento}}\"}",
+            "isCustomBody": true,
+            "isExecutedOnClient": false,
+            "responseVariableMapping": [],
+            "saveDataInVariables": []
+          }
+        }
+      ]
+    }
+  ],
+  "edges": [
+    { "id": "e_01", "from": { "blockId": "b_start" }, "to": { "groupId": "g_boasvindas" } },
+    { "id": "e_02", "from": { "blockId": "b_txt_boasvindas" }, "to": { "groupId": "g_nome" } },
+    { "id": "e_03", "from": { "blockId": "b_inp_nome" }, "to": { "groupId": "g_instagram" } },
+    { "id": "e_04", "from": { "blockId": "b_inp_insta" }, "to": { "groupId": "g_cidade" } },
+    { "id": "e_05", "from": { "blockId": "b_inp_cidade" }, "to": { "groupId": "g_nicho" } },
+    { "id": "e_06", "from": { "blockId": "b_inp_nicho" }, "to": { "groupId": "g_plataforma" } },
+    { "id": "e_07", "from": { "blockId": "b_inp_plat" }, "to": { "groupId": "g_produtos" } },
+    { "id": "e_08", "from": { "blockId": "b_inp_prod" }, "to": { "groupId": "g_fornecedor" } },
+    { "id": "e_09", "from": { "blockId": "b_inp_forn" }, "to": { "groupId": "g_prazo" } },
+    { "id": "e_10", "from": { "blockId": "b_inp_prazo" }, "to": { "groupId": "g_investimento" } },
+    { "id": "e_11", "from": { "blockId": "b_inp_inv" }, "to": { "groupId": "g_fim" } }
+  ],
+  "variables": [
+    { "id": "v_nome", "name": "nome" },
+    { "id": "v_instagram", "name": "instagram" },
+    { "id": "v_cidade", "name": "cidade" },
+    { "id": "v_nicho", "name": "nicho" },
+    { "id": "v_plataforma", "name": "plataforma" },
+    { "id": "v_qtd_produtos", "name": "qtd_produtos" },
+    { "id": "v_fornecedor", "name": "fornecedor" },
+    { "id": "v_prazo", "name": "prazo" },
+    { "id": "v_investimento", "name": "investimento" }
+  ],
+  "settings": {
+    "isBrandingEnabled": false,
+    "isInputPrefillEnabled": true,
+    "isHideQueryParamsEnabled": true,
+    "isNewResultOnRefreshEnabled": false
+  },
+  "theme": {}
+}

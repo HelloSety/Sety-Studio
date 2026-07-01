@@ -1,0 +1,146 @@
+<div class="collection-grid-wrap">
+  {%- if collection.image -%}
+    <div class="collection-hero">
+      <img src="{{ collection.image | image_url: width: 1600 }}"
+        alt="{{ collection.image.alt | default: collection.title }}"
+        width="1600" height="500" loading="eager">
+      <div class="collection-hero-overlay">
+        <h1 class="collection-hero-title">{{ collection.title }}</h1>
+      </div>
+    </div>
+  {%- else -%}
+    <div class="collection-header">
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {%- if collection.description != blank and section.settings.show_description -%}
+        <div class="collection-desc">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_filter_bar -%}
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">TODOS</button>
+      <button class="filter-btn" data-filter="conjunto">CONJUNTOS</button>
+      <button class="filter-btn" data-filter="vestido">VESTIDOS</button>
+      <button class="filter-btn" data-filter="peca-exclusiva">PEÇAS EXCLUSIVAS</button>
+    </div>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="product-grid collection-grid" id="collectionGrid"
+      style="--cols-desk:{{ section.settings.columns_desktop }};--cols-mob:{{ section.settings.columns_mobile }};">
+      {%- for product in collection.products -%}
+        {%- render 'product-card', product: product -%}
+      {%- else -%}
+        <p style="padding:60px 0;text-align:center;font-size:13px;color:#767676;letter-spacing:1px;">
+          Nenhum produto encontrado nesta coleção.
+        </p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="pagination">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="pagination-btn">← Anterior</a>
+        {%- endif -%}
+        <span class="pagination-info">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="pagination-btn">Próxima →</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+<style>
+  .collection-grid { grid-template-columns: repeat(var(--cols-desk, 4), 1fr); }
+  @media (max-width:768px) { .collection-grid { grid-template-columns: repeat(var(--cols-mob, 2), 1fr); } }
+  .collection-hero { position:relative; height:300px; overflow:hidden; }
+  .collection-hero img { width:100%; height:100%; object-fit:cover; }
+  .collection-hero-overlay { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35); }
+  .collection-hero-title { color:#fff;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,4vw,48px);letter-spacing:4px; }
+  .collection-header { padding:48px 24px 8px;text-align:center; }
+  .collection-title { font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;letter-spacing:4px;margin-bottom:16px; }
+  .collection-desc { font-size:13px;color:#767676;max-width:600px;margin:0 auto; }
+  .pagination { display:flex;align-items:center;justify-content:center;gap:24px;padding:48px 24px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px; }
+  .pagination-btn { color:#111;text-decoration:none;border-bottom:1px solid #111; }
+  .pagination-info { color:#767676; }
+</style>
+
+<script>
+  (function(){
+    var btns = document.querySelectorAll('.filter-btn');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.dataset.filter;
+        document.querySelectorAll('#collectionGrid .product-card').forEach(function(c){
+          c.style.display = (f==='all' || c.dataset.type===f) ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Coleção",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout da Grade"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Colunas no desktop",
+      "options": [
+        { "value": "2", "label": "2 colunas" },
+        { "value": "3", "label": "3 colunas" },
+        { "value": "4", "label": "4 colunas" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Colunas no celular",
+      "options": [
+        { "value": "1", "label": "1 coluna" },
+        { "value": "2", "label": "2 colunas" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Produtos por página"
+    },
+    {
+      "type": "header",
+      "content": "Cabeçalho da Coleção"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Mostrar descrição da coleção",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Filtros"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_bar",
+      "label": "Mostrar barra de filtros",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

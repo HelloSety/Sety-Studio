@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Consórcios — Realize seu Sonho Sem Juros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D1B3E;
+      --navy2: #1A2F5E;
+      --gold: #D4A017;
+      --gold-light: #FBF3D9;
+      --white: #FFFFFF;
+      --gray: #6B7280;
+      --border: #E5E7EB;
+      --light-bg: #F9FAFB;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(13,27,62,0.10); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-shield {
+      width: 32px;
+      height: 32px;
+    }
+    .logo-text { font-size: 1.05rem; font-weight: 800; color: var(--navy); letter-spacing: -0.3px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: 0.87rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .btn-nav-navy {
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 0.87rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-nav-navy:hover { background: var(--navy2); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 22px; height: 2px; background: var(--navy); display: block; border-radius: 1px; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      display: flex;
+      align-items: center;
+      padding: 68px 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -20%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      padding: 80px 0;
+      width: 100%;
+    }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212,160,23,0.15);
+      border: 1px solid rgba(212,160,23,0.3);
+      color: #F5C842;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 40px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 0.93rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-gold:hover { background: #c49010; transform: translateY(-2px); }
+    .btn-outline-white {
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85);
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 0.93rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s;
+      display: inline-block;
+    }
+    .btn-outline-white:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* HERO CARDS */
+    .hero-cards { display: flex; flex-direction: column; gap: 16px; }
+    .hero-tipo-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: default;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .hero-tipo-card:hover { background: rgba(255,255,255,0.10); border-color: rgba(212,160,23,0.35); transform: translateX(4px); }
+    .hero-tipo-icon { font-size: 2rem; flex-shrink: 0; }
+    .hero-tipo-name { font-size: 1.05rem; font-weight: 700; color: var(--white); }
+    .hero-tipo-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .hero-tipo-range { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .hero-tipo-range span { display: block; font-size: 0.78rem; color: var(--gold); font-weight: 600; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* COMMON */
+    .section { padding: 96px 28px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag-sm { display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: #111827; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .section-sub { font-size: 0.95rem; color: var(--gray); max-width: 540px; margin-bottom: 56px; line-height: 1.7; }
+
+    /* COMO FUNCIONA */
+    .como-section { background: var(--light-bg); }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 12.5%; right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--navy), var(--gold), var(--navy2), var(--gold));
+    }
+    .timeline-step { text-align: center; padding: 0 20px; }
+    .timeline-dot {
+      width: 64px; height: 64px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      position: relative; z-index: 1;
+      box-shadow: 0 0 0 4px var(--white), 0 0 0 6px rgba(13,27,62,0.15);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .timeline-step:hover .timeline-dot { background: var(--gold); transform: scale(1.08); }
+    .timeline-dot span { font-size: 1.3rem; }
+    .timeline-step h3 { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 10px; }
+    .timeline-step p { font-size: 0.83rem; color: var(--gray); line-height: 1.65; }
+
+    /* TIPOS */
+    .tipos-section { }
+    .tipos-list { display: flex; flex-direction: column; gap: 20px; }
+    .tipo-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 40px;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: center;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      cursor: default;
+      background: var(--white);
+    }
+    .tipo-card:hover { border-color: var(--navy); box-shadow: 0 8px 32px rgba(13,27,62,0.08); transform: translateY(-2px); }
+    .tipo-icon-box {
+      width: 80px; height: 80px;
+      background: var(--gold-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem;
+      flex-shrink: 0;
+    }
+    .tipo-info h3 { font-size: 1.2rem; font-weight: 800; color: #111827; margin-bottom: 6px; }
+    .tipo-info p { font-size: 0.88rem; color: var(--gray); line-height: 1.6; margin-bottom: 12px; }
+    .tipo-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tipo-tag {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.73rem;
+      font-weight: 500;
+      color: var(--gray);
+    }
+    .tipo-valor { text-align: right; flex-shrink: 0; }
+    .tipo-valor-label { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .tipo-valor-range { font-size: 1.1rem; font-weight: 800; color: var(--navy); white-space: nowrap; }
+    .btn-tipo {
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+      display: inline-block;
+      margin-top: 12px;
+    }
+    .btn-tipo:hover { background: var(--navy2); }
+
+    /* CALCULADORA */
+    .calc-section { background: var(--light-bg); }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .calc-left h2 { margin-bottom: 16px; }
+    .calc-left p { color: var(--gray); font-size: 0.93rem; line-height: 1.75; margin-bottom: 24px; }
+    .calc-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 36px;
+      box-shadow: 0 4px 24px rgba(13,27,62,0.06);
+    }
+    .calc-box h3 { font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 28px; }
+    .calc-field { margin-bottom: 20px; }
+    .calc-label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .calc-select, .calc-input-field {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.93rem;
+      font-weight: 500;
+      color: #111827;
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
+    .calc-select:focus, .calc-input-field:focus { border-color: var(--navy); }
+
+    /* RANGE SLIDER */
+    .range-container { position: relative; padding-bottom: 8px; }
+    .range-input {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--navy);
+      cursor: pointer;
+      border: 2px solid var(--white);
+      box-shadow: 0 2px 8px rgba(13,27,62,0.3);
+      transition: transform 0.2s;
+    }
+    .range-input::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .range-display {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .range-display span { font-size: 0.75rem; color: var(--gray); }
+    .range-value {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .btn-calcular {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 8px;
+    }
+    .btn-calcular:hover { background: var(--navy2); transform: translateY(-1px); }
+    .calc-result { display: none; margin-top: 20px; }
+    .calc-result.show { display: block; }
+    .calc-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .calc-result-item {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .calc-result-item.featured { background: var(--navy); border-color: var(--navy); grid-column: 1/-1; }
+    .calc-res-label { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+    .calc-res-value { font-size: 1.15rem; font-weight: 800; color: #111827; }
+    .calc-result-item.featured .calc-res-label { color: rgba(255,255,255,0.6); }
+    .calc-result-item.featured .calc-res-value { color: var(--gold); font-size: 1.4rem; }
+
+    /* VANTAGENS */
+    .vantagens-section { }
+    .vantagens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .vantagem-card {
+      padding: 36px 28px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .vantagem-card:hover { border-color: var(--gold); box-shadow: 0 8px 32px rgba(212,160,23,0.08); }
+    .vantagem-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
+    .vantagem-card h3 { font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 10px; }
+    .vantagem-card p { font-size: 0.85rem; color: var(--gray); line-height: 1.65; }
+
+    /* NÚMEROS */
+    .numeros-section { background: var(--navy); }
+    .numeros-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1200px; margin: 0 auto; }
+    .numero-item { text-align: center; padding: 56px 24px; border-right: 1px solid rgba(255,255,255,0.08); }
+    .numero-item:last-child { border-right: none; }
+    .numero-value { font-size: 3rem; font-weight: 900; color: var(--white); display: block; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+    .numero-value span { color: var(--gold); }
+    .numero-label { font-size: 0.82rem; color: rgba(255,255,255,0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* FAQ */
+    .faq-section { background: var(--light-bg); }
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+    .faq-question {
+      width: 100%; background: none; border: none; padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      font-weight: 600; color: #111827; text-align: left; gap: 16px;
+    }
+    .faq-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--light-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s, transform 0.3s, border-color 0.2s;
+      color: var(--navy); font-size: 1.1rem;
+    }
+    .faq-item.open .faq-icon { background: var(--navy); color: var(--white); transform: rotate(45deg); border-color: var(--navy); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-answer p { color: var(--gray); font-size: 0.88rem; line-height: 1.75; padding: 0 24px 20px; }
+
+    /* DEPOIMENTOS */
+    .dep-section { }
+    .dep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .dep-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .dep-card:hover { border-color: var(--navy); transform: translateY(-3px); }
+    .dep-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 3px; }
+    .dep-text { font-size: 0.88rem; color: var(--gray); line-height: 1.75; margin-bottom: 24px; font-style: italic; }
+    .dep-author { display: flex; align-items: center; gap: 12px; }
+    .dep-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: var(--white);
+      flex-shrink: 0;
+    }
+    .dep-name { font-size: 0.9rem; font-weight: 700; color: #111827; }
+    .dep-context { font-size: 0.75rem; color: var(--gray); }
+
+    /* CTA */
+    .cta-section { background: var(--navy); padding: 96px 28px; text-align: center; }
+    .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -0.5px; margin-bottom: 16px; }
+    .cta-section p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.65; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); padding: 72px 28px 40px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .footer-brand { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 16px; }
+    .footer-desc { color: rgba(255,255,255,0.35); font-size: 0.83rem; line-height: 1.7; }
+    .footer-col h4 { color: rgba(255,255,255,0.4); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom { padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 0.78rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; font-weight: 500; }
+    .footer-bottom a:hover { color: var(--gold); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .btn-nav-navy { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open { display: flex; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: var(--white); padding: 24px; border-bottom: 1px solid var(--border); gap: 16px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .timeline { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .timeline::before { display: none; }
+      .tipo-card { grid-template-columns: 1fr; gap: 20px; }
+      .tipo-valor { text-align: left; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .calc-result-grid { grid-template-columns: 1fr; }
+      .calc-result-item.featured { grid-column: auto; }
+      .vantagens-grid { grid-template-columns: 1fr 1fr; }
+      .numeros-grid { grid-template-columns: 1fr 1fr; }
+      .numero-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .numero-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); }
+      .dep-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 480px) {
+      .vantagens-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <svg class="logo-shield" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L4 7V15C4 22.5 9.5 29.5 16 31C22.5 29.5 28 22.5 28 15V7L16 2Z" fill="#0D1B3E" stroke="#D4A017" stroke-width="1.5"/>
+          <path d="M12 16L14.5 18.5L20 13" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">Prime Consórcios</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#tipos">Tipos</a></li>
+        <li><a href="#calculadora">Simular</a></li>
+        <li><a href="#vantagens">Vantagens</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="#calculadora" class="btn-nav-navy">Simular Agora</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag reveal">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.25 2.5L10 4l-2 1.95.47 2.75L6 7.4 3.53 8.7 4 5.95 2 4l2.75-.5L6 1z" fill="#F5C842"/></svg>
+          Consórcio sem juros, com resultado real
+        </div>
+        <h1 class="reveal reveal-delay-1">Realize seu sonho<br><span>sem juros</span></h1>
+        <p class="reveal reveal-delay-2">Com o consórcio Prime, você paga parcelas justas, sem os absurdos do financiamento tradicional, e recebe a carta de crédito para usar como dinheiro vivo.</p>
+        <div class="hero-ctas reveal reveal-delay-3">
+          <a href="#calculadora" class="btn-gold">Simular Parcela Agora</a>
+          <a href="https://wa.me/5500000000000" class="btn-outline-white">Falar com Consultor</a>
+        </div>
+      </div>
+      <div class="hero-cards reveal reveal-delay-2">
+        <div class="hero-tipo-card">
+          <div class="hero-tipo-icon">🚗</div>
+          <div>
+            <p class="hero-tipo-name">Veículos</p>
+            <p class="hero-tipo-desc">Carros, motos e caminhões</p>
+          </div>
+          <div class="hero-tipo-range">
+            <span>R$ 20k</span>
+            <span>até R$ 200k</span>
+          </div>
+        </div>
+        <div class="hero-tipo-card">
+          <div class="hero-tipo-icon">🏠</div>
+          <div>
+            <p class="hero-tipo-name">Imóveis</p>
+            <p class="hero-tipo-desc">Apartamentos, casas e terrenos</p>
+          </div>
+          <div class="hero-tipo-range">
+            <span>R$ 100k</span>
+            <span>até R$ 1,5M</span>
+          </div>
+        </div>
+        <div class="hero-tipo-card">
+          <div class="hero-tipo-icon">🏍️</div>
+          <div>
+            <p class="hero-tipo-name">Motos</p>
+            <p class="hero-tipo-desc">Motos, scooters e elétricas</p>
+          </div>
+          <div class="hero-tipo-range">
+            <span>R$ 5k</span>
+            <span>até R$ 50k</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="section como-section">
+    <div class="section-inner">
+      <div style="text-align:center; margin-bottom: 64px;">
+        <span class="section-tag-sm reveal">Processo</span>
+        <h2 class="section-title reveal">Como funciona o consórcio</h2>
+        <p class="section-sub reveal" style="margin: 0 auto;">Simples, transparente e sem surpresas no meio do caminho.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-step reveal">
+          <div class="timeline-dot"><span>1️⃣</span></div>
+          <h3>Escolha o grupo</h3>
+          <p>Selecione a categoria (veículo, imóvel ou moto), o valor da carta e o prazo ideal para o seu orçamento.</p>
+        </div>
+        <div class="timeline-step reveal reveal-delay-1">
+          <div class="timeline-dot"><span>2️⃣</span></div>
+          <h3>Pague sua parcela</h3>
+          <p>Todo mês você paga uma parcela com taxa de administração — sem juros. Seu dinheiro cresce junto com o grupo.</p>
+        </div>
+        <div class="timeline-step reveal reveal-delay-2">
+          <div class="timeline-dot"><span>3️⃣</span></div>
+          <h3>Seja contemplado</h3>
+          <p>Contemplação por sorteio mensal ou por lance. Você pode antecipar oferecendo um valor maior.</p>
+        </div>
+        <div class="timeline-step reveal reveal-delay-3">
+          <div class="timeline-dot"><span>4️⃣</span></div>
+          <h3>Retire o bem</h3>
+          <p>Com a carta de crédito em mãos, você usa o valor como dinheiro vivo — mais poder de negociação na compra.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPOS -->
+  <section class="section" id="tipos">
+    <div class="section-inner">
+      <span class="section-tag-sm reveal">Modalidades</span>
+      <h2 class="section-title reveal">Tipos de consórcio</h2>
+      <p class="section-sub reveal">Escolha a carta certa para o seu objetivo.</p>
+      <div class="tipos-list">
+        <div class="tipo-card reveal">
+          <div class="tipo-icon-box">🚗</div>
+          <div class="tipo-info">
+            <h3>Consórcio de Veículos</h3>
+            <p>Para quem quer carro 0km, seminovo, caminhão ou qualquer veículo automotor sem pagar os juros abusivos de financiamento. A carta tem validade e pode ser usada em qualquer concessionária.</p>
+            <div class="tipo-tags">
+              <span class="tipo-tag">Carros 0km</span>
+              <span class="tipo-tag">Usados</span>
+              <span class="tipo-tag">Caminhões</span>
+              <span class="tipo-tag">Vans</span>
+              <span class="tipo-tag">Utilitários</span>
+            </div>
+            <a href="https://wa.me/5500000000000" class="btn-tipo">Quero simular</a>
+          </div>
+          <div class="tipo-valor">
+            <p class="tipo-valor-label">Cartas de crédito</p>
+            <p class="tipo-valor-range">R$ 20k — R$ 200k</p>
+          </div>
+        </div>
+        <div class="tipo-card reveal reveal-delay-1">
+          <div class="tipo-icon-box">🏠</div>
+          <div class="tipo-info">
+            <h3>Consórcio de Imóveis</h3>
+            <p>A forma mais inteligente de comprar ou construir seu imóvel. Sem entrada obrigatória, sem IOF, sem juros. A carta pode ser usada para compra, construção, reforma ou quitação de financiamento existente.</p>
+            <div class="tipo-tags">
+              <span class="tipo-tag">Apartamentos</span>
+              <span class="tipo-tag">Casas</span>
+              <span class="tipo-tag">Terrenos</span>
+              <span class="tipo-tag">Construção</span>
+              <span class="tipo-tag">Reforma</span>
+            </div>
+            <a href="https://wa.me/5500000000000" class="btn-tipo">Quero simular</a>
+          </div>
+          <div class="tipo-valor">
+            <p class="tipo-valor-label">Cartas de crédito</p>
+            <p class="tipo-valor-range">R$ 100k — R$ 1,5M</p>
+          </div>
+        </div>
+        <div class="tipo-card reveal reveal-delay-2">
+          <div class="tipo-icon-box">🏍️</div>
+          <div class="tipo-info">
+            <h3>Consórcio de Motos</h3>
+            <p>Parcelas acessíveis para quem quer uma moto 0km, scooter elétrica ou upgrade na atual. Ideal para trabalhadores de aplicativo e entusiastas que querem pagar bem menos do que no financiamento.</p>
+            <div class="tipo-tags">
+              <span class="tipo-tag">Motos 0km</span>
+              <span class="tipo-tag">Scooters</span>
+              <span class="tipo-tag">Elétricas</span>
+              <span class="tipo-tag">Usadas</span>
+            </div>
+            <a href="https://wa.me/5500000000000" class="btn-tipo">Quero simular</a>
+          </div>
+          <div class="tipo-valor">
+            <p class="tipo-valor-label">Cartas de crédito</p>
+            <p class="tipo-valor-range">R$ 5k — R$ 50k</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA -->
+  <section class="section calc-section" id="calculadora">
+    <div class="section-inner">
+      <div class="calc-grid">
+        <div class="calc-left reveal">
+          <span class="section-tag-sm">Simulação gratuita</span>
+          <h2 class="section-title">Calcule sua parcela agora</h2>
+          <p>Arraste o slider para escolher o valor da carta, selecione o prazo e veja quanto você pagaria por mês — e quanto economiza em relação ao financiamento tradicional.</p>
+          <p>Sem compromisso, sem cadastro. Só clareza.</p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="calc-box">
+            <h3>Simulador de Consórcio</h3>
+            <div class="calc-field">
+              <label class="calc-label" for="calcCategoria">Categoria</label>
+              <select id="calcCategoria" class="calc-select" onchange="atualizarRanger()">
+                <option value="veiculo" data-min="20000" data-max="200000" data-step="5000">Veículo</option>
+                <option value="imovel" data-min="100000" data-max="1500000" data-step="50000">Imóvel</option>
+                <option value="moto" data-min="5000" data-max="50000" data-step="1000">Moto</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Valor da carta de crédito</label>
+              <p class="range-value" id="rangeDisplay">R$ 50.000</p>
+              <div class="range-container">
+                <input type="range" id="cartaRange" class="range-input" min="20000" max="200000" step="5000" value="50000" oninput="atualizarDisplay()">
+                <div class="range-display">
+                  <span id="rangeMin">R$ 20k</span>
+                  <span id="rangeMax">R$ 200k</span>
+                </div>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label" for="calcPrazo">Prazo</label>
+              <select id="calcPrazo" class="calc-select">
+                <option value="60">60 meses (5 anos)</option>
+                <option value="72">72 meses (6 anos)</option>
+                <option value="84" selected>84 meses (7 anos)</option>
+                <option value="100">100 meses (~8 anos)</option>
+              </select>
+            </div>
+            <button class="btn-calcular" onclick="calcularConsorcio()">Calcular →</button>
+            <div class="calc-result" id="calcResult">
+              <div class="calc-result-grid">
+                <div class="calc-result-item featured">
+                  <span class="calc-res-label">Parcela estimada / mês</span>
+                  <span class="calc-res-value" id="res-parcela">—</span>
+                </div>
+                <div class="calc-result-item">
+                  <span class="calc-res-label">Economia vs. financiamento</span>
+                  <span class="calc-res-value" id="res-economia">—</span>
+                </div>
+                <div class="calc-result-item">
+                  <span class="calc-res-label">Valor da carta</span>
+                  <span class="calc-res-value" id="res-carta">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VANTAGENS -->
+  <section class="section vantagens-section" id="vantagens">
+    <div class="section-inner">
+      <div style="text-align:center; margin-bottom: 56px;">
+        <span class="section-tag-sm reveal">Diferenciais</span>
+        <h2 class="section-title reveal">Por que o consórcio é melhor</h2>
+        <p class="section-sub reveal" style="margin: 0 auto;">Você paga menos, compra o que quer e ainda fica com mais poder de negociação.</p>
+      </div>
+      <div class="vantagens-grid">
+        <div class="vantagem-card reveal">
+          <span class="vantagem-icon">🚫</span>
+          <h3>Sem juros</h3>
+          <p>Você paga apenas a taxa de administração — sem os juros compostos que transformam financiamentos em armadilhas.</p>
+        </div>
+        <div class="vantagem-card reveal reveal-delay-1">
+          <span class="vantagem-icon">⚡</span>
+          <h3>Contemplação por lance</h3>
+          <p>Quer antecipar? Ofereça um lance. Você pode ser contemplado antes do sorteio e pegar sua carta mais cedo.</p>
+        </div>
+        <div class="vantagem-card reveal reveal-delay-2">
+          <span class="vantagem-icon">📅</span>
+          <h3>Flexibilidade de prazo</h3>
+          <p>Escolha entre 60 e 100 meses para encaixar a parcela no seu orçamento sem comprometer sua vida financeira.</p>
+        </div>
+        <div class="vantagem-card reveal">
+          <span class="vantagem-icon">💳</span>
+          <h3>Cartas de crédito reais</h3>
+          <p>A carta equivale a dinheiro vivo. Na hora de comprar, você negocia como se estivesse pagando à vista.</p>
+        </div>
+        <div class="vantagem-card reveal reveal-delay-1">
+          <span class="vantagem-icon">✅</span>
+          <h3>Sem entrada obrigatória</h3>
+          <p>Diferente do financiamento, não é obrigatório dar entrada. Você começa a pagar parcelas desde o início.</p>
+        </div>
+        <div class="vantagem-card reveal reveal-delay-2">
+          <span class="vantagem-icon">🔄</span>
+          <h3>Portabilidade</h3>
+          <p>Se precisar transferir o consórcio para outra pessoa, é possível. Sua cota tem valor de mercado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section class="numeros-section">
+    <div class="numeros-grid">
+      <div class="numero-item reveal">
+        <span class="numero-value"><span class="counter" data-target="12000">0</span><span style="color:var(--gold)">+</span></span>
+        <span class="numero-label">Cotas ativas</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-1">
+        <span class="numero-value">R$ <span class="counter" data-target="280">0</span>M</span>
+        <span class="numero-label">Em cartas de crédito</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-2">
+        <span class="numero-value"><span class="counter" data-target="98">0</span>%</span>
+        <span class="numero-label">Satisfação dos clientes</span>
+      </div>
+      <div class="numero-item reveal reveal-delay-3">
+        <span class="numero-value"><span class="counter" data-target="18">0</span> anos</span>
+        <span class="numero-label">No mercado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq-section" id="faq">
+    <div class="section-inner" style="text-align:center;">
+      <span class="section-tag-sm reveal">Dúvidas</span>
+      <h2 class="section-title reveal">Perguntas frequentes</h2>
+      <p class="section-sub reveal" style="margin: 0 auto 48px;">Tudo que você precisa saber antes de entrar em um grupo.</p>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O que é um consórcio e como ele funciona?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Um consórcio é um sistema de compra coletiva. Um grupo de pessoas se reúne, paga parcelas mensais e todo mês um ou mais participantes são contemplados com a carta de crédito para comprar o bem desejado. Ao final do prazo, todos os participantes terão sido contemplados.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Como funciona o lance para antecipar a contemplação?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O lance é um valor extra que você oferece voluntariamente em assembleias mensais. O participante com o maior lance (calculado como percentual da carta de crédito) é contemplado no mês. Você pode dar lance livre (qualquer valor) ou fixo (percentual definido pelo grupo). O valor do lance aceito é descontado das suas parcelas restantes.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Posso ser contemplado rapidamente pelo sorteio?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. Todo mês há sorteios entre os participantes não contemplados. Tecnicamente você pode ser sorteado já no primeiro mês — embora a probabilidade seja proporcional ao tamanho do grupo. Para quem tem pressa, o caminho mais seguro é oferecer lances nas assembleias.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O que é a taxa de administração e por que ela existe?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>A taxa de administração remunera a empresa gestora do consórcio pelo serviço de organizar e administrar o grupo. Em média, essa taxa representa 1,5% a 2% ao ano — muito abaixo dos juros de financiamentos tradicionais que chegam a 18-24% ao ano. É por isso que o consórcio é significativamente mais barato no total.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Posso usar a carta de crédito para imóvel usado ou em construção?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. A carta de crédito imobiliária pode ser usada para comprar imóvel novo, usado, na planta, terreno, construção, reforma ou até para quitar um financiamento imobiliário existente. Essa flexibilidade é uma das grandes vantagens do consórcio de imóveis.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O consórcio é regulamentado? É seguro?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. Todos os consórcios no Brasil são regulamentados e fiscalizados pelo Banco Central do Brasil (BACEN) com base na Lei Federal 11.795/2008. Administradoras não autorizadas não podem operar legalmente. Antes de contratar, sempre verifique se a empresa consta na lista de administradoras autorizadas no site do Banco Central.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="section dep-section">
+    <div class="section-inner">
+      <span class="section-tag-sm reveal">Clientes</span>
+      <h2 class="section-title reveal">Quem já realizou o sonho</h2>
+      <p class="section-sub reveal">Clientes reais, resultados reais.</p>
+      <div class="dep-grid">
+        <div class="dep-card reveal">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">Queria um carro novo mas recusava pagar os juros do financiamento. Entrei no consórcio da Prime, fui contemplado com lance no 8º mês e comprei meu carro à vista com desconto na concessionária. Economizei mais de R$ 18 mil.</p>
+          <div class="dep-author">
+            <div class="dep-avatar">MF</div>
+            <div>
+              <p class="dep-name">Marcos Ferreira</p>
+              <p class="dep-context">Consórcio de Veículos — R$ 80k</p>
+            </div>
+          </div>
+        </div>
+        <div class="dep-card reveal reveal-delay-1">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">Usamos a carta do consórcio de imóvel para quitar o financiamento que tínhamos em outro banco. Zeramos a dívida, paramos de pagar juros absurdos e ficamos com parcelas muito menores. Deveria ter feito isso antes.</p>
+          <div class="dep-author">
+            <div class="dep-avatar">CL</div>
+            <div>
+              <p class="dep-name">Carla e Leandro</p>
+              <p class="dep-context">Consórcio de Imóveis — R$ 350k</p>
+            </div>
+          </div>
+        </div>
+        <div class="dep-card reveal reveal-delay-2">
+          <p class="dep-stars">★★★★★</p>
+          <p class="dep-text">Trabalho com entrega e precisava de uma moto melhor. O consórcio foi a opção mais inteligente — parcela menor que o financiamento e fui sorteado no 3º mês. A moto mais do que se paga com o trabalho.</p>
+          <div class="dep-author">
+            <div class="dep-avatar">RS</div>
+            <div>
+              <p class="dep-name">Rafael Silva</p>
+              <p class="dep-context">Consórcio de Motos — R$ 22k</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="reveal">
+      <h2>Pronto para sair do aluguel,<br>do carro velho ou do trabalho cansativo?</h2>
+      <p>Simule agora sem compromisso e veja como o consórcio Prime pode transformar seu objetivo em realidade.</p>
+      <div class="cta-btns">
+        <a href="#calculadora" class="btn-gold">Simular Minha Parcela</a>
+        <a href="https://wa.me/5500000000000" class="btn-outline-white">Falar com Consultor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">Prime Consórcios</p>
+          <p class="footer-desc">Especialistas em consórcios de veículos, imóveis e motos. Regulamentado pelo Banco Central do Brasil. 18 anos de mercado.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Consórcios</h4>
+          <ul>
+            <li><a href="#">Veículos</a></li>
+            <li><a href="#">Imóveis</a></li>
+            <li><a href="#">Motos</a></li>
+            <li><a href="#">Simular</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre nós</a></li>
+            <li><a href="#">Depoimentos</a></li>
+            <li><a href="#">Política de privacidade</a></li>
+            <li><a href="#">BACEN</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://wa.me/5500000000000">WhatsApp</a></li>
+            <li><a href="tel:5500000000000">(00) 0000-0000</a></li>
+            <li><a href="mailto:contato@primeconsorcio.com.br">contato@primeconsorcio.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Prime Consórcios. Regulamentado pelo BACEN. Todos os direitos reservados.</p>
+        <p>Desenvolvido por <a href="#">Sety Studio</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // NAV SCROLL
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 40); });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { navLinks.classList.toggle('mobile-open'); });
+
+    // REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+
+    // COUNTER
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-target'));
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { el.textContent = target.toLocaleString('pt-BR'); clearInterval(timer); }
+          else { el.textContent = Math.floor(current).toLocaleString('pt-BR'); }
+        }, 16);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // FAQ
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    }
+
+    // RANGE SLIDER
+    function formatarReais(v) {
+      if (v >= 1000000) return 'R$ ' + (v/1000000).toFixed(1).replace('.0','') + 'M';
+      if (v >= 1000) return 'R$ ' + (v/1000).toFixed(0) + 'k';
+      return 'R$ ' + v.toLocaleString('pt-BR');
+    }
+    function formatarReaisCompleto(v) {
+      return 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    function atualizarDisplay() {
+      const v = parseInt(document.getElementById('cartaRange').value);
+      document.getElementById('rangeDisplay').textContent = formatarReais(v);
+    }
+
+    function atualizarRanger() {
+      const sel = document.getElementById('calcCategoria');
+      const opt = sel.options[sel.selectedIndex];
+      const min = parseInt(opt.getAttribute('data-min'));
+      const max = parseInt(opt.getAttribute('data-max'));
+      const step = parseInt(opt.getAttribute('data-step'));
+      const range = document.getElementById('cartaRange');
+      range.min = min; range.max = max; range.step = step;
+      range.value = Math.round((min + max) / 2 / step) * step;
+      document.getElementById('rangeMin').textContent = formatarReais(min);
+      document.getElementById('rangeMax').textContent = formatarReais(max);
+      atualizarDisplay();
+      document.getElementById('calcResult').classList.remove('show');
+    }
+
+    atualizarDisplay();
+
+    function calcularConsorcio() {
+      const valor = parseInt(document.getElementById('cartaRange').value);
+      const prazo = parseInt(document.getElementById('calcPrazo').value);
+      const taxaAdm = 0.018; // 1.8% ao ano = ~0.15% ao mês
+      const parcela = (valor / prazo) * (1 + taxaAdm);
+      const totalPago = parcela * prazo;
+      const totalFinanciamento = valor * (1 + 0.18 * (prazo / 12)); // 18% ao ano simples estimado
+      const economia = totalFinanciamento - totalPago;
+
+      document.getElementById('res-parcela').textContent = formatarReaisCompleto(parcela);
+      document.getElementById('res-economia').textContent = '~' + formatarReais(Math.round(economia/1000)*1000);
+      document.getElementById('res-carta').textContent = formatarReaisCompleto(valor);
+      document.getElementById('calcResult').classList.add('show');
+    }
+  </script>
+</body>
+</html>

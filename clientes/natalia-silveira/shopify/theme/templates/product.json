@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_quantity": true,
+        "enable_wpp": true,
+        "accordion_shipping": "Enviamos para todo o Brasil e exterior. Frete calculado pelo endereço de destino. Origem: Maringá — Paraná, Brasil. Peso médio: 1,5 kg por peça.",
+        "accordion_care": "Lavar à mão com água fria e sabão neutro. Não torcer. Secar à sombra, esticada. Guardar em local seco e arejado.",
+        "accordion_returns": "Cada peça é feita sob medida. Não aceitamos trocas por arrependimento. Aceitamos análise de defeito de fabricação em até 7 dias do recebimento.",
+        "bespoke_title": "FEITO SOB ENCOMENDA",
+        "bespoke_body": "Cada peça é produzida exclusivamente sob medida. Prazo: até 20 dias corridos além do envio.",
+        "related_title": "VOCÊ TAMBÉM VAI AMAR",
+        "related_count": 4
+      }
+    }
+  },
+  "order": ["main"]
+}

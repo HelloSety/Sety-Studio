@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarMax Energia — Energia Solar Fotovoltaica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #003087;
+      --blue-mid: #1456C0;
+      --green: #22C55E;
+      --green-light: #F0FDF4;
+      --blue-light: #EEF4FF;
+      --dark: #0A0F1E;
+      --gray: #64748B;
+      --border: #E2E8F0;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(0,48,135,0.10); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--blue);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.93rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .btn-nav {
+      background: var(--green);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-nav:hover { background: #16a34a; transform: translateY(-1px); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 24px; height: 2px; background: var(--blue); display: block; border-radius: 2px; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(rgba(10,15,30,0.72), rgba(10,15,30,0.72)), url('images/hero.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      padding-top: 68px;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.18);
+      border: 1px solid rgba(34,197,94,0.4);
+      color: #86efac;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.12;
+      max-width: 680px;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .hero h1 span { color: var(--green); }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.78);
+      max-width: 520px;
+      margin-bottom: 40px;
+      font-weight: 400;
+      line-height: 1.65;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #16a34a; transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.5);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+
+    /* STATS */
+    .stats {
+      background: var(--blue);
+      padding: 64px 24px;
+    }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 32px 16px;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--white);
+      display: block;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-number span { color: var(--green); }
+    .stat-label {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* SECTIONS COMMON */
+    .section { padding: 96px 24px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      background: var(--blue-light);
+      color: var(--blue-mid);
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 56px;
+    }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* CALCULADORA */
+    .calc-section { background: var(--blue-light); }
+    .calc-card {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+      border-radius: 20px;
+      padding: 56px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      box-shadow: 0 24px 64px rgba(0,48,135,0.25);
+    }
+    .calc-label {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .calc-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .calc-desc { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; }
+    .calc-form { display: flex; flex-direction: column; gap: 16px; }
+    .calc-input-group label {
+      display: block;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .calc-input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .calc-input::placeholder { color: rgba(255,255,255,0.35); }
+    .calc-input:focus { border-color: var(--green); background: rgba(255,255,255,0.15); }
+    .btn-calc {
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-calc:hover { background: #16a34a; transform: translateY(-1px); }
+    .calc-result {
+      display: none;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(34,197,94,0.4);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .calc-result.show { display: block; }
+    .calc-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .calc-result-row:last-child { border-bottom: none; }
+    .calc-result-label { color: rgba(255,255,255,0.65); font-size: 0.85rem; }
+    .calc-result-value { color: var(--green); font-weight: 700; font-size: 1rem; }
+
+    /* SOLUÇÕES */
+    .solucoes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .solucao-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      cursor: default;
+    }
+    .solucao-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,48,135,0.10); border-color: var(--blue-mid); }
+    .solucao-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--blue-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .solucao-icon svg { width: 28px; height: 28px; }
+    .solucao-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+    .solucao-card p { color: var(--gray); font-size: 0.92rem; line-height: 1.65; margin-bottom: 24px; }
+    .btn-link { color: var(--blue-mid); font-weight: 600; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .btn-link:hover { gap: 10px; }
+
+    /* PROJETOS */
+    .projetos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .projeto-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .projeto-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .projeto-card:hover img { transform: scale(1.06); }
+    .projeto-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,15,30,0.88) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+    .projeto-local { color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 500; margin-bottom: 4px; }
+    .projeto-kwp { color: var(--white); font-size: 1.05rem; font-weight: 700; }
+    .projeto-kwp span { color: var(--green); }
+
+    /* POR QUÊ SOLAR */
+    .porque-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .porque-img {
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+    }
+    .porque-img img { width: 100%; height: 100%; object-fit: cover; }
+    .porque-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+    .porque-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .check-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .check-icon svg { width: 13px; height: 13px; }
+    .porque-item-title { font-weight: 700; color: var(--dark); font-size: 0.97rem; }
+    .porque-item-desc { color: var(--gray); font-size: 0.88rem; margin-top: 2px; }
+
+    /* PARCEIROS */
+    .parceiros { background: #F8FAFC; }
+    .parceiros-title { text-align: center; font-size: 0.85rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 40px; }
+    .parceiros-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+    .parceiro-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray);
+      letter-spacing: 0.3px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .parceiro-chip:hover { color: var(--blue); border-color: var(--blue-mid); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      text-align: left;
+      gap: 16px;
+    }
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.3s;
+      color: var(--blue-mid);
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    .faq-item.open .faq-icon { background: var(--blue); color: var(--white); transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+    }
+    .faq-answer p {
+      color: var(--gray);
+      font-size: 0.93rem;
+      line-height: 1.7;
+      padding-bottom: 20px;
+    }
+
+    /* CTA FINAL */
+    .cta-final {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--blue) 100%);
+      padding: 100px 24px;
+      text-align: center;
+    }
+    .cta-final h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--white); margin-bottom: 16px; letter-spacing: -0.5px; }
+    .cta-final p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-green { background: var(--green); color: var(--white); padding: 16px 36px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-green:hover { background: #16a34a; transform: translateY(-2px); }
+    .btn-white-outline { border: 2px solid rgba(255,255,255,0.45); color: var(--white); padding: 16px 36px; border-radius: 8px; font-size: 1.05rem; font-weight: 600; text-decoration: none; transition: border-color 0.2s, background 0.2s; display: inline-block; }
+    .btn-white-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.07); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      padding: 72px 24px 40px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 800; color: var(--white); margin-bottom: 16px; }
+    .footer-desc { color: rgba(255,255,255,0.45); font-size: 0.88rem; line-height: 1.65; }
+    .footer-col h4 { color: var(--white); font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--green); }
+    .footer-bottom {
+      padding-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { color: rgba(255,255,255,0.3); font-size: 0.82rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; font-weight: 600; }
+    .footer-bottom a:hover { color: var(--green); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .btn-nav { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        background: var(--white);
+        padding: 24px;
+        border-bottom: 1px solid var(--border);
+        gap: 16px;
+      }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+      .stat-card:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.12); }
+      .calc-card { grid-template-columns: 1fr; gap: 32px; padding: 32px 24px; }
+      .solucoes-grid { grid-template-columns: 1fr; }
+      .projetos-grid { grid-template-columns: 1fr; }
+      .porque-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .hero-ctas { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">SolarMax ⚡</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#solucoes">Soluções</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a href="#calculadora" class="btn-nav">Simulação Grátis</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge reveal">✅ Mais de +82 instalações concluídas</div>
+      <h1 class="reveal reveal-delay-1">Reduza sua conta de<br>energia em até <span>90%</span></h1>
+      <p class="reveal reveal-delay-2">Energia solar fotovoltaica para residências e empresas na região. Instalação completa, sem burocracia.</p>
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="https://wa.me/5500000000000" class="btn-primary">Solicitar Simulação Grátis</a>
+        <a href="#projetos" class="btn-outline">Ver Projetos Realizados</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-inner">
+      <div class="stat-card reveal">
+        <span class="stat-number"><span class="counter" data-target="82">0</span><span>+</span></span>
+        <span class="stat-label">Projetos concluídos</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-1">
+        <span class="stat-number"><span class="counter" data-target="25072">0</span></span>
+        <span class="stat-label">kWh gerados por mês</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <span class="stat-number"><span class="counter" data-target="1272">0</span></span>
+        <span class="stat-label">Ton. CO₂ evitadas</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <span class="stat-number"><span class="counter" data-target="12">0</span></span>
+        <span class="stat-label">Anos de garantia</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA -->
+  <section class="section calc-section" id="calculadora">
+    <div class="section-inner">
+      <div class="calc-card reveal">
+        <div>
+          <span class="calc-label">Ferramenta gratuita</span>
+          <h2 class="calc-title">Descubra quanto você pode economizar</h2>
+          <p class="calc-desc">Informe o valor da sua conta de energia e veja a estimativa de economia mensal, anual e o tempo para pagar o investimento.</p>
+        </div>
+        <div class="calc-form">
+          <div class="calc-input-group">
+            <label for="contaValor">Valor atual da conta de energia (R$)</label>
+            <input type="number" id="contaValor" class="calc-input" placeholder="Ex: 450" min="50">
+          </div>
+          <button class="btn-calc" onclick="calcularEconomia()">Calcular Economia →</button>
+          <div class="calc-result" id="calcResult">
+            <div class="calc-result-row">
+              <span class="calc-result-label">Economia mensal estimada</span>
+              <span class="calc-result-value" id="res-mensal">—</span>
+            </div>
+            <div class="calc-result-row">
+              <span class="calc-result-label">Economia anual</span>
+              <span class="calc-result-value" id="res-anual">—</span>
+            </div>
+            <div class="calc-result-row">
+              <span class="calc-result-label">Retorno do investimento</span>
+              <span class="calc-result-value" id="res-payback">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUÇÕES -->
+  <section class="section" id="solucoes">
+    <div class="section-inner">
+      <span class="section-tag reveal">O que fazemos</span>
+      <h2 class="section-title reveal">Soluções para cada necessidade</h2>
+      <p class="section-sub reveal">Da residência ao grande complexo industrial, temos o projeto solar ideal para cada porte e perfil de consumo.</p>
+      <div class="solucoes-grid">
+        <div class="solucao-card reveal">
+          <div class="solucao-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1456C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>Residencial</h3>
+          <p>Sistema solar para casas e apartamentos. Reduza sua conta em até 90% e valorize seu imóvel com energia limpa e renovável.</p>
+          <a href="https://wa.me/5500000000000" class="btn-link">Solicitar orçamento →</a>
+        </div>
+        <div class="solucao-card reveal reveal-delay-1">
+          <div class="solucao-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1456C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h3>Comercial</h3>
+          <p>Para lojas, restaurantes, escritórios e empresas. Reduza o custo fixo operacional e aumente sua margem de lucro todo mês.</p>
+          <a href="https://wa.me/5500000000000" class="btn-link">Solicitar orçamento →</a>
+        </div>
+        <div class="solucao-card reveal reveal-delay-2">
+          <div class="solucao-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1456C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Industrial</h3>
+          <p>Usinas solares de grande escala para indústrias e agronegócio. Projetos de alta potência com máximo retorno financeiro.</p>
+          <a href="https://wa.me/5500000000000" class="btn-link">Solicitar orçamento →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section class="section" id="projetos" style="background: #F8FAFC; padding-top: 0; padding-bottom: 96px;">
+    <div class="section-inner">
+      <span class="section-tag reveal">Portfólio</span>
+      <h2 class="section-title reveal">Projetos realizados</h2>
+      <p class="section-sub reveal">Cada instalação é única. Confira alguns dos projetos que entregamos nos últimos anos.</p>
+      <div class="projetos-grid">
+        <div class="projeto-card reveal">
+          <img src="images/house.jpg" alt="Residência em São Paulo" loading="lazy">
+          <div class="projeto-overlay">
+            <p class="projeto-local">📍 São Paulo, SP</p>
+            <p class="projeto-kwp"><span>8.4 kWp</span> instalados</p>
+          </div>
+        </div>
+        <div class="projeto-card reveal reveal-delay-1">
+          <img src="images/panels.jpg" alt="Fazenda em Goiás" loading="lazy">
+          <div class="projeto-overlay">
+            <p class="projeto-local">📍 Rio Verde, GO</p>
+            <p class="projeto-kwp"><span>120 kWp</span> instalados</p>
+          </div>
+        </div>
+        <div class="projeto-card reveal reveal-delay-2">
+          <img src="images/commercial.jpg" alt="Comércio em Curitiba" loading="lazy">
+          <div class="projeto-overlay">
+            <p class="projeto-local">📍 Curitiba, PR</p>
+            <p class="projeto-kwp"><span>42 kWp</span> instalados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUÊ SOLAR -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="porque-grid">
+        <div class="porque-img reveal">
+          <img src="images/install.jpg" alt="Instalação de painéis solares" loading="lazy">
+        </div>
+        <div class="reveal reveal-delay-1">
+          <span class="section-tag">Por que escolher</span>
+          <h2 class="section-title" style="margin-top: 16px;">6 razões para ir à solar agora</h2>
+          <p class="section-sub">Energia solar não é mais tendência — é o padrão para quem quer cortar gastos e proteger o patrimônio.</p>
+          <ul class="porque-list">
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Economia real na conta de energia</p>
+                <p class="porque-item-desc">Reduções de 70% a 90% no valor da fatura a partir do primeiro mês de operação.</p>
+              </div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Valorização do imóvel</p>
+                <p class="porque-item-desc">Imóveis com solar valem em média 6% a mais no mercado segundo o CBCS.</p>
+              </div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Proteção contra reajustes de energia</p>
+                <p class="porque-item-desc">Gere sua própria energia e fique imune aos aumentos constantes da tarifa.</p>
+              </div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Retorno garantido do investimento</p>
+                <p class="porque-item-desc">Payback médio de 4 a 6 anos com 25+ anos de geração garantida pelos módulos.</p>
+              </div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Instalação rápida e sem obra pesada</p>
+                <p class="porque-item-desc">Processo completo em até 30 dias, da vistoria técnica ao sistema ligado.</p>
+              </div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5L5.5 10 11 4" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <p class="porque-item-title">Financiamento facilitado disponível</p>
+                <p class="porque-item-desc">Parcela do financiamento menor que a conta de energia. Você já sai no lucro no 1º mês.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARCEIROS -->
+  <section class="section parceiros" style="padding: 64px 24px;">
+    <div class="section-inner">
+      <p class="parceiros-title reveal">Trabalhamos com as melhores marcas do mundo</p>
+      <div class="parceiros-grid reveal">
+        <div class="parceiro-chip">Canadian Solar</div>
+        <div class="parceiro-chip">Fronius</div>
+        <div class="parceiro-chip">Growatt</div>
+        <div class="parceiro-chip">WEG</div>
+        <div class="parceiro-chip">Risen Energy</div>
+        <div class="parceiro-chip">JA Solar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="section-inner" style="text-align: center;">
+      <span class="section-tag reveal">Dúvidas frequentes</span>
+      <h2 class="section-title reveal">Perguntas que todo mundo faz</h2>
+      <p class="section-sub reveal" style="margin: 0 auto 56px;">Respondemos as dúvidas mais comuns antes de você nos chamar.</p>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Quanto custa um sistema solar residencial?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O investimento varia conforme o consumo mensal da sua residência. Para casas com conta entre R$ 300 e R$ 600, o sistema costuma partir de R$ 18.000. Realizamos uma simulação técnica gratuita antes de qualquer orçamento — sem compromisso.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Em quanto tempo o sistema se paga?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O tempo médio de retorno (payback) dos nossos projetos fica entre 4 e 6 anos. Após esse período, toda a energia gerada representa lucro líquido — e os módulos têm garantia de 25 anos de geração mínima.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O sistema funciona em dias nublados ou de chuva?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. Os painéis fotovoltaicos geram energia com luz difusa, mesmo em dias nublados — apenas com eficiência reduzida. No Brasil, até em regiões com mais chuva (como Norte e Nordeste), a irradiação solar é excelente para geração de energia.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Preciso fazer alguma obra em casa para instalar?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Não. A instalação é não invasiva — os painéis são fixados na estrutura existente do telhado. Não há necessidade de quebrar paredes ou fazer obras. O processo leva de 1 a 3 dias de instalação no local.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Existe financiamento disponível?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. Trabalhamos com linhas de financiamento específicas para energia solar com taxas a partir de 0,79% ao mês. Em muitos casos, a parcela do financiamento é inferior ao valor atual da conta de energia — o que significa que você já sai no lucro desde o primeiro mês.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final" id="contato">
+    <div class="reveal">
+      <h2>Pronto para economizar<br>na conta de energia?</h2>
+      <p>Solicite sua simulação gratuita agora e receba um projeto personalizado em até 24h.</p>
+      <div class="cta-btns">
+        <a href="https://wa.me/5500000000000" class="btn-green">Falar no WhatsApp →</a>
+        <a href="tel:5500000000000" class="btn-white-outline">Ligar Agora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">SolarMax ⚡ Energia</p>
+          <p class="footer-desc">Especialistas em energia solar fotovoltaica para residências, comércios e indústrias. Instalação completa e garantia estendida.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Soluções</h4>
+          <ul>
+            <li><a href="#">Residencial</a></li>
+            <li><a href="#">Comercial</a></li>
+            <li><a href="#">Industrial</a></li>
+            <li><a href="#">Agronegócio</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre nós</a></li>
+            <li><a href="#">Projetos</a></li>
+            <li><a href="#">Parceiros</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://wa.me/5500000000000">WhatsApp</a></li>
+            <li><a href="tel:5500000000000">(00) 0000-0000</a></li>
+            <li><a href="mailto:contato@solarmax.com.br">contato@solarmax.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 SolarMax Energia. Todos os direitos reservados.</p>
+        <p>Desenvolvido por <a href="#">Sety Studio</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // NAV SCROLL
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('mobile-open');
+    });
+
+    // REVEAL ANIMATION
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+
+    // COUNTER ANIMATION
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-target'));
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { el.textContent = target.toLocaleString('pt-BR'); clearInterval(timer); }
+          else { el.textContent = Math.floor(current).toLocaleString('pt-BR'); }
+        }, 16);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // FAQ ACCORDION
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    }
+
+    // CALCULADORA
+    function calcularEconomia() {
+      const conta = parseFloat(document.getElementById('contaValor').value);
+      if (!conta || conta < 50) { alert('Informe o valor da sua conta de energia (mínimo R$ 50).'); return; }
+      const mensal = conta * 0.70;
+      const anual = mensal * 12;
+      const investimento = conta * 72 * 0.30;
+      const payback = Math.round(investimento / mensal);
+      document.getElementById('res-mensal').textContent = 'R$ ' + mensal.toFixed(2).replace('.', ',');
+      document.getElementById('res-anual').textContent = 'R$ ' + anual.toFixed(2).replace('.', ',');
+      document.getElementById('res-payback').textContent = 'Aproximadamente ' + payback + ' meses';
+      const result = document.getElementById('calcResult');
+      result.classList.add('show');
+    }
+
+    // ENTER key on calc
+    document.getElementById('contaValor').addEventListener('keydown', e => { if (e.key === 'Enter') calcularEconomia(); });
+  </script>
+</body>
+</html>

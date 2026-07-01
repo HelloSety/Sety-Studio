@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sety Studio — Painel de Metas</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0d0d1a;
+    --card: #13132b;
+    --border: #1e1e3f;
+    --purple: #7c3aed;
+    --purple-light: #a855f7;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; padding: 24px; }
+  h1 { font-size: 1.4rem; font-weight: 700; color: #fff; }
+  .subtitle { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .date { color: var(--muted); font-size: 0.82rem; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 768px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .card-value { font-size: 1.9rem; font-weight: 800; color: #fff; }
+  .card-value.green { color: var(--green); }
+  .card-value.purple { color: var(--purple-light); }
+
+  .progress-wrap { margin-top: 12px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 5px; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); transition: width 0.5s ease; }
+
+  section { margin-bottom: 24px; }
+  section h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 14px; color: #fff; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 0 12px 8px; }
+  td { padding: 10px 12px; font-size: 0.85rem; border-top: 1px solid var(--border); }
+  tr:hover td { background: rgba(124,58,237,0.06); }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 0.72rem; font-weight: 600; }
+  .badge.green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge.yellow { background: rgba(234,179,8,0.15); color: var(--yellow); }
+  .badge.red { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge.purple { background: rgba(124,58,237,0.2); color: var(--purple-light); }
+
+  .steps { list-style: none; }
+  .steps li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.85rem; cursor: pointer; }
+  .steps li:first-child { border-top: none; }
+  .step-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .steps li.done .step-check { background: var(--green); border-color: var(--green); }
+  .steps li.done .step-check::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 700; }
+  .steps li.done .step-text { text-decoration: line-through; color: var(--muted); }
+  .step-text { flex: 1; }
+  .step-tag { font-size: 0.68rem; color: var(--muted); display: block; margin-top: 2px; }
+
+  .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-top: 1px solid var(--border); font-size: 0.85rem; }
+  .metric-row:first-child { border-top: none; }
+  .metric-label { color: var(--muted); }
+  .metric-value { font-weight: 600; }
+
+  input[type="number"], input[type="text"], select {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 6px 10px; font-size: 0.82rem; width: 100%;
+    outline: none;
+  }
+  input:focus, select:focus { border-color: var(--purple); }
+  .btn { background: var(--purple); color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.85; }
+  .btn.secondary { background: var(--border); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+  @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+  .form-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+
+  .niche-chip { display: inline-block; background: rgba(124,58,237,0.15); border: 1px solid var(--purple); color: var(--purple-light); border-radius: 99px; padding: 4px 12px; font-size: 0.78rem; margin: 3px; cursor: pointer; }
+  .niche-chip.active { background: var(--purple); color: #fff; }
+
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--green); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 9999; }
+  #toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Sety Studio</h1>
+    <div class="subtitle">Painel de Metas & Crescimento</div>
+  </div>
+  <div class="date" id="dateDisplay"></div>
+</header>
+
+<!-- Cards de Receita -->
+<div class="grid-3" id="revenueCards"></div>
+
+<!-- Metas com progresso -->
+<section>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0">Trilha de Crescimento</h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="form-label" style="margin:0">Receita atual (R$):</div>
+        <input type="number" id="currentRevInput" style="width:120px" placeholder="5000" />
+        <button class="btn" onclick="updateRevenue()">Atualizar</button>
+      </div>
+    </div>
+    <div id="metas"></div>
+  </div>
+</section>
+
+<!-- Clientes Ativos -->
+<section>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0">Clientes Ativos</h2>
+      <span id="totalRecorrente" style="color:var(--green);font-weight:700;font-size:0.9rem;"></span>
+    </div>
+    <div class="form-row" style="margin-bottom:14px;">
+      <div>
+        <div class="form-label">Nome do Cliente</div>
+        <input type="text" id="cNome" placeholder="Ex: Clínica Sorrisos" />
+      </div>
+      <div>
+        <div class="form-label">Serviço</div>
+        <input type="text" id="cServico" placeholder="Ex: Sistema Comercial" />
+      </div>
+      <div>
+        <div class="form-label">Valor/mês (R$)</div>
+        <input type="number" id="cValor" placeholder="2000" />
+      </div>
+      <button class="btn" onclick="addClient()">+ Adicionar</button>
+    </div>
+    <table>
+      <thead><tr><th>Cliente</th><th>Serviço</th><th>Valor/mês</th><th>Status</th><th></th></tr></thead>
+      <tbody id="clientTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Próximos Passos + Prospecção -->
+<div class="grid-2">
+  <div class="card">
+    <h2>Próximos Passos (90 dias)</h2>
+    <ul class="steps" id="stepsList"></ul>
+  </div>
+  <div class="card">
+    <h2>Métricas de Prospecção (semana)</h2>
+    <div id="metricRows"></div>
+    <div style="margin-top:14px;">
+      <div class="form-row" style="grid-template-columns:1fr 1fr auto;">
+        <div>
+          <div class="form-label">Métrica</div>
+          <select id="mMetrica">
+            <option>Empresas scrapeadas</option>
+            <option>Decisores mapeados</option>
+            <option>DMs enviadas</option>
+            <option>Respostas recebidas</option>
+            <option>Calls agendadas</option>
+            <option>Propostas enviadas</option>
+            <option>Fechamentos</option>
+          </select>
+        </div>
+        <div>
+          <div class="form-label">Qtd</div>
+          <input type="number" id="mQtd" placeholder="0" />
+        </div>
+        <button class="btn" onclick="addMetric()" style="align-self:end;">Log</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nicho Alvo -->
+<section>
+  <div class="card">
+    <h2>Nicho Prioritário</h2>
+    <div style="margin-bottom:10px;font-size:0.82rem;color:var(--muted);">Clique para selecionar o foco atual da prospecção</div>
+    <div id="nicheChips"></div>
+    <div style="margin-top:12px;font-size:0.82rem;color:var(--muted);">Nicho selecionado: <span id="selectedNiche" style="color:var(--purple-light);font-weight:600;">—</span></div>
+  </div>
+</section>
+
+<div id="toast">Salvo!</div>
+
+<script>
+const NICHES = ['Clínicas / Saúde', 'Energia Solar', 'Imobiliárias', 'Academias / Fitness', 'Advocacia', 'Marcas Esportivas', 'Indústria / B2B', 'E-commerce'];
+const METAS = [
+  { label: 'Meta 1', value: 10000 },
+  { label: 'Meta 2', value: 30000 },
+  { label: 'Meta 3', value: 100000 },
+  { label: 'Meta Final', value: 1000000 }
+];
+const STEPS_DEFAULT = [
+  { text: 'Definir o nicho-alvo da prospecção', tag: 'Estratégia', done: false },
+  { text: 'Criar landing page da oferta "Sistema Comercial Inteligente"', tag: 'Entrega', done: false },
+  { text: 'Configurar Unipile MCP (obter credenciais no app.unipile.com)', tag: 'Técnico', done: false },
+  { text: 'Rodar scraper Google Maps: 100 empresas do nicho', tag: 'Prospecção', done: false },
+  { text: 'Mapear decisores das 100 empresas via /mapeamento-decisores', tag: 'Prospecção', done: false },
+  { text: 'Disparar 50 DMs personalizadas no LinkedIn', tag: 'Prospecção', done: false },
+  { text: 'Fechar 2 clientes no Sistema Comercial (R$1.500–2.500/mês cada)', tag: 'Vendas', done: false },
+  { text: 'Criar proposta padrão em PDF/HTML', tag: 'Vendas', done: false },
+  { text: 'Documentar onboarding de cliente (template)', tag: 'Operação', done: false },
+  { text: 'Instalar HubSpot MCP e configurar pipeline', tag: 'CRM', done: false }
+];
+
+function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
+function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+function toast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
+let revenue = load('sety_revenue', 5000);
+let clients = load('sety_clients', []);
+let steps = load('sety_steps', STEPS_DEFAULT);
+let metrics = load('sety_metrics', []);
+let selectedNiche = load('sety_niche', '');
+
+function fmt(v) { return 'R$' + Number(v).toLocaleString('pt-BR'); }
+
+function renderRevenue() {
+  const meta = METAS.find(m => revenue < m.value) || METAS[METAS.length-1];
+  const recorrente = clients.reduce((s, c) => s + Number(c.valor), 0);
+  document.getElementById('revenueCards').innerHTML = `
+    <div class="card"><div class="card-title">Receita Atual</div><div class="card-value green">${fmt(revenue)}</div><div class="subtitle" style="margin-top:6px;font-size:0.75rem;">+ ${fmt(recorrente)} recorrente cadastrado</div></div>
+    <div class="card"><div class="card-title">Próxima Meta</div><div class="card-value purple">${fmt(meta.value)}</div><div class="subtitle" style="margin-top:6px;font-size:0.75rem;">Faltam ${fmt(meta.value - revenue)}</div></div>
+    <div class="card"><div class="card-title">Clientes Ativos</div><div class="card-value">${clients.length}</div><div class="subtitle" style="margin-top:6px;font-size:0.75rem;">Ticket médio: ${clients.length ? fmt(Math.round(recorrente/clients.length)) : '—'}</div></div>
+  `;
+  document.getElementById('currentRevInput').value = revenue;
+}
+
+function renderMetas() {
+  document.getElementById('metas').innerHTML = METAS.map(m => {
+    const pct = Math.min(100, Math.round((revenue / m.value) * 100));
+    return `<div style="margin-bottom:16px;">
+      <div class="progress-label"><span>${m.label} — ${fmt(m.value)}</span><span>${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function updateRevenue() {
+  const v = Number(document.getElementById('currentRevInput').value);
+  if (!v) return;
+  revenue = v; save('sety_revenue', revenue);
+  renderRevenue(); renderMetas(); toast();
+}
+
+function addClient() {
+  const nome = document.getElementById('cNome').value.trim();
+  const servico = document.getElementById('cServico').value.trim();
+  const valor = Number(document.getElementById('cValor').value);
+  if (!nome || !valor) return;
+  clients.push({ nome, servico, valor, status: 'Ativo', id: Date.now() });
+  save('sety_clients', clients);
+  document.getElementById('cNome').value = '';
+  document.getElementById('cServico').value = '';
+  document.getElementById('cValor').value = '';
+  renderClients(); renderRevenue(); toast();
+}
+
+function removeClient(id) {
+  clients = clients.filter(c => c.id !== id);
+  save('sety_clients', clients); renderClients(); renderRevenue();
+}
+
+function toggleStatus(id) {
+  const c = clients.find(c => c.id === id);
+  if (!c) return;
+  const cycle = ['Ativo', 'Pendente', 'Inativo'];
+  c.status = cycle[(cycle.indexOf(c.status) + 1) % cycle.length];
+  save('sety_clients', clients); renderClients(); renderRevenue();
+}
+
+function renderClients() {
+  const recorrente = clients.reduce((s, c) => s + Number(c.valor), 0);
+  document.getElementById('totalRecorrente').textContent = `Total recorrente: ${fmt(recorrente)}/mês`;
+  const map = { 'Ativo': 'green', 'Pendente': 'yellow', 'Inativo': 'red' };
+  document.getElementById('clientTable').innerHTML = clients.length
+    ? clients.map(c => `<tr>
+        <td>${c.nome}</td>
+        <td style="color:var(--muted)">${c.servico || '—'}</td>
+        <td style="font-weight:600;color:var(--green)">${fmt(c.valor)}</td>
+        <td><span class="badge ${map[c.status] || 'purple'}" onclick="toggleStatus(${c.id})" style="cursor:pointer">${c.status}</span></td>
+        <td><span style="color:var(--muted);cursor:pointer;font-size:0.8rem;" onclick="removeClient(${c.id})">remover</span></td>
+      </tr>`).join('')
+    : '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px;">Nenhum cliente cadastrado ainda</td></tr>';
+}
+
+function renderSteps() {
+  document.getElementById('stepsList').innerHTML = steps.map((s, i) =>
+    `<li class="${s.done ? 'done' : ''}" onclick="toggleStep(${i})">
+      <div class="step-check"></div>
+      <div class="step-text">${s.text}<span class="step-tag">${s.tag}</span></div>
+    </li>`
+  ).join('');
+}
+
+function toggleStep(i) {
+  steps[i].done = !steps[i].done;
+  save('sety_steps', steps); renderSteps();
+}
+
+function addMetric() {
+  const nome = document.getElementById('mMetrica').value;
+  const qtd = Number(document.getElementById('mQtd').value);
+  if (!qtd) return;
+  const today = new Date().toLocaleDateString('pt-BR');
+  metrics.unshift({ nome, qtd, data: today });
+  if (metrics.length > 30) metrics = metrics.slice(0, 30);
+  save('sety_metrics', metrics); renderMetrics();
+  document.getElementById('mQtd').value = '';
+}
+
+function renderMetrics() {
+  const recent = metrics.slice(0, 8);
+  document.getElementById('metricRows').innerHTML = recent.length
+    ? recent.map(m => `<div class="metric-row"><span class="metric-label">${m.nome}</span><span class="metric-value">${m.qtd} <span style="color:var(--muted);font-size:0.75rem;font-weight:400;">${m.data}</span></span></div>`).join('')
+    : '<div style="color:var(--muted);font-size:0.82rem;padding:10px 0;">Nenhum log ainda</div>';
+}
+
+function renderNiches() {
+  document.getElementById('nicheChips').innerHTML = NICHES.map(n =>
+    `<span class="niche-chip ${selectedNiche === n ? 'active' : ''}" onclick="selectNiche('${n}')">${n}</span>`
+  ).join('');
+  document.getElementById('selectedNiche').textContent = selectedNiche || '—';
+}
+
+function selectNiche(n) {
+  selectedNiche = n; save('sety_niche', n); renderNiches(); toast();
+}
+
+document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+
+renderRevenue();
+renderMetas();
+renderClients();
+renderSteps();
+renderMetrics();
+renderNiches();
+</script>
+</body>
+</html>

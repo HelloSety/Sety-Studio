@@ -1,0 +1,70 @@
+<div class="category-tiles">
+  {%- for block in section.blocks -%}
+    <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="category-tile" {{ block.shopify_attributes }}>
+      <div class="tile-bg">
+        {%- if block.settings.image -%}
+          <img
+            src="{{ block.settings.image | image_url: width: 600 }}"
+            alt="{{ block.settings.name }}"
+            width="600"
+            height="750"
+            loading="lazy">
+        {%- else -%}
+          <div class="tile-placeholder"></div>
+        {%- endif -%}
+      </div>
+      <div class="tile-label">
+        <span class="tile-name">{{ block.settings.name | default: 'CATEGORIA' }}</span>
+        <span class="tile-cta">{{ block.settings.cta | default: 'Comprar' }}</span>
+      </div>
+    </a>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Categorias",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Categoria",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto da categoria"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nome da categoria",
+          "default": "CONJUNTOS"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "Texto do link",
+          "default": "Comprar"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link da categoria"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categorias",
+      "blocks": [
+        { "type": "tile", "settings": { "name": "CONJUNTOS",       "cta": "Comprar" } },
+        { "type": "tile", "settings": { "name": "VESTIDOS",        "cta": "Comprar" } },
+        { "type": "tile", "settings": { "name": "PEÇAS EXCLUSIVAS","cta": "Comprar" } },
+        { "type": "tile", "settings": { "name": "VER TUDO",        "cta": "Comprar" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

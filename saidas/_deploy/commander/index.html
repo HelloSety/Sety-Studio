@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sety Commander</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08080f;--s:#0f0f1e;--card:#12122a;--b:#1c1c38;--b2:#252545;
+  --purple:#7c3aed;--pl:#a855f7;--pdim:#2d1b69;
+  --green:#22c55e;--gdim:#14532d;
+  --yellow:#eab308;--red:#ef4444;--blue:#3b82f6;--orange:#f97316;
+  --text:#e2e8f0;--m:#4b5563;--m2:#6b7280;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+/* utils */
+.sec{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--m2);margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:20px}
+.btn{background:var(--purple);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:.78rem;font-weight:600;cursor:pointer;transition:opacity .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{opacity:.85}
+.btn.g{background:var(--b);color:var(--text)}
+.btn.gr{background:var(--gdim);color:var(--green)}
+.btn.sm{padding:4px 10px;font-size:.72rem}
+.inp{background:var(--bg);border:1px solid var(--b);color:var(--text);border-radius:8px;padding:7px 11px;font-size:.82rem;outline:none;width:100%;transition:border-color .2s}
+.inp:focus{border-color:var(--purple)}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.68rem;font-weight:700}
+.fmt(v){return'R$'+Number(v).toLocaleString('pt-BR')}
+/* top bar */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;border-bottom:1px solid var(--b);background:var(--s);position:sticky;top:0;z-index:100}
+.logo{font-size:.95rem;font-weight:800;letter-spacing:-.02em}
+.logo b{color:var(--pl)}
+.topright{display:flex;align-items:center;gap:14px}
+.topdate{font-size:.75rem;color:var(--m2)}
+.rev-pill{background:var(--pdim);border:1px solid var(--purple);border-radius:99px;padding:4px 14px;font-size:.75rem;font-weight:700;color:var(--pl);cursor:pointer}
+/* alert banner */
+.alert{padding:10px 28px;font-size:.78rem;font-weight:600;border-bottom:1px solid;display:flex;align-items:center;gap:8px}
+.alert.warn{background:rgba(234,179,8,.08);border-color:rgba(234,179,8,.3);color:var(--yellow)}
+.alert.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3);color:var(--green)}
+/* layout */
+.wrap{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 57px)}
+.left{background:var(--s);border-right:1px solid var(--b);padding:22px 18px;display:flex;flex-direction:column;gap:18px;overflow-y:auto;max-height:calc(100vh - 57px);position:sticky;top:57px}
+.right{padding:22px 26px;display:flex;flex-direction:column;gap:18px;overflow-y:auto}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.left{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--b)}}
+
+/* OFERTA PRINCIPAL */
+.oferta-card{background:linear-gradient(135deg,#1a0a3d,#0d0d22);border:1px solid var(--purple);border-radius:14px;padding:20px}
+.oferta-tag{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--pl);margin-bottom:6px}
+.oferta-nome{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:8px;cursor:pointer}
+.oferta-pitch{font-size:.82rem;color:#c4b5fd;line-height:1.55;cursor:pointer;min-height:36px}
+.oferta-pitch:empty::before{content:'Clique para definir o pitch de 30 segundos';color:var(--m2)}
+.oferta-price{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.price-chip{background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);border-radius:8px;padding:6px 12px;font-size:.78rem;font-weight:700;color:var(--pl);cursor:pointer}
+.oferta-nicho{margin-top:10px;font-size:.72rem;color:var(--m2)}
+.oferta-nicho strong{color:var(--yellow)}
+
+/* missão */
+.mission-wrap{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:16px}
+.mission-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:6px}
+#missionText{font-size:.95rem;font-weight:600;color:#fff;cursor:pointer;line-height:1.5;min-height:28px}
+#missionText:empty::before{content:'Clique — qual é a missão de hoje?';color:var(--m2);font-weight:400}
+#missionTA{display:none;width:100%;background:transparent;border:none;outline:none;color:#fff;font-size:.95rem;font-weight:600;font-family:inherit;resize:none}
+
+/* checklist vendas */
+.check-list{display:flex;flex-direction:column;gap:6px}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--bg);border:1px solid var(--b);border-radius:9px;cursor:pointer;transition:border-color .2s}
+.check-item.done{opacity:.5}
+.check-item:hover{border-color:var(--b2)}
+.check-box{width:18px;height:18px;border-radius:5px;border:2px solid var(--b2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.check-item.done .check-box{background:var(--green);border-color:var(--green)}
+.check-item.done .check-box::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+.check-body{flex:1}
+.check-label{font-size:.82rem;font-weight:500;line-height:1.3}
+.check-sub{font-size:.7rem;color:var(--m2);margin-top:2px}
+
+/* sell vs build */
+.svb{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.svb-side{border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s}
+.svb-sell{background:rgba(34,197,94,.1);border:2px solid rgba(34,197,94,.3)}
+.svb-sell.active{background:rgba(34,197,94,.2);border-color:var(--green)}
+.svb-build{background:rgba(239,68,68,.08);border:2px solid rgba(239,68,68,.2)}
+.svb-build.active{background:rgba(239,68,68,.15);border-color:var(--red)}
+.svb-emoji{font-size:1.4rem}
+.svb-lbl{font-size:.72rem;font-weight:700;margin-top:4px}
+.svb-time{font-size:1.1rem;font-weight:800;margin-top:2px}
+.svb-ratio{grid-column:1/-1;text-align:center;font-size:.75rem;padding:6px;background:var(--bg);border-radius:7px;border:1px solid var(--b)}
+
+/* revenue */
+.rev-block{}
+.rev-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.rev-val{font-size:1.7rem;font-weight:800;color:var(--green);line-height:1}
+.rev-meta-label{font-size:.78rem;color:var(--m2)}
+.prog-track{height:10px;background:var(--b);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pl));border-radius:99px;transition:width .6s}
+.rev-sub{font-size:.72rem;color:var(--m2)}
+.rev-inputs{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:12px}
+
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:1200px){.kanban{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.kanban{grid-template-columns:1fr 1fr}}
+.kcol{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:13px;display:flex;flex-direction:column;min-height:220px}
+.kcol-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.kcol-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.kcol-n{font-size:.7rem;background:var(--b);color:var(--m2);border-radius:99px;padding:1px 7px;font-weight:600}
+.kcard{background:var(--bg);border:1px solid var(--b);border-radius:8px;padding:10px 11px;cursor:grab;position:relative;margin-bottom:7px;transition:border-color .2s}
+.kcard:hover{border-color:var(--purple)}
+.kcard.dragging{opacity:.35}
+.kcard-name{font-size:.82rem;font-weight:600}
+.kcard-val{font-size:.73rem;color:var(--green);font-weight:600;margin-top:2px}
+.kcard-note{font-size:.68rem;color:var(--m2);margin-top:3px}
+.kcard-del{position:absolute;top:6px;right:8px;color:var(--m);font-size:.68rem;cursor:pointer;opacity:0;transition:opacity .15s}
+.kcard:hover .kcard-del{opacity:1}
+.kcol.dragover{border-color:var(--purple);background:rgba(124,58,237,.07)}
+.kadd{margin-top:auto}
+.kadd-form{display:flex;flex-direction:column;gap:5px;margin-bottom:7px}
+.kadd-form .inp{font-size:.77rem;padding:5px 9px}
+
+/* cases */
+.cases-list{display:flex;flex-direction:column;gap:8px}
+.case-item{background:var(--bg);border:1px solid var(--b);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.case-emoji{font-size:1.2rem;flex-shrink:0}
+.case-body{flex:1}
+.case-title{font-size:.83rem;font-weight:600}
+.case-result{font-size:.75rem;color:var(--green);margin-top:2px;font-weight:600}
+.case-del{font-size:.68rem;color:var(--m2);cursor:pointer;margin-top:4px;display:inline-block}
+.case-form{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;margin-top:10px}
+
+/* log */
+.log-items{display:flex;flex-direction:column;gap:5px;max-height:170px;overflow-y:auto}
+.log-item{font-size:.77rem;color:var(--m2);background:var(--bg);border-radius:7px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.log-item span{color:var(--text);flex:1}
+.log-t{font-size:.65rem;color:var(--m);white-space:nowrap}
+.log-form{display:flex;gap:7px;margin-top:9px}
+
+/* focus rule */
+.frule{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-top:1px solid var(--b);font-size:.78rem}
+.frule:first-child{border-top:none;padding-top:0}
+
+/* weekly north star */
+.north{background:linear-gradient(135deg,#0a0a1f,#1a0a2e);border:1px solid var(--purple);border-radius:14px;padding:18px}
+.north-q{font-size:.72rem;font-weight:700;color:var(--m2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.north-v{font-size:1rem;font-weight:700;color:var(--pl);cursor:pointer;min-height:24px}
+.north-v:empty::before{content:'Clique para definir o norte desta semana';color:var(--m2);font-weight:400;font-size:.85rem}
+
+/* toast */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:8px 16px;border-radius:8px;font-size:.8rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Sety <b>Commander</b></div>
+  <div class="topright">
+    <div class="topdate" id="topdate"></div>
+    <div class="rev-pill" onclick="document.getElementById('revSection').scrollIntoView({behavior:'smooth'})" id="revPill">R$0 / R$10K</div>
+  </div>
+</div>
+
+<div class="alert" id="alertBanner">
+  <span id="alertIcon">⚡</span>
+  <span id="alertText">Carregando…</span>
+</div>
+
+<div class="wrap">
+  <!-- ═══ ESQUERDA ═══ -->
+  <div class="left">
+
+    <!-- OFERTA PRINCIPAL -->
+    <div>
+      <div class="sec">Oferta principal</div>
+      <div class="oferta-card">
+        <div class="oferta-tag">Produto único</div>
+        <div class="oferta-nome" id="ofertaNome" onclick="editField('ofertaNome','Nome da oferta')">Sistema Comercial Inteligente</div>
+        <div class="oferta-pitch" id="ofertaPitch" onclick="editPitch()">Instalamos um sistema que responde leads automaticamente, organiza no CRM e avisa o vendedor só quando o cliente está pronto. Sem contratar ninguém.</div>
+        <div class="oferta-price">
+          <div class="price-chip" id="ofertaSetup" onclick="editField('ofertaSetup','Setup (R$)')">Setup: R$3.500</div>
+          <div class="price-chip" id="ofertaMes" onclick="editField('ofertaMes','Mensalidade (R$)')">Mensal: R$1.500</div>
+        </div>
+        <div class="oferta-nicho">Nicho: <strong id="ofertaNicho" onclick="editField('ofertaNicho','Nicho alvo')" style="cursor:pointer">Clínicas de saúde</strong></div>
+      </div>
+    </div>
+
+    <!-- MISSÃO DO DIA -->
+    <div>
+      <div class="sec">Missão de hoje (1 coisa só)</div>
+      <div class="mission-wrap">
+        <div class="mission-lbl">Foco #1</div>
+        <div id="missionText" onclick="editMission()"></div>
+        <textarea id="missionTA" rows="2" onblur="saveMission()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();saveMission()}"></textarea>
+      </div>
+    </div>
+
+    <!-- NORTE DA SEMANA -->
+    <div>
+      <div class="north">
+        <div class="north-q">Norte desta semana</div>
+        <div class="north-v" id="northV" onclick="editNorth()"></div>
+      </div>
+    </div>
+
+    <!-- SELL vs BUILD -->
+    <div>
+      <div class="sec">Tempo hoje: Venda vs Build</div>
+      <div class="svb">
+        <div class="svb-side svb-sell" id="svbSell" onclick="toggleTimer('sell')">
+          <div class="svb-emoji">💰</div>
+          <div class="svb-lbl" style="color:var(--green)">VENDENDO</div>
+          <div class="svb-time" id="svbSellTime">0:00</div>
+        </div>
+        <div class="svb-side svb-build" id="svbBuild" onclick="toggleTimer('build')">
+          <div class="svb-emoji">🔧</div>
+          <div class="svb-lbl" style="color:var(--red)">BUILDANDO</div>
+          <div class="svb-time" id="svbBuildTime">0:00</div>
+        </div>
+        <div class="svb-ratio" id="svbRatio">Clique para iniciar o timer</div>
+      </div>
+      <div style="font-size:.68rem;color:var(--m2);margin-top:6px;text-align:center">Meta: pelo menos 60% do dia em venda ou entrega de cliente</div>
+    </div>
+
+    <!-- REGRAS -->
+    <div>
+      <div class="sec">Filtro diário</div>
+      <div class="card" style="padding:14px">
+        <div class="frule"><span style="flex-shrink:0">🚫</span><span>Não abrir N8N/Claude hoje se ainda não enviou DMs ou fez follow-up</span></div>
+        <div class="frule"><span style="flex-shrink:0">🚫</span><span>Não criar feature nova se não tem cliente desta semana ainda</span></div>
+        <div class="frule"><span style="flex-shrink:0">✅</span><span>Antes de qualquer tarefa: <em>"Isso fecha cliente nos próximos 30 dias?"</em></span></div>
+        <div class="frule"><span style="flex-shrink:0">⚡</span><span>Prioridade: <strong>Venda → Entrega → Operação → Tech</strong></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ DIREITA ═══ -->
+  <div class="right">
+
+    <!-- CHECKLIST VENDAS -->
+    <div>
+      <div class="sec">Checklist de vendas de hoje</div>
+      <div class="check-list" id="checkList"></div>
+    </div>
+
+    <!-- RECEITA -->
+    <div id="revSection">
+      <div class="sec">Receita vs Meta</div>
+      <div class="card rev-block">
+        <div class="rev-row">
+          <div class="rev-val" id="revVal">R$0</div>
+          <div class="rev-meta-label">Meta: <strong id="revMetaLbl">R$10.000</strong></div>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+        <div class="rev-sub" id="revSub">—</div>
+        <div class="rev-inputs">
+          <input class="inp" type="number" id="revInp" placeholder="Receita atual (R$)" />
+          <input class="inp" type="number" id="metaInp" placeholder="Meta (R$)" />
+          <button class="btn" onclick="saveRev()">Salvar</button>
+        </div>
+        <div style="margin-top:12px">
+          <div class="sec" style="margin-bottom:8px">Clientes ativos <span id="totalRec" style="color:var(--green);font-weight:700"></span></div>
+          <div id="clientList"></div>
+          <div id="addClientArea">
+            <div id="addClientForm" style="display:none;margin-top:8px">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px">
+                <input class="inp" id="cNome" placeholder="Cliente" style="font-size:.77rem;padding:6px 9px" />
+                <input class="inp" id="cServ" placeholder="Serviço" style="font-size:.77rem;padding:6px 9px" />
+                <input class="inp" type="number" id="cVal" placeholder="R$/mês" style="font-size:.77rem;padding:6px 9px" />
+                <button class="btn sm" onclick="addClient()">+</button>
+              </div>
+            </div>
+            <button class="btn g sm" style="margin-top:8px;font-size:.72rem;width:100%" onclick="toggleCF()">+ Adicionar cliente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div>
+      <div class="sec">Pipeline de vendas</div>
+      <div class="kanban" id="kanban"></div>
+    </div>
+
+    <!-- CASES -->
+    <div>
+      <div class="sec">Cases & Resultados (prova social)</div>
+      <div class="card">
+        <div style="font-size:.75rem;color:var(--m2);margin-bottom:12px">Cada entrega vira um case. Case vende mais que anúncio.</div>
+        <div class="cases-list" id="casesList"></div>
+        <div class="case-form">
+          <input class="inp" id="caseTitle" placeholder="Ex: Clínica X — site + CRM" style="font-size:.77rem" />
+          <input class="inp" id="caseResult" placeholder="Resultado: Ex: +40 leads/mês" style="font-size:.77rem" />
+          <button class="btn sm" onclick="addCase()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG DO DIA -->
+    <div>
+      <div class="sec">Log do dia</div>
+      <div class="card">
+        <div class="log-items" id="logItems"></div>
+        <div class="log-form">
+          <input class="inp" id="logInp" placeholder="O que aconteceu hoje? (DM enviada, call, proposta, fechamento…)" onkeydown="if(event.key==='Enter')addLog()" />
+          <button class="btn" onclick="addLog()">Log</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast">Salvo!</div>
+
+<!-- ═══════════════════════ SCRIPT ═══════════════════════ -->
+<script>
+const $=id=>document.getElementById(id);
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const sv=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const toast=()=>{$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1700)};
+const fmt=v=>'R$'+Number(v).toLocaleString('pt-BR');
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let rev      = ld('sc2_rev',5000);
+let meta     = ld('sc2_meta',10000);
+let mission  = ld('sc2_mission','');
+let north    = ld('sc2_north','Fechar 2 calls esta semana');
+let clients  = ld('sc2_clients',[{nome:'Empório Norte Belém',serv:'Site + CartPanda',val:5000,id:1}]);
+let leads    = ld('sc2_leads',[]);
+let logs     = ld('sc2_logs',[]);
+let checks   = ld('sc2_checks',null);
+let cases    = ld('sc2_cases',[{title:'Empório Norte Belém — Site esportivo',result:'Loja online no ar em 3 dias',id:1}]);
+let oferta   = ld('sc2_oferta',{nome:'Sistema Comercial Inteligente',pitch:'Instalamos um sistema que responde leads automaticamente, organiza no CRM e avisa o vendedor só quando o cliente está pronto. Sem contratar ninguém.',setup:'Setup: R$3.500',mes:'Mensal: R$1.500',nicho:'Clínicas de saúde'});
+let timerState = {active:null,sell:0,build:0,start:null};
+
+// ─── DATE ─────────────────────────────────────────────────────────────────────
+const now=new Date();
+const todayStr=now.toLocaleDateString('pt-BR');
+$('topdate').textContent=now.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+
+// ─── ALERT BANNER ─────────────────────────────────────────────────────────────
+function renderAlert(){
+  const pct=Math.round((rev/meta)*100);
+  const done=(checks||CHECKS_DEF).filter(c=>c.done).length;
+  const total=(checks||CHECKS_DEF).length;
+  if(pct>=100){
+    $('alertBanner').className='alert ok';
+    $('alertIcon').textContent='🎉';
+    $('alertText').textContent=`META BATIDA! ${fmt(rev)} — parabéns, Seven!`;
+  } else if(done===total){
+    $('alertBanner').className='alert ok';
+    $('alertIcon').textContent='✅';
+    $('alertText').textContent=`Checklist de vendas 100% concluído hoje. ${fmt(meta-rev)} para a meta.`;
+  } else {
+    $('alertBanner').className='alert warn';
+    $('alertIcon').textContent='⚡';
+    $('alertText').textContent=`${done}/${total} ações de venda feitas hoje — faltam ${fmt(meta-rev)} para R$10K.`;
+  }
+}
+
+// ─── OFERTA ───────────────────────────────────────────────────────────────────
+function renderOferta(){
+  $('ofertaNome').textContent=oferta.nome;
+  $('ofertaPitch').textContent=oferta.pitch;
+  $('ofertaSetup').textContent=oferta.setup;
+  $('ofertaMes').textContent=oferta.mes;
+  $('ofertaNicho').textContent=oferta.nicho;
+}
+function editField(id,label){
+  const el=$(id);
+  const cur=el.textContent;
+  const v=prompt(label+':',cur);
+  if(v===null)return;
+  el.textContent=v;
+  const key=id==='ofertaNome'?'nome':id==='ofertaPitch'?'pitch':id==='ofertaSetup'?'setup':id==='ofertaMes'?'mes':'nicho';
+  oferta[key]=v;
+  sv('sc2_oferta',oferta);toast();
+}
+function editPitch(){editField('ofertaPitch','Pitch de 30 segundos');}
+
+// ─── MISSION ──────────────────────────────────────────────────────────────────
+function renderMission(){$('missionText').textContent=mission;}
+function editMission(){
+  $('missionText').style.display='none';
+  $('missionTA').style.display='block';
+  $('missionTA').value=mission;$('missionTA').focus();
+}
+function saveMission(){
+  mission=$('missionTA').value.trim();
+  sv('sc2_mission',mission);
+  $('missionTA').style.display='none';
+  $('missionText').style.display='block';
+  $('missionText').textContent=mission;toast();
+}
+
+// ─── NORTH ────────────────────────────────────────────────────────────────────
+function renderNorth(){$('northV').textContent=north;}
+function editNorth(){
+  const v=prompt('Norte desta semana:',north);
+  if(v!==null){north=v;sv('sc2_north',north);renderNorth();}
+}
+
+// ─── CHECKLIST ────────────────────────────────────────────────────────────────
+const CHECKS_DEF=[
+  {id:'dms',label:'Enviou DMs / mensagens de prospecção',sub:'Meta: 10–20 por dia',done:false},
+  {id:'followup',label:'Fez follow-up nos leads ativos do pipeline',sub:'Checar cards em Contato e Call',done:false},
+  {id:'upsell',label:'Contatou o Empório Norte para upsell',sub:'Oferecer mensalidade de manutenção',done:false},
+  {id:'call',label:'Agendou ou fez uma call com potencial cliente',sub:'Qualquer conversa sobre a oferta',done:false},
+  {id:'case',label:'Registrou ou planejou um case novo',sub:'Todo projeto vira prova social',done:false},
+];
+function getChecks(){
+  if(!checks){checks=CHECKS_DEF.map(c=>({...c}));sv('sc2_checks',checks);}
+  // reset se mudou de dia
+  const savedDay=ld('sc2_checks_day','');
+  if(savedDay!==todayStr){
+    checks=CHECKS_DEF.map(c=>({...c}));
+    sv('sc2_checks',checks);sv('sc2_checks_day',todayStr);
+  }
+  return checks;
+}
+function renderChecks(){
+  const c=getChecks();
+  $('checkList').innerHTML=c.map((item,i)=>`
+    <div class="check-item${item.done?' done':''}" onclick="toggleCheck(${i})">
+      <div class="check-box"></div>
+      <div class="check-body">
+        <div class="check-label">${item.label}</div>
+        <div class="check-sub">${item.sub}</div>
+      </div>
+    </div>`).join('');
+  renderAlert();
+}
+function toggleCheck(i){
+  checks[i].done=!checks[i].done;
+  sv('sc2_checks',checks);renderChecks();
+}
+
+// ─── REVENUE ──────────────────────────────────────────────────────────────────
+function renderRev(){
+  const pct=Math.min(100,Math.round((rev/meta)*100));
+  $('revVal').textContent=fmt(rev);
+  $('revMetaLbl').textContent=fmt(meta);
+  $('progFill').style.width=pct+'%';
+  $('revSub').textContent=rev>=meta?`Meta batida! +${fmt(rev-meta)}`:`Faltam ${fmt(meta-rev)} — ${pct}% concluído`;
+  $('revPill').textContent=fmt(rev)+' / '+fmt(meta);
+  $('revInp').value=rev;$('metaInp').value=meta;
+}
+function saveRev(){
+  const r=Number($('revInp').value),m=Number($('metaInp').value);
+  if(r)rev=r;if(m)meta=m;
+  sv('sc2_rev',rev);sv('sc2_meta',meta);
+  renderRev();renderAlert();toast();
+}
+
+// ─── CLIENTS ──────────────────────────────────────────────────────────────────
+function renderClients(){
+  const total=clients.reduce((s,c)=>s+c.val,0);
+  $('totalRec').textContent=fmt(total)+'/mês';
+  $('clientList').innerHTML=clients.map(c=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:5px;border:1px solid var(--b)">
+      <div>
+        <div style="font-size:.82rem;font-weight:600">${c.nome}</div>
+        <div style="font-size:.7rem;color:var(--m2)">${c.serv||'—'}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.82rem;font-weight:700;color:var(--green)">${fmt(c.val)}</div>
+        <div style="font-size:.65rem;color:var(--m2);cursor:pointer;margin-top:2px" onclick="removeClient(${c.id})">remover</div>
+      </div>
+    </div>`).join('');
+}
+function toggleCF(){
+  const f=$('addClientForm');f.style.display=f.style.display!=='none'?'none':'block';
+}
+function addClient(){
+  const nome=$('cNome').value.trim(),val=Number($('cVal').value);
+  if(!nome||!val)return;
+  clients.push({nome,serv:$('cServ').value.trim(),val,id:Date.now()});
+  sv('sc2_clients',clients);
+  $('cNome').value='';$('cServ').value='';$('cVal').value='';
+  toggleCF();renderClients();toast();
+}
+function removeClient(id){clients=clients.filter(c=>c.id!==id);sv('sc2_clients',clients);renderClients();}
+
+// ─── PIPELINE ─────────────────────────────────────────────────────────────────
+const COLS=[
+  {id:'prosp',lbl:'Prospectando',color:'#3b82f6'},
+  {id:'contato',lbl:'Contato feito',color:'#eab308'},
+  {id:'call',lbl:'Call / Reunião',color:'#a855f7'},
+  {id:'proposta',lbl:'Proposta enviada',color:'#f97316'},
+  {id:'fechado',lbl:'Fechado ✓',color:'#22c55e'},
+];
+let dragId=null;
+function renderKanban(){
+  $('kanban').innerHTML=COLS.map(col=>{
+    const colLeads=leads.filter(l=>l.stage===col.id);
+    return`<div class="kcol" id="col-${col.id}"
+      ondragover="event.preventDefault();this.classList.add('dragover')"
+      ondragleave="this.classList.remove('dragover')"
+      ondrop="dropCard(event,'${col.id}')">
+      <div class="kcol-head">
+        <div class="kcol-lbl" style="color:${col.color}">${col.lbl}</div>
+        <div class="kcol-n">${colLeads.length}</div>
+      </div>
+      ${colLeads.map(l=>`
+        <div class="kcard" draggable="true" id="kc-${l.id}"
+          ondragstart="dragId=${l.id};this.classList.add('dragging')"
+          ondragend="this.classList.remove('dragging')">
+          <div class="kcard-del" onclick="removeLead(${l.id})">✕</div>
+          <div class="kcard-name">${l.nome}</div>
+          ${l.val?`<div class="kcard-val">${fmt(l.val)}/mês</div>`:''}
+          ${l.note?`<div class="kcard-note">${l.note}</div>`:''}
+        </div>`).join('')}
+      <div class="kadd">
+        ${col.id==='prosp'?`
+          <div class="kadd-form" id="kForm" style="display:none">
+            <input class="inp" id="kNome" placeholder="Empresa" />
+            <input class="inp" type="number" id="kVal" placeholder="Valor/mês (R$)" />
+            <input class="inp" id="kNote" placeholder="Nota (opcional)" />
+            <div style="display:flex;gap:5px">
+              <button class="btn sm" onclick="addLead()" style="flex:1">+ Adicionar</button>
+              <button class="btn g sm" onclick="toggleKForm()" style="flex:1">✕</button>
+            </div>
+          </div>
+          <button class="btn g sm" id="kBtn" onclick="toggleKForm()" style="width:100%;font-size:.72rem;margin-top:4px">+ Lead</button>`:``}
+      </div>
+    </div>`;
+  }).join('');
+}
+function dropCard(e,stage){
+  e.preventDefault();
+  document.querySelectorAll('.kcol').forEach(c=>c.classList.remove('dragover'));
+  if(!dragId)return;
+  const lead=leads.find(l=>l.id===dragId);
+  if(!lead)return;
+  lead.stage=stage;
+  sv('sc2_leads',leads);renderKanban();
+  if(stage==='fechado'){
+    setTimeout(()=>{
+      if(confirm(`"${lead.nome}" fechou! Adicionar como cliente ativo?`)){
+        clients.push({nome:lead.nome,serv:'Sistema Comercial',val:lead.val||2000,id:Date.now()});
+        sv('sc2_clients',clients);renderClients();renderRev();toast();
+      }
+    },150);
+  }
+}
+function toggleKForm(){
+  const f=$('kForm'),b=$('kBtn');
+  if(!f)return;
+  const show=f.style.display!=='none';
+  f.style.display=show?'none':'flex';b.style.display=show?'block':'none';
+}
+function addLead(){
+  const nome=$('kNome').value.trim();
+  if(!nome)return;
+  leads.push({nome,val:Number($('kVal').value)||0,note:$('kNote').value.trim(),stage:'prosp',id:Date.now()});
+  sv('sc2_leads',leads);
+  $('kNome').value='';$('kVal').value='';$('kNote').value='';
+  toggleKForm();renderKanban();toast();
+}
+function removeLead(id){leads=leads.filter(l=>l.id!==id);sv('sc2_leads',leads);renderKanban();}
+
+// ─── CASES ────────────────────────────────────────────────────────────────────
+function renderCases(){
+  $('casesList').innerHTML=cases.length
+    ?cases.map(c=>`
+      <div class="case-item">
+        <div class="case-emoji">⭐</div>
+        <div class="case-body">
+          <div class="case-title">${c.title}</div>
+          <div class="case-result">${c.result}</div>
+          <div class="case-del" onclick="removeCase(${c.id})">remover</div>
+        </div>
+      </div>`).join('')
+    :'<div style="color:var(--m2);font-size:.78rem">Nenhum case ainda — adicione o primeiro!</div>';
+}
+function addCase(){
+  const t=$('caseTitle').value.trim(),r=$('caseResult').value.trim();
+  if(!t)return;
+  cases.push({title:t,result:r,id:Date.now()});
+  sv('sc2_cases',cases);renderCases();
+  $('caseTitle').value='';$('caseResult').value='';toast();
+}
+function removeCase(id){cases=cases.filter(c=>c.id!==id);sv('sc2_cases',cases);renderCases();}
+
+// ─── LOG ──────────────────────────────────────────────────────────────────────
+function renderLogs(){
+  const today=logs.filter(l=>l.date===todayStr);
+  $('logItems').innerHTML=today.length
+    ?today.slice().reverse().map(l=>`<div class="log-item"><span>${l.text}</span><span class="log-t">${l.time}</span></div>`).join('')
+    :'<div style="color:var(--m2);font-size:.77rem;padding:6px 0">Nenhum registro hoje.</div>';
+}
+function addLog(){
+  const txt=$('logInp').value.trim();if(!txt)return;
+  const t=new Date();
+  logs.push({text:txt,date:todayStr,time:t.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
+  if(logs.length>300)logs=logs.slice(-300);
+  sv('sc2_logs',logs);renderLogs();$('logInp').value='';toast();
+}
+
+// ─── SELL vs BUILD TIMER ──────────────────────────────────────────────────────
+function fmtTime(s){const m=Math.floor(s/60);return`${m}:${String(s%60).padStart(2,'0')}`}
+function toggleTimer(type){
+  if(timerState.active===type){
+    // pause
+    const elapsed=Math.floor((Date.now()-timerState.start)/1000);
+    timerState[type]+=elapsed;
+    timerState.active=null;timerState.start=null;
+  } else {
+    if(timerState.active){
+      const elapsed=Math.floor((Date.now()-timerState.start)/1000);
+      timerState[timerState.active]+=elapsed;
+    }
+    timerState.active=type;timerState.start=Date.now();
+  }
+  renderTimer();
+}
+function renderTimer(){
+  const sell=timerState.sell+(timerState.active==='sell'?Math.floor((Date.now()-timerState.start)/1000):0);
+  const build=timerState.build+(timerState.active==='build'?Math.floor((Date.now()-timerState.start)/1000):0);
+  $('svbSellTime').textContent=fmtTime(sell);
+  $('svbBuildTime').textContent=fmtTime(build);
+  $('svbSell').className='svb-side svb-sell'+(timerState.active==='sell'?' active':'');
+  $('svbBuild').className='svb-side svb-build'+(timerState.active==='build'?' active':'');
+  const total=sell+build;
+  if(total===0){$('svbRatio').textContent='Clique para iniciar o timer';return;}
+  const pctSell=Math.round((sell/total)*100);
+  const ok=pctSell>=60;
+  $('svbRatio').innerHTML=`Venda: <strong style="color:${ok?'var(--green)':'var(--red)'}">${pctSell}%</strong> | Build: <strong>${100-pctSell}%</strong> ${ok?'✅ Bom ritmo':'⚠️ Foque mais em venda'}`;
+}
+setInterval(renderTimer,1000);
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderOferta();
+renderMission();
+renderNorth();
+getChecks();renderChecks();
+renderRev();
+renderClients();
+renderKanban();
+renderCases();
+renderLogs();
+renderTimer();
+</script>
+</body>
+</html>

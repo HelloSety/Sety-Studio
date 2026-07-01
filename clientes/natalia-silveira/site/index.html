@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natalia Silveira — Arte em Macramê do Brasil</title>
+  <meta name="description" content="Peças exclusivas em macramê, confeccionadas artesanalmente no Brasil. Alta-costura contemporânea feita à mão, sob medida para cada cliente.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:    #FFFFFF;
+      --f:     #111111;
+      --mid:   #767676;
+      --light: #AAAAAA;
+      --border:#E5E5E5;
+      --hover: #F7F7F7;
+      --warm:  #C4946A;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--f); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ─── LOGO ─── */
+    .logo {
+      display: flex; flex-direction: column; align-items: center;
+      line-height: 1.35; letter-spacing: 6px; text-transform: uppercase;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 15px; color: var(--f); text-decoration: none;
+    }
+    .logo-footer {
+      letter-spacing: 6px; text-transform: uppercase;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 15px; color: #fff; line-height: 1.35;
+    }
+
+    /* ─── BRAND MONOGRAM (icon only — popup) ─── */
+    .brand-mono {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-weight: 300; font-size: 40px; color: var(--f);
+      letter-spacing: -2px; line-height: 1;
+    }
+
+    /* ─── HEADER ─── */
+    .hdr { position: sticky; top: 0; z-index: 200; background: #fff; border-bottom: 1px solid var(--border); }
+    .hdr-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 40px; height: 72px; }
+    .hdr-left, .hdr-right { display: flex; align-items: center; gap: 20px; }
+    .hdr-right { justify-content: flex-end; }
+
+    .hdr-icon { background: none; border: none; padding: 6px; display: flex; align-items: center; gap: 7px; font-size: 11px; letter-spacing: 2px; color: var(--f); transition: color .2s; }
+    .hdr-icon:hover { color: var(--mid); }
+
+    .lang-wrap { position: relative; }
+    .lang-btn { background: none; border: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--f); display: flex; align-items: center; gap: 5px; padding: 4px 0; }
+    .lang-btn svg { transition: transform .2s; }
+    .lang-wrap:hover .lang-btn svg { transform: rotate(180deg); }
+    .lang-dd { position: absolute; right: 0; top: calc(100% + 6px); min-width: 130px; background: #fff; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,.06); display: none; z-index: 100; }
+    .lang-wrap:hover .lang-dd { display: block; }
+    .lang-dd a { display: block; padding: 11px 16px; font-size: 11px; letter-spacing: 2px; color: var(--f); transition: background .15s; }
+    .lang-dd a:hover { background: var(--hover); }
+    .lang-dd a.active { font-weight: 500; }
+
+    .hdr-nav { display: flex; justify-content: center; border-top: 1px solid var(--border); }
+    .hdr-nav > a, .nav-trigger {
+      padding: 14px 24px; font-size: 10px; letter-spacing: 3px; font-weight: 400;
+      text-transform: uppercase; color: var(--f); border-bottom: 2px solid transparent;
+      transition: border-bottom-color .2s; background: none; border-left: none; border-right: none; border-top: none;
+    }
+    .hdr-nav > a:hover, .nav-trigger:hover { border-bottom-color: var(--f); }
+
+    .nav-drop { position: relative; }
+    .nav-menu { position: absolute; left: 0; top: 100%; min-width: 200px; background: #fff; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,.06); display: none; z-index: 100; }
+    .nav-drop:hover .nav-menu { display: block; }
+    .nav-menu a { display: block; padding: 12px 20px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--f); transition: background .15s; border-bottom: 1px solid var(--border); }
+    .nav-menu a:last-child { border-bottom: none; }
+    .nav-menu a:hover { background: var(--hover); }
+
+    .hamburger { display: none; background: none; border: none; padding: 8px; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 22px; height: 1px; background: var(--f); }
+    .mob-nav { display: none; position: fixed; inset: 0; z-index: 500; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mob-nav.open { display: flex; }
+    .mob-nav a { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; }
+    .mob-close { position: absolute; top: 24px; right: 28px; background: none; border: none; font-size: 28px; color: var(--f); }
+
+    /* ─── POPUP ─── */
+    .popup-ov { position: fixed; inset: 0; z-index: 600; background: rgba(17,17,17,.75); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .popup-ov.show { opacity: 1; pointer-events: all; }
+    .popup-box { display: grid; grid-template-columns: 1fr 1fr; max-width: 760px; width: 100%; background: #fff; transform: translateY(16px); transition: transform .4s; }
+    .popup-ov.show .popup-box { transform: translateY(0); }
+    .popup-img { overflow: hidden; min-height: 480px; }
+    .popup-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(25%); }
+    .popup-side { padding: 52px 44px; display: flex; flex-direction: column; align-items: center; position: relative; }
+    .popup-x { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; color: var(--mid); line-height: 1; }
+    .popup-x:hover { color: var(--f); }
+    .popup-offer { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 400; text-align: center; line-height: 1.1; margin: 16px 0 4px; }
+    .popup-sub { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; text-align: center; margin-bottom: 14px; }
+    .popup-desc { font-size: 12px; line-height: 1.7; color: var(--mid); text-align: center; margin-bottom: 24px; }
+    .popup-form { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .popup-input { width: 100%; padding: 13px 16px; border: 1px solid var(--border); font-family: 'Jost', sans-serif; font-size: 13px; outline: none; transition: border .2s; }
+    .popup-input:focus { border-color: var(--f); }
+    .popup-submit { width: 100%; padding: 14px; background: var(--f); color: #fff; border: none; font-size: 10px; letter-spacing: 3px; font-weight: 500; text-transform: uppercase; }
+    .popup-submit:hover { opacity: .8; }
+    .popup-skip { margin-top: 12px; background: none; border: none; font-size: 11px; letter-spacing: 1px; color: var(--mid); text-decoration: underline; }
+
+    /* ─── HERO ─── */
+    .hero { position: relative; height: 100vh; min-height: 600px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; }
+    .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(17,17,17,.5) 0%, rgba(17,17,17,.15) 60%, transparent 100%); }
+    .hero-cnt { position: relative; z-index: 2; height: 100%; display: flex; align-items: flex-end; padding: 0 64px 80px; }
+    .hero-inner { max-width: 520px; }
+    .hero-eyebrow { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,.7); margin-bottom: 16px; display: flex; align-items: center; gap: 14px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: rgba(255,255,255,.5); }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 300; line-height: 1.05; color: #fff; margin-bottom: 32px; }
+    .hero-title em { font-style: italic; }
+
+    /* ─── BUTTONS ─── */
+    .btn-fill { display: inline-block; padding: 14px 40px; background: var(--f); color: #fff; font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; border: none; transition: opacity .2s; }
+    .btn-fill:hover { opacity: .8; }
+    .btn-fill-w { display: inline-block; padding: 14px 40px; background: #fff; color: var(--f); font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; border: none; transition: all .2s; }
+    .btn-fill-w:hover { background: var(--f); color: #fff; }
+    .btn-line { display: inline-block; padding: 13px 40px; background: transparent; color: var(--f); font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; border: 1px solid var(--f); transition: all .2s; }
+    .btn-line:hover { background: var(--f); color: #fff; }
+    .btn-line-w { display: inline-block; padding: 13px 40px; background: transparent; color: #fff; font-size: 10px; letter-spacing: 4px; font-weight: 500; text-transform: uppercase; border: 1px solid rgba(255,255,255,.6); transition: all .2s; }
+    .btn-line-w:hover { background: #fff; color: var(--f); }
+
+    /* ─── CATEGORY TILES ─── */
+    .cats { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .cat { position: relative; overflow: hidden; aspect-ratio: 3/4; display: block; }
+    .cat img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .65s cubic-bezier(.25,.46,.45,.94); }
+    .cat:hover img { transform: scale(1.04); }
+    .cat::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(17,17,17,.6) 0%, rgba(17,17,17,.1) 50%, transparent 100%); }
+    .cat-lbl { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 28px 20px; text-align: center; }
+    .cat-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: #fff; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 10px; }
+    .cat-cta { display: inline-block; padding: 7px 18px; border: 1px solid rgba(255,255,255,.65); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #fff; transition: all .2s; }
+    .cat:hover .cat-cta { background: #fff; color: var(--f); }
+
+    /* ─── SECTION HEADERS ─── */
+    .sec-h { text-align: center; padding: 64px 32px 40px; }
+    .sec-ey { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
+    .sec-ti { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; letter-spacing: 3px; }
+
+    /* ─── PRODUCTS ─── */
+    #colecao { padding: 0 40px 80px; }
+    .filters { display: flex; justify-content: center; border-bottom: 1px solid var(--border); margin-bottom: 40px; overflow-x: auto; }
+    .fb { padding: 14px 24px; background: none; border: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--mid); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s; white-space: nowrap; }
+    .fb.on { color: var(--f); border-bottom-color: var(--f); }
+    .fb:hover { color: var(--f); }
+
+    .pgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 20px; }
+    .pcard { cursor: pointer; }
+    .pcard-img { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #F8F8F8; margin-bottom: 14px; }
+    .pcard-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .55s cubic-bezier(.25,.46,.45,.94); }
+    .pcard:hover .pcard-img img { transform: scale(1.04); }
+    .pcard-ov { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; opacity: 0; transform: translateY(6px); transition: all .25s; }
+    .pcard:hover .pcard-ov { opacity: 1; transform: translateY(0); }
+    .pcard-btn { width: 100%; padding: 10px; background: #fff; border: none; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--f); transition: all .2s; }
+    .pcard-btn:hover { background: var(--f); color: #fff; }
+    .pname { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; margin-bottom: 3px; }
+    .pcat  { font-size: 10px; color: var(--mid); margin-bottom: 4px; letter-spacing: 1px; }
+    .ppr   { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--f); }
+    .ppr.nc { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); }
+
+    /* ─── STORY ─── */
+    .story { display: grid; grid-template-columns: 1fr 1fr; }
+    .story-img { overflow: hidden; aspect-ratio: 4/5; }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .story-txt { display: flex; flex-direction: column; justify-content: center; padding: 80px 72px; }
+    .story-ey { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+    .story-ti { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.15; margin-bottom: 24px; }
+    .story-bd { font-size: 13px; line-height: 1.95; color: var(--mid); margin-bottom: 32px; }
+
+    /* ─── DARK CRAFT BANNER ─── */
+    .craft { position: relative; overflow: hidden; min-height: 420px; display: flex; align-items: center; justify-content: center; }
+    .craft-bg { position: absolute; inset: 0; }
+    .craft-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+    .craft-bg::after { content: ''; position: absolute; inset: 0; background: rgba(17,17,17,.65); }
+    .craft-cnt { position: relative; z-index: 2; text-align: center; padding: 80px 32px; }
+    .craft-q { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3.5vw, 44px); font-weight: 300; font-style: italic; color: #fff; max-width: 680px; margin: 0 auto 32px; line-height: 1.3; }
+
+    /* ─── VIDEO PLACEHOLDER ─── */
+    /* Estrutura preparada para futura inclusão de vídeo */
+    /* .video-section { display: none; } */
+
+    /* ─── INSTITUTIONAL SECTIONS ─── */
+    .inst { max-width: 860px; margin: 0 auto; padding: 80px 40px; }
+    .inst + .inst { border-top: 1px solid var(--border); padding-top: 72px; }
+    .inst-ey { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+    .inst-ti { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; margin-bottom: 28px; letter-spacing: 1px; }
+    .inst-body { font-size: 14px; line-height: 2; color: #444; }
+    .inst-body p + p { margin-top: 16px; }
+    .inst-list { list-style: none; margin-top: 16px; }
+    .inst-list li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: #444; line-height: 1.7; display: flex; gap: 12px; }
+    .inst-list li::before { content: '—'; color: var(--light); flex-shrink: 0; margin-top: 1px; }
+
+    .inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; }
+    .inst-col-ti { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; }
+
+    /* ─── COLOR CATALOG ─── */
+    #cores { padding: 80px 64px; border-top: 1px solid var(--border); }
+    .cline-ti { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; font-weight: 500; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 12px; margin-bottom: 48px; }
+    .sw { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .sw-box { width: 100%; aspect-ratio: 1; border-radius: 2px; position: relative; }
+    .sw-gold .sw-box::after, .sw-cop .sw-box::after { content: ''; position: absolute; inset: 0; border-radius: 2px; background: repeating-linear-gradient(45deg,transparent 0,transparent 2px,rgba(255,210,80,.18) 2px,rgba(255,210,80,.18) 4px); }
+    .sw-cop .sw-box::after { background: repeating-linear-gradient(45deg,transparent 0,transparent 2px,rgba(180,100,50,.2) 2px,rgba(180,100,50,.2) 4px); }
+    .sw-lbl { font-size: 8px; letter-spacing: .5px; color: var(--mid); text-align: center; line-height: 1.3; }
+
+    /* ─── NEWSLETTER ─── */
+    .nl { text-align: center; padding: 80px 32px; border-top: 1px solid var(--border); }
+    .nl-ti { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; letter-spacing: 2px; margin-bottom: 8px; }
+    .nl-sub { font-size: 12px; color: var(--mid); letter-spacing: 1px; margin-bottom: 28px; }
+    .nl-form { display: flex; max-width: 420px; margin: 0 auto; }
+    .nl-inp { flex: 1; padding: 13px 16px; border: 1px solid var(--border); border-right: none; font-family: 'Jost', sans-serif; font-size: 12px; outline: none; }
+    .nl-inp:focus { border-color: var(--f); }
+    .nl-btn { padding: 13px 24px; background: var(--f); color: #fff; border: none; font-size: 10px; letter-spacing: 3px; font-weight: 500; text-transform: uppercase; transition: opacity .2s; }
+    .nl-btn:hover { opacity: .8; }
+    .nl-ok { font-size: 12px; color: var(--mid); margin-top: 12px; display: none; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--f); color: #fff; padding: 64px 64px 32px; }
+    .ftgrid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 48px; }
+    .ft-tagline { font-size: 12px; line-height: 1.85; color: rgba(255,255,255,.5); margin-top: 16px; }
+    .ft-col-ti { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 18px; font-weight: 400; }
+    .ft-col a { display: block; font-size: 12px; letter-spacing: 1px; color: rgba(255,255,255,.65); margin-bottom: 10px; transition: color .2s; }
+    .ft-col a:hover { color: #fff; }
+    .ft-nl { display: flex; margin-top: 6px; }
+    .ft-nl-i { flex: 1; padding: 10px 12px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-right: none; color: #fff; font-family: 'Jost', sans-serif; font-size: 12px; outline: none; }
+    .ft-nl-i::placeholder { color: rgba(255,255,255,.35); }
+    .ft-nl-b { padding: 10px 16px; background: #fff; color: var(--f); border: none; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; transition: opacity .2s; }
+    .ft-nl-b:hover { opacity: .85; }
+    .ft-bottom { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .ft-copy { font-size: 10px; color: rgba(255,255,255,.35); letter-spacing: 1px; }
+    .ft-lang { display: flex; gap: 16px; }
+    .ft-lang a { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.35); transition: color .2s; }
+    .ft-lang a:hover, .ft-lang a.active { color: #fff; }
+    .ft-pay { display: flex; gap: 8px; }
+    .pay-ic { width: 36px; height: 22px; background: rgba(255,255,255,.12); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 7px; color: rgba(255,255,255,.5); letter-spacing: .5px; }
+
+    /* ─── FLOATING WPP ─── */
+    .wpp-float {
+      position: fixed; bottom: 28px; right: 24px; z-index: 400;
+      width: 44px; height: 44px; background: var(--f); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,.18); transition: background .2s; text-decoration: none;
+    }
+    .wpp-float:hover { background: #333; }
+    .wpp-float svg { flex-shrink: 0; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) { .pgrid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 860px) {
+      .hdr-nav { display: none; }
+      .hamburger { display: flex; }
+      .hdr-top { padding: 0 20px; }
+      .hero-cnt { padding: 0 24px 60px; }
+      .cats { grid-template-columns: repeat(2,1fr); }
+      .pgrid { grid-template-columns: repeat(2,1fr); gap: 20px 12px; }
+      #colecao { padding: 0 16px 48px; }
+      .story { grid-template-columns: 1fr; }
+      .story-txt { padding: 48px 24px; }
+      .ftgrid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      footer { padding: 40px 24px 24px; }
+      .popup-box { grid-template-columns: 1fr; max-width: 400px; }
+      .popup-img { display: none; }
+      .popup-side { padding: 40px 28px; }
+      .inst { padding: 60px 24px; }
+      .inst-grid { grid-template-columns: 1fr; gap: 32px; }
+      #cores { padding: 60px 20px; }
+    }
+    @media (max-width: 480px) {
+      .pgrid { grid-template-columns: repeat(2,1fr); gap: 12px 8px; }
+      .ftgrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ POPUP ═══ -->
+<div class="popup-ov" id="popup">
+  <div class="popup-box">
+    <div class="popup-img"><img src="assets/celeste.png" alt="Natalia Silveira"></div>
+    <div class="popup-side">
+      <button class="popup-x" id="popupX">×</button>
+      <span class="brand-mono">ns</span>
+      <h2 class="popup-offer" data-i18n="popup_offer">GANHE 10% DE DESCONTO</h2>
+      <p class="popup-sub" data-i18n="popup_sub">NO SEU PRIMEIRO PEDIDO</p>
+      <p class="popup-desc" data-i18n="popup_desc">Cadastre-se para acesso exclusivo ao universo Natalia Silveira</p>
+      <form class="popup-form" id="popupForm">
+        <input class="popup-input" type="email" data-i18n-ph="popup_ph" placeholder="Endereço de e-mail*" required>
+        <button type="submit" class="popup-submit" data-i18n="popup_btn">Obter código de desconto</button>
+      </form>
+      <button class="popup-skip" id="popupSkip" data-i18n="popup_skip">Não, obrigada</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-left">
+      <button class="hdr-icon" aria-label="Busca">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span data-i18n="nav_search">Pesquisar</span>
+      </button>
+    </div>
+
+    <a href="index.html" class="logo">
+      <span>NATALIA</span>
+      <span>SILVEIRA</span>
+    </a>
+
+    <div class="hdr-right">
+      <div class="lang-wrap">
+        <button class="lang-btn">
+          <span id="langLbl">PT</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="lang-dd">
+          <a href="#" class="active" data-sl="pt">Português</a>
+          <a href="#" data-sl="en">English</a>
+          <a href="#" data-sl="es">Español</a>
+        </div>
+      </div>
+      <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+
+  <nav class="hdr-nav">
+    <a href="#hero" data-i18n="n_home">CASA</a>
+    <div class="nav-drop">
+      <button class="nav-trigger" data-i18n="n_shop">COMPRAR</button>
+      <div class="nav-menu">
+        <a href="#colecao" data-filter="all" data-i18n="n_all">Todos os Produtos</a>
+        <a href="#colecao" data-filter="conjunto" data-i18n="n_sets">Conjuntos</a>
+        <a href="#colecao" data-filter="vestido" data-i18n="n_dresses">Vestidos</a>
+        <a href="#colecao" data-filter="peca" data-i18n="n_pieces">Peças Exclusivas</a>
+      </div>
+    </div>
+    <a href="#sobre" data-i18n="n_about">SOBRE</a>
+    <a href="#politicas" data-i18n="n_policies">POLÍTICAS</a>
+  </nav>
+</div>
+
+<!-- mobile nav -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-close" id="mobClose">×</button>
+  <a href="#hero" data-i18n="n_home" onclick="closeMob()">CASA</a>
+  <a href="#colecao" data-i18n="n_shop" onclick="closeMob()">COMPRAR</a>
+  <a href="#sobre" data-i18n="n_about" onclick="closeMob()">SOBRE</a>
+  <a href="#politicas" data-i18n="n_policies" onclick="closeMob()">POLÍTICAS</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"><img src="assets/artemiza.png" alt="Natalia Silveira — Arte em Macramê"></div>
+  <div class="hero-cnt">
+    <div class="hero-inner">
+      <p class="hero-eyebrow" data-i18n="hero_ey">ARTE EM MACRAMÊ DO BRASIL</p>
+      <h1 class="hero-title"><em data-i18n="hero_t1">Feita à mão,</em><br><span data-i18n="hero_t2">com alma do Brasil</span></h1>
+      <a href="#colecao" class="btn-fill-w" data-i18n="hero_cta">Ver Coleção</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CATEGORY TILES ═══ -->
+<div class="cats">
+  <a href="#colecao" class="cat" data-sf="conjunto">
+    <img src="assets/celeste.png" alt="Conjuntos">
+    <div class="cat-lbl">
+      <span class="cat-name" data-i18n="c_sets">CONJUNTOS</span>
+      <span class="cat-cta" data-i18n="c_cta">Comprar</span>
+    </div>
+  </a>
+  <a href="#colecao" class="cat" data-sf="vestido">
+    <img src="assets/sunset.png" alt="Vestidos">
+    <div class="cat-lbl">
+      <span class="cat-name" data-i18n="c_dresses">VESTIDOS</span>
+      <span class="cat-cta" data-i18n="c_cta">Comprar</span>
+    </div>
+  </a>
+  <a href="#colecao" class="cat" data-sf="peca">
+    <img src="assets/fani.png" alt="Peças Exclusivas">
+    <div class="cat-lbl">
+      <span class="cat-name" data-i18n="c_pieces">PEÇAS EXCLUSIVAS</span>
+      <span class="cat-cta" data-i18n="c_cta">Comprar</span>
+    </div>
+  </a>
+  <a href="#colecao" class="cat">
+    <img src="assets/mavi.png" alt="Coleção">
+    <div class="cat-lbl">
+      <span class="cat-name" data-i18n="c_pieces">PEÇAS EXCLUSIVAS</span>
+      <span class="cat-cta" data-i18n="c_cta">Comprar</span>
+    </div>
+  </a>
+</div>
+
+<!-- ═══ PRODUCTS ═══ -->
+<div class="sec-h" id="colecao">
+  <p class="sec-ey" data-i18n="ml_ey">Coleção</p>
+  <h2 class="sec-ti" data-i18n="ml_ti">PEÇAS MAIS AMADAS</h2>
+</div>
+<div style="padding:0 40px 16px;">
+  <div class="filters">
+    <button class="fb on" data-f="all" data-i18n="f_all">TODOS</button>
+    <button class="fb" data-f="conjunto" data-i18n="f_sets">CONJUNTOS</button>
+    <button class="fb" data-f="vestido" data-i18n="f_dresses">VESTIDOS</button>
+    <button class="fb" data-f="peca" data-i18n="f_pieces">PEÇAS EXCLUSIVAS</button>
+  </div>
+</div>
+<div id="pgrid" class="pgrid" style="padding:0 40px 80px;"></div>
+
+<!-- ═══ STORY ═══ -->
+<section class="story" id="sobre-img">
+  <div class="story-img"><img src="assets/talia.png" alt="Natalia Silveira"></div>
+  <div class="story-txt">
+    <p class="story-ey" data-i18n="s_ey">Nossa História</p>
+    <h2 class="story-ti" data-i18n="s_ti">Nossa História,<br>Nossa Promessa</h2>
+    <p class="story-bd" data-i18n="s_bd">Cada peça nasce de um processo artesanal único — fio a fio, nó a nó. Criadas à mão no Brasil com macramê de alta qualidade, nossas criações carregam a alma da arte manual e a beleza do estilo contemporâneo. Mais do que roupas, criamos peças atemporais feitas para celebrar momentos inesquecíveis.</p>
+    <a href="#sobre" class="btn-line" data-i18n="s_cta">SAIBA MAIS</a>
+  </div>
+</section>
+
+<!-- ═══ DARK BANNER ═══ -->
+<section class="craft">
+  <div class="craft-bg"><img src="assets/hero1.png" alt=""></div>
+  <div class="craft-cnt">
+    <p class="craft-q" data-i18n="craft_q">"Mergulhe na nossa arte artesanal excepcional — cada peça, uma obra única feita à mão."</p>
+    <a href="#colecao" class="btn-line-w" data-i18n="hero_cta">Ver Coleção</a>
+  </div>
+</section>
+
+<!-- ═══ VIDEO — ESTRUTURA PREPARADA ═══ -->
+<!-- Seção de vídeo: habilitada futuramente quando os vídeos forem fornecidos -->
+<!--
+<section class="video-section" id="video">
+  <div class="sec-h"><p class="sec-ey">Behind the Scenes</p><h2 class="sec-ti">PROCESSO ARTESANAL</h2></div>
+  <div style="max-width:900px;margin:0 auto;aspect-ratio:16/9;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">
+    <p style="color:#aaa;font-size:12px;letter-spacing:2px;">VÍDEO EM BREVE</p>
+  </div>
+</section>
+-->
+
+<!-- ═══ INSTITUTIONAL ═══ -->
+<div style="border-top:1px solid var(--border);" id="sobre">
+
+  <!-- Sobre a Marca -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="ab_ey">Sobre a Marca</p>
+    <h2 class="inst-ti" data-i18n="ab_ti">Sobre a Marca</h2>
+    <div class="inst-body">
+      <p data-i18n="ab_p1">Todas as peças são feitas artesanalmente e produzidas exclusivamente sob medida.</p>
+      <p data-i18n="ab_p2">O macramê é uma técnica ancestral de nós feitos à mão, transmitida através de gerações e que preserva a beleza do trabalho artesanal. Na marca Natalia Silveira, honramos essa tradição ao transformá-la em alta-costura contemporânea.</p>
+      <p data-i18n="ab_p3">Cada peça é confeccionada artesanalmente no Brasil, nó por nó, e produzida exclusivamente sob medida para cada cliente. Mais do que roupas, criamos peças atemporais feitas para celebrar momentos inesquecíveis.</p>
+    </div>
+  </div>
+
+  <!-- Sobre a Fundadora -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="fd_ey">Sobre a Fundadora</p>
+    <h2 class="inst-ti" data-i18n="fd_ti">Natalia Silveira</h2>
+    <div class="inst-body">
+      <p data-i18n="fd_p1">Natalia Silveira é uma designer brasileira especializada em alta-costura artesanal em macramê.</p>
+      <p data-i18n="fd_p2">Seu trabalho une técnicas tradicionais ao design contemporâneo, criando peças exclusivas sob medida que valorizam a feminilidade, a confiança e a individualidade.</p>
+      <p data-i18n="fd_p3">Cada criação reflete seu compromisso em preservar a arte do macramê e levá-la a mulheres ao redor do mundo por meio de peças atemporais confeccionadas à mão.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ PRODUCTION + POLICIES ═══ -->
+<div style="border-top:1px solid var(--border);" id="politicas">
+
+  <!-- Produção -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="pr_ey">Produção</p>
+    <h2 class="inst-ti" data-i18n="pr_ti">Tempo de Produção</h2>
+    <div class="inst-body">
+      <p data-i18n="pr_p1">Como cada peça é confeccionada artesanalmente e produzida exclusivamente sob medida, o prazo de produção é de até 20 dias corridos, além do prazo de envio.</p>
+    </div>
+    <div style="margin-top:32px;">
+      <a href="https://wa.me/5511999999999?text=Olá!%20Preciso%20de%20uma%20peça%20com%20urgência.%20Vocês%20têm%20encaixe%20na%20agenda%20de%20produção?" target="_blank" class="btn-line" data-i18n="pr_cta">Verificar Urgência</a>
+    </div>
+  </div>
+
+  <!-- Informações Importantes -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="ii_ey">Informações</p>
+    <h2 class="inst-ti" data-i18n="ii_ti">Informações Importantes</h2>
+    <ul class="inst-list">
+      <li data-i18n="ii_1">Todas as peças são feitas artesanalmente e produzidas exclusivamente sob medida.</li>
+      <li data-i18n="ii_2">Após a confirmação do pedido, entraremos em contato para solicitar as medidas e iniciar a produção.</li>
+      <li data-i18n="ii_3">Durante toda a produção enviaremos fotos e vídeos para acompanhamento da confecção.</li>
+      <li data-i18n="ii_4">Pedidos internacionais podem estar sujeitos a taxas alfandegárias e impostos de importação. Esses custos são de responsabilidade da cliente.</li>
+    </ul>
+  </div>
+
+  <!-- Trocas e Devoluções -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="td_ey">Políticas</p>
+    <h2 class="inst-ti" data-i18n="td_ti">Trocas e Devoluções</h2>
+    <div class="inst-body" style="margin-bottom:24px;">
+      <p data-i18n="td_p1">Cada peça é confeccionada exclusivamente conforme as medidas, a cor e o modelo escolhidos.</p>
+    </div>
+    <div class="inst-grid">
+      <div>
+        <p class="inst-col-ti" data-i18n="td_not_accepted_ti">Não aceitamos trocas por:</p>
+        <ul class="inst-list">
+          <li data-i18n="td_n1">Arrependimento</li>
+          <li data-i18n="td_n2">Escolha de cor</li>
+          <li data-i18n="td_n3">Escolha de modelo</li>
+          <li data-i18n="td_n4">Medidas informadas incorretamente</li>
+        </ul>
+      </div>
+      <div>
+        <p class="inst-col-ti" data-i18n="td_accepted_ti">Aceitamos análise em caso de:</p>
+        <ul class="inst-list">
+          <li data-i18n="td_a1">Ajuste de caimento: mão de obra gratuita (cliente responsável pelos fretes de envio e retorno)</li>
+          <li data-i18n="td_a2">Defeito de fabricação ou divergência com o pedido aprovado: análise em até 7 dias após o recebimento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frete -->
+  <div class="inst">
+    <p class="inst-ey" data-i18n="fr_ey">Envio</p>
+    <h2 class="inst-ti" data-i18n="fr_ti">Frete e Envio</h2>
+    <div class="inst-body">
+      <p data-i18n="fr_p1">Enviamos para todo o Brasil e para o exterior. O valor do frete é calculado conforme o endereço de entrega e o peso da peça (1,5 kg por item).</p>
+      <p data-i18n="fr_p2">Endereço de origem: Maringá — Paraná, Brasil.</p>
+    </div>
+    <div style="margin-top:32px;">
+      <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20calcular%20o%20frete%20para%20meu%20endereço." target="_blank" class="btn-line" data-i18n="fr_cta">Calcular Frete</a>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══ NEWSLETTER ═══ -->
+<section class="nl">
+  <h2 class="nl-ti" data-i18n="nl_ti">CADASTRE-SE PARA EXCLUSIVIDADES</h2>
+  <p class="nl-sub" data-i18n="nl_sub">Acesso antecipado a novos produtos e ofertas especiais</p>
+  <form class="nl-form" id="nlForm">
+    <input class="nl-inp" type="email" data-i18n-ph="nl_ph" placeholder="Seu endereço de e-mail" required>
+    <button type="submit" class="nl-btn" data-i18n="nl_btn">ASSINAR</button>
+  </form>
+  <p class="nl-ok" id="nlOk" data-i18n="nl_ok">Obrigada! Você receberá nossas novidades em breve.</p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ftgrid">
+    <div>
+      <span class="logo-footer">NATALIA<br>SILVEIRA</span>
+      <p class="ft-tagline" data-i18n="ft_tag">Arte em macramê premium, criada à mão no Brasil. Peças exclusivas sob medida para celebrar momentos inesquecíveis.</p>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_links">LINKS</p>
+      <a href="#hero" data-i18n="n_home">Casa</a>
+      <a href="#colecao" data-i18n="n_shop">Comprar</a>
+      <a href="#sobre" data-i18n="n_about">Sobre</a>
+      <a href="#politicas" data-i18n="n_policies">Políticas</a>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_info">INFORMAÇÕES</p>
+      <a href="#politicas" data-i18n="ft_returns">Trocas e Devoluções</a>
+      <a href="#politicas" data-i18n="ft_ship">Frete e Envio</a>
+      <a href="#sobre" data-i18n="ft_brand">Sobre a Marca</a>
+      <a href="#sobre" data-i18n="ft_founder">Sobre a Fundadora</a>
+    </div>
+    <div class="ft-col">
+      <p class="ft-col-ti" data-i18n="ft_nl">NEWSLETTER</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;" data-i18n="nl_sub">Acesso antecipado a novos produtos</p>
+      <form class="ft-nl" id="ftNl">
+        <input class="ft-nl-i" type="email" data-i18n-ph="nl_ph" placeholder="Seu e-mail" required>
+        <button type="submit" class="ft-nl-b" data-i18n="nl_btn">ASSINAR</button>
+      </form>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p class="ft-copy" data-i18n="ft_copy">© 2026 Natalia Silveira. Todos os direitos reservados.</p>
+    <div class="ft-lang">
+      <a href="#" class="active" data-sl="pt">Português</a>
+      <a href="#" data-sl="en">English</a>
+      <a href="#" data-sl="es">Español</a>
+    </div>
+    <div class="ft-pay">
+      <div class="pay-ic">VISA</div>
+      <div class="pay-ic">MC</div>
+      <div class="pay-ic">PIX</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ FLOATING WPP ═══ -->
+<a href="https://wa.me/5511999999999" target="_blank" class="wpp-float" aria-label="WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const WPP = '5511999999999';
+
+/* ── TRANSLATIONS ── */
+const T = {
+  pt:{
+    nav_search:'Pesquisar',
+    n_home:'CASA', n_shop:'COMPRAR', n_all:'Todos os Produtos',
+    n_sets:'Conjuntos', n_dresses:'Vestidos', n_pieces:'Peças Exclusivas',
+    n_about:'SOBRE', n_policies:'POLÍTICAS', n_colors:'CATÁLOGO DE CORES',
+    hero_ey:'ARTE EM MACRAMÊ DO BRASIL', hero_t1:'Feita à mão,', hero_t2:'com alma do Brasil', hero_cta:'Ver Coleção',
+    c_sets:'CONJUNTOS', c_dresses:'VESTIDOS', c_pieces:'PEÇAS EXCLUSIVAS', c_colors:'CATÁLOGO DE CORES', c_cta:'Comprar', c_see:'Ver Cores',
+    ml_ey:'Coleção', ml_ti:'PEÇAS MAIS AMADAS',
+    f_all:'TODOS', f_sets:'CONJUNTOS', f_dresses:'VESTIDOS', f_pieces:'PEÇAS EXCLUSIVAS',
+    p_view:'Ver Peça', p_consult:'Sob consulta',
+    cat_conjunto:'Conjunto', cat_vestido:'Vestido', cat_peca:'Peça Exclusiva',
+    s_ey:'Nossa História', s_ti:'Nossa História,\nNossa Promessa',
+    s_bd:'Cada peça nasce de um processo artesanal único — fio a fio, nó a nó. Criadas à mão no Brasil com macramê de alta qualidade, nossas criações carregam a alma da arte manual e a beleza do estilo contemporâneo.',
+    s_cta:'SAIBA MAIS',
+    craft_q:'"Mergulhe na nossa arte artesanal excepcional — cada peça, uma obra única feita à mão."',
+    ab_ey:'Sobre a Marca', ab_ti:'Sobre a Marca',
+    ab_p1:'Todas as peças são feitas artesanalmente e produzidas exclusivamente sob medida.',
+    ab_p2:'O macramê é uma técnica ancestral de nós feitos à mão, transmitida através de gerações e que preserva a beleza do trabalho artesanal. Na marca Natalia Silveira, honramos essa tradição ao transformá-la em alta-costura contemporânea.',
+    ab_p3:'Cada peça é confeccionada artesanalmente no Brasil, nó por nó, e produzida exclusivamente sob medida para cada cliente. Mais do que roupas, criamos peças atemporais feitas para celebrar momentos inesquecíveis.',
+    fd_ey:'Sobre a Fundadora', fd_ti:'Natalia Silveira',
+    fd_p1:'Natalia Silveira é uma designer brasileira especializada em alta-costura artesanal em macramê.',
+    fd_p2:'Seu trabalho une técnicas tradicionais ao design contemporâneo, criando peças exclusivas sob medida que valorizam a feminilidade, a confiança e a individualidade.',
+    fd_p3:'Cada criação reflete seu compromisso em preservar a arte do macramê e levá-la a mulheres ao redor do mundo por meio de peças atemporais confeccionadas à mão.',
+    pr_ey:'Produção', pr_ti:'Tempo de Produção',
+    pr_p1:'Como cada peça é confeccionada artesanalmente e produzida exclusivamente sob medida, o prazo de produção é de até 20 dias corridos, além do prazo de envio.',
+    pr_cta:'Verificar Urgência',
+    ii_ey:'Informações', ii_ti:'Informações Importantes',
+    ii_1:'Todas as peças são feitas artesanalmente e produzidas exclusivamente sob medida.',
+    ii_2:'Após a confirmação do pedido, entraremos em contato para solicitar as medidas e iniciar a produção.',
+    ii_3:'Durante toda a produção enviaremos fotos e vídeos para acompanhamento da confecção.',
+    ii_4:'Pedidos internacionais podem estar sujeitos a taxas alfandegárias e impostos de importação. Esses custos são de responsabilidade da cliente.',
+    td_ey:'Políticas', td_ti:'Trocas e Devoluções',
+    td_p1:'Cada peça é confeccionada exclusivamente conforme as medidas, a cor e o modelo escolhidos.',
+    td_not_accepted_ti:'Não aceitamos trocas por:', td_accepted_ti:'Aceitamos análise em caso de:',
+    td_n1:'Arrependimento', td_n2:'Escolha de cor', td_n3:'Escolha de modelo', td_n4:'Medidas informadas incorretamente',
+    td_a1:'Ajuste de caimento: mão de obra gratuita (cliente responsável pelos fretes)',
+    td_a2:'Defeito de fabricação: análise em até 7 dias após o recebimento',
+    fr_ey:'Envio', fr_ti:'Frete e Envio',
+    fr_p1:'Enviamos para todo o Brasil e para o exterior. O valor do frete é calculado conforme o endereço de entrega e o peso da peça (1,5 kg por item).',
+    fr_p2:'Endereço de origem: Maringá — Paraná, Brasil.', fr_cta:'Calcular Frete',
+    co_ey:'Personalização', co_ti:'CATÁLOGO DE CORES',
+    co_sub:'Todas as peças podem ser personalizadas nas cores abaixo. Informe sua preferência ao fazer o pedido.',
+    cl_premium:'FIO NÁUTICO PREMIUM', cl_gold:'FIO NÁUTICO PREMIUM COM LUREX DOURADO', cl_copper:'FIO NÁUTICO PREMIUM COM LUREX COBRE',
+    co_note:'AS CORES PODEM APRESENTAR PEQUENAS VARIAÇÕES CONFORME A CONFIGURAÇÃO DE CADA TELA',
+    co_cta:'Personalizar Minha Peça',
+    nl_ti:'CADASTRE-SE PARA EXCLUSIVIDADES', nl_sub:'Acesso antecipado a novos produtos e ofertas especiais',
+    nl_ph:'Seu endereço de e-mail', nl_btn:'ASSINAR',
+    nl_ok:'Obrigada! Você receberá nossas novidades em breve.',
+    ft_tag:'Arte em macramê premium, criada à mão no Brasil.', ft_links:'LINKS', ft_info:'INFORMAÇÕES',
+    ft_nl:'NEWSLETTER', ft_returns:'Trocas e Devoluções', ft_ship:'Frete e Envio',
+    ft_brand:'Sobre a Marca', ft_founder:'Sobre a Fundadora',
+    ft_copy:'© 2026 Natalia Silveira. Todos os direitos reservados.',
+    popup_offer:'GANHE 10% DE DESCONTO', popup_sub:'NO SEU PRIMEIRO PEDIDO',
+    popup_desc:'Cadastre-se para acesso exclusivo ao universo Natalia Silveira',
+    popup_ph:'Endereço de e-mail*', popup_btn:'Obter código de desconto', popup_skip:'Não, obrigada',
+  },
+  en:{
+    nav_search:'Search',
+    n_home:'HOME', n_shop:'SHOP', n_all:'All Products',
+    n_sets:'Sets', n_dresses:'Dresses', n_pieces:'Exclusive Pieces',
+    n_about:'ABOUT', n_policies:'POLICIES', n_colors:'COLOR CATALOG',
+    hero_ey:'MACRAMÉ ART FROM BRAZIL', hero_t1:'Handcrafted,', hero_t2:'Soul of Brazil', hero_cta:'Shop Collection',
+    c_sets:'SETS', c_dresses:'DRESSES', c_pieces:'EXCLUSIVE PIECES', c_colors:'COLOR CATALOG', c_cta:'Shop', c_see:'See Colors',
+    ml_ey:'Collection', ml_ti:'MOST LOVED DESIGNS',
+    f_all:'ALL', f_sets:'SETS', f_dresses:'DRESSES', f_pieces:'EXCLUSIVE PIECES',
+    p_view:'View Piece', p_consult:'On request',
+    cat_conjunto:'Set', cat_vestido:'Dress', cat_peca:'Exclusive Piece',
+    s_ey:'Our Story', s_ti:'Our Story,\nOur Promise',
+    s_bd:'Every piece is born from a unique handcrafted process — thread by thread, knot by knot. Created by hand in Brazil with premium macramé, our designs carry the soul of handmade art and the beauty of contemporary style.',
+    s_cta:'LEARN MORE',
+    craft_q:'"Immerse yourself in our exceptional craftsmanship — every piece, a unique work of art made by hand."',
+    ab_ey:'About the Brand', ab_ti:'About the Brand',
+    ab_p1:'All pieces are handcrafted and produced exclusively to measure.',
+    ab_p2:'Macramé is an ancestral knotting technique passed down through generations that preserves the beauty of handcrafted work. At Natalia Silveira, we honor this tradition by elevating it into contemporary haute couture.',
+    ab_p3:'Each piece is handcrafted in Brazil, knot by knot, and produced exclusively to measure for each client. More than clothes, we create timeless pieces made to celebrate unforgettable moments.',
+    fd_ey:'About the Founder', fd_ti:'Natalia Silveira',
+    fd_p1:'Natalia Silveira is a Brazilian designer specializing in handcrafted haute couture in macramé.',
+    fd_p2:'Her work unites traditional techniques with contemporary design, creating exclusive made-to-measure pieces that celebrate femininity, confidence, and individuality.',
+    fd_p3:'Each creation reflects her commitment to preserving the art of macramé and bringing it to women around the world through timeless handcrafted pieces.',
+    pr_ey:'Production', pr_ti:'Production Time',
+    pr_p1:'As each piece is handcrafted and produced exclusively to measure, the production time is up to 20 calendar days, in addition to the shipping time.',
+    pr_cta:'Check Availability',
+    ii_ey:'Information', ii_ti:'Important Information',
+    ii_1:'All pieces are handcrafted and produced exclusively to measure.',
+    ii_2:'After order confirmation, we will contact you to request your measurements and begin production.',
+    ii_3:'Throughout production, we will send photos and videos for you to follow the making of your piece.',
+    ii_4:'International orders may be subject to customs duties and import taxes. These costs are the responsibility of the client.',
+    td_ey:'Policies', td_ti:'Returns & Exchanges',
+    td_p1:'Each piece is made exclusively according to the measurements, color, and model chosen.',
+    td_not_accepted_ti:'We do not accept exchanges for:', td_accepted_ti:'We accept analysis in case of:',
+    td_n1:'Change of mind', td_n2:'Color choice', td_n3:'Model choice', td_n4:'Incorrectly provided measurements',
+    td_a1:'Fitting adjustment: labor free of charge (client responsible for shipping costs)',
+    td_a2:'Manufacturing defect: analysis within 7 days of receipt',
+    fr_ey:'Shipping', fr_ti:'Shipping & Delivery',
+    fr_p1:'We ship throughout Brazil and internationally. Shipping costs are calculated based on the delivery address and item weight (1.5 kg per item).',
+    fr_p2:'Origin address: Maringá — Paraná, Brazil.', fr_cta:'Calculate Shipping',
+    co_ey:'Customization', co_ti:'COLOR CATALOG',
+    co_sub:'All pieces can be customized in the colors below. Let us know your preference when ordering.',
+    cl_premium:'NAUTICAL ROPE PREMIUM', cl_gold:'NAUTICAL ROPE PREMIUM WITH GOLD LUREX', cl_copper:'NAUTICAL ROPE PREMIUM WITH COPPER LUREX',
+    co_note:'COLORS MAY VARY SLIGHTLY DEPENDING ON SCREEN SETTINGS',
+    co_cta:'Customize My Piece',
+    nl_ti:'SIGN UP FOR EXCLUSIVES', nl_sub:'Early access to new products and special offers',
+    nl_ph:'Your email address', nl_btn:'SUBSCRIBE',
+    nl_ok:'Thank you! You\'ll hear from us soon.',
+    ft_tag:'Premium macramé art, handcrafted in Brazil.', ft_links:'QUICK LINKS', ft_info:'INFORMATION',
+    ft_nl:'NEWSLETTER', ft_returns:'Returns & Exchanges', ft_ship:'Shipping & Delivery',
+    ft_brand:'About the Brand', ft_founder:'About the Founder',
+    ft_copy:'© 2026 Natalia Silveira. All rights reserved.',
+    popup_offer:'GET 10% OFF', popup_sub:'YOUR FIRST ORDER',
+    popup_desc:'Sign up for exclusive access to the Natalia Silveira world',
+    popup_ph:'Email address*', popup_btn:'Get coupon code', popup_skip:'No, thanks',
+  },
+  es:{
+    nav_search:'Buscar',
+    n_home:'INICIO', n_shop:'TIENDA', n_all:'Todos los Productos',
+    n_sets:'Conjuntos', n_dresses:'Vestidos', n_pieces:'Piezas Exclusivas',
+    n_about:'SOBRE NOSOTROS', n_policies:'POLÍTICAS', n_colors:'CATÁLOGO DE COLORES',
+    hero_ey:'ARTE EN MACRAMÉ DE BRASIL', hero_t1:'Hecho a mano,', hero_t2:'alma de Brasil', hero_cta:'Ver Colección',
+    c_sets:'CONJUNTOS', c_dresses:'VESTIDOS', c_pieces:'PIEZAS EXCLUSIVAS', c_colors:'CATÁLOGO DE COLORES', c_cta:'Comprar', c_see:'Ver Colores',
+    ml_ey:'Colección', ml_ti:'DISEÑOS MÁS AMADOS',
+    f_all:'TODOS', f_sets:'CONJUNTOS', f_dresses:'VESTIDOS', f_pieces:'PIEZAS EXCLUSIVAS',
+    p_view:'Ver Pieza', p_consult:'Consultar',
+    cat_conjunto:'Conjunto', cat_vestido:'Vestido', cat_peca:'Pieza Exclusiva',
+    s_ey:'Nuestra Historia', s_ti:'Nuestra Historia,\nNuestra Promesa',
+    s_bd:'Cada pieza nace de un proceso artesanal único — hilo a hilo, nudo a nudo. Creadas a mano en Brasil con macramé premium, nuestras creaciones llevan el alma del arte manual y la belleza del estilo contemporáneo.',
+    s_cta:'SABER MÁS',
+    craft_q:'"Sumérgete en nuestra excepcional artesanía — cada pieza, una obra única hecha a mano."',
+    ab_ey:'Sobre la Marca', ab_ti:'Sobre la Marca',
+    ab_p1:'Todas las piezas son elaboradas artesanalmente y producidas exclusivamente a medida.',
+    ab_p2:'El macramé es una técnica ancestral de nudos hechos a mano, transmitida de generación en generación, que preserva la belleza del trabajo artesanal. En la marca Natalia Silveira, honramos esta tradición al transformarla en alta costura contemporánea.',
+    ab_p3:'Cada pieza se confecciona artesanalmente en Brasil, nudo a nudo, y se produce exclusivamente a medida para cada cliente. Más que ropa, creamos piezas atemporales hechas para celebrar momentos inolvidables.',
+    fd_ey:'Sobre la Fundadora', fd_ti:'Natalia Silveira',
+    fd_p1:'Natalia Silveira es una diseñadora brasileña especializada en alta costura artesanal en macramé.',
+    fd_p2:'Su trabajo une técnicas tradicionales con el diseño contemporáneo, creando piezas exclusivas a medida que realzan la feminidad, la confianza y la individualidad.',
+    fd_p3:'Cada creación refleja su compromiso de preservar el arte del macramé y llevarlo a mujeres de todo el mundo a través de piezas atemporales confeccionadas a mano.',
+    pr_ey:'Producción', pr_ti:'Tiempo de Producción',
+    pr_p1:'Como cada pieza se confecciona artesanalmente y se produce exclusivamente a medida, el plazo de producción es de hasta 20 días corridos, además del plazo de envío.',
+    pr_cta:'Verificar Disponibilidad',
+    ii_ey:'Información', ii_ti:'Información Importante',
+    ii_1:'Todas las piezas son elaboradas artesanalmente y producidas exclusivamente a medida.',
+    ii_2:'Tras la confirmación del pedido, nos pondremos en contacto para solicitar las medidas e iniciar la producción.',
+    ii_3:'Durante toda la producción enviaremos fotos y vídeos para el seguimiento de la confección.',
+    ii_4:'Los pedidos internacionales pueden estar sujetos a derechos de aduana e impuestos de importación. Estos costos son responsabilidad de la cliente.',
+    td_ey:'Políticas', td_ti:'Cambios y Devoluciones',
+    td_p1:'Cada pieza se confecciona exclusivamente según las medidas, el color y el modelo elegidos.',
+    td_not_accepted_ti:'No aceptamos cambios por:', td_accepted_ti:'Aceptamos análisis en caso de:',
+    td_n1:'Arrepentimiento', td_n2:'Elección de color', td_n3:'Elección de modelo', td_n4:'Medidas informadas incorrectamente',
+    td_a1:'Ajuste de caída: mano de obra gratuita (cliente responsable de los fletes)',
+    td_a2:'Defecto de fabricación: análisis hasta 7 días después de la recepción',
+    fr_ey:'Envío', fr_ti:'Flete y Envío',
+    fr_p1:'Enviamos a todo Brasil y al exterior. El costo del flete se calcula según la dirección de entrega y el peso de la pieza (1,5 kg por artículo).',
+    fr_p2:'Dirección de origen: Maringá — Paraná, Brasil.', fr_cta:'Calcular Envío',
+    co_ey:'Personalización', co_ti:'CATÁLOGO DE COLORES',
+    co_sub:'Todas las piezas pueden personalizarse en los colores a continuación. Infórmanos tu preferencia al hacer el pedido.',
+    cl_premium:'CUERDA NÁUTICA PREMIUM', cl_gold:'CUERDA NÁUTICA PREMIUM CON LUREX DORADO', cl_copper:'CUERDA NÁUTICA PREMIUM CON LUREX COBRE',
+    co_note:'LOS COLORES PUEDEN PRESENTAR PEQUEÑAS VARIACIONES SEGÚN LA CONFIGURACIÓN DE LA PANTALLA',
+    co_cta:'Personalizar Mi Pieza',
+    nl_ti:'SUSCRÍBETE PARA EXCLUSIVOS', nl_sub:'Acceso anticipado a nuevos productos y ofertas especiales',
+    nl_ph:'Tu dirección de e-mail', nl_btn:'SUSCRIBIRSE',
+    nl_ok:'¡Gracias! Te contactaremos pronto.',
+    ft_tag:'Arte en macramé premium, hecha a mano en Brasil.', ft_links:'ENLACES', ft_info:'INFORMACIÓN',
+    ft_nl:'BOLETÍN', ft_returns:'Cambios y Devoluciones', ft_ship:'Flete y Envío',
+    ft_brand:'Sobre la Marca', ft_founder:'Sobre la Fundadora',
+    ft_copy:'© 2026 Natalia Silveira. Todos los derechos reservados.',
+    popup_offer:'OBTÉN 10% DE DESCUENTO', popup_sub:'EN TU PRIMER PEDIDO',
+    popup_desc:'Regístrate para acceso exclusivo al mundo Natalia Silveira',
+    popup_ph:'Dirección de correo electrónico*', popup_btn:'Obtener código de descuento', popup_skip:'No, gracias',
+  }
+};
+
+/* ── PRODUCTS ── */
+const PRODS = [
+  {id:'celeste',   cat:'conjunto', price:null, images:['assets/celeste.png']},
+  {id:'amanda',    cat:'conjunto', price:1490, images:['assets/amanda.png','assets/amanda-2.png']},
+  {id:'sunset',    cat:'vestido',  price:1990, images:['assets/sunset.png','assets/sunset-2.png','assets/sunset-3.png']},
+  {id:'fani',      cat:'peca',     price:1790, images:['assets/fani.png']},
+  {id:'artemiza',  cat:'peca',     price:1390, images:['assets/artemiza.png']},
+  {id:'talia',     cat:'peca',     price:1490, images:['assets/talia.png','assets/talia-2.png']},
+  {id:'sienna',    cat:'conjunto', price:1490, images:['assets/sienna.png']},
+  {id:'mavi',      cat:'peca',     price:1390, images:['assets/mavi.png']},
+  {id:'erica',     cat:'conjunto', price:1490, images:['assets/erica.png']},
+  {id:'leticia',   cat:'conjunto', price:1490, images:['assets/leticia.png','assets/leticia-2.png']},
+  {id:'geonavva',  cat:'conjunto', price:1490, images:['assets/geonavva.png']},
+  {id:'mistica',   cat:'vestido',  price:1390, images:['assets/mistica.png','assets/mistica-2.png']},
+  {id:'selene',    cat:'conjunto', price:1390, images:['assets/selene.png','assets/selene-2.png']},
+  {id:'lunar',     cat:'conjunto', price:1390, images:['assets/lunar.png']},
+  {id:'maita',     cat:'conjunto', price:1390, images:['assets/maita.png']},
+  {id:'laskimi',   cat:'conjunto', price:1390, images:['assets/laskimi.png']},
+  {id:'maia',      cat:'conjunto', price:1390, images:['assets/maia.png']},
+  {id:'maia-correntes',cat:'conjunto',price:1390,images:['assets/maia-correntes.png','assets/maia-correntes-2.png','assets/maia-correntes-3.png']},
+  {id:'luana',     cat:'conjunto', price:1290, images:['assets/luana.png']},
+  {id:'aura',      cat:'vestido',  price:1290, images:['assets/aura.png','assets/aura-2.png','assets/aura-3.png']},
+  {id:'emily',     cat:'vestido',  price:1290, images:['assets/emily.png','assets/emily-2.png','assets/emily-3.png','assets/emily-4.png']},
+  {id:'atena',     cat:'conjunto', price:990,  images:['assets/atena.png','assets/atena-2.png']},
+  {id:'bianca',    cat:'conjunto', price:990,  images:['assets/bianca.png','assets/bianca-2.png','assets/bianca-3.png','assets/bianca-4.png']},
+  {id:'helena',    cat:'vestido',  price:990,  images:['assets/helena.png']},
+  {id:'stella',    cat:'conjunto', price:890,  images:['assets/stella.png']},
+  {id:'isa',       cat:'vestido',  price:890,  images:['assets/isa.png','assets/isa-2.png']},
+  {id:'eurama',    cat:'conjunto', price:null, images:['assets/eurama.png','assets/eurama-2.png']},
+  {id:'isadora',   cat:'vestido',  price:null, images:['assets/isadora.png']},
+];
+const NAMES = {
+  celeste:'Celeste',amanda:'Amanda',sunset:'Sunset',fani:'Fani',
+  artemiza:'Artemiza',talia:'Talia',sienna:'Sienna',mavi:'Mavi',
+  erica:'Érica',leticia:'Letícia',geonavva:'Geonavva',mistica:'Mística',
+  selene:'Selene',lunar:'Lunar',maita:'Maita',laskimi:'Laskimi',
+  maia:'Maia','maia-correntes':'Maia com Correntes',luana:'Luana',
+  aura:'Aura',emily:'Emily',atena:'Atena',bianca:'Bianca',
+  helena:'Helena',stella:'Stella',isa:'Isa',eurama:'Eurama',isadora:'Isadora',
+};
+
+let LANG = localStorage.getItem('ns_lang') || 'pt';
+let curFilter = 'all';
+function t(k){ return (T[LANG]||T.pt)[k] || T.pt[k] || k; }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='pt'?'pt-BR':LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-sl]').forEach(a=>{ a.classList.toggle('active',a.dataset.sl===LANG); });
+  document.getElementById('langLbl').textContent=LANG.toUpperCase();
+  renderProds(curFilter);
+}
+
+function renderProds(filter){
+  curFilter=filter;
+  const grid=document.getElementById('pgrid');
+  grid.innerHTML='';
+  const list=filter==='all'?PRODS:PRODS.filter(p=>p.cat===filter);
+  list.forEach(p=>{
+    const prStr=p.price?`R$ ${p.price.toLocaleString('pt-BR')}`:t('p_consult');
+    const card=document.createElement('div');
+    card.className='pcard';
+    card.innerHTML=`
+      <div class="pcard-img">
+        <img src="${p.images[0]}" alt="${NAMES[p.id]}" loading="lazy">
+        <div class="pcard-ov">
+          <button class="pcard-btn">${t('p_view')}</button>
+        </div>
+      </div>
+      <h3 class="pname">${NAMES[p.id]}</h3>
+      <p class="pcat">${t('cat_'+p.cat)}</p>
+      <p class="ppr${!p.price?' nc':''}">${prStr}</p>`;
+    card.addEventListener('click',()=>{ window.location.href=`produto.html?id=${p.id}`; });
+    grid.appendChild(card);
+  });
+}
+
+/* ── FILTERS ── */
+document.querySelectorAll('.fb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    renderProds(b.dataset.f);
+  });
+});
+
+/* ── CATEGORY TILES ── */
+document.querySelectorAll('[data-sf]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    const f=el.dataset.sf;
+    document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+    renderProds(f);
+    document.getElementById('colecao').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ── NAV SHOP FILTER ── */
+document.querySelectorAll('.nav-menu a[data-filter]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const f=a.dataset.filter;
+    document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+    renderProds(f);
+    document.getElementById('colecao').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ── LANGUAGE ── */
+document.querySelectorAll('[data-sl]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    LANG=a.dataset.sl;
+    localStorage.setItem('ns_lang',LANG);
+    applyLang();
+  });
+});
+
+/* ── POPUP ── */
+function hidePopup(){ document.getElementById('popup').classList.remove('show'); localStorage.setItem('ns_pop','1'); }
+document.getElementById('popupX').addEventListener('click',hidePopup);
+document.getElementById('popupSkip').addEventListener('click',hidePopup);
+document.getElementById('popup').addEventListener('click',e=>{ if(e.target===document.getElementById('popup'))hidePopup(); });
+document.getElementById('popupForm').addEventListener('submit',e=>{ e.preventDefault(); hidePopup(); });
+setTimeout(()=>{ if(!localStorage.getItem('ns_pop')) document.getElementById('popup').classList.add('show'); },2500);
+
+/* ── NEWSLETTER ── */
+document.getElementById('nlForm').addEventListener('submit',e=>{ e.preventDefault(); document.getElementById('nlOk').style.display='block'; e.target.reset(); });
+document.getElementById('ftNl').addEventListener('submit',e=>{ e.preventDefault(); e.target.reset(); });
+
+/* ── HAMBURGER ── */
+document.getElementById('ham').addEventListener('click',()=>document.getElementById('mobNav').classList.add('open'));
+document.getElementById('mobClose').addEventListener('click',closeMob);
+function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
+
+applyLang();
+</script>
+</body>
+</html>

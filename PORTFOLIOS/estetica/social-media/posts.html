@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Aura Estética — Social Media Kit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; padding: 40px; font-family: 'Inter', sans-serif; }
+  h1 { color: #fff; margin-bottom: 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.03em; }
+  h2 { color: #555; font-size: .85rem; margin-bottom: 40px; font-weight: 400; }
+  .section-title { color: #444; font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; margin: 60px 0 24px; border-top: 1px solid #1a1a1a; padding-top: 20px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 16px; }
+
+  /* Para exportar em tamanho real: remova as propriedades transform, margin-right e margin-bottom abaixo */
+  .post {
+    width: 1080px; height: 1080px;
+    flex-shrink: 0; position: relative; overflow: hidden;
+    transform: scale(0.3); transform-origin: top left;
+    margin-right: calc(1080px * 0.3 - 1080px + 16px);
+    margin-bottom: calc(1080px * 0.3 - 1080px + 16px);
+  }
+  .story {
+    width: 1080px; height: 1920px;
+    flex-shrink: 0; position: relative; overflow: hidden;
+    transform: scale(0.3); transform-origin: top left;
+    margin-right: calc(1080px * 0.3 - 1080px + 16px);
+    margin-bottom: calc(1920px * 0.3 - 1920px + 16px);
+  }
+
+  /* PALETA: #C9A96E dourado | #FAF6F0 bege | #1A1209 dark */
+</style>
+</head>
+<body>
+
+<h1>Aura Estética Premium — Social Media Kit</h1>
+<h2>10 Posts 1080×1080 · 5 Stories 1080×1920</h2>
+
+<div class="section-title">Posts (1080 × 1080)</div>
+<div class="grid">
+
+  <!-- POST 01 — INSTITUCIONAL -->
+  <div class="post" style="background:#1A1209; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <div style="color:#C9A96E; font-size:18px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:4px;">Clínica de Estética</div>
+        <div style="color:#FAF6F0; font-size:44px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      </div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 01</div>
+    </div>
+    <div>
+      <div style="width:50px; height:1px; background:#C9A96E; margin-bottom:48px;"></div>
+      <div style="color:#FAF6F0; font-size:62px; font-weight:300; line-height:1.1; letter-spacing:-0.02em; font-family:'Playfair Display',serif; margin-bottom:32px;">Onde beleza<br/>encontra <em style="color:#C9A96E;">ciência.</em></div>
+      <div style="color:#9a8a78; font-size:26px; font-weight:400; line-height:1.6; max-width:800px;">Procedimentos de alto padrão para quem valoriza resultado natural. Tecnologia e expertise em cada atendimento.</div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#3a3020; font-size:22px;">@aura.estetica</div>
+      <div style="color:#3a3020; font-size:22px;">#estetica #beleza #harmonizacao #auraestetica</div>
+    </div>
+  </div>
+
+  <!-- POST 02 — AUTORIDADE -->
+  <div class="post" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#ddd; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 02</div>
+    </div>
+    <div style="text-align:center; padding:20px 0;">
+      <div style="color:#C9A96E; font-size:160px; font-weight:900; line-height:1; letter-spacing:-0.05em; font-family:'Inter',sans-serif;">340%</div>
+      <div style="color:#1A1209; font-size:36px; font-weight:700; line-height:1.25; margin:24px 0 32px; font-family:'Playfair Display',serif;">de crescimento da harmonização<br/>facial no Brasil nos últimos 5 anos.</div>
+      <div style="width:60px; height:1px; background:#C9A96E; margin:0 auto 32px;"></div>
+      <div style="color:#888; font-size:26px; font-weight:400; line-height:1.5; max-width:700px; margin:0 auto;">A busca não é por outro rosto.<br/>É por o <strong style="color:#1A1209;">melhor do seu.</strong></div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#bbb; font-size:22px; font-family:'Playfair Display',serif; font-style:italic;">@aura.estetica</div>
+      <div style="color:#bbb; font-size:22px;">#harmonizacaofacial #estetica #beleza</div>
+    </div>
+  </div>
+
+  <!-- POST 03 — OFERTA/CTA -->
+  <div class="post" style="background:linear-gradient(135deg,#1A1209 0%,#2a1e0e 100%); display:flex; flex-direction:column; justify-content:space-between; padding:80px; border:1px solid #2a2010;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 03</div>
+    </div>
+    <div>
+      <div style="color:#C9A96E; font-size:20px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:32px;">Oportunidade exclusiva</div>
+      <div style="color:#FAF6F0; font-size:76px; font-weight:800; line-height:0.95; letter-spacing:-0.03em; margin-bottom:40px;">AVALIAÇÃO<br/>EXCLUSIVA</div>
+      <div style="width:60px; height:1px; background:#C9A96E; margin-bottom:40px;"></div>
+      <div style="color:#9a8a78; font-size:28px; font-weight:400; line-height:1.5; margin-bottom:48px;">Uma hora com nossa médica especialista para entender seus objetivos e criar seu protocolo personalizado.</div>
+      <div style="display:inline-block; border:1px solid #C9A96E; color:#C9A96E; font-size:24px; font-weight:600; padding:22px 52px; letter-spacing:.1em;">RESERVE SEU HORÁRIO →</div>
+    </div>
+    <div style="color:#3a3020; font-size:22px;">@aura.estetica · #avaliacaoexclusiva #estetica #skincare</div>
+  </div>
+
+  <!-- POST 04 — ANTES E DEPOIS -->
+  <div class="post" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#e0d8cc; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 04</div>
+    </div>
+    <div>
+      <div style="color:#C9A96E; font-size:20px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:48px;">Transformação real</div>
+      <div style="display:flex; gap:32px; margin-bottom:48px;">
+        <div style="flex:1; background:#f0ebe2; padding:40px; border-radius:8px;">
+          <div style="color:#bbb; font-size:18px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:20px;">Antes</div>
+          <div style="color:#999; font-size:26px; line-height:1.5;">Rugas de expressão marcadas, olhar cansado, pele sem viço.</div>
+        </div>
+        <div style="flex:1; background:#1A1209; padding:40px; border-radius:8px;">
+          <div style="color:#C9A96E; font-size:18px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:20px;">Depois</div>
+          <div style="color:#FAF6F0; font-size:26px; line-height:1.5;">Olhar mais jovem, pele firme e expressão natural preservada.</div>
+        </div>
+      </div>
+      <div style="color:#1A1209; font-size:34px; font-weight:700; line-height:1.25; font-family:'Playfair Display',serif;">Resultado que a Isabela não esperava tão rápido. Uma única sessão de toxina botulínica.</div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#bbb; font-size:22px; font-style:italic; font-family:'Playfair Display',serif;">@aura.estetica</div>
+      <div style="color:#bbb; font-size:22px;">#botox #antienvelhecimento #resultado</div>
+    </div>
+  </div>
+
+  <!-- POST 05 — DEPOIMENTO -->
+  <div class="post" style="background:#1A1209; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 05</div>
+    </div>
+    <div style="text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center;">
+      <div style="color:#C9A96E; font-size:110px; font-family:'Playfair Display',serif; line-height:0.8; margin-bottom:32px;">"</div>
+      <div style="color:#FAF6F0; font-size:38px; font-weight:300; line-height:1.4; font-family:'Playfair Display',serif; font-style:italic; max-width:820px; margin:0 auto 48px;">Resultado incrivelmente natural. As pessoas dizem que estou diferente mas não sabem o quê. A melhor decisão que tomei!</div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:20px;">
+        <div style="width:60px; height:60px; border-radius:50%; border:2px solid #C9A96E; display:flex; align-items:center; justify-content:center; color:#C9A96E; font-size:26px; font-family:'Playfair Display',serif; font-style:italic;">C</div>
+        <div style="text-align:left;">
+          <div style="color:#FAF6F0; font-size:26px; font-weight:600;">Carol M.</div>
+          <div style="color:#9a8a78; font-size:22px;">São Paulo · Harmonização Facial</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#3a3020; font-size:22px; font-style:italic; font-family:'Playfair Display',serif;">@aura.estetica</div>
+      <div style="color:#3a3020; font-size:22px;">#depoimento #harmonizacao #beleza</div>
+    </div>
+  </div>
+
+  <!-- POST 06 — DICA 1 -->
+  <div class="post" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#e0d8cc; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 06</div>
+    </div>
+    <div>
+      <div style="color:#C9A96E; font-size:20px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:32px;">Dica de Skincare</div>
+      <div style="color:#1A1209; font-size:72px; font-weight:800; line-height:0.95; letter-spacing:-0.03em; margin-bottom:40px;">SPF 50<br/>todo dia.<br/><span style="color:#C9A96E;">Sem exceção.</span></div>
+      <div style="width:60px; height:1px; background:#C9A96E; margin-bottom:32px;"></div>
+      <div style="color:#666; font-size:28px; line-height:1.5;">O sol é responsável por <strong style="color:#1A1209;">80% do envelhecimento cutâneo</strong> prematuro — mesmo em dias nublados, mesmo dentro do carro.</div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#bbb; font-size:22px; font-style:italic; font-family:'Playfair Display',serif;">@aura.estetica</div>
+      <div style="color:#bbb; font-size:22px;">#skincare #proteçãosolar #dica #pele</div>
+    </div>
+  </div>
+
+  <!-- POST 07 — DICA 2 -->
+  <div class="post" style="background:#1A1209; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 07</div>
+    </div>
+    <div>
+      <div style="color:#C9A96E; font-size:20px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:32px;">Dica Essencial</div>
+      <div style="color:#FAF6F0; font-size:64px; font-weight:800; line-height:1.0; letter-spacing:-0.03em; margin-bottom:40px;">Cuide do<br/>pescoço como<br/>cuida do rosto.</div>
+      <div style="background:#231808; border-radius:12px; padding:40px; border-left:3px solid #C9A96E;">
+        <div style="color:#9a8a78; font-size:26px; line-height:1.5;">Hidrate a pele do pescoço e colo com o mesmo cuidado do rosto. É onde o envelhecimento aparece <span style="color:#C9A96E; font-weight:600;">primeiro.</span></div>
+      </div>
+    </div>
+    <div style="color:#3a3020; font-size:22px;">@aura.estetica · #skincare #pescoço #antiage #dica</div>
+  </div>
+
+  <!-- POST 08 — CARROSSEL SIMULADO -->
+  <div class="post" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="border:1px solid #C9A96E; color:#C9A96E; font-size:22px; font-weight:600; padding:8px 20px;">1 / 5</div>
+    </div>
+    <div>
+      <div style="color:#1A1209; font-size:26px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:32px;">5 procedimentos que não te<br/>deixam com cara de plástico</div>
+      <div style="border-left:4px solid #C9A96E; padding-left:40px; margin-bottom:32px;">
+        <div style="color:#C9A96E; font-size:90px; font-weight:900; line-height:1; letter-spacing:-0.05em; font-family:'Playfair Display',serif;">01</div>
+        <div style="color:#1A1209; font-size:40px; font-weight:700; line-height:1.25; margin-top:16px; font-family:'Playfair Display',serif;">Toxina Botulínica</div>
+      </div>
+      <div style="color:#888; font-size:26px; line-height:1.5;">Bem aplicada, preserva 100% do movimento natural do rosto. O segredo está na dosagem e na técnica do profissional.</div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#bbb; font-size:22px; font-style:italic; font-family:'Playfair Display',serif;">@aura.estetica</div>
+      <div style="color:#bbb; font-size:22px; display:flex; gap:8px; align-items:center;">
+        <span style="background:#C9A96E; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+        <span style="background:#ddd; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+        <span style="background:#ddd; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+        <span style="background:#ddd; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+        <span style="background:#ddd; width:12px; height:12px; border-radius:50%; display:inline-block;"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 09 — ENGAJAMENTO -->
+  <div class="post" style="background:#1A1209; display:flex; flex-direction:column; justify-content:space-between; padding:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 09</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+      <div style="color:#C9A96E; font-size:24px; font-weight:400; letter-spacing:.2em; text-transform:uppercase; margin-bottom:32px; font-style:italic; font-family:'Playfair Display',serif;">Me conta nos comentários</div>
+      <div style="color:#FAF6F0; font-size:56px; font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom:56px;">Qual é a sua maior<br/>preocupação<br/>com a pele?</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:800px; margin:0 auto;">
+        <div style="border:1px solid #2a2010; padding:30px; border-radius:6px; color:#888; font-size:26px;">A · Rugas</div>
+        <div style="border:1px solid #C9A96E; padding:30px; border-radius:6px; color:#FAF6F0; font-size:26px; background:rgba(201,169,110,0.06);">B · Manchas</div>
+        <div style="border:1px solid #2a2010; padding:30px; border-radius:6px; color:#888; font-size:26px;">C · Flacidez</div>
+        <div style="border:1px solid #2a2010; padding:30px; border-radius:6px; color:#888; font-size:26px;">D · Poros</div>
+      </div>
+      <div style="color:#9a8a78; font-size:22px; margin-top:40px;">Salva esse post para a consulta!</div>
+    </div>
+    <div style="color:#3a3020; font-size:22px;">@aura.estetica · #enquete #pele #skincare #estetica</div>
+  </div>
+
+  <!-- POST 10 — DESTAQUE -->
+  <div class="post" style="background:linear-gradient(160deg,#1A1209 0%,#2a1e0e 40%,#1A1209 100%); display:flex; flex-direction:column; justify-content:space-between; padding:80px; border:1px solid #2a2010;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#C9A96E; font-size:36px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+      <div style="color:#2a2010; font-size:22px; font-weight:600; letter-spacing:.1em;">POST 10</div>
+    </div>
+    <div>
+      <div style="color:#C9A96E; font-size:18px; font-weight:400; letter-spacing:.3em; text-transform:uppercase; margin-bottom:32px;">Procedimento em destaque</div>
+      <div style="color:#FAF6F0; font-size:72px; font-weight:300; line-height:1.0; letter-spacing:-0.02em; font-family:'Playfair Display',serif; margin-bottom:32px;">Bioestimuladores<br/><em style="color:#C9A96E;">de Colágeno</em></div>
+      <div style="width:60px; height:1px; background:#C9A96E; margin-bottom:36px;"></div>
+      <div style="color:#9a8a78; font-size:26px; line-height:1.6; margin-bottom:48px;">O procedimento que rejuvenesce progressivamente nos próximos <span style="color:#FAF6F0; font-weight:600;">6 meses</span>. Resultado natural que melhora com o tempo.</div>
+      <div style="display:inline-block; border:1px solid #C9A96E; color:#C9A96E; font-size:24px; padding:20px 48px; letter-spacing:.08em;">AGENDAR CONSULTA →</div>
+    </div>
+    <div style="color:#3a3020; font-size:22px; font-style:italic; font-family:'Playfair Display',serif;">@aura.estetica · #bioestimulador #colageno #rejuvenescimento</div>
+  </div>
+
+</div>
+
+<div class="section-title">Stories (1080 × 1920)</div>
+<div class="grid">
+
+  <!-- STORY 01 — BOM DIA -->
+  <div class="story" style="background:linear-gradient(180deg,#1A1209 0%,#231808 60%,#2a1e0e 100%); display:flex; flex-direction:column; justify-content:space-between; padding:80px 70px; border:1px solid #2a2010;">
+    <div style="color:#C9A96E; font-size:40px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+    <div style="text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center; padding:60px 0;">
+      <div style="color:#C9A96E; font-size:22px; font-weight:400; letter-spacing:.25em; text-transform:uppercase; margin-bottom:48px;">Bom dia</div>
+      <div style="color:#FAF6F0; font-size:68px; font-weight:300; line-height:1.15; font-family:'Playfair Display',serif; font-style:italic; margin-bottom:56px;">"Cuidar de si mesma não é luxo. É o investimento mais inteligente que você pode fazer."</div>
+      <div style="width:40px; height:1px; background:#C9A96E; margin:0 auto 48px;"></div>
+      <div style="color:#9a8a78; font-size:28px; line-height:1.5;">Que seu dia comece<br/>com a mesma beleza<br/>que você tem por dentro.</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="color:#C9A96E; font-size:28px; font-weight:300; font-family:'Playfair Display',serif; font-style:italic;">@aura.estetica</div>
+      <div style="color:#3a3020; font-size:22px; margin-top:8px;">Link na bio · Agende sua avaliação</div>
+    </div>
+  </div>
+
+  <!-- STORY 02 — SERVIÇO EM DESTAQUE -->
+  <div class="story" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px 70px;">
+    <div style="color:#C9A96E; font-size:40px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+      <div style="color:#bbb; font-size:20px; font-weight:400; letter-spacing:.25em; text-transform:uppercase; margin-bottom:24px;">Em destaque</div>
+      <div style="color:#1A1209; font-size:76px; font-weight:300; line-height:1.0; font-family:'Playfair Display',serif; margin-bottom:16px;">Harmonização</div>
+      <div style="color:#C9A96E; font-size:76px; font-weight:700; line-height:1.0; font-family:'Playfair Display',serif; font-style:italic; margin-bottom:48px;">Facial</div>
+      <div style="width:60px; height:1px; background:#C9A96E; margin-bottom:48px;"></div>
+      <div style="display:flex; flex-direction:column; gap:28px; margin-bottom:64px;">
+        <div style="display:flex; align-items:flex-start; gap:20px;">
+          <div style="color:#C9A96E; font-size:18px; margin-top:4px;">✦</div>
+          <div style="color:#444; font-size:28px; line-height:1.4;">Protocolo 100% personalizado</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:20px;">
+          <div style="color:#C9A96E; font-size:18px; margin-top:4px;">✦</div>
+          <div style="color:#444; font-size:28px; line-height:1.4;">Resultado natural e harmonioso</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:20px;">
+          <div style="color:#C9A96E; font-size:18px; margin-top:4px;">✦</div>
+          <div style="color:#444; font-size:28px; line-height:1.4;">Médica especializada em estética facial</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:20px;">
+          <div style="color:#C9A96E; font-size:18px; margin-top:4px;">✦</div>
+          <div style="color:#444; font-size:28px; line-height:1.4;">Pós-procedimento acompanhado</div>
+        </div>
+      </div>
+      <div style="background:#1A1209; color:#C9A96E; font-size:26px; font-weight:600; padding:36px 48px; text-align:center; letter-spacing:.08em;">AGENDE SUA AVALIAÇÃO</div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <div style="color:#bbb; font-size:22px; margin-bottom:12px;">↑ Arraste para cima</div>
+      <div style="color:#C9A96E; font-size:26px; font-family:'Playfair Display',serif; font-style:italic;">@aura.estetica</div>
+    </div>
+  </div>
+
+  <!-- STORY 03 — DEPOIMENTO RÁPIDO -->
+  <div class="story" style="background:#1A1209; display:flex; flex-direction:column; justify-content:space-between; padding:80px 70px;">
+    <div style="color:#C9A96E; font-size:40px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:40px;">
+      <div style="color:#C9A96E; font-size:22px; font-weight:400; letter-spacing:.2em; text-transform:uppercase;">O que dizem sobre nós</div>
+      <div style="background:#231808; border-radius:16px 16px 16px 4px; padding:48px; border:1px solid #2a2010;">
+        <div style="color:#FAF6F0; font-size:28px; line-height:1.6; font-family:'Playfair Display',serif; font-style:italic;">"Eu estava com medo do resultado, mas foi simplesmente perfeito. Resultado natural, me reconheço no espelho com o melhor de mim. Voltarei com certeza! ✨"</div>
+        <div style="color:#C9A96E; font-size:22px; margin-top:24px;">— Fernanda L. · Preenchimento Labial</div>
+      </div>
+      <div style="background:#161005; border-radius:4px 16px 16px 16px; padding:40px; max-width:85%; align-self:flex-end; border:1px solid #2a2010;">
+        <div style="color:#FAF6F0; font-size:26px; line-height:1.5;">Fernanda, que presente receber esse feedback! Sua beleza já estava lá — nós apenas revelamos. 🌿</div>
+        <div style="color:#C9A96E; font-size:20px; margin-top:16px;">Aura Estética</div>
+      </div>
+      <div style="text-align:center;">
+        <span style="color:#C9A96E; font-size:40px; font-family:'Playfair Display',serif;">★★★★★</span>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <div style="color:#3a3020; font-size:22px; margin-bottom:12px;">↑ Arraste para agendar</div>
+      <div style="color:#C9A96E; font-size:26px; font-family:'Playfair Display',serif; font-style:italic;">@aura.estetica</div>
+    </div>
+  </div>
+
+  <!-- STORY 04 — CTA DIRETO -->
+  <div class="story" style="background:linear-gradient(160deg,#C9A96E 0%,#a8884e 100%); display:flex; flex-direction:column; justify-content:space-between; padding:80px 70px;">
+    <div style="color:#1A1209; font-size:40px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; text-align:center;">
+      <div style="color:#1A1209; font-size:22px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; margin-bottom:48px;">Avaliação exclusiva</div>
+      <div style="color:#FAF6F0; font-size:84px; font-weight:300; line-height:1.0; font-family:'Playfair Display',serif; font-style:italic; margin-bottom:56px;">Sua melhor<br/>versão está<br/>a um passo.</div>
+      <div style="width:60px; height:1px; background:rgba(26,18,9,0.3); margin:0 auto 56px;"></div>
+      <div style="color:#1A1209; font-size:28px; line-height:1.5; margin-bottom:64px; opacity:0.8;">Consulta personalizada.<br/>Protocolo exclusivo.<br/>Resultado natural.</div>
+      <div style="background:#1A1209; color:#C9A96E; font-size:28px; font-weight:600; padding:36px 48px; letter-spacing:.08em;">LINK NA BIO ↑</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:56px; margin-bottom:16px;">☝️</div>
+      <div style="color:#1A1209; font-size:28px; font-weight:600; opacity:0.7;">Arraste para cima</div>
+    </div>
+  </div>
+
+  <!-- STORY 05 — BASTIDORES -->
+  <div class="story" style="background:#FAF6F0; display:flex; flex-direction:column; justify-content:space-between; padding:80px 70px;">
+    <div style="color:#C9A96E; font-size:40px; font-weight:300; letter-spacing:.15em; font-family:'Playfair Display',serif;">AURA</div>
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+      <div style="color:#C9A96E; font-size:22px; font-weight:400; letter-spacing:.2em; text-transform:uppercase; margin-bottom:48px;">Nos bastidores da Aura</div>
+      <div style="color:#1A1209; font-size:68px; font-weight:300; line-height:1.05; font-family:'Playfair Display',serif; margin-bottom:56px;">Cada detalhe<br/>foi pensado<br/>para <em style="color:#C9A96E;">você.</em></div>
+      <div style="display:flex; flex-direction:column; gap:32px;">
+        <div style="display:flex; align-items:flex-start; gap:24px; padding:32px; background:#f0ebe2; border-radius:8px;">
+          <div style="color:#C9A96E; font-size:28px; font-weight:600; min-width:40px;">01</div>
+          <div>
+            <div style="color:#1A1209; font-size:26px; font-weight:700; margin-bottom:8px;">Ambiente curado</div>
+            <div style="color:#888; font-size:22px; line-height:1.4;">Espaço projetado para transmitir calma e sofisticação</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:24px; padding:32px; background:#f0ebe2; border-radius:8px;">
+          <div style="color:#C9A96E; font-size:28px; font-weight:600; min-width:40px;">02</div>
+          <div>
+            <div style="color:#1A1209; font-size:26px; font-weight:700; margin-bottom:8px;">Produtos premium</div>
+            <div style="color:#888; font-size:22px; line-height:1.4;">Apenas marcas certificadas e com comprovação científica</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:24px; padding:32px; background:#f0ebe2; border-radius:8px;">
+          <div style="color:#C9A96E; font-size:28px; font-weight:600; min-width:40px;">03</div>
+          <div>
+            <div style="color:#1A1209; font-size:26px; font-weight:700; margin-bottom:8px;">Biossegurança total</div>
+            <div style="color:#888; font-size:22px; line-height:1.4;">Protocolos rigorosos em cada procedimento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <div style="color:#bbb; font-size:22px; margin-bottom:12px;">↑ Agende sua visita</div>
+      <div style="color:#C9A96E; font-size:26px; font-family:'Playfair Display',serif; font-style:italic;">@aura.estetica</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

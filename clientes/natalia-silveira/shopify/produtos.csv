@@ -1,0 +1,176 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant SKU,Variant Grams,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Requires Shipping,Variant Taxable,Image Src,Image Position,Image Alt Text,SEO Title,SEO Description,Status
+amanda,Amanda,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores — informe sua preferência ao encomendar.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,amanda-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/amanda.png,1,Amanda — Conjunto em Macramê,Amanda — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+amanda,Amanda,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,amanda-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+amanda,Amanda,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,amanda-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+amanda,Amanda,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,amanda-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+amanda,Amanda,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,amanda-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+amanda,Amanda,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,amanda-U,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/amanda-2.png,2,Amanda — Conjunto vista lateral,,,active
+sunset,Sunset,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores — informe sua preferência ao encomendar.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,sunset-PP,1500,continue,manual,1990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/sunset.png,1,Sunset — Vestido em Macramê,Sunset — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,sunset-P,1500,continue,manual,1990.00,TRUE,TRUE,,,,,,,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,sunset-M,1500,continue,manual,1990.00,TRUE,TRUE,,,,,,,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,sunset-G,1500,continue,manual,1990.00,TRUE,TRUE,,,,,,,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,sunset-GG,1500,continue,manual,1990.00,TRUE,TRUE,,,,,,,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,sunset-U,1500,continue,manual,1990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/sunset-2.png,2,Sunset — vista lateral,,,,active
+sunset,Sunset,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,sunset-U2,1500,continue,manual,1990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/sunset-3.png,3,Sunset — costas,,,,active
+fani,Fani,"<p>Peça exclusiva artesanal em macramê premium, produzida sob medida. Prazo: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Peça Exclusiva,"peca-exclusiva,macrame,feito-a-mao",TRUE,Tamanho,PP,fani-PP,1500,continue,manual,1790.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/fani.png,1,Fani — Peça Exclusiva em Macramê,Fani — Peça Exclusiva Artesanal | Natalia Silveira,Peça exclusiva artesanal em macramê feita à mão. Sob medida. Natalia Silveira.,active
+fani,Fani,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,P,fani-P,1500,continue,manual,1790.00,TRUE,TRUE,,,,,,,active
+fani,Fani,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,M,fani-M,1500,continue,manual,1790.00,TRUE,TRUE,,,,,,,active
+fani,Fani,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,G,fani-G,1500,continue,manual,1790.00,TRUE,TRUE,,,,,,,active
+fani,Fani,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,GG,fani-GG,1500,continue,manual,1790.00,TRUE,TRUE,,,,,,,active
+fani,Fani,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,ÚNICO,fani-U,1500,continue,manual,1790.00,TRUE,TRUE,,,,,,,active
+talia,Talia,"<p>Peça exclusiva artesanal em macramê premium, produzida sob medida. Prazo: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Peça Exclusiva,"peca-exclusiva,macrame,feito-a-mao",TRUE,Tamanho,PP,talia-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/talia.png,1,Talia — Peça Exclusiva em Macramê,Talia — Peça Exclusiva Artesanal | Natalia Silveira,Peça exclusiva artesanal em macramê feita à mão. Sob medida. Natalia Silveira.,active
+talia,Talia,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,P,talia-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+talia,Talia,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,M,talia-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+talia,Talia,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,G,talia-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+talia,Talia,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,GG,talia-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+talia,Talia,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,ÚNICO,talia-U,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/talia-2.png,2,Talia — vista lateral,,,,active
+artemiza,Artemiza,"<p>Peça exclusiva artesanal em macramê premium, produzida sob medida. Prazo: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Peça Exclusiva,"peca-exclusiva,macrame,feito-a-mao",TRUE,Tamanho,PP,artemiza-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/artemiza.png,1,Artemiza — Peça Exclusiva em Macramê,Artemiza — Peça Exclusiva Artesanal | Natalia Silveira,Peça exclusiva artesanal em macramê feita à mão. Sob medida. Natalia Silveira.,active
+artemiza,Artemiza,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,P,artemiza-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+artemiza,Artemiza,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,M,artemiza-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+artemiza,Artemiza,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,G,artemiza-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+artemiza,Artemiza,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,GG,artemiza-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+artemiza,Artemiza,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,ÚNICO,artemiza-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mavi,Mavi,"<p>Peça exclusiva artesanal em macramê premium, produzida sob medida. Prazo: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Peça Exclusiva,"peca-exclusiva,macrame,feito-a-mao",TRUE,Tamanho,PP,mavi-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/mavi.png,1,Mavi — Peça Exclusiva em Macramê,Mavi — Peça Exclusiva Artesanal | Natalia Silveira,Peça exclusiva artesanal em macramê feita à mão. Sob medida. Natalia Silveira.,active
+mavi,Mavi,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,P,mavi-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mavi,Mavi,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,M,mavi-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mavi,Mavi,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,G,mavi-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mavi,Mavi,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,GG,mavi-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mavi,Mavi,,Natalia Silveira,Peça Exclusiva,,TRUE,Tamanho,ÚNICO,mavi-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+sienna,Sienna,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,sienna-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/sienna.png,1,Sienna — Conjunto em Macramê,Sienna — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+sienna,Sienna,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,sienna-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+sienna,Sienna,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,sienna-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+sienna,Sienna,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,sienna-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+sienna,Sienna,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,sienna-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+sienna,Sienna,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,sienna-U,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+erica,Érica,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,erica-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/erica.png,1,Érica — Conjunto em Macramê,Érica — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+erica,Érica,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,erica-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+erica,Érica,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,erica-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+erica,Érica,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,erica-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+erica,Érica,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,erica-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+erica,Érica,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,erica-U,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+leticia,Letícia,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,leticia-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/leticia.png,1,Letícia — Conjunto em Macramê,Letícia — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+leticia,Letícia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,leticia-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+leticia,Letícia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,leticia-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+leticia,Letícia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,leticia-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+leticia,Letícia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,leticia-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+leticia,Letícia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,leticia-U,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/leticia-2.png,2,Letícia — vista lateral,,,,active
+geonavva,Geonavva,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,geonavva-PP,1500,continue,manual,1490.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/geonavva.png,1,Geonavva — Conjunto em Macramê,Geonavva — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+geonavva,Geonavva,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,geonavva-P,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+geonavva,Geonavva,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,geonavva-M,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+geonavva,Geonavva,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,geonavva-G,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+geonavva,Geonavva,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,geonavva-GG,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+geonavva,Geonavva,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,geonavva-U,1500,continue,manual,1490.00,TRUE,TRUE,,,,,,,active
+mistica,Mística,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,mistica-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/mistica.png,1,Mística — Vestido em Macramê,Mística — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+mistica,Mística,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,mistica-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mistica,Mística,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,mistica-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mistica,Mística,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,mistica-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mistica,Mística,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,mistica-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+mistica,Mística,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,mistica-U,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/mistica-2.png,2,Mística — vista lateral,,,,active
+selene,Selene,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,selene-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/selene.png,1,Selene — Conjunto em Macramê,Selene — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+selene,Selene,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,selene-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+selene,Selene,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,selene-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+selene,Selene,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,selene-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+selene,Selene,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,selene-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+selene,Selene,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,selene-U,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/selene-2.png,2,Selene — vista lateral,,,,active
+lunar,Lunar,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,lunar-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/lunar.png,1,Lunar — Conjunto em Macramê,Lunar — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+lunar,Lunar,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,lunar-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+lunar,Lunar,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,lunar-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+lunar,Lunar,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,lunar-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+lunar,Lunar,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,lunar-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+lunar,Lunar,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,lunar-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maita,Maita,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,maita-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/maita.png,1,Maita — Conjunto em Macramê,Maita — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+maita,Maita,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,maita-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maita,Maita,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,maita-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maita,Maita,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,maita-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maita,Maita,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,maita-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maita,Maita,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,maita-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+laskimi,Laskimi,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,laskimi-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/laskimi.png,1,Laskimi — Conjunto em Macramê,Laskimi — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+laskimi,Laskimi,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,laskimi-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+laskimi,Laskimi,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,laskimi-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+laskimi,Laskimi,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,laskimi-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+laskimi,Laskimi,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,laskimi-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+laskimi,Laskimi,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,laskimi-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia,Maia,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,maia-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/maia.png,1,Maia — Conjunto em Macramê,Maia — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+maia,Maia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,maia-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia,Maia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,maia-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia,Maia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,maia-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia,Maia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,maia-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia,Maia,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,maia-U,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia-correntes,Maia com Correntes,"<p>Conjunto artesanal em macramê premium com correntes, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,maia-cor-PP,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/maia-correntes.png,1,Maia com Correntes — Conjunto em Macramê,Maia com Correntes — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê com correntes. Sob medida. Natalia Silveira.,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,maia-cor-P,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,maia-cor-M,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,maia-cor-G,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,maia-cor-GG,1500,continue,manual,1390.00,TRUE,TRUE,,,,,,,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,maia-cor-U,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/maia-correntes-2.png,2,Maia com Correntes — vista lateral,,,,active
+maia-correntes,Maia com Correntes,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,maia-cor-U2,1500,continue,manual,1390.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/maia-correntes-3.png,3,Maia com Correntes — vista costas,,,,active
+luana,Luana,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,luana-PP,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/luana.png,1,Luana — Conjunto em Macramê,Luana — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+luana,Luana,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,luana-P,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+luana,Luana,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,luana-M,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+luana,Luana,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,luana-G,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+luana,Luana,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,luana-GG,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+luana,Luana,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,luana-U,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+aura,Aura,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,aura-PP,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/aura.png,1,Aura — Vestido em Macramê,Aura — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,aura-P,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,aura-M,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,aura-G,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,aura-GG,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,aura-U,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/aura-2.png,2,Aura — vista lateral,,,,active
+aura,Aura,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,aura-U2,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/aura-3.png,3,Aura — costas,,,,active
+emily,Emily,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,emily-PP,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/emily.png,1,Emily — Vestido em Macramê,Emily — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,emily-P,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,emily-M,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,emily-G,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,emily-GG,1500,continue,manual,1290.00,TRUE,TRUE,,,,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,emily-U,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/emily-2.png,2,Emily — vista lateral,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,emily-U2,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/emily-3.png,3,Emily — costas,,,,active
+emily,Emily,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,emily-U3,1500,continue,manual,1290.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/emily-4.png,4,Emily — detalhe,,,,active
+atena,Atena,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,atena-PP,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/atena.png,1,Atena — Conjunto em Macramê,Atena — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+atena,Atena,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,atena-P,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+atena,Atena,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,atena-M,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+atena,Atena,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,atena-G,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+atena,Atena,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,atena-GG,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+atena,Atena,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,atena-U,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/atena-2.png,2,Atena — vista lateral,,,,active
+bianca,Bianca,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,bianca-PP,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/bianca.png,1,Bianca — Conjunto em Macramê,Bianca — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,bianca-P,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,bianca-M,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,bianca-G,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,bianca-GG,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,bianca-U,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/bianca-2.png,2,Bianca — vista lateral,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,bianca-U2,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/bianca-3.png,3,Bianca — costas,,,,active
+bianca,Bianca,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,bianca-U3,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/bianca-4.png,4,Bianca — detalhe,,,,active
+helena,Helena,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,helena-PP,1500,continue,manual,990.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/helena.png,1,Helena — Vestido em Macramê,Helena — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+helena,Helena,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,helena-P,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+helena,Helena,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,helena-M,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+helena,Helena,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,helena-G,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+helena,Helena,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,helena-GG,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+helena,Helena,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,helena-U,1500,continue,manual,990.00,TRUE,TRUE,,,,,,,active
+stella,Stella,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao",TRUE,Tamanho,PP,stella-PP,1500,continue,manual,890.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/stella.png,1,Stella — Conjunto em Macramê,Stella — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+stella,Stella,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,stella-P,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+stella,Stella,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,stella-M,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+stella,Stella,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,stella-G,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+stella,Stella,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,stella-GG,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+stella,Stella,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,stella-U,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+isa,Isa,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Prazo de produção: até 20 dias corridos. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao",TRUE,Tamanho,PP,isa-PP,1500,continue,manual,890.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/isa.png,1,Isa — Vestido em Macramê,Isa — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,active
+isa,Isa,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,isa-P,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+isa,Isa,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,isa-M,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+isa,Isa,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,isa-G,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+isa,Isa,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,isa-GG,1500,continue,manual,890.00,TRUE,TRUE,,,,,,,active
+isa,Isa,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,isa-U,1500,continue,manual,890.00,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/isa-2.png,2,Isa — vista lateral,,,,active
+celeste,Celeste,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Preço sob consulta — entre em contato para orçamento. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao,consultar-preco",TRUE,Tamanho,PP,celeste-PP,1500,continue,manual,0.01,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/celeste.png,1,Celeste — Conjunto em Macramê,Celeste — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,draft
+celeste,Celeste,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,celeste-P,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+celeste,Celeste,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,celeste-M,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+celeste,Celeste,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,celeste-G,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+celeste,Celeste,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,celeste-GG,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+celeste,Celeste,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,celeste-U,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+eurama,Eurama,"<p>Conjunto artesanal em macramê premium, produzido exclusivamente sob medida. Preço sob consulta — entre em contato para orçamento. Disponível em 43 cores.</p>",Natalia Silveira,Conjunto,"conjunto,macrame,feito-a-mao,consultar-preco",TRUE,Tamanho,PP,eurama-PP,1500,continue,manual,0.01,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/eurama.png,1,Eurama — Conjunto em Macramê,Eurama — Conjunto Artesanal | Natalia Silveira,Conjunto artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,draft
+eurama,Eurama,,Natalia Silveira,Conjunto,,TRUE,Tamanho,P,eurama-P,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+eurama,Eurama,,Natalia Silveira,Conjunto,,TRUE,Tamanho,M,eurama-M,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+eurama,Eurama,,Natalia Silveira,Conjunto,,TRUE,Tamanho,G,eurama-G,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+eurama,Eurama,,Natalia Silveira,Conjunto,,TRUE,Tamanho,GG,eurama-GG,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+eurama,Eurama,,Natalia Silveira,Conjunto,,TRUE,Tamanho,ÚNICO,eurama-U,1500,continue,manual,0.01,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/eurama-2.png,2,Eurama — vista lateral,,,,draft
+isadora,Isadora,"<p>Vestido artesanal em macramê premium, produzido exclusivamente sob medida. Preço sob consulta — entre em contato para orçamento. Disponível em 43 cores.</p>",Natalia Silveira,Vestido,"vestido,macrame,feito-a-mao,consultar-preco",TRUE,Tamanho,PP,isadora-PP,1500,continue,manual,0.01,TRUE,TRUE,https://site-one-beta-91.vercel.app/assets/isadora.png,1,Isadora — Vestido em Macramê,Isadora — Vestido Artesanal | Natalia Silveira,Vestido artesanal em macramê feito à mão. Sob medida. Natalia Silveira.,draft
+isadora,Isadora,,Natalia Silveira,Vestido,,TRUE,Tamanho,P,isadora-P,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+isadora,Isadora,,Natalia Silveira,Vestido,,TRUE,Tamanho,M,isadora-M,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+isadora,Isadora,,Natalia Silveira,Vestido,,TRUE,Tamanho,G,isadora-G,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+isadora,Isadora,,Natalia Silveira,Vestido,,TRUE,Tamanho,GG,isadora-GG,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft
+isadora,Isadora,,Natalia Silveira,Vestido,,TRUE,Tamanho,ÚNICO,isadora-U,1500,continue,manual,0.01,TRUE,TRUE,,,,,,,draft

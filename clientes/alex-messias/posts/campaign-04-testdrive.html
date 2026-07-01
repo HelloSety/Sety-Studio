@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;200;300;700;900&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;}
+body{width:1080px;height:1350px;overflow:hidden;background:#0a0a0a;}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;}
+
+/* Carro azul outdoor — mais visível */
+.car{position:absolute;inset:0;z-index:1;}
+.car img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;
+  filter:brightness(.72) contrast(1.2) saturate(.85);}
+
+/* Overlay topo — só o suficiente para a headline respirar */
+.ov-t{position:absolute;top:0;left:0;right:0;height:620px;z-index:2;
+  background:linear-gradient(to bottom,rgba(10,10,10,.96) 0%,rgba(10,10,10,.72) 52%,transparent 100%);}
+/* Lateral esquerda leve */
+.ov-l{position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to right,rgba(10,10,10,.45) 0%,transparent 48%);}
+/* Base — espaço do CTA */
+.ov-b{position:absolute;bottom:0;left:0;right:0;height:340px;z-index:4;
+  background:linear-gradient(to top,rgba(10,10,10,.99) 0%,rgba(10,10,10,.5) 60%,transparent 100%);}
+
+/* Header */
+.header{position:absolute;top:46px;left:58px;right:58px;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;}
+.h-brand{display:flex;align-items:center;gap:10px;}
+.h-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;
+  color:#fff;letter-spacing:5px;text-transform:uppercase;}
+.h-pipe{color:rgba(255,255,255,.35);margin:0 8px;}
+.h-dealer{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:16px;
+  color:rgba(255,255,255,.7);letter-spacing:4px;text-transform:uppercase;}
+.h-url{font-family:'Inter',sans-serif;font-size:10px;font-weight:400;
+  letter-spacing:3px;color:rgba(255,255,255,.55);}
+
+.cat{position:absolute;top:128px;left:58px;z-index:20;
+  display:flex;align-items:center;gap:10px;}
+.cat-bar{width:28px;height:1.5px;background:#D71920;}
+.cat-txt{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;
+  letter-spacing:7px;text-transform:uppercase;color:#D71920;}
+
+/* Headline */
+.headline{position:absolute;top:162px;left:56px;z-index:20;}
+.hl-1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:158px;
+  line-height:.84;text-transform:uppercase;letter-spacing:-3px;color:#fff;}
+.hl-2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:158px;
+  line-height:.84;text-transform:uppercase;letter-spacing:-3px;color:#fff;}
+.hl-3{font-family:'Barlow Condensed',sans-serif;font-weight:100;font-size:158px;
+  line-height:.84;text-transform:uppercase;letter-spacing:-3px;
+  -webkit-text-stroke:2px rgba(255,255,255,.45);color:transparent;}
+.red{color:#D71920;-webkit-text-stroke:0;}
+
+.sub{position:absolute;top:650px;left:58px;z-index:20;
+  font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:26px;
+  letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.65);}
+
+/* CTA — destaque máximo */
+.cta-block{position:absolute;bottom:110px;left:58px;z-index:20;}
+.cta-label{font-family:'Inter',sans-serif;font-size:9px;font-weight:500;
+  letter-spacing:7px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:18px;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:20px;
+  border:2px solid #D71920;
+  background:rgba(215,25,32,.12);
+  padding:24px 52px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;
+  color:#fff;text-transform:uppercase;letter-spacing:5px;}
+.cta-arr{color:#D71920;font-size:24px;font-weight:900;}
+
+/* Footer */
+.footer{position:absolute;bottom:46px;left:58px;right:58px;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.08);padding-top:20px;}
+.f-left{display:flex;align-items:center;gap:12px;}
+.f-city{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
+  letter-spacing:5px;color:rgba(255,255,255,.6);text-transform:uppercase;}
+.f-dot{width:3px;height:3px;background:#D71920;border-radius:50%;}
+.f-tag{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:5px;color:#D71920;text-transform:uppercase;}
+.f-url{font-family:'Inter',sans-serif;font-size:10px;font-weight:400;
+  letter-spacing:3px;color:rgba(255,255,255,.5);}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="car"><img src="../imagens/h6gt-blue.webp" alt=""></div>
+  <div class="ov-t"></div>
+  <div class="ov-l"></div>
+  <div class="ov-b"></div>
+
+  <div class="header">
+    <div class="h-brand">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="12.5" stroke="white" stroke-width="1.2"/>
+        <text x="14" y="18.5" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="7.5" font-weight="900" fill="white">GWM</text>
+      </svg>
+      <span class="h-name">GWM</span><span class="h-pipe">|</span><span class="h-dealer">DAHRUJ</span>
+    </div>
+    <div class="h-url">gwmdahruj.com.br</div>
+  </div>
+
+  <div class="cat"><div class="cat-bar"></div><div class="cat-txt">Test Drive</div></div>
+
+  <div class="headline">
+    <div class="hl-1">AGENDE</div>
+    <div class="hl-2">SEU TEST</div>
+    <div class="hl-3">DRIVE<span class="red">.</span></div>
+  </div>
+
+  <div class="sub">Sem compromisso · Dirija e decida.</div>
+
+  <div class="cta-block">
+    <div class="cta-label">Reserve seu horário agora</div>
+    <div class="cta-btn">Falar com consultor <span class="cta-arr">→</span></div>
+  </div>
+
+  <div class="footer">
+    <div class="f-left">
+      <div class="f-city">Jundiaí — SP</div>
+      <div class="f-dot"></div>
+      <div class="f-tag">GWM Dahruj</div>
+    </div>
+    <div class="f-url">gwmdahruj.com.br</div>
+  </div>
+</div>
+</body>
+</html>

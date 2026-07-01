@@ -1,0 +1,227 @@
+{
+  "name": "Sety Studio — Qualificar Lead",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-sety",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-a1b2c3d40001",
+      "name": "Receber Lead (Typebot)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Calcular Score do Lead ─────────────────────────────────────────────\nconst d = $input.first().json;\n\nlet score = 0;\n\n// Prazo (25 pts)\nconst prazo = (d.prazo || '').toLowerCase();\nif (prazo.includes('r\\u00e1pido') || prazo.includes('semana')) score += 25;\nelse if (prazo.includes('este m\\u00eas') || prazo.includes('esse m\\u00eas')) score += 20;\nelse if (prazo.includes('3 meses') || prazo.includes('tr\\u00eas')) score += 10;\n\n// Investimento (25 pts)\nconst inv = (d.investimento || '').toLowerCase();\nif (inv.includes('3.000') || inv.includes('3000') || inv.includes('acima')) score += 25;\nelse if (inv.includes('1.500') || inv.includes('1500')) score += 20;\nelse if (inv.includes('800') && (inv.includes('1') || inv.includes('a'))) score += 10;\n\n// Fornecedor (20 pts)\nconst forn = (d.fornecedor || '').toLowerCase();\nif (forn.includes('sim') || forn.includes('j\\u00e1 tenho')) score += 20;\nelse if (forn.includes('buscando') || forn.includes('procurando')) score += 10;\n\n// Quantidade de produtos (15 pts)\nconst qtd = (d.qtd_produtos || '').toLowerCase();\nif (qtd.includes('50') || qtd.includes('mais de')) score += 15;\nelse if (qtd.includes('20') || qtd.includes('entre')) score += 10;\nelse score += 5;\n\n// Plataforma (15 pts)\nconst plat = (d.plataforma || '').toLowerCase();\nif (plat.includes('shopify')) score += 15;\nelse if (plat.includes('nuvemshop') || plat.includes('nuvem')) score += 10;\nelse score += 5;\n\n// Classificação\nlet classificacao, emoji;\nif (score >= 71) { classificacao = 'Lead Quente'; emoji = '\\uD83D\\uDD25'; }\nelse if (score >= 41) { classificacao = 'Lead Morno'; emoji = '\\uD83C\\uDF21\\uFE0F'; }\nelse { classificacao = 'Lead Frio'; emoji = '\\u2744\\uFE0F'; }\n\n// Data/hora no formato BR (fuso Belém = UTC-3)\nconst agora = new Date();\nagora.setHours(agora.getHours() - 3);\nconst dataHora = agora.toISOString().replace('T', ' ').substring(0, 16);\n\nreturn [{\n  json: {\n    data_hora: dataHora,\n    nome: d.nome || '',\n    instagram: d.instagram || '',\n    cidade: d.cidade || '',\n    nicho: d.nicho || '',\n    plataforma: d.plataforma || '',\n    qtd_produtos: d.qtd_produtos || '',\n    fornecedor: d.fornecedor || '',\n    prazo: d.prazo || '',\n    investimento: d.investimento || '',\n    telefone: d.telefone || '',\n    score,\n    classificacao,\n    emoji,\n    status_crm: 'Novo Lead',\n    followup_1h: 'NAO',\n    followup_24h: 'NAO',\n    followup_3d: 'NAO',\n    followup_7d: 'NAO'\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0002-0002-0002-a1b2c3d40002",
+      "name": "Calcular Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "LEADS",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Data/Hora": "={{ $json.data_hora }}",
+            "Nome": "={{ $json.nome }}",
+            "Instagram": "={{ $json.instagram }}",
+            "Cidade": "={{ $json.cidade }}",
+            "Nicho": "={{ $json.nicho }}",
+            "Plataforma": "={{ $json.plataforma }}",
+            "Qtd Produtos": "={{ $json.qtd_produtos }}",
+            "Fornecedor": "={{ $json.fornecedor }}",
+            "Prazo": "={{ $json.prazo }}",
+            "Investimento": "={{ $json.investimento }}",
+            "Score": "={{ $json.score }}",
+            "Classificacao": "={{ $json.emoji }} {{ $json.classificacao }}",
+            "Status CRM": "={{ $json.status_crm }}",
+            "Telefone": "={{ $json.telefone }}",
+            "Ultimo Contato": "={{ $json.data_hora }}",
+            "Followup 1h": "={{ $json.followup_1h }}",
+            "Followup 24h": "={{ $json.followup_24h }}",
+            "Followup 3d": "={{ $json.followup_3d }}",
+            "Followup 7d": "={{ $json.followup_7d }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0003-0003-0003-a1b2c3d40003",
+      "name": "Salvar no Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.score }}",
+              "rightValue": 71,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0004-0004-0004-a1b2c3d40004",
+      "name": "Lead Quente?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.emoji }} NOVO LEAD QUALIFICADO — Sety Studio\n\n👤 Nome: {{ $json.nome }}\n📱 Instagram: {{ $json.instagram }}\n🏙️ Cidade: {{ $json.cidade }}\n🎯 Nicho: {{ $json.nicho }}\n🛒 Plataforma: {{ $json.plataforma }}\n📦 Produtos: {{ $json.qtd_produtos }}\n🏭 Fornecedor: {{ $json.fornecedor }}\n⏰ Prazo: {{ $json.prazo }}\n💰 Investimento: {{ $json.investimento }}\n\n🎯 Score: {{ $json.score }}/100\n📊 Status: {{ $json.emoji }} {{ $json.classificacao }}\n\n📞 WhatsApp: https://wa.me/{{ $json.telefone }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "a1b2c3d4-0005-0005-0005-a1b2c3d40005",
+      "name": "Notificar Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1120, 180],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CRED_ID",
+          "name": "Telegram Sety Studio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution_api:8080/message/sendText/{{ $env.EVOLUTION_INSTANCE }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.EVOLUTION_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.telefone }}"
+            },
+            {
+              "name": "text",
+              "value": "=Perfeito, {{ $json.nome }}! Recebi suas informações. Nossa equipe entrará em contato em breve. Fique atento ao WhatsApp!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0006-0006-0006-a1b2c3d40006",
+      "name": "Confirmar Lead (WhatsApp)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 420]
+    }
+  ],
+  "connections": {
+    "Receber Lead (Typebot)": {
+      "main": [
+        [
+          {
+            "node": "Calcular Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Score": {
+      "main": [
+        [
+          {
+            "node": "Salvar no Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salvar no Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Lead Quente?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Quente?": {
+      "main": [
+        [
+          {
+            "node": "Notificar Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Confirmar Lead (WhatsApp)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Confirmar Lead (WhatsApp)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Belem"
+  },
+  "tags": [
+    { "name": "sety-studio" },
+    { "name": "leads" }
+  ]
+}

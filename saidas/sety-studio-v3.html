@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sety Studio — Especialistas em Lojas de Camisas de Time | Shopify & WooCommerce</title>
+<meta name="description" content="Criamos lojas virtuais de camisas de time, uniformes esportivos e e-commerces esportivos no Shopify e WooCommerce. Especialistas em dropshipping esportivo no Brasil. Lojas prontas para vender.">
+<meta name="keywords" content="loja de camisas de time, site para loja esportiva, criação de loja Shopify, criação de loja WooCommerce, loja virtual de futebol, ecommerce esportivo, site para vender camisas, desenvolvimento de loja esportiva, Especialista Shopify Brasil, Especialista WooCommerce Brasil, dropshipping esportivo, uniforme esportivo online">
+<meta property="og:title" content="Sety Studio — Lojas Esportivas que Vendem">
+<meta property="og:description" content="Especialistas em criar lojas de camisas de time e uniformes esportivos no Shopify e WooCommerce. Mais de 50 lojas entregues.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://setystudio.com.br">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────
+   RESET & VARIABLES
+───────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --blue: #0066FF;
+  --blue-mid: #0047CC;
+  --blue-light: #66AAFF;
+  --blue-glow: rgba(0,102,255,0.25);
+  --dark: #080E1C;
+  --darker: #050A14;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-hover: rgba(0,102,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --border-blue: rgba(0,102,255,0.35);
+  --white: #FFFFFF;
+  --gray: #8A9BB5;
+  --gray-light: #B0C0D8;
+  --green: #10B981;
+  --gold: #F59E0B;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─────────────────────────────────────────
+   UTILITY
+───────────────────────────────────────── */
+.container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+.text-blue { color: var(--blue); }
+.text-gray { color: var(--gray); }
+
+.gradient-text {
+  background: linear-gradient(135deg, #fff 30%, var(--blue-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 20px;
+}
+.section-label::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 10px; height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────── */
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes glow-pulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes slideUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+@keyframes borderGlow { 0%,100%{box-shadow:0 0 20px rgba(0,102,255,0.3)} 50%{box-shadow:0 0 40px rgba(0,102,255,0.6)} }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+.fade-in-delay-4 { transition-delay: 0.4s; }
+
+/* ─────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 15px 32px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.12));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,102,255,0.45); }
+.btn-primary:hover::before { opacity: 1; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  color: var(--gray-light);
+  padding: 15px 32px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.25); color: var(--white); transform: translateY(-2px); }
+
+.btn-whatsapp {
+  background: #25D366;
+  color: var(--white);
+  padding: 15px 32px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+.btn-whatsapp:hover { background: #1fba59; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(37,211,102,0.35); }
+
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 60px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(8,14,28,0.75);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-decoration: none;
+}
+.logo span { color: var(--blue); }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+nav ul a {
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--white); }
+
+.btn-nav {
+  background: var(--blue) !important;
+  color: var(--white) !important;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  transition: opacity 0.2s !important;
+}
+.btn-nav:hover { opacity: 0.85; transform: none !important; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 65px; left: 0; right: 0;
+  background: rgba(5,10,20,0.98);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 40px;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 99;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  text-decoration: none;
+  color: var(--gray-light);
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 130px 40px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,102,255,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(0,102,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 20%, black, transparent);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,102,255,0.1);
+  border: 1px solid rgba(0,102,255,0.3);
+  color: var(--blue-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 100px;
+  margin-bottom: 36px;
+  position: relative;
+}
+.badge-dot {
+  width: 6px; height: 6px;
+  background: var(--blue);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+#hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  max-width: 860px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--gray);
+  max-width: 540px;
+  line-height: 1.75;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 38px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.stat-num .accent { color: var(--blue); }
+.stat-label {
+  font-size: 13px;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────
+   MARQUEE
+───────────────────────────────────────── */
+.marquee-section {
+  background: var(--darker);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 28s linear infinite;
+  width: max-content;
+  gap: 0;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 40px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.marquee-dot {
+  width: 4px; height: 4px;
+  background: var(--blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   ESPECIALISTAS
+───────────────────────────────────────── */
+#especialistas {
+  background: var(--dark);
+  padding: 100px 0;
+}
+
+.especialistas-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.especialistas-text h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3.5vw, 44px);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 20px;
+}
+
+.especialistas-text p {
+  font-size: 16px;
+  color: var(--gray);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+.especialidades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.esp-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gray-light);
+}
+
+.esp-check {
+  width: 22px; height: 22px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.especialistas-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.esp-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.esp-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.esp-card:hover {
+  background: var(--card-hover);
+  border-color: var(--border-blue);
+  transform: translateY(-4px);
+}
+.esp-card:hover::before { opacity: 1; }
+
+.esp-card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.esp-card h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.esp-card p {
+  font-size: 12px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────
+   PACOTES
+───────────────────────────────────────── */
+#pacotes {
+  background: var(--darker);
+  padding: 100px 0;
+}
+
+.pacotes-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.pacotes-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.pacotes-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.pacotes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.plan-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  transition: all 0.3s;
+  position: relative;
+}
+.plan-card:hover { transform: translateY(-4px); }
+
+.plan-card.featured {
+  background: linear-gradient(160deg, rgba(0,102,255,0.12) 0%, rgba(0,102,255,0.04) 100%);
+  border-color: rgba(0,102,255,0.45);
+  box-shadow: 0 0 0 1px rgba(0,102,255,0.2), 0 20px 60px rgba(0,102,255,0.18);
+  transform: scale(1.04);
+  animation: borderGlow 3s ease-in-out infinite;
+}
+.plan-card.featured:hover { transform: scale(1.04) translateY(-4px); }
+
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold);
+  color: #1a1000;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.plan-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.plan-desc {
+  font-size: 13px;
+  color: var(--gray);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.plan-price .currency {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray);
+}
+.plan-price .amount {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 52px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--white);
+}
+.plan-price .amount.consult {
+  font-size: 28px;
+  align-self: center;
+}
+.plan-price .period {
+  font-size: 13px;
+  color: var(--gray);
+  margin-left: 4px;
+}
+
+.plan-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.plan-items li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--gray-light);
+  line-height: 1.4;
+}
+
+.plan-check {
+  width: 18px; height: 18px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--green);
+}
+
+.plan-deadline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray);
+  margin-bottom: 24px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.plan-btn {
+  display: block;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.plan-btn-primary {
+  background: var(--blue);
+  color: var(--white);
+}
+.plan-btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,102,255,0.4); }
+
+.plan-btn-outline {
+  border: 1px solid var(--border);
+  color: var(--gray-light);
+  background: rgba(255,255,255,0.03);
+}
+.plan-btn-outline:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+
+.pacotes-cta {
+  text-align: center;
+  margin-top: 48px;
+}
+.pacotes-cta p {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+
+/* ─────────────────────────────────────────
+   PORTFOLIO
+───────────────────────────────────────── */
+#portfolio {
+  background: var(--dark);
+  padding: 100px 0;
+}
+
+.portfolio-header {
+  margin-bottom: 56px;
+}
+.portfolio-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3.5vw, 44px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.portfolio-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 440px;
+  line-height: 1.7;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.portfolio-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.portfolio-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-blue);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.browser-frame {
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid var(--border);
+}
+
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+.browser-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.browser-dots span:nth-child(1) { background: #FF5F57; }
+.browser-dots span:nth-child(2) { background: #FEBC2E; }
+.browser-dots span:nth-child(3) { background: #28C840; }
+
+.browser-url {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 10px;
+  color: var(--gray);
+  font-family: monospace;
+}
+
+.browser-screen {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.browser-screen .store-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
+}
+.browser-screen .store-type {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.browser-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+/* Portfolio gradient themes */
+.theme-lulu::before { background: linear-gradient(135deg, #1a0a3a, #3a1060, #6020a0); }
+.theme-underz::before { background: linear-gradient(135deg, #0a1a2a, #0a3060, #0066b0); }
+.theme-vancir::before { background: linear-gradient(135deg, #1a1a0a, #3a3000, #7a5a00); }
+.theme-manto::before { background: linear-gradient(135deg, #1a0a0a, #600a10, #a01020); }
+.theme-sport::before { background: linear-gradient(135deg, #0a1a0a, #0a4010, #108030); }
+
+.portfolio-info {
+  padding: 22px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-cat {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.portfolio-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.portfolio-card p {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.portfolio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-light);
+  text-decoration: none;
+  transition: gap 0.2s, color 0.2s;
+}
+.portfolio-link:hover { gap: 10px; color: var(--white); }
+
+/* ─────────────────────────────────────────
+   MID CTA
+───────────────────────────────────────── */
+.mid-cta {
+  background: linear-gradient(90deg, rgba(0,102,255,0.08), transparent, rgba(0,102,255,0.08));
+  border-top: 1px solid var(--border-blue);
+  border-bottom: 1px solid var(--border-blue);
+  padding: 48px 0;
+  text-align: center;
+}
+.mid-cta h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.mid-cta p {
+  color: var(--gray);
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+.mid-cta .cta-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─────────────────────────────────────────
+   PROCESSO
+───────────────────────────────────────── */
+#processo {
+  background: var(--darker);
+  padding: 100px 0;
+}
+
+.processo-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.processo-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(26px, 3.2vw, 42px);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 16px;
+}
+.processo-header p {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+.process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.process-step {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.process-step:last-child { border-bottom: none; }
+.process-step:hover .step-circle { background: rgba(0,102,255,0.2); border-color: rgba(0,102,255,0.5); }
+
+.step-circle {
+  width: 42px; height: 42px;
+  background: rgba(0,102,255,0.1);
+  border: 1px solid rgba(0,102,255,0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.2s;
+}
+
+.process-step h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.process-step p {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+.processo-visual {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.processo-visual::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.processo-big {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 100px;
+  color: rgba(0,102,255,0.12);
+  line-height: 1;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.processo-visual h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.processo-visual p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.75;
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto 28px;
+}
+
+.processo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 100px;
+  position: relative;
+}
+
+/* ─────────────────────────────────────────
+   PROVA SOCIAL
+───────────────────────────────────────── */
+#prova-social {
+  background: var(--dark);
+  padding: 100px 0;
+}
+
+.prova-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.prova-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(26px, 3.5vw, 44px);
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+.prova-header p {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.stat-box {
+  background: var(--darker);
+  padding: 44px 36px;
+  text-align: center;
+  transition: background 0.3s;
+}
+.stat-box:hover { background: rgba(0,102,255,0.06); }
+
+.stat-box .stat-num {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 52px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-box .stat-num .accent { color: var(--blue); }
+
+.stat-box .stat-label {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.4;
+}
+
+.stars-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.star-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  text-align: center;
+  width: 280px;
+  transition: all 0.3s;
+}
+.star-card:hover { border-color: var(--border-blue); transform: translateY(-4px); }
+
+.stars {
+  color: var(--gold);
+  font-size: 18px;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.star-card blockquote {
+  font-size: 14px;
+  color: var(--gray-light);
+  line-height: 1.65;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.star-card .author {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+}
+.star-card .author-role {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+/* ─────────────────────────────────────────
+   CTA FINAL
+───────────────────────────────────────── */
+#cta-final {
+  background: linear-gradient(160deg, #050A14 0%, #091428 40%, #0A1A40 100%);
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#cta-final::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+#cta-final .section-label { position: relative; }
+
+#cta-final h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 60px);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  max-width: 760px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+#cta-final p {
+  font-size: 17px;
+  color: var(--gray);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  line-height: 1.75;
+  position: relative;
+}
+
+.cta-final-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  margin-bottom: 36px;
+}
+
+.cta-guarantee {
+  font-size: 13px;
+  color: var(--gray);
+  position: relative;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer {
+  background: var(--darker);
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+}
+
+.footer-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+footer .logo { font-size: 18px; }
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .pacotes-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .plan-card.featured { transform: scale(1); }
+  .plan-card.featured:hover { transform: translateY(-4px); }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .especialistas-inner { grid-template-columns: 1fr; gap: 48px; }
+  .processo-inner { grid-template-columns: 1fr; gap: 48px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  nav ul { display: none; }
+  .hamburger { display: flex; }
+
+  #hero { padding: 110px 24px 80px; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; justify-content: center; }
+
+  .container { padding: 0 24px; }
+
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stars-row { flex-direction: column; align-items: center; }
+
+  footer { padding: 32px 24px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; gap: 24px; }
+  .especialistas-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav">
+  <a href="#" class="logo">SETY<span>STUDIO</span></a>
+  <ul>
+    <li><a href="#especialistas">Especialidades</a></li>
+    <li><a href="#pacotes">Pacotes</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#processo">Como funciona</a></li>
+    <li><a href="https://wa.me/55SEUNUMERO?text=Ol%C3%A1%2C%20quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-nav">Solicitar orçamento</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#especialistas" onclick="closeMenu()">Especialidades</a>
+  <a href="#pacotes" onclick="closeMenu()">Pacotes</a>
+  <a href="#portfolio" onclick="closeMenu()">Portfólio</a>
+  <a href="#processo" onclick="closeMenu()">Como funciona</a>
+  <a href="https://wa.me/55SEUNUMERO?text=Ol%C3%A1%2C%20quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-primary" style="justify-content:center">Solicitar orçamento</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-badge fade-in">
+    <span class="badge-dot"></span>
+    Especialistas em Lojas Esportivas
+  </div>
+
+  <h1 class="fade-in fade-in-delay-1">
+    Criamos lojas esportivas<br>
+    <span class="gradient-text">prontas para vender.</span>
+  </h1>
+
+  <p class="hero-sub fade-in fade-in-delay-2">
+    Especialistas em Shopify e WooCommerce para camisas de time, uniformes esportivos e marcas de futebol.
+  </p>
+
+  <div class="hero-ctas fade-in fade-in-delay-3">
+    <a href="https://wa.me/55SEUNUMERO?text=Ol%C3%A1%2C%20quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-primary">
+      🚀 Solicitar orçamento
+    </a>
+    <a href="https://wa.me/55SEUNUMERO" target="_blank" class="btn-whatsapp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chamar no WhatsApp
+    </a>
+  </div>
+
+  <div class="hero-stats fade-in fade-in-delay-4">
+    <div class="stat-item">
+      <div class="stat-num"><span class="counter accent" data-target="50" data-suffix="+">0</span></div>
+      <div class="stat-label">Lojas entregues</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="counter accent" data-target="200" data-suffix="+">0</span></div>
+      <div class="stat-label">Produtos cadastrados</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="counter accent" data-target="5">0</span><span style="color:var(--blue)">★</span></div>
+      <div class="stat-label">Avaliação média</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="counter accent" data-target="3" data-suffix=" dias">0</span></div>
+      <div class="stat-label">Prazo médio de entrega</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span> Shopify</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> WooCommerce</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Camisas de Time</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Uniformes Esportivos</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Dropshipping Esportivo</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> E-commerce de Futebol</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Lojas de Futebol</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Marcas Esportivas</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Checkout Otimizado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Pixel Meta Ads</div>
+    <!-- duplicata para o loop contínuo -->
+    <div class="marquee-item"><span class="marquee-dot"></span> Shopify</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> WooCommerce</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Camisas de Time</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Uniformes Esportivos</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Dropshipping Esportivo</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> E-commerce de Futebol</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Lojas de Futebol</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Marcas Esportivas</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Checkout Otimizado</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Pixel Meta Ads</div>
+  </div>
+</div>
+
+<!-- ─── ESPECIALISTAS ─── -->
+<section id="especialistas">
+  <div class="container">
+    <div class="especialistas-inner">
+
+      <div class="especialistas-text fade-in">
+        <div class="section-label">Por que a Sety Studio</div>
+        <h2>Não criamos sites genéricos.<br>Criamos <span style="color:var(--blue)">lojas esportivas que vendem.</span></h2>
+        <p>Enquanto agências generalistas entregam templates, nós dominamos o nicho esportivo. Cada detalhe da sua loja — do layout ao checkout — é pensado para converter visitante em comprador de camisa.</p>
+
+        <div class="especialidades-list">
+          <div class="esp-item">
+            <div class="esp-check">✓</div>
+            Especialistas em Shopify e WooCommerce para moda esportiva
+          </div>
+          <div class="esp-item">
+            <div class="esp-check">✓</div>
+            Experiência com dropshipping de uniformes e camisas de time
+          </div>
+          <div class="esp-item">
+            <div class="esp-check">✓</div>
+            Checkout otimizado para aumentar taxa de conversão
+          </div>
+          <div class="esp-item">
+            <div class="esp-check">✓</div>
+            Integração nativa com Meta Ads e Google Analytics
+          </div>
+          <div class="esp-item">
+            <div class="esp-check">✓</div>
+            Suporte focado no crescimento da sua loja esportiva
+          </div>
+        </div>
+      </div>
+
+      <div class="especialistas-cards fade-in fade-in-delay-2">
+        <div class="esp-card">
+          <span class="esp-card-icon">⚽</span>
+          <h4>Lojas Shopify</h4>
+          <p>Plataforma premium para lojas de camisas e uniformes</p>
+        </div>
+        <div class="esp-card">
+          <span class="esp-card-icon">🛒</span>
+          <h4>WooCommerce</h4>
+          <p>E-commerce completo com controle total da sua loja</p>
+        </div>
+        <div class="esp-card">
+          <span class="esp-card-icon">👕</span>
+          <h4>Camisas de Time</h4>
+          <p>Estrutura especializada para vender camisas com volume</p>
+        </div>
+        <div class="esp-card">
+          <span class="esp-card-icon">🚚</span>
+          <h4>Dropshipping</h4>
+          <p>Loja pronta sem precisar ter estoque físico</p>
+        </div>
+        <div class="esp-card">
+          <span class="esp-card-icon">📊</span>
+          <h4>Meta Ads + Pixel</h4>
+          <p>Pixel instalado e pronto para campanhas de tráfego pago</p>
+        </div>
+        <div class="esp-card">
+          <span class="esp-card-icon">🎨</span>
+          <h4>Design Premium</h4>
+          <p>Visual que transmite autoridade e converte visitantes</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PACOTES ─── -->
+<section id="pacotes">
+  <div class="container">
+    <div class="pacotes-header fade-in">
+      <div class="section-label">Pacotes</div>
+      <h2>Escolha o plano ideal<br>para a sua loja esportiva</h2>
+      <p>Preços transparentes, sem taxas escondidas. Cada pacote inclui tudo que você precisa para começar a vender.</p>
+    </div>
+
+    <div class="pacotes-grid">
+
+      <!-- START -->
+      <div class="plan-card fade-in">
+        <div class="plan-name">START</div>
+        <div class="plan-desc">Ideal para quem está começando sua loja esportiva</div>
+        <div class="plan-price">
+          <span class="currency">R$</span>
+          <span class="amount">500</span>
+        </div>
+        <ul class="plan-items">
+          <li><span class="plan-check">✓</span> Site profissional personalizado</li>
+          <li><span class="plan-check">✓</span> Layout responsivo (mobile)</li>
+          <li><span class="plan-check">✓</span> Integração WhatsApp</li>
+          <li><span class="plan-check">✓</span> Banner principal</li>
+          <li><span class="plan-check">✓</span> Cadastro de até 50 produtos</li>
+          <li><span class="plan-check">✓</span> Configuração da loja</li>
+          <li><span class="plan-check">✓</span> Logotipo simples</li>
+          <li><span class="plan-check">✓</span> Suporte pós-entrega</li>
+        </ul>
+        <div class="plan-deadline">⏱ Prazo: 5 a 7 dias úteis</div>
+        <a href="https://wa.me/55SEUNUMERO?text=Quero%20o%20pacote%20START%20-%20R%24500" target="_blank" class="plan-btn plan-btn-outline">
+          Quero Minha Loja
+        </a>
+      </div>
+
+      <!-- PRO (DESTAQUE) -->
+      <div class="plan-card featured fade-in fade-in-delay-1">
+        <div class="plan-badge">🔥 MAIS ESCOLHIDO</div>
+        <div class="plan-name">PRO</div>
+        <div class="plan-desc">A escolha de quem quer uma loja profissional e completa</div>
+        <div class="plan-price">
+          <span class="currency">R$</span>
+          <span class="amount">1.200</span>
+        </div>
+        <ul class="plan-items">
+          <li><span class="plan-check">✓</span> Loja WooCommerce ou Shopify</li>
+          <li><span class="plan-check">✓</span> Checkout otimizado para conversão</li>
+          <li><span class="plan-check">✓</span> Pixel Meta Ads configurado</li>
+          <li><span class="plan-check">✓</span> Google Analytics integrado</li>
+          <li><span class="plan-check">✓</span> SEO otimizado</li>
+          <li><span class="plan-check">✓</span> Integração WhatsApp + Instagram</li>
+          <li><span class="plan-check">✓</span> Cadastro de até 200 produtos</li>
+          <li><span class="plan-check">✓</span> 4 banners personalizados</li>
+          <li><span class="plan-check">✓</span> Categorias organizadas</li>
+          <li><span class="plan-check">✓</span> Design premium exclusivo</li>
+          <li><span class="plan-check">✓</span> Estrutura profissional completa</li>
+          <li><span class="plan-check">✓</span> Suporte por 30 dias</li>
+        </ul>
+        <div class="plan-deadline" style="border-color:rgba(0,102,255,0.25); background:rgba(0,102,255,0.06);">⏱ Prazo: 7 a 10 dias úteis</div>
+        <a href="https://wa.me/55SEUNUMERO?text=Quero%20o%20pacote%20PRO%20-%20R%241.200" target="_blank" class="plan-btn plan-btn-primary">
+          Quero Minha Loja Profissional
+        </a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan-card fade-in fade-in-delay-2">
+        <div class="plan-name">PREMIUM</div>
+        <div class="plan-desc">Para grandes operações esportivas e marcas em crescimento</div>
+        <div class="plan-price">
+          <span class="amount consult">Sob Consulta</span>
+        </div>
+        <ul class="plan-items">
+          <li><span class="plan-check">✓</span> Loja completa e personalizada</li>
+          <li><span class="plan-check">✓</span> Mais de 500 produtos</li>
+          <li><span class="plan-check">✓</span> Importação em massa de produtos</li>
+          <li><span class="plan-check">✓</span> SEO avançado</li>
+          <li><span class="plan-check">✓</span> Estratégia de crescimento</li>
+          <li><span class="plan-check">✓</span> Automações de vendas</li>
+          <li><span class="plan-check">✓</span> Integração ERP</li>
+          <li><span class="plan-check">✓</span> Estrutura escalável</li>
+          <li><span class="plan-check">✓</span> Performance otimizada</li>
+          <li><span class="plan-check">✓</span> Consultoria especializada</li>
+        </ul>
+        <div class="plan-deadline">📞 Proposta personalizada em 24h</div>
+        <a href="https://wa.me/55SEUNUMERO?text=Quero%20o%20pacote%20PREMIUM%20-%20solicitar%20proposta" target="_blank" class="plan-btn plan-btn-outline">
+          Solicitar Proposta
+        </a>
+      </div>
+
+    </div>
+
+    <div class="pacotes-cta fade-in">
+      <p>Não sabe qual pacote escolher? Fale com a gente — indicamos o melhor para o seu caso.</p>
+      <a href="https://wa.me/55SEUNUMERO?text=Quero%20saber%20qual%20pacote%20%C3%A9%20ideal%20para%20minha%20loja" target="_blank" class="btn-ghost">Falar com especialista →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MID CTA ─── -->
+<div class="mid-cta">
+  <div class="container">
+    <h3>Pronto para ter a sua loja esportiva no ar?</h3>
+    <p>Lojas de camisas de time, uniformes e marcas esportivas. Entregamos em dias, não semanas.</p>
+    <div class="cta-row">
+      <a href="https://wa.me/55SEUNUMERO?text=Quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-primary">Quero vender online agora</a>
+      <a href="#portfolio" class="btn-ghost">Ver projetos entregues</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PORTFÓLIO ─── -->
+<section id="portfolio">
+  <div class="container">
+
+    <div class="portfolio-header fade-in">
+      <div class="section-label">Portfólio</div>
+      <h2>Projetos que já estão vendendo</h2>
+      <p>Lojas reais, rodando, gerando receita. Cada projeto foi construído do zero pela Sety Studio.</p>
+    </div>
+
+    <div class="portfolio-grid">
+
+      <!-- Lulu Imports -->
+      <div class="portfolio-card fade-in">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">luluimports.com.br</div>
+          </div>
+          <div class="browser-screen theme-lulu">
+            <span class="store-name">LULU IMPORTS</span>
+            <span class="store-type">Moda Esportiva</span>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-cat">WooCommerce · Moda Esportiva</div>
+          <h3>Lulu Imports</h3>
+          <p>Loja completa de moda esportiva com catálogo amplo, checkout otimizado e integração com redes sociais.</p>
+          <a href="https://luluimports.com.br" target="_blank" class="portfolio-link">
+            Visitar projeto <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Underz Store -->
+      <div class="portfolio-card fade-in fade-in-delay-1">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">loja.underzstore.com</div>
+          </div>
+          <div class="browser-screen theme-underz">
+            <span class="store-name">UNDERZ STORE</span>
+            <span class="store-type">Streetwear Esportivo</span>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-cat">Shopify · Streetwear Esportivo</div>
+          <h3>Underz Store</h3>
+          <p>E-commerce premium de streetwear esportivo com design exclusivo e experiência de compra diferenciada.</p>
+          <a href="https://loja.underzstore.com" target="_blank" class="portfolio-link">
+            Visitar projeto <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Vancir Sports -->
+      <div class="portfolio-card fade-in fade-in-delay-2">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">lojavancirsports.com.br</div>
+          </div>
+          <div class="browser-screen theme-vancir">
+            <span class="store-name">VANCIR SPORTS</span>
+            <span class="store-type">Equipamentos Esportivos</span>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-cat">WooCommerce · Equipamentos</div>
+          <h3>Vancir Sports</h3>
+          <p>Loja de equipamentos e artigos esportivos com catálogo de múltiplas categorias e logística integrada.</p>
+          <a href="https://lojavancirsports.com.br" target="_blank" class="portfolio-link">
+            Visitar projeto <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Manto Pro Oficial -->
+      <div class="portfolio-card fade-in">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">mantoprooficial.com.br</div>
+          </div>
+          <div class="browser-screen theme-manto">
+            <span class="store-name">MANTO PRO</span>
+            <span class="store-type">Camisas de Time</span>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-cat">Shopify · Camisas de Time</div>
+          <h3>Manto Pro Oficial</h3>
+          <p>Loja especializada em camisas de time com estrutura otimizada para alto volume de pedidos e SEO.</p>
+          <a href="https://mantoprooficial.com.br" target="_blank" class="portfolio-link">
+            Visitar projeto <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sport King Shop -->
+      <div class="portfolio-card fade-in fade-in-delay-1">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">sportkingshop.com.br</div>
+          </div>
+          <div class="browser-screen theme-sport">
+            <span class="store-name">SPORT KING</span>
+            <span class="store-type">Uniformes Esportivos</span>
+          </div>
+        </div>
+        <div class="portfolio-info">
+          <div class="portfolio-cat">WooCommerce · Uniformes</div>
+          <h3>Sport King Shop</h3>
+          <p>E-commerce de uniformes esportivos com sistema de personalização e checkout de alta conversão.</p>
+          <a href="https://sportkingshop.com.br" target="_blank" class="portfolio-link">
+            Visitar projeto <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CTA card -->
+      <div class="portfolio-card fade-in fade-in-delay-2" style="background:linear-gradient(160deg, rgba(0,102,255,0.1), rgba(0,102,255,0.04)); border-color:rgba(0,102,255,0.25); display:flex; align-items:center; justify-content:center; min-height:300px;">
+        <div style="text-align:center; padding:40px 32px;">
+          <div style="font-size:40px; margin-bottom:16px;">🚀</div>
+          <div class="portfolio-cat" style="text-align:center">Próximo projeto</div>
+          <h3 style="margin-bottom:12px; font-family:Montserrat,sans-serif; font-weight:900; font-size:18px;">Sua loja pode ser a próxima</h3>
+          <p style="font-size:13px; color:var(--gray); margin-bottom:24px; line-height:1.6">Vamos criar uma loja esportiva que realmente vende para o seu negócio.</p>
+          <a href="https://wa.me/55SEUNUMERO?text=Quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-primary" style="font-size:13px; padding:12px 24px;">Solicitar orçamento</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESSO ─── -->
+<section id="processo">
+  <div class="container">
+    <div class="processo-inner">
+
+      <div>
+        <div class="section-label fade-in">Como funciona</div>
+        <div class="processo-header fade-in">
+          <h2>Do briefing à loja no ar em dias, não semanas.</h2>
+          <p>Processo direto. Sem reunião infinita, sem escopo indefinido. Você aprova e a gente entrega.</p>
+        </div>
+
+        <div class="process-steps fade-in">
+          <div class="process-step">
+            <div class="step-circle">01</div>
+            <div>
+              <h4>Briefing rápido</h4>
+              <p>30 minutos via WhatsApp. Entendemos o seu nicho, o objetivo e o prazo desejado.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-circle">02</div>
+            <div>
+              <h4>Proposta em 24h</h4>
+              <p>Escopo fechado, prazo claro e preço definido. Sem surpresa depois de começar.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-circle">03</div>
+            <div>
+              <h4>Desenvolvimento da loja</h4>
+              <p>Montamos sua loja com produtos, banners, checkout e tudo configurado.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-circle">04</div>
+            <div>
+              <h4>No ar gerando vendas</h4>
+              <p>Deploy, treinamento e 30 dias de suporte. Você começa a vender imediatamente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="processo-visual fade-in fade-in-delay-2">
+        <div class="processo-big">7</div>
+        <h3>dias para sua loja<br>de camisas no ar.</h3>
+        <p>Enquanto uma agência comum ainda está em reunião de briefing, sua loja esportiva já está recebendo pedidos.</p>
+        <div class="processo-pill">
+          <span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          Lojas entregues toda semana
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROVA SOCIAL ─── -->
+<section id="prova-social">
+  <div class="container">
+
+    <div class="prova-header fade-in">
+      <div class="section-label">Resultados reais</div>
+      <h2>Números que provam o resultado</h2>
+      <p>Mais de 50 lojas esportivas criadas e rodando no Brasil. Dados reais, não promessa.</p>
+    </div>
+
+    <div class="stats-grid fade-in">
+      <div class="stat-box">
+        <div class="stat-num"><span class="counter accent" data-target="50" data-suffix="+">0</span></div>
+        <div class="stat-label">Lojas esportivas publicadas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><span class="counter accent" data-target="5000" data-suffix="+">0</span></div>
+        <div class="stat-label">Produtos cadastrados</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><span class="counter accent" data-target="3">0</span><span class="accent">★</span></div>
+        <div class="stat-label">Anos de experiência</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><span class="counter accent" data-target="100" data-suffix="%">0</span></div>
+        <div class="stat-label">Clientes satisfeitos</div>
+      </div>
+    </div>
+
+    <div class="stars-row">
+      <div class="star-card fade-in">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Em menos de uma semana já tinha minha loja de camisas no ar e recebendo pedidos. Superou todas as expectativas."</blockquote>
+        <div class="author">Carlos M.</div>
+        <div class="author-role">Loja de Camisas de Time</div>
+      </div>
+      <div class="star-card fade-in fade-in-delay-1">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Profissional demais. Design bonito, checkout configurado e Pixel do Facebook funcionando desde o primeiro dia."</blockquote>
+        <div class="author">Ana P.</div>
+        <div class="author-role">Dropshipping Esportivo</div>
+      </div>
+      <div class="star-card fade-in fade-in-delay-2">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Finalmente uma agência que entende do nicho esportivo. Minha loja de uniformes está convertendo muito melhor."</blockquote>
+        <div class="author">Rafael S.</div>
+        <div class="author-role">Uniformes Esportivos</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── CTA FINAL ─── -->
+<section id="cta-final">
+  <div class="container">
+    <div class="section-label fade-in">Próximo passo</div>
+    <h2 class="fade-in">Pronto para ter uma loja esportiva que<br><span class="gradient-text">realmente vende?</span></h2>
+    <p class="fade-in">Fale com a gente agora. Em 30 minutos você sabe exatamente o que precisa, quanto vai custar e quando fica pronto.</p>
+
+    <div class="cta-final-buttons fade-in">
+      <a href="https://wa.me/55SEUNUMERO?text=Ol%C3%A1%2C%20quero%20criar%20minha%20loja%20esportiva" target="_blank" class="btn-primary" style="font-size:16px; padding:18px 40px;">
+        🚀 Solicitar orçamento grátis
+      </a>
+      <a href="https://wa.me/55SEUNUMERO" target="_blank" class="btn-whatsapp" style="font-size:16px; padding:18px 40px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chamar no WhatsApp
+      </a>
+    </div>
+
+    <div class="cta-guarantee fade-in">🔒 Orçamento gratuito e sem compromisso · Resposta em até 24h</div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="logo">SETY<span style="color:var(--blue)">STUDIO</span></a>
+    <div class="footer-copy">© 2026 Sety Studio. Especialistas em lojas esportivas.</div>
+    <div class="footer-links">
+      <a href="https://instagram.com/setystudio" target="_blank">Instagram</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#pacotes">Pacotes</a>
+      <a href="https://wa.me/55SEUNUMERO" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── SCROLL FADE-IN ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* ── ANIMATED COUNTERS ── */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  let startTime = null;
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    el.textContent = current.toLocaleString('pt-BR') + (progress === 1 ? suffix : '');
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.style.background = window.scrollY > 50
+    ? 'rgba(5,10,20,0.97)'
+    : 'rgba(8,14,28,0.75)';
+});
+
+/* ── MOBILE MENU ── */
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+/* ── SMOOTH SCROLL PARA ÂNCORAS ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

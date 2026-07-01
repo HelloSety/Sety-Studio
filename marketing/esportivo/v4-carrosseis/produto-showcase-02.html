@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#07090e; }
+
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* Background tons frios — azul futebol */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 85% 65% at 30% 50%, rgba(10,18,40,0.9) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 80% 20%, rgba(8,20,48,0.7) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 65% 90%, rgba(6,10,24,0.95) 0%, transparent 52%),
+    linear-gradient(155deg, #080c18 0%, #06080f 45%, #050607 100%);
+}
+
+/* Grain */
+.grain {
+  position:absolute; inset:0; z-index:9; pointer-events:none; opacity:0.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* Glow azul no produto */
+.glow-product {
+  position:absolute; left:-60px; top:50%; transform:translateY(-50%); z-index:2;
+  width:680px; height:880px; pointer-events:none;
+  background:radial-gradient(ellipse, rgba(115,160,230,0.05) 0%, transparent 65%);
+}
+
+/* Linha azul no topo */
+.line-top {
+  position:absolute; top:0; left:0; right:0; z-index:10; height:1px;
+  background:linear-gradient(to right, transparent 0%, rgba(115,160,230,0.35) 25%, rgba(115,160,230,0.35) 65%, transparent 100%);
+}
+
+/* Header */
+.hdr {
+  position:absolute; top:44px; left:52px; right:52px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:4px; color:rgba(255,255,255,0.2); text-transform:uppercase;
+}
+
+/* ── LADO ESQUERDO: CAMISA 60% ── */
+.img-side {
+  position:absolute; left:0; top:0; bottom:0; z-index:5;
+  width:648px;
+  display:flex; align-items:center; justify-content:center;
+}
+.img-side img {
+  width:83%; object-fit:contain;
+  filter:brightness(1.05) contrast(1.05)
+         drop-shadow(0 28px 70px rgba(0,0,0,0.95))
+         drop-shadow(0 0 50px rgba(100,148,220,0.12));
+}
+
+/* Divisor vertical */
+.divider {
+  position:absolute; left:648px; top:90px; bottom:90px; z-index:10;
+  width:1px;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    rgba(255,255,255,0.07) 18%,
+    rgba(255,255,255,0.07) 82%,
+    transparent 100%
+  );
+}
+
+/* ── LADO DIREITO: TEXTO 40% ── */
+.txt-side {
+  position:absolute; right:0; top:0; bottom:0; z-index:5;
+  width:432px;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:0 52px 0 46px;
+}
+
+/* Badge azul */
+.badge {
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid rgba(100,148,220,0.25);
+  border-radius:2px; padding:7px 16px; margin-bottom:46px; width:fit-content;
+}
+.badge-dot { width:4px; height:4px; border-radius:50%; background:#6499DC; flex-shrink:0; }
+.badge-txt {
+  font-family:'Barlow',sans-serif; font-size:8px; font-weight:400;
+  letter-spacing:4px; color:rgba(100,148,220,0.65); text-transform:uppercase;
+}
+
+/* Headline */
+.hl { margin-bottom:34px; line-height:0.88; }
+.h-a { font-family:'Bebas Neue',sans-serif; font-size:80px; display:block; color:rgba(255,255,255,0.28); letter-spacing:3px; }
+.h-b { font-family:'Bebas Neue',sans-serif; font-size:118px; display:block; color:#fff; letter-spacing:-1px; }
+.h-c { font-family:'Bebas Neue',sans-serif; font-size:68px; display:block; color:#6499DC; letter-spacing:2px; }
+.h-d { font-family:'Bebas Neue',sans-serif; font-size:102px; display:block; color:#fff; letter-spacing:-1px; }
+.h-e { font-family:'Bebas Neue',sans-serif; font-size:80px; display:block; color:rgba(255,255,255,0.42); letter-spacing:1px; }
+
+/* Régua azul */
+.rule { width:32px; height:1px; background:#6499DC; opacity:0.5; margin-bottom:34px; }
+
+/* Copy */
+.copy {
+  font-family:'Barlow',sans-serif; font-size:12px; font-weight:300;
+  line-height:1.9; color:rgba(255,255,255,0.36); letter-spacing:0.3px;
+  margin-bottom:54px;
+}
+
+/* CTA */
+.cta { display:flex; align-items:center; gap:14px; }
+.cta-dash { width:22px; height:1px; background:#6499DC; opacity:0.45; flex-shrink:0; }
+.cta-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+
+/* Footer */
+.footer {
+  position:absolute; bottom:44px; right:52px; z-index:20;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.13); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="glow-product"></div>
+  <div class="grain"></div>
+  <div class="line-top"></div>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-txt">Seleções 2026</div>
+    <div class="hdr-txt">Empório Norte</div>
+  </div>
+
+  <!-- CAMISA (60%) -->
+  <div class="img-side">
+    <img src="file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/07-argentina-studio.png">
+  </div>
+
+  <!-- Divisor -->
+  <div class="divider"></div>
+
+  <!-- TEXTO (40%) -->
+  <div class="txt-side">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span class="badge-txt">Seleções</span>
+    </div>
+
+    <div class="hl">
+      <span class="h-a">mais que</span>
+      <span class="h-b">uma</span>
+      <span class="h-c">camisa</span>
+      <span class="h-d">é uma</span>
+      <span class="h-e">nação</span>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="copy">
+      Cada listra carrega o peso<br>
+      de milhões de histórias.<br>
+      Qual lado do campo é o seu?
+    </div>
+
+    <div class="cta">
+      <div class="cta-dash"></div>
+      <div class="cta-txt">Ver todas as seleções</div>
+    </div>
+  </div>
+
+  <div class="footer">@emporionortebelém</div>
+</div>
+</body>
+</html>

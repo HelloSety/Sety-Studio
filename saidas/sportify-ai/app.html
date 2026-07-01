@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sportify AI — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F1115;--card:#181C22;--hover:#232933;--border:#2E3642;
+  --text:#FFFFFF;--secondary:#A0A6B0;--green:#22C55E;--green-d:#16A34A;
+  --warn:#F59E0B;--blue:#3B82F6;--red:#EF4444;--purple:#A855F7;
+  --sidebar:220px;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;display:flex}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar);min-height:100vh;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:relative;z-index:10}
+.sb-logo{display:flex;align-items:center;gap:9px;padding:18px 16px;border-bottom:1px solid var(--border);font-size:15px;font-weight:700;letter-spacing:-.3px}
+.sb-icon{width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.sb-nav{flex:1;padding:10px 8px;overflow-y:auto}
+.nav-group{margin-bottom:6px}
+.nav-group-label{font-size:9px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:1.5px;padding:10px 10px 4px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--secondary);cursor:pointer;transition:all .15s;margin-bottom:1px;user-select:none}
+.ni:hover{background:var(--hover);color:var(--text)}
+.ni.active{background:rgba(34,197,94,.1);color:var(--green)}
+.ni-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.ni-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px}
+.ni-badge-green{background:var(--green);color:#000}
+.ni-badge-red{background:var(--red);color:#fff}
+.sb-user{padding:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px;cursor:pointer}
+.sb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;flex-shrink:0}
+.sb-uname{font-size:13px;font-weight:600}
+.sb-uplan{font-size:10px;color:var(--green);font-weight:600}
+.sb-chevron{margin-left:auto;font-size:10px;color:var(--secondary)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(15,17,21,.9);backdrop-filter:blur(16px);flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.credits-chip{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;font-size:12px;font-weight:700;color:var(--green)}
+.topbar-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--green);color:#000;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:background .2s;white-space:nowrap}
+.topbar-btn:hover{background:var(--green-d)}
+.content{flex:1;overflow-y:auto;padding:28px}
+
+/* ── SCREENS ── */
+.screen{display:none;animation:fadeIn .15s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── COMMON ── */
+.pg-title{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.pg-sub{font-size:13px;color:var(--secondary);margin-bottom:24px}
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-head h3{font-size:14px;font-weight:700}
+.section-head a{font-size:12px;color:var(--secondary);cursor:pointer;transition:color .2s}
+.section-head a:hover{color:var(--text)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.p20{padding:20px}
+.p24{padding:24px}
+.btn-outline{padding:9px 18px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all .2s}
+.btn-outline:hover{border-color:#4A5568;background:rgba(255,255,255,.04)}
+.btn-fill{padding:9px 18px;background:var(--green);border:none;border-radius:8px;font-size:13px;font-weight:700;color:#000;cursor:pointer;transition:background .2s}
+.btn-fill:hover{background:var(--green-d)}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700}
+.badge-green{background:rgba(34,197,94,.12);color:var(--green)}
+.badge-blue{background:rgba(59,130,246,.12);color:#60A5FA}
+.badge-amber{background:rgba(245,158,11,.12);color:var(--warn)}
+.badge-red{background:rgba(239,68,68,.12);color:var(--red)}
+.badge-purple{background:rgba(168,85,247,.12);color:var(--purple)}
+.badge-gray{background:rgba(107,114,128,.15);color:var(--secondary)}
+
+/* ── DASHBOARD HOME ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.g::after{background:var(--green)}
+.kpi.b::after{background:var(--blue)}
+.kpi.p::after{background:var(--purple)}
+.kpi.a::after{background:var(--warn)}
+.kpi-label{font-size:10px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.kpi-val{font-size:30px;font-weight:900;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+.kpi-change{font-size:11px;font-weight:600;color:var(--green)}
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.quick{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px}
+.quick:hover{border-color:#3A4250;background:var(--hover);transform:translateY(-2px)}
+.quick-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.quick-title{font-size:13px;font-weight:700}
+.quick-sub{font-size:11px;color:var(--secondary)}
+.recents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.recent{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.recent:hover{border-color:#3A4250}
+.recent-thumb{height:130px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.recent-fmt{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:600;color:var(--secondary)}
+.recent-info{padding:13px}
+.recent-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.recent-meta{font-size:11px;color:var(--secondary)}
+
+/* ── GANHAR DINHEIRO ── */
+.ganhar-hero{background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.2);border-radius:16px;padding:28px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.ganhar-hero-left h2{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.ganhar-hero-left p{font-size:14px;color:var(--secondary);max-width:480px;line-height:1.6}
+.ganhar-stats{display:flex;gap:28px;margin-top:18px}
+.ganhar-stat-val{font-size:22px;font-weight:800;color:var(--green);letter-spacing:-1px}
+.ganhar-stat-label{font-size:11px;color:var(--secondary)}
+.ganhar-featured-label{font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.opp-featured{background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:14px;padding:22px;margin-bottom:20px;display:flex;gap:20px;cursor:pointer;transition:all .2s}
+.opp-featured:hover{border-color:var(--green);background:rgba(34,197,94,.04)}
+.opp-featured-icon{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.opp-featured-body{flex:1}
+.opp-featured-tag{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.opp-featured-title{font-size:17px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+.opp-featured-desc{font-size:13px;color:var(--secondary);line-height:1.6;margin-bottom:14px}
+.opp-featured-meta{display:flex;gap:10px;flex-wrap:wrap}
+.opp-meta-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px}
+.opp-featured-cta{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:12px;flex-shrink:0}
+.opp-potential{text-align:right}
+.opp-potential-val{font-size:20px;font-weight:800;color:var(--green);letter-spacing:-1px}
+.opp-potential-label{font-size:11px;color:var(--secondary)}
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:12px}
+.opp-card:hover{border-color:#3A4250;background:var(--hover);transform:translateY(-2px)}
+.opp-card-top{display:flex;align-items:center;gap:12px}
+.opp-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.opp-card-info{}
+.opp-card-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.opp-card-when{font-size:11px;color:var(--secondary)}
+.opp-card-desc{font-size:12px;color:var(--secondary);line-height:1.5}
+.opp-card-footer{display:flex;align-items:center;justify-content:space-between}
+.opp-card-tags{display:flex;gap:5px;flex-wrap:wrap}
+.opp-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px}
+.opp-tag-hot{background:rgba(239,68,68,.12);color:var(--red)}
+.opp-tag-green{background:rgba(34,197,94,.12);color:var(--green)}
+.opp-tag-blue{background:rgba(59,130,246,.12);color:#60A5FA}
+.opp-tag-amber{background:rgba(245,158,11,.12);color:var(--warn)}
+.btn-gerar{padding:7px 14px;background:var(--green);border:none;border-radius:7px;font-size:12px;font-weight:700;color:#000;cursor:pointer;white-space:nowrap;transition:background .2s}
+.btn-gerar:hover{background:var(--green-d)}
+
+/* ── CRIAR CAMPANHA ── */
+.steps-bar{display:flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:28px}
+.step-tab{flex:1;padding:9px;text-align:center;border-radius:9px;font-size:12px;font-weight:600;color:var(--secondary);cursor:pointer;transition:all .2s}
+.step-tab .step-num{width:5px;height:5px;background:var(--border);border-radius:50%;margin:0 auto 5px}
+.step-tab.done .step-num{background:var(--green)}
+.step-tab.done{color:var(--green)}
+.step-tab.active{background:var(--hover);color:var(--text)}
+.step-tab.active .step-num{background:var(--green)}
+.step-panel{display:none}
+.step-panel.active{display:block;animation:fadeIn .15s ease}
+.opts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.opt{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .2s;text-align:center}
+.opt:hover{border-color:#3A4250;background:var(--hover)}
+.opt.sel{border-color:var(--green);background:rgba(34,197,94,.06)}
+.opt-ico{font-size:26px}
+.opt-title{font-size:14px;font-weight:700}
+.opt-sub{font-size:12px;color:var(--secondary)}
+.team-search{position:relative;margin-bottom:16px}
+.team-search input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 14px 11px 40px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit}
+.team-search input::placeholder{color:var(--secondary)}
+.team-search input:focus{border-color:var(--green)}
+.team-search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--secondary);font-size:14px}
+.teams-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:20px}
+.team-btn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .2s}
+.team-btn:hover{border-color:#3A4250}
+.team-btn.sel{border-color:var(--green);background:rgba(34,197,94,.06)}
+.team-flag{font-size:22px}
+.team-name{font-size:10px;font-weight:600;text-align:center;color:var(--secondary)}
+.team-btn.sel .team-name{color:var(--green)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.form-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit}
+.form-input::placeholder{color:#4A5568}
+.form-input:focus{border-color:var(--green)}
+.form-select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:14px;color:var(--text);outline:none;font-family:inherit;cursor:pointer;-webkit-appearance:none}
+.form-select:focus{border-color:var(--green)}
+.step-actions{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid var(--border);margin-top:24px}
+.btn-back{padding:10px 20px;background:transparent;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--secondary);cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-back:hover{color:var(--text);border-color:#4A5568}
+.btn-next{padding:10px 24px;background:var(--green);border:none;border-radius:8px;font-size:13px;font-weight:700;color:#000;cursor:pointer;transition:background .2s;font-family:inherit}
+.btn-next:hover{background:var(--green-d)}
+.gen-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;text-align:center}
+.gen-ring{width:64px;height:64px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-title{font-size:19px;font-weight:700;margin-bottom:8px}
+.gen-sub{font-size:13px;color:var(--secondary);margin-bottom:28px}
+.gen-steps-list{display:flex;flex-direction:column;gap:10px;text-align:left;width:300px}
+.gen-step{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--secondary)}
+.gen-step.done{color:var(--green)}
+.gen-check{width:20px;height:20px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.gen-step.done .gen-check{background:var(--green);color:#000}
+
+/* ── EDITOR ── */
+.editor-wrap{display:grid;grid-template-columns:1fr 300px;gap:16px;height:calc(100vh - 120px)}
+.canvas-area{background:#0A0D10;border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;overflow:hidden}
+.canvas-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.canvas-tools{display:flex;gap:3px;background:rgba(255,255,255,.04);border-radius:8px;padding:3px}
+.ctool{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;color:var(--secondary);cursor:pointer;transition:all .15s}
+.ctool:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.ctool.active{background:rgba(255,255,255,.08);color:var(--text)}
+.canvas-zoom{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--secondary)}
+.zoom-btn{background:none;border:none;color:var(--secondary);cursor:pointer;font-size:16px;padding:0 3px;line-height:1;transition:color .2s}
+.zoom-btn:hover{color:var(--text)}
+.canvas-body{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.art-preview{width:300px;height:300px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6);transition:box-shadow .2s}
+.art-preview:hover{box-shadow:0 28px 80px rgba(0,0,0,.7)}
+.art-sel-ring{position:absolute;inset:0;border:2px dashed rgba(34,197,94,.4);border-radius:16px;opacity:0;transition:opacity .2s;pointer-events:none}
+.art-preview:hover .art-sel-ring{opacity:1}
+.canvas-actions{position:absolute;bottom:16px;display:flex;gap:8px}
+.caction{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:inherit}
+.caction-sec{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--border)}
+.caction-sec:hover{background:rgba(255,255,255,.1)}
+.caction-pri{background:var(--green);color:#000}
+.caction-pri:hover{background:var(--green-d)}
+.editor-panel{display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+.ep-section{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ep-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px}
+.ep-body{padding:14px}
+.ai-copy-list{display:flex;flex-direction:column;gap:7px}
+.copy-opt{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:11px;cursor:pointer;font-size:12px;line-height:1.5;transition:all .2s}
+.copy-opt:hover{border-color:#3A4250}
+.copy-opt.active{border-color:var(--green);background:rgba(34,197,94,.06)}
+.copy-tag{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:4px}
+.copy-text{color:var(--secondary)}
+.copy-opt.active .copy-text{color:var(--text)}
+.swatches{display:flex;gap:7px;flex-wrap:wrap}
+.swatch{width:26px;height:26px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.swatch:hover,.swatch.active{border-color:var(--text);transform:scale(1.1)}
+.size-opts{display:flex;flex-direction:column;gap:5px}
+.size-opt{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:12px;transition:all .2s}
+.size-opt:hover,.size-opt.active{border-color:var(--green);background:rgba(34,197,94,.06)}
+.size-opt span{color:var(--secondary);font-size:10px}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.exp-btn{padding:9px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;border:none;font-family:inherit}
+.exp-sec{background:rgba(255,255,255,.04);color:var(--secondary);border:1px solid var(--border)}
+.exp-sec:hover{color:var(--text);border-color:#4A5568}
+.exp-pri{background:var(--green);color:#000}
+.exp-pri:hover{background:var(--green-d)}
+
+/* ── TRENDING ── */
+.trend-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.trend-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;cursor:pointer;transition:all .2s}
+.trend-card:hover{border-color:#3A4250;background:var(--hover)}
+.trend-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.trend-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.trend-spike{font-size:11px;font-weight:700;color:var(--green)}
+.trend-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.trend-sub{font-size:12px;color:var(--secondary);margin-bottom:14px;line-height:1.5}
+.trend-bar-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.trend-bar-track{flex:1;height:4px;background:var(--border);border-radius:100px;overflow:hidden}
+.trend-bar-fill{height:100%;border-radius:100px}
+.trend-bar-val{font-size:11px;font-weight:700;color:var(--secondary)}
+.trend-action{display:flex;align-items:center;justify-content:space-between}
+.trend-tags{display:flex;gap:5px}
+.trend-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(34,197,94,.1);color:var(--green)}
+.trend-news-list{display:flex;flex-direction:column;gap:2px}
+.trend-news{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s}
+.trend-news:hover{border-color:#3A4250;background:var(--hover)}
+.trend-news-num{font-size:18px;font-weight:900;color:var(--border);letter-spacing:-1px;width:32px;text-align:center;flex-shrink:0}
+.trend-news-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.trend-news-sub{font-size:11px;color:var(--secondary)}
+.trend-news-btn{margin-left:auto;padding:6px 13px;background:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;color:#000;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit}
+
+/* ── CALENDAR ── */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cal-nav{display:flex;align-items:center;gap:12px}
+.cal-nav-btn{width:32px;height:32px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--secondary);transition:all .2s}
+.cal-nav-btn:hover{border-color:#4A5568;color:var(--text)}
+.cal-month{font-size:16px;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day-name{text-align:center;font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;padding:10px 4px}
+.cal-day{background:var(--card);border:1px solid var(--border);border-radius:8px;min-height:80px;padding:8px;cursor:pointer;transition:all .2s;position:relative}
+.cal-day:hover{border-color:#3A4250;background:var(--hover)}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default}
+.cal-day.today{border-color:var(--green);background:rgba(34,197,94,.04)}
+.cal-day.has-event{border-color:rgba(34,197,94,.25)}
+.cal-day-num{font-size:12px;font-weight:700;margin-bottom:5px}
+.cal-day.today .cal-day-num{color:var(--green)}
+.cal-event{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ce-green{background:rgba(34,197,94,.15);color:var(--green)}
+.ce-blue{background:rgba(59,130,246,.15);color:#60A5FA}
+.ce-amber{background:rgba(245,158,11,.15);color:var(--warn)}
+.ce-red{background:rgba(239,68,68,.15);color:var(--red)}
+
+/* ── BIBLIOTECA ── */
+.lib-filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.lib-filter{padding:7px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--secondary);cursor:pointer;transition:all .2s}
+.lib-filter:hover{color:var(--text);border-color:#3A4250}
+.lib-filter.active{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:var(--green)}
+.lib-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.lib-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative}
+.lib-card:hover{border-color:#3A4250;transform:translateY(-2px)}
+.lib-card:hover .lib-overlay{opacity:1}
+.lib-thumb{height:160px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative}
+.lib-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;gap:8px}
+.lib-ov-btn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit}
+.lib-info{padding:13px}
+.lib-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.lib-meta{font-size:11px;color:var(--secondary)}
+.lib-pro{position:absolute;top:8px;right:8px;background:var(--warn);color:#000;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px}
+
+/* ── RELATÓRIO ── */
+.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.rel-kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.rel-kpi-label{font-size:10px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.rel-kpi-val{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px}
+.rel-kpi-sub{font-size:11px;color:var(--secondary)}
+.chart-area{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
+.chart-title{font-size:14px;font-weight:700;margin-bottom:18px}
+.bar-chart{display:flex;align-items:flex-end;gap:10px;height:120px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bar{width:100%;border-radius:4px 4px 0 0;transition:opacity .2s}
+.bar:hover{opacity:.8}
+.bar-lbl{font-size:9px;font-weight:600;color:var(--secondary)}
+.rel-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.camp-table{width:100%;border-collapse:collapse}
+.camp-table th{text-align:left;font-size:10px;font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.camp-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(46,54,66,.4)}
+.camp-table tr:last-child td{border-bottom:none}
+.camp-table tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ── CONFIGURAÇÕES ── */
+.config-layout{display:grid;grid-template-columns:200px 1fr;gap:20px}
+.config-nav{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px}
+.config-nav-item{padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--secondary);cursor:pointer;transition:all .15s}
+.config-nav-item:hover{background:var(--hover);color:var(--text)}
+.config-nav-item.active{background:rgba(34,197,94,.1);color:var(--green)}
+.config-section{display:none}
+.config-section.active{display:block}
+.config-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:14px}
+.config-card h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.config-card p{font-size:13px;color:var(--secondary);margin-bottom:20px;line-height:1.6}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
+.toggle-row:last-child{border-bottom:none;padding-bottom:0}
+.toggle-info h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.toggle-info p{font-size:12px;color:var(--secondary)}
+.toggle{width:40px;height:22px;background:var(--border);border-radius:100px;cursor:pointer;transition:background .2s;position:relative;flex-shrink:0}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+.toggle.on::after{transform:translateX(18px)}
+.plan-info{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.plan-name{font-size:16px;font-weight:800;margin-bottom:3px}
+.plan-price{font-size:13px;color:var(--secondary)}
+.danger-btn{padding:9px 18px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;font-size:13px;font-weight:600;color:var(--red);cursor:pointer;transition:all .2s;font-family:inherit}
+.danger-btn:hover{background:rgba(239,68,68,.15)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green);border-radius:10px;padding:13px 18px;display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:999;transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-ico{color:var(--green)}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:480px;max-width:95vw;padding:32px;box-shadow:0 32px 80px rgba(0,0,0,.6)}
+.modal h3{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+.modal p{font-size:14px;color:var(--secondary);line-height:1.6;margin-bottom:24px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+.modal-close{position:absolute;top:16px;right:16px}
+
+/* SCROLLBAR for content */
+.content::-webkit-scrollbar{width:5px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-icon">
+      <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+        <path d="M14 2L25 6.5V15.5C25 21.5 20 26 14 27C8 26 3 21.5 3 15.5V6.5L14 2Z" fill="rgba(0,0,0,.3)"/>
+        <path d="M15.5 8L10.5 17H14L12.5 20.5L17.5 11.5H14L15.5 8Z" fill="#000"/>
+      </svg>
+    </div>
+    Sportify AI
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-group">
+      <div class="nav-group-label">Principal</div>
+      <div class="ni active" onclick="go('home',this)"><span class="ni-icon">⊞</span> Dashboard</div>
+      <div class="ni" onclick="go('ganhar',this)">
+        <span class="ni-icon">💰</span> Ganhar Dinheiro
+        <span class="ni-badge ni-badge-green">8</span>
+      </div>
+      <div class="ni" onclick="go('criar',this)"><span class="ni-icon">✦</span> Criar Campanha</div>
+      <div class="ni" onclick="go('editor',this)"><span class="ni-icon">🎨</span> Editor</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Conteúdo</div>
+      <div class="ni" onclick="go('trending',this)"><span class="ni-icon">📈</span> Tendências</div>
+      <div class="ni" onclick="go('calendario',this)"><span class="ni-icon">📅</span> Calendário</div>
+      <div class="ni" onclick="go('biblioteca',this)"><span class="ni-icon">🗂</span> Biblioteca</div>
+      <div class="ni" onclick="go('relatorio',this)"><span class="ni-icon">📊</span> Relatório</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Conta</div>
+      <div class="ni" onclick="go('config',this)"><span class="ni-icon">⚙</span> Configurações</div>
+      <div class="ni" onclick="window.location='admin.html'"><span class="ni-icon">🔒</span> Admin</div>
+    </div>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-av">S</div>
+    <div>
+      <div class="sb-uname">Seven</div>
+      <div class="sb-uplan">Plano Pro</div>
+    </div>
+    <div class="sb-chevron">▾</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <div class="credits-chip">⚡ 180 créditos</div>
+      <button class="topbar-btn" onclick="go('criar', document.querySelector('.ni:nth-child(3)'))">+ Criar Campanha</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== HOME ===== -->
+    <div class="screen active" id="screen-home">
+      <div class="row">
+        <div>
+          <div class="pg-title">Bom dia, Seven 👋</div>
+          <div class="pg-sub">Você tem 180 créditos. 3 oportunidades urgentes hoje.</div>
+        </div>
+        <button class="btn-fill" onclick="go('ganhar')">Ver Oportunidades →</button>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi g"><div class="kpi-label">Artes Criadas</div><div class="kpi-val">124</div><div class="kpi-change">↑ +38% este mês</div></div>
+        <div class="kpi b"><div class="kpi-label">Campanhas</div><div class="kpi-val">18</div><div class="kpi-change">↑ +6 esta semana</div></div>
+        <div class="kpi p"><div class="kpi-label">Downloads</div><div class="kpi-val">310</div><div class="kpi-change">↑ +55% este mês</div></div>
+        <div class="kpi a"><div class="kpi-label">Créditos IA</div><div class="kpi-val">180</div><div class="kpi-change" style="color:var(--secondary);">de 300 totais</div></div>
+      </div>
+
+      <div class="section-head">
+        <h3>Criação Rápida</h3>
+      </div>
+      <div class="quick-grid">
+        <div class="quick" onclick="go('criar')">
+          <div class="quick-ico" style="background:rgba(34,197,94,.1)">📸</div>
+          <div><div class="quick-title">Post Feed</div><div class="quick-sub">1080×1080</div></div>
+        </div>
+        <div class="quick" onclick="go('criar')">
+          <div class="quick-ico" style="background:rgba(59,130,246,.1)">📱</div>
+          <div><div class="quick-title">Story</div><div class="quick-sub">1080×1920</div></div>
+        </div>
+        <div class="quick" onclick="go('criar')">
+          <div class="quick-ico" style="background:rgba(249,115,22,.1)">🎯</div>
+          <div><div class="quick-title">Anúncio Meta</div><div class="quick-sub">Criativos Ads</div></div>
+        </div>
+        <div class="quick" onclick="go('criar')">
+          <div class="quick-ico" style="background:rgba(168,85,247,.1)">🎬</div>
+          <div><div class="quick-title">Vídeo Curto</div><div class="quick-sub">Reels / TikTok</div></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h3>Criados Recentemente</h3>
+        <a onclick="go('biblioteca')">Ver todos →</a>
+      </div>
+      <div class="recents-grid">
+        <div class="recent" onclick="go('editor')">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#1A0A0A,#3D0000)">⚽<span class="recent-fmt">1:1</span></div>
+          <div class="recent-info"><div class="recent-title">Camisa Flamengo</div><div class="recent-meta">Hoje às 14h22</div></div>
+        </div>
+        <div class="recent" onclick="go('editor')">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#0A1A0A,#0D3800)">🥊<span class="recent-fmt">Story</span></div>
+          <div class="recent-info"><div class="recent-title">Promoção Boxing</div><div class="recent-meta">Hoje às 11h05</div></div>
+        </div>
+        <div class="recent" onclick="go('editor')">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#0A0A1A,#0D1060)">🏆<span class="recent-fmt">Banner</span></div>
+          <div class="recent-info"><div class="recent-title">Campeonato Gaúcho</div><div class="recent-meta">Ontem às 18h40</div></div>
+        </div>
+        <div class="recent" onclick="go('editor')">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#1A1500,#3A3000)">👟<span class="recent-fmt">Ads</span></div>
+          <div class="recent-info"><div class="recent-title">Nike Oferta</div><div class="recent-meta">Ontem às 15h12</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GANHAR DINHEIRO ===== -->
+    <div class="screen" id="screen-ganhar">
+      <div class="ganhar-hero">
+        <div class="ganhar-hero-left">
+          <h2>💰 Oportunidades de Venda</h2>
+          <p>A IA monitorou o calendário esportivo, redes sociais e tendências e encontrou <strong style="color:var(--green)">8 oportunidades</strong> para você faturar esta semana.</p>
+          <div class="ganhar-stats">
+            <div><div class="ganhar-stat-val">8</div><div class="ganhar-stat-label">Oportunidades</div></div>
+            <div><div class="ganhar-stat-val">3</div><div class="ganhar-stat-label">Urgentes</div></div>
+            <div><div class="ganhar-stat-val">+R$4.200</div><div class="ganhar-stat-label">Potencial estimado</div></div>
+          </div>
+        </div>
+        <button class="topbar-btn" style="font-size:14px;padding:12px 22px;" onclick="go('criar')">✦ Gerar Campanha</button>
+      </div>
+
+      <div class="ganhar-featured-label">⭐ Destaque da semana</div>
+      <div class="opp-featured" onclick="go('criar')">
+        <div class="opp-featured-icon" style="background:rgba(239,68,68,.12)">⚽</div>
+        <div class="opp-featured-body">
+          <div class="opp-featured-tag">🔥 Ultra Urgente · Jogo amanhã</div>
+          <div class="opp-featured-title">Flamengo vs Palmeiras — Copa do Brasil</div>
+          <div class="opp-featured-desc">Clássico nacional amanhã às 20h. Pico de buscas por camisas, acessórios e artigos do Fla já começou. Crie sua campanha agora e venda durante o jogo.</div>
+          <div class="opp-featured-meta">
+            <span class="opp-meta-tag" style="background:rgba(239,68,68,.12);color:var(--red)">🔥 Alta demanda</span>
+            <span class="opp-meta-tag" style="background:rgba(34,197,94,.12);color:var(--green)">Futebol</span>
+            <span class="opp-meta-tag" style="background:rgba(59,130,246,.12);color:#60A5FA">Copa do Brasil</span>
+            <span class="opp-meta-tag" style="background:rgba(245,158,11,.12);color:var(--warn)">⏰ 18h restantes</span>
+          </div>
+        </div>
+        <div class="opp-featured-cta">
+          <div class="opp-potential">
+            <div class="opp-potential-val">+R$1.800</div>
+            <div class="opp-potential-label">potencial</div>
+          </div>
+          <button class="btn-gerar" style="font-size:13px;padding:10px 20px;" onclick="event.stopPropagation();go('criar')">Gerar Campanha →</button>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h3>Todas as Oportunidades</h3>
+        <a>Filtrar por urgência</a>
+      </div>
+      <div class="opp-grid">
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(245,158,11,.12)">🏷</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Liquidação de Chuteiras</div>
+              <div class="opp-card-when">Esta semana</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Fim de temporada. Alta intenção de compra em chuteiras society e futsal. 3 templates prontos.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-amber">Promoção</span><span class="opp-tag opp-tag-green">Alta margem</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(59,130,246,.12)">🎒</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Volta às Aulas</div>
+              <div class="opp-card-when">Em 8 dias</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Uniformes, kits escolares e tênis. Pico de compras se aproximando. Campanha de antecipação converte 3x mais.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-blue">Sazonal</span><span class="opp-tag opp-tag-green">Uniforme</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(34,197,94,.12)">👕</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Camisas Personalizadas</div>
+              <div class="opp-card-when">Semana de jogos</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Tendência de personalização em alta no Instagram. Crie campanha mostrando seu processo e diferenciais.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-green">Trending</span><span class="opp-tag opp-tag-hot">🔥 +240%</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(168,85,247,.12)">🏆</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Campeonato Local</div>
+              <div class="opp-card-when">Próximo sábado</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Campeonato regional em 6 dias. Equipes buscam uniformes e acessórios. Campanha de kit completo converte.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-amber">Regional</span><span class="opp-tag opp-tag-blue">Kit</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(239,68,68,.12)">🖤</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Antecipe a Black Friday</div>
+              <div class="opp-card-when">Em 22 dias</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Lojas que divulgam antecipado têm 2x mais conversão. Monte sua lista VIP e crie expectativa agora.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-hot">🔥 Alta conversão</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+        <div class="opp-card" onclick="go('criar')">
+          <div class="opp-card-top">
+            <div class="opp-card-icon" style="background:rgba(59,130,246,.12)">🌍</div>
+            <div class="opp-card-info">
+              <div class="opp-card-title">Qualificatórias Copa 2026</div>
+              <div class="opp-card-when">Próxima semana</div>
+            </div>
+          </div>
+          <div class="opp-card-desc">Brasil joga pelas qualificatórias. Busca por camisa da seleção aumenta 400% nos dias de jogo.</div>
+          <div class="opp-card-footer">
+            <div class="opp-card-tags"><span class="opp-tag opp-tag-green">Seleção</span><span class="opp-tag opp-tag-hot">+400%</span></div>
+            <button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Gerar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CRIAR CAMPANHA ===== -->
+    <div class="screen" id="screen-criar">
+      <div class="pg-title">Criar Campanha</div>
+      <div class="pg-sub">A IA cria headline, copy, design e CTA automaticamente</div>
+
+      <div class="steps-bar">
+        <div class="step-tab done" onclick="goStep(1)" id="st1"><div class="step-num"></div>Esporte</div>
+        <div class="step-tab done" onclick="goStep(2)" id="st2"><div class="step-num"></div>Time</div>
+        <div class="step-tab active" onclick="goStep(3)" id="st3"><div class="step-num"></div>Tipo</div>
+        <div class="step-tab" onclick="goStep(4)" id="st4"><div class="step-num"></div>Objetivo</div>
+        <div class="step-tab" onclick="goStep(5)" id="st5"><div class="step-num"></div>Produto</div>
+        <div class="step-tab" id="st6"><div class="step-num"></div>Gerar</div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="step-panel" id="sp1">
+        <div class="opts-grid">
+          <div class="opt sel" onclick="selOpt(this)"><div class="opt-ico">⚽</div><div class="opt-title">Futebol</div><div class="opt-sub">Times, jogadores, campeonatos</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🏀</div><div class="opt-title">Basquete</div><div class="opt-sub">NBA, NBB, seleções</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🏐</div><div class="opt-title">Vôlei</div><div class="opt-sub">Superliga, seleções</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🏃</div><div class="opt-title">Corrida</div><div class="opt-sub">Maratonas, street run</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🏋️</div><div class="opt-title">Academia</div><div class="opt-sub">Fitness, crossfit</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🥊</div><div class="opt-title">Lutas</div><div class="opt-sub">Boxe, MMA, jiu-jitsu</div></div>
+        </div>
+        <div class="step-actions"><span></span><button class="btn-next" onclick="goStep(2)">Próximo →</button></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-panel" id="sp2">
+        <div class="team-search"><span class="team-search-ico">🔍</span><input type="text" placeholder="Pesquisar time ou clube..."></div>
+        <div class="teams-grid">
+          <div class="team-btn sel" onclick="selTeam(this)"><div class="team-flag">🔴⚫</div><div class="team-name">Flamengo</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">⚫⚪</div><div class="team-name">Corinthians</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🟢⚪</div><div class="team-name">Palmeiras</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔴⚪</div><div class="team-name">São Paulo</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔵🔴</div><div class="team-name">Barcelona</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">⚪🔵</div><div class="team-name">Real Madrid</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔵⚪</div><div class="team-name">Grêmio</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔴⚫🔵</div><div class="team-name">Atlético MG</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🟡🔵</div><div class="team-name">Brasil</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔵🔴⚪</div><div class="team-name">PSG</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">🔴⚪</div><div class="team-name">Liverpool</div></div>
+          <div class="team-btn" onclick="selTeam(this)"><div class="team-flag">➕</div><div class="team-name">Outro</div></div>
+        </div>
+        <div class="step-actions"><button class="btn-back" onclick="goStep(1)">← Voltar</button><button class="btn-next" onclick="goStep(3)">Próximo →</button></div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-panel active" id="sp3">
+        <div class="opts-grid">
+          <div class="opt sel" onclick="selOpt(this)"><div class="opt-ico">📸</div><div class="opt-title">Post Feed</div><div class="opt-sub">1080×1080 · 1080×1350</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">📱</div><div class="opt-title">Story</div><div class="opt-sub">1080×1920</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🖼</div><div class="opt-title">Banner</div><div class="opt-sub">1200×628</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🎯</div><div class="opt-title">Anúncio Meta</div><div class="opt-sub">Criativo para Ads</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">📲</div><div class="opt-title">TikTok Ads</div><div class="opt-sub">Vertical 9:16</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🎬</div><div class="opt-title">Vídeo</div><div class="opt-sub">Reels, TikTok, Shorts</div></div>
+        </div>
+        <div class="step-actions"><button class="btn-back" onclick="goStep(2)">← Voltar</button><button class="btn-next" onclick="goStep(4)">Próximo →</button></div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-panel" id="sp4">
+        <div class="opts-grid">
+          <div class="opt sel" onclick="selOpt(this)"><div class="opt-ico">🏷</div><div class="opt-title">Promoção</div><div class="opt-sub">Desconto, oferta especial</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🚀</div><div class="opt-title">Lançamento</div><div class="opt-sub">Novo produto ou coleção</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">⚡</div><div class="opt-title">Oferta Flash</div><div class="opt-sub">Urgência, tempo limitado</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🖤</div><div class="opt-title">Black Friday</div><div class="opt-sub">Campanha sazonal</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🗑</div><div class="opt-title">Liquidação</div><div class="opt-sub">Queima de estoque</div></div>
+          <div class="opt" onclick="selOpt(this)"><div class="opt-ico">🎟</div><div class="opt-title">Cupom</div><div class="opt-sub">Código desconto</div></div>
+        </div>
+        <div class="step-actions"><button class="btn-back" onclick="goStep(3)">← Voltar</button><button class="btn-next" onclick="goStep(5)">Próximo →</button></div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step-panel" id="sp5">
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Nome do Produto</label><input class="form-input" type="text" placeholder="Ex: Camisa Flamengo 2024" value="Camisa Flamengo Oficial"></div>
+          <div class="form-group"><label class="form-label">Preço Original</label><input class="form-input" type="text" placeholder="R$ 0,00" value="R$ 299,90"></div>
+          <div class="form-group"><label class="form-label">Desconto</label><input class="form-input" type="text" placeholder="Ex: 30% OFF" value="30% OFF"></div>
+          <div class="form-group"><label class="form-label">CTA Principal</label><input class="form-input" type="text" placeholder="Ex: Comprar Agora" value="Comprar Agora"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Público-alvo</label>
+          <select class="form-select"><option>Torcedores do Flamengo · 18-35 anos</option><option>Compradores de artigos esportivos</option><option>Presentes e datas comemorativas</option><option>Público geral esportivo</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Contexto adicional (opcional)</label><input class="form-input" type="text" placeholder="Ex: Jogo amanhã, post para criar urgência..."></div>
+        <div class="step-actions"><button class="btn-back" onclick="goStep(4)">← Voltar</button><button class="btn-next" onclick="startGen()">✦ Gerar com IA →</button></div>
+      </div>
+
+      <!-- Step 6 - Gerando -->
+      <div class="step-panel" id="sp6">
+        <div class="gen-screen">
+          <div class="gen-ring"></div>
+          <div class="gen-title">IA criando sua campanha...</div>
+          <div class="gen-sub">Analisando esporte, time e objetivo de conversão</div>
+          <div class="gen-steps-list">
+            <div class="gen-step done" id="gs1"><div class="gen-check">✓</div>Analisando contexto esportivo</div>
+            <div class="gen-step done" id="gs2"><div class="gen-check">✓</div>Gerando headline e copy</div>
+            <div class="gen-step" id="gs3"><div class="gen-check"></div>Criando design e layout</div>
+            <div class="gen-step" id="gs4"><div class="gen-check"></div>Otimizando para conversão</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EDITOR ===== -->
+    <div class="screen" id="screen-editor">
+      <div class="editor-wrap">
+        <div class="canvas-area">
+          <div class="canvas-toolbar">
+            <div class="canvas-tools">
+              <div class="ctool active" onclick="setTool(this)">Selecionar</div>
+              <div class="ctool" onclick="setTool(this)">Texto</div>
+              <div class="ctool" onclick="setTool(this)">Imagem</div>
+              <div class="ctool" onclick="setTool(this)">Forma</div>
+              <div class="ctool" onclick="setTool(this)">Logo</div>
+            </div>
+            <div class="canvas-zoom">
+              <button class="zoom-btn" onclick="changeZoom(-25)">−</button>
+              <span id="zoom-val">100%</span>
+              <button class="zoom-btn" onclick="changeZoom(25)">+</button>
+            </div>
+          </div>
+          <div class="canvas-body">
+            <div class="art-preview" style="background:linear-gradient(160deg,#1A0A0A,#3D0000)" onclick="showToast('Elemento selecionado — use o painel direito para editar')">
+              <div style="font-size:9px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase">⚡ Gerado por IA</div>
+              <div style="font-size:11px;font-weight:800;color:#FF4444;letter-spacing:2px;text-transform:uppercase">Flamengo</div>
+              <div style="font-size:48px;line-height:1">⚽</div>
+              <div style="font-size:20px;font-weight:900;text-align:center;letter-spacing:-.5px;line-height:1.1">CAMISA<br>OFICIAL</div>
+              <div style="background:#FF4444;color:#fff;font-size:26px;font-weight:900;padding:6px 16px;border-radius:8px;letter-spacing:-1px">R$ 299,90</div>
+              <div style="font-size:11px;color:rgba(255,80,80,.6);text-transform:uppercase;letter-spacing:1.5px;font-weight:600">30% OFF · Comprar Agora</div>
+              <div class="art-sel-ring"></div>
+            </div>
+            <div class="canvas-actions">
+              <button class="caction caction-sec" onclick="showToast('Nova variação gerada pela IA')">↻ Nova Variação</button>
+              <button class="caction caction-sec" onclick="showToast('Arte duplicada')">⊡ Duplicar</button>
+              <button class="caction caction-pri" onclick="showToast('PNG exportado com sucesso!')">⬇ Exportar PNG</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="editor-panel">
+          <div class="ep-section">
+            <div class="ep-head">Sugestões de Copy <span style="color:var(--green)">✦ IA</span></div>
+            <div class="ep-body">
+              <div class="ai-copy-list">
+                <div class="copy-opt active" onclick="selCopy(this)"><div class="copy-tag">Versão 1</div><div class="copy-text">Camisa Oficial Flamengo 30% OFF</div></div>
+                <div class="copy-opt" onclick="selCopy(this)"><div class="copy-tag">Versão 2</div><div class="copy-text">Vista a Camisa do Mengão por R$ 299</div></div>
+                <div class="copy-opt" onclick="selCopy(this)"><div class="copy-tag">Versão 3</div><div class="copy-text">Camisa Nova Nação 2024 — Edição Limitada</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ep-section">
+            <div class="ep-head">Cores</div>
+            <div class="ep-body">
+              <div class="swatches">
+                <div class="swatch active" style="background:#C00000" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#000" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#181C22" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#22C55E" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#3B82F6" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#F59E0B" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#A855F7" onclick="selSwatch(this)"></div>
+                <div class="swatch" style="background:#fff;border:1px solid var(--border)" onclick="selSwatch(this)"></div>
+              </div>
+            </div>
+          </div>
+          <div class="ep-section">
+            <div class="ep-head">Formato</div>
+            <div class="ep-body">
+              <div class="size-opts">
+                <div class="size-opt active" onclick="selSize(this)">Post Feed <span>1080×1080</span></div>
+                <div class="size-opt" onclick="selSize(this)">Story <span>1080×1920</span></div>
+                <div class="size-opt" onclick="selSize(this)">Banner <span>1200×628</span></div>
+                <div class="size-opt" onclick="selSize(this)">Anúncio Meta <span>1080×1080</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ep-section">
+            <div class="ep-head">Exportar</div>
+            <div class="ep-body">
+              <div class="export-grid">
+                <button class="exp-btn exp-pri" onclick="showToast('Exportando PNG...')">PNG</button>
+                <button class="exp-btn exp-sec" onclick="showToast('Exportando JPG...')">JPG</button>
+                <button class="exp-btn exp-sec" onclick="showToast('Exportando PDF...')">PDF</button>
+                <button class="exp-btn exp-sec" onclick="showToast('Link de compartilhamento copiado!')">Compartilhar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRENDING ===== -->
+    <div class="screen" id="screen-trending">
+      <div class="row">
+        <div><div class="pg-title">Tendências Esportivas</div><div class="pg-sub">Atualizado agora mesmo · Monitorando Google, Instagram e TikTok</div></div>
+        <button class="btn-outline" onclick="showToast('Tendências atualizadas!')">↻ Atualizar</button>
+      </div>
+      <div class="trend-grid">
+        <div class="trend-card" onclick="showToast('Abrindo campanha para Flamengo...');setTimeout(()=>go(\'criar\'),500)">
+          <div class="trend-top"><div class="trend-icon" style="background:rgba(239,68,68,.12)">⚽</div><div class="trend-spike">↑ +340% hoje</div></div>
+          <div class="trend-title">Flamengo — Jogo amanhã</div>
+          <div class="trend-sub">Copa do Brasil. Buscas por "camisa flamengo" e "kit flamengo" em pico histórico.</div>
+          <div class="trend-bar-wrap"><div class="trend-bar-track"><div class="trend-bar-fill" style="width:87%;background:var(--red)"></div></div><div class="trend-bar-val">87/100</div></div>
+          <div class="trend-action"><div class="trend-tags"><span class="trend-tag">Futebol</span><span class="trend-tag">Urgente</span></div><button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Criar Campanha</button></div>
+        </div>
+        <div class="trend-card" onclick="go('criar')">
+          <div class="trend-top"><div class="trend-icon" style="background:rgba(245,158,11,.12)">👟</div><div class="trend-spike">↑ +180% semana</div></div>
+          <div class="trend-title">Chuteiras Society — Fim de Temporada</div>
+          <div class="trend-sub">Busca por chuteiras em alta. Temporada fechando. Oportunidade de liquidação.</div>
+          <div class="trend-bar-wrap"><div class="trend-bar-track"><div class="trend-bar-fill" style="width:72%;background:var(--warn)"></div></div><div class="trend-bar-val">72/100</div></div>
+          <div class="trend-action"><div class="trend-tags"><span class="trend-tag">Calçados</span><span class="trend-tag">Promoção</span></div><button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Criar Campanha</button></div>
+        </div>
+        <div class="trend-card" onclick="go('criar')">
+          <div class="trend-top"><div class="trend-icon" style="background:rgba(59,130,246,.12)">🏋️</div><div class="trend-spike">↑ +95% mês</div></div>
+          <div class="trend-title">Academia — Início de Junho</div>
+          <div class="trend-sub">Meados do ano: pico de matrículas. Roupas, acessórios e suplementos em alta.</div>
+          <div class="trend-bar-wrap"><div class="trend-bar-track"><div class="trend-bar-fill" style="width:60%;background:var(--blue)"></div></div><div class="trend-bar-val">60/100</div></div>
+          <div class="trend-action"><div class="trend-tags"><span class="trend-tag">Academia</span><span class="trend-tag">Fitness</span></div><button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Criar Campanha</button></div>
+        </div>
+        <div class="trend-card" onclick="go('criar')">
+          <div class="trend-top"><div class="trend-icon" style="background:rgba(34,197,94,.12)">🌍</div><div class="trend-spike">↑ +220% próxima semana</div></div>
+          <div class="trend-title">Seleção Brasileira — Qualificatórias</div>
+          <div class="trend-sub">Brasil joga na próxima semana. Camisa da seleção sempre explode em buscas nos dias de jogo.</div>
+          <div class="trend-bar-wrap"><div class="trend-bar-track"><div class="trend-bar-fill" style="width:78%;background:var(--green)"></div></div><div class="trend-bar-val">78/100</div></div>
+          <div class="trend-action"><div class="trend-tags"><span class="trend-tag">Seleção</span><span class="trend-tag">Copa</span></div><button class="btn-gerar" onclick="event.stopPropagation();go('criar')">Criar Campanha</button></div>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:8px"><h3>Notícias que geram vendas</h3><a>Ver todas</a></div>
+      <div class="trend-news-list">
+        <div class="trend-news"><div class="trend-news-num">01</div><div><div class="trend-news-title">Flamengo vence e vai para as quartas da Copa do Brasil</div><div class="trend-news-sub">Torcida em euforia · Oportunidade de campanha comemorativa</div></div><button class="trend-news-btn" onclick="go('criar')">Criar Arte</button></div>
+        <div class="trend-news"><div class="trend-news-num">02</div><div><div class="trend-news-title">Nike lança linha de chuteiras para o segundo semestre</div><div class="trend-news-sub">Alta demanda prevista · Oportunidade de pré-venda</div></div><button class="trend-news-btn" onclick="go('criar')">Criar Arte</button></div>
+        <div class="trend-news"><div class="trend-news-num">03</div><div><div class="trend-news-title">Copa América 2026: confirmadas as datas dos jogos</div><div class="trend-news-sub">Campeonato em alta nas redes · Crie conteúdo do tema</div></div><button class="trend-news-btn" onclick="go('criar')">Criar Arte</button></div>
+        <div class="trend-news"><div class="trend-news-num">04</div><div><div class="trend-news-title">Fenômeno: uniformes personalizados viralizam no TikTok</div><div class="trend-news-sub">+1.2M visualizações · Nichos de personalização em alta</div></div><button class="trend-news-btn" onclick="go('criar')">Criar Arte</button></div>
+      </div>
+    </div>
+
+    <!-- ===== CALENDÁRIO ===== -->
+    <div class="screen" id="screen-calendario">
+      <div class="cal-header">
+        <div><div class="pg-title">Calendário de Conteúdo</div><div class="pg-sub">Junho 2026 · 14 conteúdos planejados</div></div>
+        <div class="cal-nav">
+          <div class="cal-nav-btn">‹</div>
+          <div class="cal-month">Junho 2026</div>
+          <div class="cal-nav-btn">›</div>
+          <button class="btn-fill" onclick="showToast('IA gerando 30 dias de conteúdo...')">✦ Gerar com IA</button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-day-name">Dom</div><div class="cal-day-name">Seg</div><div class="cal-day-name">Ter</div><div class="cal-day-name">Qua</div><div class="cal-day-name">Qui</div><div class="cal-day-name">Sex</div><div class="cal-day-name">Sáb</div>
+        <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+        <div class="cal-day has-event" onclick="showToast('Campeonato Gaúcho · Clique para criar arte')"><div class="cal-day-num">1</div><div class="cal-event ce-green">⚽ Camp. Gaúcho</div></div>
+        <div class="cal-day" onclick="showToast('Dia sem eventos · Clique para adicionar')"><div class="cal-day-num">2</div></div>
+        <div class="cal-day has-event" onclick="showToast('Post semanal planejado')"><div class="cal-day-num">3</div><div class="cal-event ce-blue">📸 Post Feed</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">4</div></div>
+        <div class="cal-day has-event" onclick="showToast('Story da semana')"><div class="cal-day-num">5</div><div class="cal-event ce-blue">📱 Story</div></div>
+        <div class="cal-day has-event" onclick="showToast('Jogo do Flamengo — crie campanha')"><div class="cal-day-num">6</div><div class="cal-event ce-red">🔥 Jogo Fla</div></div>
+        <div class="cal-day has-event" onclick="showToast('Promoção fim de semana')"><div class="cal-day-num">7</div><div class="cal-event ce-amber">🏷 Promoção</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">8</div></div>
+        <div class="cal-day has-event" onclick="showToast('Banner semanal')"><div class="cal-day-num">9</div><div class="cal-event ce-green">🖼 Banner</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">10</div></div>
+        <div class="cal-day has-event" onclick="showToast('Vídeo Reels planejado')"><div class="cal-day-num">11</div><div class="cal-event ce-blue">🎬 Reels</div></div>
+        <div class="cal-day has-event" onclick="showToast('Copa do Brasil — Alta demanda')"><div class="cal-day-num">12</div><div class="cal-event ce-red">🏆 Copa BR</div></div>
+        <div class="cal-day has-event" onclick="showToast('Promoção fim de semana')"><div class="cal-day-num">13</div><div class="cal-event ce-amber">🏷 Promoção</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">14</div></div>
+        <div class="cal-day has-event" onclick="showToast('Dia dos Pais — planeje antecipado')"><div class="cal-day-num">15</div><div class="cal-event ce-amber">🎁 Dia dos Pais</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">16</div></div>
+        <div class="cal-day has-event" onclick="showToast('Story planejado')"><div class="cal-day-num">17</div><div class="cal-event ce-blue">📱 Story</div></div>
+        <div class="cal-day has-event" onclick="showToast('Jogo da Seleção — crie campanha')"><div class="cal-day-num">18</div><div class="cal-event ce-green">🌍 Seleção BR</div></div>
+        <div class="cal-day has-event" onclick="showToast('Liquidação fim de semana')"><div class="cal-day-num">19</div><div class="cal-event ce-amber">🔥 Liquidação</div></div>
+        <div class="cal-day today" onclick="showModal()"><div class="cal-day-num">20</div><div class="cal-event ce-green">✦ Hoje</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">21</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">22</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">23</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">24</div></div>
+        <div class="cal-day has-event" onclick="showToast('São João — conteúdo temático')"><div class="cal-day-num">25</div><div class="cal-event ce-amber">🎆 S. João</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">26</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">27</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">28</div></div>
+        <div class="cal-day" onclick="showModal()"><div class="cal-day-num">29</div></div>
+        <div class="cal-day has-event" onclick="showToast('Promoção fim de mês')"><div class="cal-day-num">30</div><div class="cal-event ce-red">🏷 Fim de mês</div></div>
+      </div>
+    </div>
+
+    <!-- ===== BIBLIOTECA ===== -->
+    <div class="screen" id="screen-biblioteca">
+      <div class="row">
+        <div><div class="pg-title">Biblioteca de Templates</div><div class="pg-sub">1.200+ templates profissionais · Filtros por esporte e objetivo</div></div>
+        <button class="btn-fill" onclick="go('criar')">+ Criar do Zero</button>
+      </div>
+      <div class="lib-filters">
+        <div class="lib-filter active" onclick="setFilter(this)">Todos</div>
+        <div class="lib-filter" onclick="setFilter(this)">Futebol</div>
+        <div class="lib-filter" onclick="setFilter(this)">Basquete</div>
+        <div class="lib-filter" onclick="setFilter(this)">Academia</div>
+        <div class="lib-filter" onclick="setFilter(this)">Promoção</div>
+        <div class="lib-filter" onclick="setFilter(this)">Story</div>
+        <div class="lib-filter" onclick="setFilter(this)">Anúncio</div>
+        <div class="lib-filter" onclick="setFilter(this)">Vídeo</div>
+      </div>
+      <div class="lib-grid">
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#1A0A0A,#3D0000)">⚽<div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Promoção Futebol</div><div class="lib-meta">Post Feed · 1080×1080</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#0A1A0A,#1A4A1A)">🏀<div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Kit Basquete</div><div class="lib-meta">Post Feed · 1080×1080</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#0A0A1A,#1A1A4A)">🏋️<div class="lib-pro">PRO</div><div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Academia Premium</div><div class="lib-meta">Story · 1080×1920</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#1A1500,#4A3A00)">👟<div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Black Friday Calçados</div><div class="lib-meta">Anúncio Meta</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#1A0A1A,#3A1A3A)">🥊<div class="lib-pro">PRO</div><div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Lutas e Artes Marciais</div><div class="lib-meta">Story · 1080×1920</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#001A0A,#00401A)">🏆<div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Campeonato Regional</div><div class="lib-meta">Banner · 1200×628</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#1A1A00,#4A4A00)">🌍<div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Seleção Brasileira</div><div class="lib-meta">Post Feed · 1080×1350</div></div></div>
+        <div class="lib-card" onclick="go('editor')"><div class="lib-thumb" style="background:linear-gradient(135deg,#001A1A,#004040)">🏊<div class="lib-pro">PRO</div><div class="lib-overlay"><button class="lib-ov-btn" style="background:var(--green);color:#000">Usar</button><button class="lib-ov-btn" style="background:rgba(255,255,255,.1);color:#fff">Ver</button></div></div><div class="lib-info"><div class="lib-title">Natação e Aquático</div><div class="lib-meta">Anúncio TikTok</div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== RELATÓRIO ===== -->
+    <div class="screen" id="screen-relatorio">
+      <div class="row">
+        <div><div class="pg-title">Relatório de Performance</div><div class="pg-sub">Junho 2026 · Últimos 30 dias</div></div>
+        <button class="btn-outline" onclick="showToast('Relatório exportado em PDF!')">↓ Exportar PDF</button>
+      </div>
+      <div class="rel-grid">
+        <div class="rel-kpi"><div class="rel-kpi-label">Artes Criadas</div><div class="rel-kpi-val">124</div><div class="rel-kpi-sub" style="color:var(--green)">↑ +38% vs mês ant.</div></div>
+        <div class="rel-kpi"><div class="rel-kpi-label">Downloads</div><div class="rel-kpi-val">310</div><div class="rel-kpi-sub" style="color:var(--green)">↑ +55% vs mês ant.</div></div>
+        <div class="rel-kpi"><div class="rel-kpi-label">Campanhas</div><div class="rel-kpi-val">18</div><div class="rel-kpi-sub" style="color:var(--green)">↑ +6 esta semana</div></div>
+        <div class="rel-kpi"><div class="rel-kpi-label">ROI Estimado</div><div class="rel-kpi-val">R$4.2k</div><div class="rel-kpi-sub">vs R$97 investido</div></div>
+      </div>
+      <div class="chart-area">
+        <div class="chart-title">Artes Criadas — Últimos 6 Meses</div>
+        <div class="bar-chart">
+          <div class="bar-col"><div class="bar" style="height:35%;background:rgba(34,197,94,.3)"></div><div class="bar-lbl">Jan</div></div>
+          <div class="bar-col"><div class="bar" style="height:50%;background:rgba(34,197,94,.3)"></div><div class="bar-lbl">Fev</div></div>
+          <div class="bar-col"><div class="bar" style="height:42%;background:rgba(34,197,94,.3)"></div><div class="bar-lbl">Mar</div></div>
+          <div class="bar-col"><div class="bar" style="height:65%;background:rgba(34,197,94,.4)"></div><div class="bar-lbl">Abr</div></div>
+          <div class="bar-col"><div class="bar" style="height:78%;background:rgba(34,197,94,.5)"></div><div class="bar-lbl">Mai</div></div>
+          <div class="bar-col"><div class="bar" style="height:90%;background:var(--green)"></div><div class="bar-lbl">Jun</div></div>
+        </div>
+      </div>
+      <div class="rel-row">
+        <div class="card"><div class="p20"><div class="chart-title" style="margin-bottom:14px">Top Campanhas</div><table class="camp-table"><thead><tr><th>Campanha</th><th>Downloads</th><th>Status</th></tr></thead><tbody>
+          <tr><td>Camisa Flamengo 30%</td><td>47</td><td><span class="badge badge-green">Ativa</span></td></tr>
+          <tr><td>Black Friday Prévia</td><td>38</td><td><span class="badge badge-green">Ativa</span></td></tr>
+          <tr><td>Kit Copa do Mundo</td><td>31</td><td><span class="badge badge-gray">Encerrada</span></td></tr>
+          <tr><td>Promoção Chuteiras</td><td>28</td><td><span class="badge badge-green">Ativa</span></td></tr>
+          <tr><td>Uniforme Escolar</td><td>22</td><td><span class="badge badge-amber">Pausada</span></td></tr>
+        </tbody></table></div></div>
+        <div class="card"><div class="p20"><div class="chart-title" style="margin-bottom:14px">Distribuição por Tipo</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Post Feed</span><span style="font-weight:700">48%</span></div><div style="height:6px;background:var(--border);border-radius:100px"><div style="height:100%;width:48%;background:var(--green);border-radius:100px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Story</span><span style="font-weight:700">28%</span></div><div style="height:6px;background:var(--border);border-radius:100px"><div style="height:100%;width:28%;background:var(--blue);border-radius:100px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Anúncio</span><span style="font-weight:700">16%</span></div><div style="height:6px;background:var(--border);border-radius:100px"><div style="height:100%;width:16%;background:var(--purple);border-radius:100px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Vídeo</span><span style="font-weight:700">8%</span></div><div style="height:6px;background:var(--border);border-radius:100px"><div style="height:100%;width:8%;background:var(--warn);border-radius:100px"></div></div></div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CONFIGURAÇÕES ===== -->
+    <div class="screen" id="screen-config">
+      <div class="pg-title">Configurações</div>
+      <div class="pg-sub">Gerencie sua conta, plano e preferências</div>
+      <div class="config-layout">
+        <div class="config-nav">
+          <div class="config-nav-item active" onclick="setConfigTab('perfil',this)">Perfil</div>
+          <div class="config-nav-item" onclick="setConfigTab('plano',this)">Plano e Faturamento</div>
+          <div class="config-nav-item" onclick="setConfigTab('marca',this)">Identidade Visual</div>
+          <div class="config-nav-item" onclick="setConfigTab('notif',this)">Notificações</div>
+          <div class="config-nav-item" onclick="setConfigTab('conta',this)">Conta</div>
+        </div>
+        <div>
+          <div class="config-section active" id="cfg-perfil">
+            <div class="config-card">
+              <h3>Informações Pessoais</h3>
+              <p>Dados que aparecem no seu perfil e nas exportações.</p>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Nome</label><input class="form-input" value="Seven"></div>
+                <div class="form-group"><label class="form-label">E-mail</label><input class="form-input" value="sevendsgnn@gmail.com"></div>
+                <div class="form-group"><label class="form-label">Loja / Empresa</label><input class="form-input" value="Sety Studio"></div>
+                <div class="form-group"><label class="form-label">WhatsApp</label><input class="form-input" value="+55 (91) 99999-0000"></div>
+              </div>
+              <button class="btn-fill" onclick="showToast('Perfil salvo com sucesso!')">Salvar Alterações</button>
+            </div>
+          </div>
+          <div class="config-section" id="cfg-plano">
+            <div class="plan-info"><div><div class="plan-name">Plano Pro</div><div class="plan-price">R$97/mês · Renova em 20/07/2026</div></div><button class="btn-fill" onclick="showToast('Abrindo gerenciador de plano...')">Gerenciar</button></div>
+            <div class="config-card">
+              <h3>Uso dos Créditos</h3>
+              <p>Você usou 120 de 300 créditos este mês.</p>
+              <div style="height:8px;background:var(--border);border-radius:100px;margin-bottom:10px"><div style="height:100%;width:40%;background:var(--green);border-radius:100px"></div></div>
+              <div style="font-size:12px;color:var(--secondary)">120 usados · 180 restantes · Reinicia em 01/07/2026</div>
+            </div>
+          </div>
+          <div class="config-section" id="cfg-marca">
+            <div class="config-card">
+              <h3>Brand Kit</h3>
+              <p>Defina as cores e logo da sua marca para aplicar automaticamente nas artes.</p>
+              <div class="form-group"><label class="form-label">Logo</label><button class="btn-outline" style="width:100%" onclick="showToast('Selecione o arquivo de logo')">📎 Upload da Logo (PNG, SVG)</button></div>
+              <div class="form-group"><label class="form-label">Cor Principal</label><input class="form-input" value="#22C55E" type="text"></div>
+              <div class="form-group"><label class="form-label">Cor Secundária</label><input class="form-input" value="#0F1115" type="text"></div>
+              <div class="form-group"><label class="form-label">Nome da Marca</label><input class="form-input" value="Sety Studio" type="text"></div>
+              <button class="btn-fill" onclick="showToast('Brand Kit salvo!')">Salvar Brand Kit</button>
+            </div>
+          </div>
+          <div class="config-section" id="cfg-notif">
+            <div class="config-card">
+              <h3>Notificações</h3>
+              <p>Escolha quando e como ser notificado sobre oportunidades.</p>
+              <div class="toggle-row"><div class="toggle-info"><h4>Oportunidades de venda</h4><p>Alertas quando a IA encontrar uma oportunidade urgente</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div class="toggle-row"><div class="toggle-info"><h4>Jogos do meu time</h4><p>Notificação 24h antes dos jogos dos times favoritos</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div class="toggle-row"><div class="toggle-info"><h4>Tendências em alta</h4><p>Alertas quando um tema esportivo explode nas redes</p></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+              <div class="toggle-row"><div class="toggle-info"><h4>Relatório semanal</h4><p>Resumo de performance toda segunda-feira</p></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            </div>
+          </div>
+          <div class="config-section" id="cfg-conta">
+            <div class="config-card">
+              <h3>Segurança</h3>
+              <p>Gerencie senha e sessões da conta.</p>
+              <div class="form-group"><label class="form-label">Senha Atual</label><input class="form-input" type="password" placeholder="••••••••"></div>
+              <div class="form-group"><label class="form-label">Nova Senha</label><input class="form-input" type="password" placeholder="••••••••"></div>
+              <button class="btn-fill" onclick="showToast('Senha alterada com sucesso!')">Alterar Senha</button>
+            </div>
+            <div class="config-card">
+              <h3>Zona de Perigo</h3>
+              <p>Ações irreversíveis. Prossiga com cuidado.</p>
+              <button class="danger-btn" onclick="showToast('Entre em contato com suporte para cancelar')">Cancelar Assinatura</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-ico">✓</span><span id="toast-msg">Ação realizada</span></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>Adicionar ao Calendário</h3>
+    <p>Escolha o tipo de conteúdo para este dia e a IA vai gerar automaticamente.</p>
+    <div class="opts-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:0">
+      <div class="opt" onclick="closeModal();go('criar');showToast('Criando post para o dia selecionado...')"><div class="opt-ico">📸</div><div class="opt-title" style="font-size:12px">Post Feed</div></div>
+      <div class="opt" onclick="closeModal();go('criar');showToast('Criando story para o dia selecionado...')"><div class="opt-ico">📱</div><div class="opt-title" style="font-size:12px">Story</div></div>
+      <div class="opt" onclick="closeModal();go('criar');showToast('Criando anúncio para o dia selecionado...')"><div class="opt-ico">🎯</div><div class="opt-title" style="font-size:12px">Anúncio</div></div>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn-fill" onclick="closeModal();go('criar')">Criar com IA →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const titles = {home:'Dashboard',ganhar:'Ganhar Dinheiro',criar:'Criar Campanha',editor:'Editor',trending:'Tendências',calendario:'Calendário',biblioteca:'Biblioteca',relatorio:'Relatório',config:'Configurações'};
+let currentStep = 3;
+let genRunning = false;
+
+function go(name, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const match = [...document.querySelectorAll('.ni')].find(n => n.textContent.trim().toLowerCase().includes(Object.keys(titles).includes(name) ? name.replace('ganhar','ganhar').substring(0,4) : name));
+  if (match) match.classList.add('active');
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  if (name === 'criar') { currentStep = 3; renderStep(3); }
+}
+
+function renderStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('sp'+n).classList.add('active');
+  document.querySelectorAll('.step-tab').forEach((t,i) => {
+    t.classList.remove('active','done');
+    if (i+1 < n) t.classList.add('done');
+    else if (i+1 === n) t.classList.add('active');
+  });
+}
+
+function goStep(n) { if (genRunning) return; currentStep = n; renderStep(n); }
+
+function selOpt(el) {
+  el.closest('.opts-grid').querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function selTeam(el) {
+  el.closest('.teams-grid').querySelectorAll('.team-btn').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function startGen() {
+  goStep(6); genRunning = true;
+  const steps = ['gs1','gs2','gs3','gs4'];
+  steps.forEach((id,i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.add('done'); el.querySelector('.gen-check').textContent = '✓'; }
+    }, (i+1) * 700);
+  });
+  setTimeout(() => { genRunning = false; go('editor'); showToast('✦ Arte gerada com sucesso! Edite e exporte.'); }, 3800);
+}
+
+function setTool(el) { el.closest('.canvas-tools').querySelectorAll('.ctool').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+
+let zoom = 100;
+function changeZoom(d) { zoom = Math.max(25, Math.min(200, zoom + d)); document.getElementById('zoom-val').textContent = zoom + '%'; }
+
+function selCopy(el) { el.closest('.ai-copy-list').querySelectorAll('.copy-opt').forEach(c => c.classList.remove('active')); el.classList.add('active'); showToast('Copy aplicada na arte'); }
+function selSwatch(el) { el.closest('.swatches').querySelectorAll('.swatch').forEach(s => s.classList.remove('active')); el.classList.add('active'); showToast('Cor aplicada'); }
+function selSize(el) { el.closest('.size-opts').querySelectorAll('.size-opt').forEach(s => s.classList.remove('active')); el.classList.add('active'); showToast('Formato alterado'); }
+function setFilter(el) { el.closest('.lib-filters').querySelectorAll('.lib-filter').forEach(f => f.classList.remove('active')); el.classList.add('active'); }
+
+function setConfigTab(tab, el) {
+  document.querySelectorAll('.config-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.config-nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('cfg-'+tab).classList.add('active');
+  el.classList.add('active');
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function showModal() { document.getElementById('modal-bg').classList.add('open'); }
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+</script>
+</body>
+</html>

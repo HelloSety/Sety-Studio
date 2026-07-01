@@ -1,0 +1,42 @@
+﻿
+[05:56:03] Iniciando: C:\Users\seven\Downloads\PRODUTOS 2026.zip
+[05:56:03] FASE 1: extraindo inner zips para C:\Users\seven\MazyOS\_tmp_zips
+[05:56:03]   Clubes encontrados: 174
+[05:56:17]   Extraidos: 15 / 174
+[05:56:25]   Extraidos: 30 / 174
+[05:56:27]   Extraidos: 45 / 174
+[05:56:30]   Extraidos: 60 / 174
+[05:56:32]   Extraidos: 75 / 174
+[05:56:37]   Extraidos: 90 / 174
+[05:56:45]   Extraidos: 105 / 174
+[05:56:51]   Extraidos: 120 / 174
+[05:56:54]   Extraidos: 135 / 174
+[05:56:56]   Extraidos: 150 / 174
+[05:56:58]   Extraidos: 165 / 174
+[05:56:59]   Extraidos: 174 / 174
+[05:56:59] FASE 1 concluida
+[05:56:59] FASE 2: processando imagens (6 workers)
+[05:56:59]   174 jobs disparados, aguardando...
+[05:57:25]   Concluidos: 10 / 174
+[05:58:03]   Concluidos: 20 / 174
+[05:58:28]   Concluidos: 30 / 174
+[05:59:51]   Concluidos: 40 / 174
+[05:59:51]   Concluidos: 50 / 174
+[05:59:51]   Concluidos: 60 / 174
+[06:01:07]   Concluidos: 70 / 174
+[06:01:07]   Concluidos: 80 / 174
+[06:01:07]   Concluidos: 90 / 174
+[06:01:07]   Concluidos: 100 / 174
+[06:01:32]   Concluidos: 110 / 174
+[06:01:53]   Concluidos: 120 / 174
+[06:01:53]   Concluidos: 130 / 174
+[06:02:35]   Concluidos: 140 / 174
+[06:02:36]   Concluidos: 150 / 174
+[06:02:41]   Concluidos: 160 / 174
+[06:02:50]   Concluidos: 170 / 174
+[06:02:50]   Concluidos: 174 / 174
+[06:02:50] FASE 2 concluida - 3198 imagens
+[06:02:50] FASE 3: salvando CSV
+[06:02:50] CSV salvo: C:\Users\seven\MazyOS\saidas\imagens-manto-dos-craques.csv
+[06:02:50] Removendo temp C:\Users\seven\MazyOS\_tmp_zips
+[06:02:50] CONCLUIDO. Imagens: C:\Users\seven\MazyOS\imagens | CSV: C:\Users\seven\MazyOS\saidas\imagens-manto-dos-craques.csv

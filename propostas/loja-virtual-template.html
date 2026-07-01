@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta · Loja Virtual</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #0A0A0A;
+      --card:   #141414;
+      --bd:     rgba(255,255,255,0.1);
+      --txt:    #FFFFFF;
+      --muted:  rgba(255,255,255,0.42);
+      --red:    #FF2A2A;
+      --green:  #4ADE80;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Montserrat', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SLIDE ──────────────────────────────────────────────────────── */
+    .slide {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────────── */
+    .hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 44px;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    .hd-logo { height: 22px; }
+    .hd-logo-txt { font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
+
+    .hd-meta {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── BODY ────────────────────────────────────────────────────────── */
+    .body {
+      flex: 1;
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PILL ───────────────────────────────────────────────────────── */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      align-self: flex-start;
+      margin-bottom: 28px;
+    }
+    .pill-arrow { opacity: .4; }
+
+    /* ── TITLE ──────────────────────────────────────────────────────── */
+    .ttl {
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-style: italic;
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+
+    /* ── SERVIÇOS GRID ──────────────────────────────────────────────── */
+    .servicos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .srv {
+      border: 1px solid var(--bd);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .srv-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .srv-name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .srv-price {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .srv-price sup {
+      font-size: 14px;
+      font-weight: 700;
+      vertical-align: top;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    .srv-price .mes {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* ── ESCOPO ─────────────────────────────────────────────────────── */
+    .lbl {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .esc-ttl {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 10px;
+    }
+
+    .esc-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .esc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .esc-bloco {
+      border: 1px solid var(--bd);
+      padding: 22px;
+    }
+
+    .esc-bloco-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+
+    .esc-bloco-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .items li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.35;
+    }
+
+    .ic {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 8px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    .ft {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 44px;
+      border-top: 1px solid var(--bd);
+    }
+
+    .ft-num {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .ft-more {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SLIDE 3 — INVESTIMENTO ─────────────────────────────────────── */
+    .inv-ttl {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 10px;
+    }
+
+    .inv-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .inv-tabela {
+      border: 1px solid var(--bd);
+      margin-bottom: 24px;
+    }
+
+    .inv-linha {
+      display: grid;
+      grid-template-columns: 1fr 180px 160px;
+      padding: 16px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      align-items: center;
+    }
+
+    .inv-linha:last-child { border-bottom: none; }
+
+    .inv-linha.head {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .inv-head-txt {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .inv-srv {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .inv-tipo {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .inv-val {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .inv-val.green { color: var(--green); }
+
+    .inv-obs {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .cond-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .cond {
+      border: 1px solid var(--bd);
+      padding: 18px 22px;
+    }
+
+    .cond-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cond-txt {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .cta-row {
+      margin-top: auto;
+      padding-top: 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: var(--txt);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn.red {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .author { text-align: right; }
+    .author-name { font-size: 13px; font-weight: 700; }
+    .author-co { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .prazo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .prazo-badge span { color: var(--txt); font-weight: 800; }
+
+    @media print {
+      .slide { page-break-after: always; min-height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 1 — CAPA
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="pill">
+      <span id="client-pill">Nome do Cliente</span>
+      <span class="pill-arrow">→</span>
+      <span>Sety Studio</span>
+    </div>
+
+    <h1 class="ttl">Sua loja<br>vendendo<br>todo dia.</h1>
+
+    <p class="sub">Loja virtual profissional, tráfego pago gerenciado e atendimento automático 24h — tudo integrado para você vender mais gastando menos tempo.</p>
+
+    <div class="servicos">
+      <div class="srv">
+        <div class="srv-tag">Único</div>
+        <div class="srv-name">Criação da Loja Virtual</div>
+        <div class="srv-price"><sup>R$</sup>600</div>
+      </div>
+      <div class="srv">
+        <div class="srv-tag">Mensal</div>
+        <div class="srv-name">Gestão de Tráfego Pago</div>
+        <div class="srv-price"><sup>R$</sup>800<span class="mes">/mês</span></div>
+      </div>
+      <div class="srv">
+        <div class="srv-tag">Mensal</div>
+        <div class="srv-name">Chatbot Inteligente</div>
+        <div class="srv-price"><sup>R$</sup>90<span class="mes">/mês</span></div>
+      </div>
+      <div class="srv">
+        <div class="srv-tag">Mensal</div>
+        <div class="srv-name">Manutenção e Atualizações</div>
+        <div class="srv-price"><sup>R$</sup>150<span class="mes">/mês</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">01 / 03</span>
+    <span class="ft-more">CONTINUA →</span>
+  </footer>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 2 — ESCOPO
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date-2">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="lbl">O que está incluso</div>
+
+    <h2 class="esc-ttl">Escopo<br>completo.</h2>
+    <p class="esc-sub">Tudo que você precisa para ter uma presença digital que vende.</p>
+
+    <div class="esc-grid">
+      <div class="esc-bloco">
+        <div class="esc-bloco-tag">Loja Virtual · R$600</div>
+        <div class="esc-bloco-name">Criação da Loja</div>
+        <ul class="items">
+          <li><span class="ic">✓</span>Loja profissional e responsiva</li>
+          <li><span class="ic">✓</span>Layout moderno e personalizado</li>
+          <li><span class="ic">✓</span>Cadastro inicial de produtos</li>
+          <li><span class="ic">✓</span>Integração com WhatsApp</li>
+          <li><span class="ic">✓</span>Meios de pagamento configurados</li>
+          <li><span class="ic">✓</span>Frete configurado</li>
+          <li><span class="ic">✓</span>SEO básico</li>
+          <li><span class="ic">✓</span>Otimizado para mobile</li>
+        </ul>
+      </div>
+
+      <div class="esc-bloco">
+        <div class="esc-bloco-tag">Tráfego Pago · R$800/mês</div>
+        <div class="esc-bloco-name">Gestão de Anúncios</div>
+        <ul class="items">
+          <li><span class="ic">✓</span>Configuração do Meta Ads</li>
+          <li><span class="ic">✓</span>Planejamento estratégico</li>
+          <li><span class="ic">✓</span>Criação e gestão de anúncios</li>
+          <li><span class="ic">✓</span>Otimização contínua</li>
+          <li><span class="ic">✓</span>Relatórios de desempenho</li>
+          <li><span class="ic">✓</span>Suporte para conversão</li>
+        </ul>
+      </div>
+
+      <div class="esc-bloco">
+        <div class="esc-bloco-tag">Chatbot · R$90/mês</div>
+        <div class="esc-bloco-name">Atendimento 24h</div>
+        <ul class="items">
+          <li><span class="ic">✓</span>Atendimento automático 24h</li>
+          <li><span class="ic">✓</span>Respostas inteligentes</li>
+          <li><span class="ic">✓</span>Captação de leads</li>
+          <li><span class="ic">✓</span>Direcionamento para vendas</li>
+          <li><span class="ic">✓</span>Redução do tempo de atendimento</li>
+        </ul>
+      </div>
+
+      <div class="esc-bloco">
+        <div class="esc-bloco-tag">Manutenção · R$150/mês</div>
+        <div class="esc-bloco-name">Suporte Contínuo</div>
+        <ul class="items">
+          <li><span class="ic">✓</span>Atualizações do site</li>
+          <li><span class="ic">✓</span>Alteração de banners e textos</li>
+          <li><span class="ic">✓</span>Cadastro de novos produtos</li>
+          <li><span class="ic">✓</span>Correção de erros</li>
+          <li><span class="ic">✓</span>Backup e monitoramento</li>
+          <li><span class="ic">✓</span>Suporte técnico prioritário</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">02 / 03</span>
+    <span class="ft-more">CONTINUA →</span>
+  </footer>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 3 — INVESTIMENTO E CONDIÇÕES
+═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <header class="hd">
+    <img src="../identidade/logo-branco.png" alt="Sety Studio" class="hd-logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+    <span class="hd-logo-txt" style="display:none">Sety Studio</span>
+    <span class="hd-meta" id="hd-date-3">Proposta · Junho 2026</span>
+  </header>
+
+  <div class="body">
+    <div class="lbl">Investimento</div>
+
+    <h2 class="inv-ttl">Valores e<br>condições.</h2>
+    <p class="inv-sub">Transparente. Sem surpresas.</p>
+
+    <!-- Tabela de valores -->
+    <div class="inv-tabela">
+      <div class="inv-linha head">
+        <div class="inv-head-txt">Serviço</div>
+        <div class="inv-head-txt">Tipo</div>
+        <div class="inv-head-txt">Valor</div>
+      </div>
+      <div class="inv-linha">
+        <div>
+          <div class="inv-srv">Criação da Loja Virtual</div>
+          <div class="inv-obs">50% na aprovação · 50% na entrega</div>
+        </div>
+        <div class="inv-tipo">Único</div>
+        <div>
+          <div class="inv-val green">R$ 600</div>
+        </div>
+      </div>
+      <div class="inv-linha">
+        <div>
+          <div class="inv-srv">Gestão de Tráfego Pago</div>
+          <div class="inv-obs">Anúncios pagos direto ao Meta (não incluso)</div>
+        </div>
+        <div class="inv-tipo">Mensal</div>
+        <div>
+          <div class="inv-val">R$ 800<span style="font-size:12px; color:var(--muted); font-weight:500">/mês</span></div>
+        </div>
+      </div>
+      <div class="inv-linha">
+        <div>
+          <div class="inv-srv">Chatbot Inteligente</div>
+          <div class="inv-obs">Atendimento automático 24h</div>
+        </div>
+        <div class="inv-tipo">Mensal</div>
+        <div>
+          <div class="inv-val">R$ 90<span style="font-size:12px; color:var(--muted); font-weight:500">/mês</span></div>
+        </div>
+      </div>
+      <div class="inv-linha">
+        <div>
+          <div class="inv-srv">Manutenção e Atualizações</div>
+          <div class="inv-obs">Suporte técnico prioritário incluído</div>
+        </div>
+        <div class="inv-tipo">Mensal</div>
+        <div>
+          <div class="inv-val">R$ 150<span style="font-size:12px; color:var(--muted); font-weight:500">/mês</span></div>
+        </div>
+      </div>
+      <div class="inv-linha" style="background: rgba(255,255,255,0.03); border-top: 1px solid rgba(255,255,255,0.12);">
+        <div>
+          <div class="inv-srv" style="font-size:14px;">Total mensal</div>
+          <div class="inv-obs">Após entrega da loja</div>
+        </div>
+        <div class="inv-tipo">Recorrente</div>
+        <div>
+          <div class="inv-val green" style="font-size:26px;">R$ 1.040<span style="font-size:12px; color:var(--muted); font-weight:500">/mês</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Condições -->
+    <div class="cond-row">
+      <div class="cond">
+        <div class="cond-tag">Pagamento mensal</div>
+        <div class="cond-txt">Serviços mensais pagos antecipadamente a cada mês</div>
+      </div>
+      <div class="cond">
+        <div class="cond-tag">Prazo de entrega</div>
+        <div class="cond-txt">5 a 10 dias úteis após o envio do conteúdo</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="https://wa.me/5591" class="btn red">Fechou? Vamos começar →</a>
+      <div class="author">
+        <div class="author-name">Seven</div>
+        <div class="author-co">Sety Studio</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ft">
+    <span class="ft-num">03 / 03</span>
+  </footer>
+</section>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const cliente = params.get('cliente') || 'Nome do Cliente';
+  document.getElementById('client-pill').textContent = cliente;
+
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const now = new Date();
+  const label = `Proposta · ${meses[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('hd-date').textContent = label;
+  document.getElementById('hd-date-2').textContent = label;
+  document.getElementById('hd-date-3').textContent = label;
+</script>
+
+</body>
+</html>

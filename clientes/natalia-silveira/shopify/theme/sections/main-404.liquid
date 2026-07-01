@@ -1,0 +1,43 @@
+<div style="text-align:center;padding:120px 20px;">
+  <p style="font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:200;color:#E5E5E5;margin:0;">404</p>
+  <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:22px;letter-spacing:4px;margin:0 0 16px;">
+    {{ section.settings.title | default: 'PÁGINA NÃO ENCONTRADA' }}
+  </h1>
+  <p style="font-family:Jost,sans-serif;font-size:12px;color:#767676;letter-spacing:1px;margin-bottom:40px;">
+    {{ section.settings.body | default: 'A página que você procura não existe ou foi movida.' }}
+  </p>
+  <a href="{{ section.settings.button_link | default: routes.root_url }}" class="btn-fill">
+    {{ section.settings.button_text | default: 'VOLTAR PARA O INÍCIO' }}
+  </a>
+</div>
+
+{% schema %}
+{
+  "name": "Página 404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "PÁGINA NÃO ENCONTRADA"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Descrição",
+      "default": "A página que você procura não existe ou foi movida."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto do botão",
+      "default": "VOLTAR PARA O INÍCIO"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link do botão"
+    }
+  ]
+}
+{% endschema %}

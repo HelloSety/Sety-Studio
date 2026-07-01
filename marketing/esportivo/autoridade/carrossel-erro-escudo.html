@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,300;0,700;0,900;1,900&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; background:#000; font-family:'Barlow Condensed',sans-serif; }
+
+.slide {
+  width:1080px; height:1350px;
+  position:relative; overflow:hidden;
+  background:#080808;
+  display:flex; flex-direction:column;
+}
+
+/* ── ELEMENTOS GLOBAIS ── */
+.blade {
+  position:absolute; top:0; left:0; width:3px; height:100%; z-index:10;
+  background:linear-gradient(to bottom, transparent, #00E571 20%, #00E571 80%, transparent);
+}
+.hdr {
+  position:absolute; top:52px; left:60px; right:60px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-brand { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:6px; color:rgba(255,255,255,0.28); text-transform:uppercase; }
+.hdr-handle { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:4px; color:#00E571; text-transform:lowercase; }
+.ftr {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  padding:20px 60px 44px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.ftr-l { font-family:'Barlow',sans-serif; font-size:12px; font-weight:300; letter-spacing:5px; color:rgba(255,255,255,0.2); text-transform:uppercase; }
+.ftr-r { font-family:'Barlow',sans-serif; font-size:12px; font-weight:600; letter-spacing:4px; color:#00E571; text-transform:uppercase; }
+
+/* ── SLIDE 1: CAPA ── */
+.capa {
+  justify-content:center;
+  background: radial-gradient(ellipse at 30% 30%, rgba(0,229,113,0.08) 0%, transparent 55%), #080808;
+}
+.capa-lines {
+  position:absolute; inset:0; z-index:1;
+  background:repeating-linear-gradient(-55deg, transparent, transparent 60px, rgba(255,255,255,0.012) 60px, rgba(255,255,255,0.012) 61px);
+}
+.capa-num {
+  position:absolute; right:-10px; top:50%; transform:translateY(-50%); z-index:2;
+  font-size:700px; font-weight:900; line-height:1; letter-spacing:-30px;
+  color:rgba(255,255,255,0.04); user-select:none;
+}
+.capa-body { position:relative; z-index:10; padding:0 60px; }
+.capa-eye {
+  font-size:14px; font-weight:700; letter-spacing:7px; color:#00E571;
+  text-transform:uppercase; margin-bottom:28px;
+  display:flex; align-items:center; gap:16px;
+}
+.capa-eye::before { content:''; display:block; width:36px; height:2px; background:#00E571; }
+.capa-title {
+  font-size:148px; font-weight:900; line-height:0.85;
+  color:#fff; text-transform:uppercase; letter-spacing:-6px;
+}
+.capa-title em { color:#00E571; font-style:normal; display:block; }
+.capa-title span { font-weight:100; -webkit-text-stroke:1.5px rgba(255,255,255,0.3); color:transparent; display:block; }
+.capa-sub {
+  font-family:'Barlow',sans-serif; font-size:18px; font-weight:300;
+  letter-spacing:4px; color:rgba(255,255,255,0.38); text-transform:uppercase;
+  margin-top:36px;
+}
+
+/* ── SLIDES ERRO ── */
+.erro { justify-content:space-between; padding:0; }
+.erro-top {
+  padding:100px 60px 0; flex:1;
+  display:flex; flex-direction:column; justify-content:flex-start; padding-top:148px;
+}
+.erro-n {
+  font-size:22px; font-weight:700; letter-spacing:6px; color:#00E571;
+  text-transform:uppercase; margin-bottom:32px;
+  display:flex; align-items:center; gap:16px;
+}
+.erro-n::before { content:''; display:block; width:32px; height:2px; background:#00E571; }
+.erro-headline {
+  font-size:112px; font-weight:900; line-height:0.88;
+  color:#fff; text-transform:uppercase; letter-spacing:-4px;
+  margin-bottom:48px;
+}
+.erro-headline em { color:#00E571; font-style:normal; }
+.erro-body {
+  font-family:'Barlow',sans-serif; font-size:28px; font-weight:300; line-height:1.6;
+  color:rgba(255,255,255,0.65); max-width:880px;
+}
+.erro-body strong { color:#fff; font-weight:600; }
+
+.erro-callout {
+  margin-top:52px; padding:28px 36px;
+  border:1px solid rgba(0,229,113,0.25);
+  border-left:3px solid #00E571;
+  background:rgba(0,229,113,0.04);
+  max-width:840px;
+}
+.erro-callout-label {
+  font-size:11px; font-weight:700; letter-spacing:5px; color:#00E571;
+  text-transform:uppercase; margin-bottom:10px;
+}
+.erro-callout-text {
+  font-family:'Barlow',sans-serif; font-size:22px; font-weight:400; line-height:1.4;
+  color:rgba(255,255,255,0.75);
+}
+.erro-callout-text strong { color:#fff; font-weight:600; }
+
+.erro-divider {
+  height:1px; background:rgba(255,255,255,0.07);
+  margin:0 60px;
+}
+
+/* Número gigante de fundo */
+.bg-n {
+  position:absolute; right:-20px; top:50%; transform:translateY(-50%);
+  font-size:520px; font-weight:900; line-height:1; letter-spacing:-20px;
+  color:rgba(255,255,255,0.038); z-index:0; user-select:none;
+}
+
+/* ── SLIDE FINAL ── */
+.final {
+  justify-content:center; align-items:center; text-align:center;
+  background: radial-gradient(ellipse at 50% 45%, rgba(0,229,113,0.09) 0%, transparent 60%), #080808;
+}
+.final-lines {
+  position:absolute; inset:0; z-index:1;
+  background:repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(255,255,255,0.015) 119px, rgba(255,255,255,0.015) 120px);
+}
+.final-body { position:relative; z-index:10; padding:0 80px; }
+.final-q {
+  font-size:88px; font-weight:900; line-height:0.9;
+  color:#fff; text-transform:uppercase; letter-spacing:-3px; margin-bottom:12px;
+}
+.final-q em { color:#00E571; font-style:normal; }
+.final-sub {
+  font-family:'Barlow',sans-serif; font-size:22px; font-weight:300; letter-spacing:5px;
+  color:rgba(255,255,255,0.38); text-transform:uppercase; margin-bottom:60px;
+}
+.final-tag {
+  display:inline-flex; align-items:center; gap:12px;
+  background:rgba(0,229,113,0.1); border:1px solid rgba(0,229,113,0.3);
+  padding:16px 36px; border-radius:50px;
+  font-size:16px; font-weight:700; letter-spacing:4px;
+  color:#00E571; text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide capa">
+  <div class="blade"></div>
+  <div class="capa-lines"></div>
+  <div class="capa-num">5</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="capa-body">
+    <div class="capa-eye">Design Esportivo</div>
+    <div class="capa-title">
+      5 erros<br>
+      <em>que matam</em>
+      <span>qualquer escudo.</span>
+    </div>
+    <div class="capa-sub">90% dos clubes amadores cometem pelo menos 3</div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l">Salva esse post</div>
+    <div class="ftr-r">Desliza →</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: ERRO 1 -->
+<div class="slide erro">
+  <div class="blade"></div>
+  <div class="bg-n">1</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="erro-top">
+    <div class="erro-n">Erro #1</div>
+    <div class="erro-headline">Excesso<br>de <em>elementos.</em></div>
+    <div class="erro-body">
+      Um escudo não é uma arte. É uma <strong>marca</strong>.<br><br>
+      Quanto mais elemento você adiciona, menos o escudo funciona em tamanho pequeno, em bordado, em preto e branco.<br><br>
+      Os melhores escudos do mundo são reconhecidos em <strong>2 segundos</strong>. O seu é?
+    </div>
+    <div class="erro-callout">
+      <div class="erro-callout-label">Regra de ouro</div>
+      <div class="erro-callout-text">Se o escudo não funciona com <strong>3 elementos</strong>, ele não funciona em nenhum lugar.</div>
+    </div>
+  </div>
+  <div class="erro-divider"></div>
+  <div class="ftr">
+    <div class="ftr-l">Erros que matam um escudo</div>
+    <div class="ftr-r">1 / 5</div>
+  </div>
+</div>
+
+<!-- SLIDE 3: ERRO 2 -->
+<div class="slide erro">
+  <div class="blade"></div>
+  <div class="bg-n">2</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="erro-top">
+    <div class="erro-n">Erro #2</div>
+    <div class="erro-headline">Fonte<br><em>decorativa.</em></div>
+    <div class="erro-body">
+      Fontes com serifa fina, cursiva ou "artística" parecem bonitas na tela.<br><br>
+      No bordado de uma camisa P, ficam <strong>ilegíveis</strong>.<br><br>
+      Regra: se a fonte não funciona em negrito com 12px, não funciona no uniforme.
+    </div>
+    <div class="erro-callout">
+      <div class="erro-callout-label">Regra de ouro</div>
+      <div class="erro-callout-text">Use fontes <strong>sem serifa, condensadas e em peso bold</strong>. Elas sobrevivem em qualquer escala.</div>
+    </div>
+  </div>
+  <div class="erro-divider"></div>
+  <div class="ftr">
+    <div class="ftr-l">Erros que matam um escudo</div>
+    <div class="ftr-r">2 / 5</div>
+  </div>
+</div>
+
+<!-- SLIDE 4: ERRO 3 -->
+<div class="slide erro">
+  <div class="blade"></div>
+  <div class="bg-n">3</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="erro-top">
+    <div class="erro-n">Erro #3</div>
+    <div class="erro-headline">Cores<br>sem <em>contraste.</em></div>
+    <div class="erro-body">
+      Azul escuro sobre verde escuro. Vermelho sobre roxo. Laranja sobre amarelo.<br><br>
+      Funciona no Canva. <strong>Não funciona no campo.</strong><br><br>
+      Um escudo tem que ser legível sob sol forte, à distância e em preto e branco. Teste antes de aprovar.
+    </div>
+    <div class="erro-callout">
+      <div class="erro-callout-label">Regra de ouro</div>
+      <div class="erro-callout-text">Converta o escudo em <strong>preto e branco</strong> antes de aprovar. Se perder legibilidade, reprove.</div>
+    </div>
+  </div>
+  <div class="erro-divider"></div>
+  <div class="ftr">
+    <div class="ftr-l">Erros que matam um escudo</div>
+    <div class="ftr-r">3 / 5</div>
+  </div>
+</div>
+
+<!-- SLIDE 5: ERRO 4 -->
+<div class="slide erro">
+  <div class="blade"></div>
+  <div class="bg-n">4</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="erro-top">
+    <div class="erro-n">Erro #4</div>
+    <div class="erro-headline">Copiar<br><em>outros times.</em></div>
+    <div class="erro-body">
+      Flamengo estilizado. Corinthians com outras cores. Escudo do seu time favorito "adaptado".<br><br>
+      Isso não é identidade. É <strong>falta de identidade.</strong><br><br>
+      Os maiores clubes do mundo têm escudos únicos. O símbolo conta a história do time, não de outro.
+    </div>
+    <div class="erro-callout">
+      <div class="erro-callout-label">Regra de ouro</div>
+      <div class="erro-callout-text">Comece pelo <strong>nome, cidade e história</strong> do clube. O design vem depois — não o contrário.</div>
+    </div>
+  </div>
+  <div class="erro-divider"></div>
+  <div class="ftr">
+    <div class="ftr-l">Erros que matam um escudo</div>
+    <div class="ftr-r">4 / 5</div>
+  </div>
+</div>
+
+<!-- SLIDE 6: ERRO 5 -->
+<div class="slide erro">
+  <div class="blade"></div>
+  <div class="bg-n">5</div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio · Design Esportivo</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="erro-top">
+    <div class="erro-n">Erro #5</div>
+    <div class="erro-headline">Aprovar<br>no <em>celular.</em></div>
+    <div class="erro-body">
+      O escudo parece perfeito no WhatsApp. Aí vai pro bordado.<br><br>
+      Resultado: traços finos somem. Detalhes viram borrão. O que era sofisticado parece <strong>amador</strong>.<br><br>
+      Todo escudo precisa ser testado em preto e branco, em tamanho de 3cm e impresso antes da aprovação final.
+    </div>
+    <div class="erro-callout">
+      <div class="erro-callout-label">Regra de ouro</div>
+      <div class="erro-callout-text">Teste em <strong>3 tamanhos</strong>: thumbnail de redes sociais, bordado de camisa e banner de 3m.</div>
+    </div>
+  </div>
+  <div class="erro-divider"></div>
+  <div class="ftr">
+    <div class="ftr-l">Erros que matam um escudo</div>
+    <div class="ftr-r">5 / 5</div>
+  </div>
+</div>
+
+<!-- SLIDE 7: FINAL CTA -->
+<div class="slide final">
+  <div class="blade"></div>
+  <div class="final-lines"></div>
+  <div class="hdr">
+    <div class="hdr-brand">Sety Studio</div>
+    <div class="hdr-handle">@setystudio</div>
+  </div>
+  <div class="final-body">
+    <div class="final-q">Seu escudo<br>comete<br><em>algum desses?</em></div>
+    <div class="final-sub">Comenta o número abaixo ⬇</div>
+    <div class="final-tag">⚽ Salva pra não esquecer</div>
+  </div>
+  <div class="ftr">
+    <div class="ftr-l">Design Esportivo · Sety Studio</div>
+    <div class="ftr-r">@setystudio</div>
+  </div>
+</div>
+
+</body>
+</html>

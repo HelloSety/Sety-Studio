@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsFlow AI — Seu Vendedor no WhatsApp que Nunca Dorme</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06080E;--surface:#0C0F18;--card:#101420;--border:#1C2233;
+  --text:#E8ECF5;--muted:#566078;--subtle:#8892A8;
+  --indigo:#6366F1;--indigo-h:#4F46E5;--indigo-g:rgba(99,102,241,.12);
+  --green:#22C55E;--amber:#F59E0B;--red:#EF4444;--wa:#25D366;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(6,8,14,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(28,34,51,.8)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;letter-spacing:-.4px}
+.nav-logo-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--indigo),#818CF8);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;gap:10px;align-items:center}
+.btn{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;border:none;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid transparent}
+.btn-ghost:hover{color:var(--text);border-color:var(--border)}
+.btn-primary{background:var(--indigo);color:#fff}
+.btn-primary:hover{background:var(--indigo-h)}
+.btn-lg{padding:14px 28px;font-size:15px;border-radius:10px}
+.btn-wa{background:var(--wa);color:#000;font-weight:700}
+.btn-wa:hover{background:#1DB954}
+
+/* HERO */
+.hero{padding:160px 48px 100px;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(99,102,241,.14) 0%,transparent 65%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);border-radius:100px;font-size:12px;font-weight:600;color:#818CF8;margin-bottom:28px}
+.hero-badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:68px;font-weight:900;letter-spacing:-4px;line-height:.95;margin-bottom:24px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero h1 span{background:linear-gradient(135deg,var(--indigo),#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:20px;color:var(--subtle);max-width:560px;margin:0 auto 40px;line-height:1.7}
+.hero-ctas{display:flex;justify-content:center;gap:12px;margin-bottom:60px}
+
+/* PRODUCT PREVIEW */
+.preview-wrap{max-width:1100px;margin:0 auto;position:relative}
+.preview-glow{position:absolute;inset:-40px;background:radial-gradient(ellipse at 50% 100%,rgba(99,102,241,.15),transparent 60%);pointer-events:none}
+.preview-frame{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.8)}
+.preview-bar{height:36px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:8px}
+.preview-dot{width:10px;height:10px;border-radius:50%}
+.preview-url{flex:1;background:var(--card);border-radius:6px;height:22px;display:flex;align-items:center;padding:0 12px;font-size:11px;color:var(--muted);margin:0 80px}
+.preview-body{display:flex;height:560px}
+.mini-sidebar{width:200px;background:var(--surface);border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.mini-logo{display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:12px}
+.mini-logo-ic{width:24px;height:24px;background:linear-gradient(135deg,var(--indigo),#818CF8);border-radius:6px}
+.mini-logo-txt{font-size:13px;font-weight:700}
+.mini-nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;font-size:12px;color:var(--muted);cursor:pointer}
+.mini-nav-item.active{background:var(--indigo-g);color:var(--indigo);font-weight:600}
+.mini-nav-dot{width:14px;height:14px;border-radius:4px;background:var(--border);flex-shrink:0}
+.mini-nav-dot.green{background:rgba(34,197,94,.3)}
+.mini-nav-dot.indigo{background:rgba(99,102,241,.4)}
+.mini-nav-dot.amber{background:rgba(245,158,11,.3)}
+.mini-content{flex:1;padding:24px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.mini-h{font-size:18px;font-weight:800;letter-spacing:-.5px}
+.mini-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mini-kpi{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px}
+.mini-kpi-val{font-size:20px;font-weight:800;letter-spacing:-1px}
+.mini-kpi-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+.mini-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.mini-chart{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;height:140px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.mini-bars{display:flex;align-items:flex-end;gap:4px;height:90px}
+.mini-bar{flex:1;border-radius:3px 3px 0 0;min-height:6px}
+.mini-list{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px}
+.mini-list-title{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.mini-msg{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(28,34,51,.5)}
+.mini-msg:last-child{border-bottom:none}
+.mini-avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0}
+.mini-msg-info{flex:1;min-width:0}
+.mini-msg-name{font-size:10px;font-weight:600}
+.mini-msg-text{font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-badge{font-size:8px;font-weight:700;padding:2px 6px;border-radius:100px}
+.mini-badge-ai{background:rgba(99,102,241,.15);color:#818CF8}
+.mini-badge-hot{background:rgba(239,68,68,.12);color:var(--red)}
+.mini-badge-warm{background:rgba(245,158,11,.12);color:var(--amber)}
+
+/* LOGOS */
+.logos{padding:60px 48px;text-align:center}
+.logos p{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:32px}
+.logos-row{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap}
+.logo-item{font-size:15px;font-weight:800;color:rgba(255,255,255,.15);letter-spacing:-.5px}
+
+/* FEATURES */
+.features{padding:100px 48px;max-width:1200px;margin:0 auto}
+.section-eyebrow{font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;text-align:center}
+.section-title{font-size:44px;font-weight:900;letter-spacing:-2.5px;text-align:center;margin-bottom:12px}
+.section-sub{font-size:17px;color:var(--subtle);text-align:center;max-width:520px;margin:0 auto 60px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;transition:all .2s}
+.feature-card:hover{border-color:rgba(99,102,241,.3);transform:translateY(-2px)}
+.feature-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px}
+.feature-title{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+.feature-desc{font-size:14px;color:var(--subtle);line-height:1.7}
+
+/* HOW IT WORKS */
+.howitworks{padding:100px 48px;background:var(--surface);position:relative;overflow:hidden}
+.howitworks-inner{max-width:1000px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;position:relative;margin-top:60px}
+.steps::before{content:'';position:absolute;top:26px;left:calc(16%);right:calc(16%);height:1px;background:linear-gradient(90deg,var(--border),var(--indigo),var(--border))}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.step-num{width:52px;height:52px;border-radius:50%;background:var(--indigo);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;margin-bottom:20px;position:relative;z-index:1;box-shadow:0 0 0 8px var(--surface),0 0 0 9px rgba(99,102,241,.2)}
+.step-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+.step-desc{font-size:14px;color:var(--subtle);line-height:1.7;max-width:260px}
+
+/* METRICS */
+.metrics{padding:80px 48px;max-width:1100px;margin:0 auto}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.metric-item{text-align:center}
+.metric-val{font-size:52px;font-weight:900;letter-spacing:-3px;background:linear-gradient(135deg,var(--indigo),#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.metric-label{font-size:14px;color:var(--subtle);margin-top:4px}
+
+/* COMPARISON */
+.comparison{padding:100px 48px;max-width:900px;margin:0 auto}
+.comp-table{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:100%}
+.comp-table table{width:100%;border-collapse:collapse}
+.comp-table th{padding:16px 20px;font-size:13px;font-weight:700;background:var(--surface);border-bottom:1px solid var(--border)}
+.comp-table td{padding:14px 20px;font-size:13px;border-bottom:1px solid rgba(28,34,51,.5)}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table tr:hover td{background:rgba(28,34,51,.4)}
+.check{color:var(--green);font-weight:700}
+.cross{color:var(--red)}
+.wf-col{background:rgba(99,102,241,.04)}
+
+/* PRICING */
+.pricing{padding:100px 48px;max-width:1100px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:60px}
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:20px}
+.plan-card.popular{border-color:var(--indigo);position:relative}
+.plan-card.popular::before{content:'Mais Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--indigo);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:100px;white-space:nowrap}
+.plan-name{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.plan-price{font-size:40px;font-weight:900;letter-spacing:-2px}
+.plan-price span{font-size:16px;font-weight:500;color:var(--muted)}
+.plan-desc{font-size:13px;color:var(--subtle)}
+.plan-features{display:flex;flex-direction:column;gap:8px;flex:1}
+.plan-feat{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--subtle)}
+.plan-feat::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.plan-cta{padding:12px;text-align:center;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;border:none;text-decoration:none;display:block}
+
+/* TESTIMONIALS */
+.testimonials{padding:100px 48px;background:var(--surface);overflow:hidden}
+.testimonials-inner{max-width:1100px;margin:0 auto}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
+.testimonial-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px}
+.testimonial-quote{font-size:15px;color:var(--subtle);line-height:1.7;margin-bottom:24px}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-avatar{width:38px;height:38px;border-radius:50%;background:var(--indigo);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.testimonial-name{font-size:13px;font-weight:700}
+.testimonial-role{font-size:12px;color:var(--muted)}
+.stars{color:var(--amber);font-size:13px;margin-bottom:16px}
+
+/* FAQ */
+.faq{padding:100px 48px;max-width:720px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);padding:24px 0;cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600}
+.faq-icon{color:var(--muted);transition:transform .2s;font-size:18px}
+.faq-a{font-size:14px;color:var(--subtle);line-height:1.7;margin-top:14px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--indigo)}
+
+/* FINAL CTA */
+.final-cta{padding:100px 48px;text-align:center;position:relative;overflow:hidden}
+.final-cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(99,102,241,.12),transparent 60%);pointer-events:none}
+.final-cta h2{font-size:52px;font-weight:900;letter-spacing:-3px;margin-bottom:16px}
+.final-cta p{font-size:18px;color:var(--subtle);margin-bottom:40px}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:60px 48px 40px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand-desc{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.7}
+.footer-col-title{font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.footer-col a{display:block;font-size:14px;color:var(--muted);text-decoration:none;margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.07-1.35C8.44 21.51 10.18 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#fff"/></svg></div>
+    WhatsFlow AI
+  </div>
+  <div class="nav-links">
+    <a href="#features">Funcionalidades</a>
+    <a href="#howitworks">Como funciona</a>
+    <a href="#pricing">Preços</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <a href="admin.html" class="btn btn-ghost" style="color:#F87171;font-size:12px">Admin</a>
+    <a href="app.html" class="btn btn-ghost">Entrar</a>
+    <a href="app.html?new=1" class="btn btn-primary">Começar Grátis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge"><span class="hero-badge-dot"></span> IA Comercial para WhatsApp</div>
+  <h1>Seu vendedor no<br>WhatsApp que<br><span>nunca dorme.</span></h1>
+  <p class="hero-sub">Responde, qualifica, faz follow-up e agenda reuniões — tudo automaticamente. Mais vendas com menos trabalho humano.</p>
+  <div class="hero-ctas">
+    <a href="app.html?new=1" class="btn btn-primary btn-lg">Começar grátis — 14 dias</a>
+    <a href="#howitworks" class="btn btn-ghost btn-lg">Ver como funciona</a>
+  </div>
+
+  <!-- PRODUCT PREVIEW -->
+  <div class="preview-wrap">
+    <div class="preview-glow"></div>
+    <div class="preview-frame">
+      <div class="preview-bar">
+        <div class="preview-dot" style="background:#EF4444"></div>
+        <div class="preview-dot" style="background:#F59E0B"></div>
+        <div class="preview-dot" style="background:#22C55E"></div>
+        <div class="preview-url">app.whatsflow.ai/dashboard</div>
+      </div>
+      <div class="preview-body">
+        <div class="mini-sidebar">
+          <div class="mini-logo"><div class="mini-logo-ic"></div><div class="mini-logo-txt">WhatsFlow</div></div>
+          <div class="mini-nav-item active"><div class="mini-nav-dot indigo"></div>Dashboard</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot green"></div>Conversas</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot"></div>Leads</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot amber"></div>Follow-up</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot"></div>WhatsApp</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot indigo"></div>IA Config</div>
+          <div class="mini-nav-item"><div class="mini-nav-dot"></div>Planos</div>
+        </div>
+        <div class="mini-content">
+          <div class="mini-h">Visão Geral</div>
+          <div class="mini-kpis">
+            <div class="mini-kpi"><div class="mini-kpi-val" style="color:var(--indigo)">247</div><div class="mini-kpi-lbl">Conversas ativas</div></div>
+            <div class="mini-kpi"><div class="mini-kpi-val" style="color:var(--green)">89</div><div class="mini-kpi-lbl">Leads qualificados</div></div>
+            <div class="mini-kpi"><div class="mini-kpi-val" style="color:var(--amber)">1.240</div><div class="mini-kpi-lbl">Follow-ups enviados</div></div>
+            <div class="mini-kpi"><div class="mini-kpi-val" style="color:#A78BFA">R$34k</div><div class="mini-kpi-lbl">Receita recuperada</div></div>
+          </div>
+          <div class="mini-row">
+            <div class="mini-chart">
+              <div style="font-size:10px;font-weight:600;color:var(--muted);margin-bottom:6px">Conversas por dia</div>
+              <div class="mini-bars">
+                <div class="mini-bar" style="height:40%;background:var(--indigo);opacity:.4"></div>
+                <div class="mini-bar" style="height:55%;background:var(--indigo);opacity:.5"></div>
+                <div class="mini-bar" style="height:38%;background:var(--indigo);opacity:.4"></div>
+                <div class="mini-bar" style="height:70%;background:var(--indigo);opacity:.6"></div>
+                <div class="mini-bar" style="height:85%;background:var(--indigo);opacity:.7"></div>
+                <div class="mini-bar" style="height:62%;background:var(--indigo);opacity:.5"></div>
+                <div class="mini-bar" style="height:90%;background:var(--indigo)"></div>
+                <div class="mini-bar" style="height:75%;background:var(--indigo);opacity:.8"></div>
+                <div class="mini-bar" style="height:88%;background:var(--indigo);opacity:.9"></div>
+                <div class="mini-bar" style="height:95%;background:var(--indigo)"></div>
+              </div>
+            </div>
+            <div class="mini-list">
+              <div class="mini-list-title">Conversas recentes</div>
+              <div class="mini-msg">
+                <div class="mini-avatar" style="background:linear-gradient(135deg,#6366F1,#818CF8)"></div>
+                <div class="mini-msg-info"><div class="mini-msg-name">Carlos Mendes</div><div class="mini-msg-text">Quero saber mais sobre o plano...</div></div>
+                <span class="mini-badge mini-badge-hot">Quente</span>
+              </div>
+              <div class="mini-msg">
+                <div class="mini-avatar" style="background:linear-gradient(135deg,#22C55E,#16A34A)"></div>
+                <div class="mini-msg-info"><div class="mini-msg-name">Ana Paula Lima</div><div class="mini-msg-text">Pode me enviar a proposta?</div></div>
+                <span class="mini-badge mini-badge-ai">IA</span>
+              </div>
+              <div class="mini-msg">
+                <div class="mini-avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706)"></div>
+                <div class="mini-msg-info"><div class="mini-msg-name">Roberto Castro</div><div class="mini-msg-text">Qual o prazo de entrega?</div></div>
+                <span class="mini-badge mini-badge-warm">Morno</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos">
+  <p>Mais de 500 empresas já vendem mais com WhatsFlow AI</p>
+  <div class="logos-row">
+    <div class="logo-item">CLÍNICA SAÚDE+</div>
+    <div class="logo-item">IMÓVEIS REAIS</div>
+    <div class="logo-item">ESCOLA DIGITAL</div>
+    <div class="logo-item">FINTECH PRO</div>
+    <div class="logo-item">AUTO PEÇAS BH</div>
+    <div class="logo-item">SOLAR TECH</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+  <div class="section-eyebrow">Funcionalidades</div>
+  <h2 class="section-title">Tudo que um vendedor faz, mas 24h por dia</h2>
+  <p class="section-sub">Cada funcionalidade foi construída para gerar receita, não apenas para automatizar mensagens.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(99,102,241,.12)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="#6366F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="feature-title">IA de Atendimento</div>
+      <div class="feature-desc">Responde com contexto, histórico e persona configurável. Parece humano, nunca robô.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(34,197,94,.1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#22C55E" stroke-width="2"/><path d="M12 8v4l3 3" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="feature-title">Qualificação Automática</div>
+      <div class="feature-desc">Score de 0 a 100. Classifica leads em Frio, Morno e Quente sem intervenção humana.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(245,158,11,.1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="feature-title">Follow-up Automático</div>
+      <div class="feature-desc">Sequências personalizadas por dia. Recupera leads que ficaram sem resposta.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(167,139,250,.1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#A78BFA" stroke-width="2"/><path d="M3 9h18M9 21V9" stroke="#A78BFA" stroke-width="2"/></svg>
+      </div>
+      <div class="feature-title">CRM Integrado</div>
+      <div class="feature-desc">Pipeline com 7 etapas. Move leads automaticamente conforme a conversa evolui.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(239,68,68,.1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="feature-title">Recuperação de Vendas</div>
+      <div class="feature-desc">Detecta orçamentos abandonados e dispara campanhas para reativar conversas perdidas.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(34,211,238,.1)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#22D3EE" stroke-width="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#22D3EE" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="feature-title">Agendamento via IA</div>
+      <div class="feature-desc">Integração com Google Calendar. A IA agenda reuniões diretamente na conversa do WhatsApp.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks" class="howitworks">
+  <div class="howitworks-inner">
+    <div class="section-eyebrow">Como funciona</div>
+    <h2 class="section-title" style="text-align:center">3 passos para vender no piloto automático</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Conecte seu WhatsApp</div>
+        <div class="step-desc">Escaneie o QR Code. Leva menos de 2 minutos. Sem programação, sem técnico.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Configure a IA</div>
+        <div class="step-desc">Informe sobre sua empresa, produtos e FAQ. A IA aprende e se comporta como seu melhor vendedor.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Venda enquanto dorme</div>
+        <div class="step-desc">A IA responde, qualifica e faz follow-up 24/7. Você recebe os leads quentes prontos para fechar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="metrics" style="text-align:center">
+  <div class="section-eyebrow">Resultados reais</div>
+  <h2 class="section-title">Números que importam</h2>
+  <div class="metrics-grid" style="margin-top:48px">
+    <div class="metric-item"><div class="metric-val">+340%</div><div class="metric-label">Aumento médio na taxa de resposta</div></div>
+    <div class="metric-item"><div class="metric-val">R$2.4M</div><div class="metric-label">Em vendas recuperadas pelos clientes</div></div>
+    <div class="metric-item"><div class="metric-val">4.8s</div><div class="metric-label">Tempo médio de resposta da IA</div></div>
+    <div class="metric-item"><div class="metric-val">68%</div><div class="metric-label">Leads que respondem ao follow-up</div></div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison">
+  <div class="section-eyebrow">Comparativo</div>
+  <h2 class="section-title">WhatsFlow vs. As alternativas</h2>
+  <div class="comp-table" style="margin-top:48px">
+    <table>
+      <thead><tr>
+        <th style="text-align:left">Funcionalidade</th>
+        <th style="text-align:center;color:var(--indigo)">WhatsFlow AI</th>
+        <th style="text-align:center">SDR Humano</th>
+        <th style="text-align:center">Chatbot Simples</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Disponível 24/7</td><td class="wf-col" style="text-align:center"><span class="check">✓</span></td><td style="text-align:center"><span class="cross">✗</span></td><td style="text-align:center"><span class="check">✓</span></td></tr>
+        <tr><td>Entende contexto</td><td class="wf-col" style="text-align:center"><span class="check">✓</span></td><td style="text-align:center"><span class="check">✓</span></td><td style="text-align:center"><span class="cross">✗</span></td></tr>
+        <tr><td>Qualifica leads automaticamente</td><td class="wf-col" style="text-align:center"><span class="check">✓</span></td><td style="text-align:center">Parcial</td><td style="text-align:center"><span class="cross">✗</span></td></tr>
+        <tr><td>Follow-up automático</td><td class="wf-col" style="text-align:center"><span class="check">✓</span></td><td style="text-align:center"><span class="cross">✗</span></td><td style="text-align:center"><span class="cross">✗</span></td></tr>
+        <tr><td>CRM integrado</td><td class="wf-col" style="text-align:center"><span class="check">✓</span></td><td style="text-align:center">Separado</td><td style="text-align:center"><span class="cross">✗</span></td></tr>
+        <tr><td>Custo mensal</td><td class="wf-col" style="text-align:center;color:var(--green);font-weight:700">A partir de R$97</td><td style="text-align:center">R$3.500–5.000</td><td style="text-align:center">R$200–500</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing">
+  <div class="section-eyebrow">Preços</div>
+  <h2 class="section-title">Plano simples, resultado claro</h2>
+  <p class="section-sub">Cancele quando quiser. Sem fidelidade.</p>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">R$97<span>/mês</span></div>
+      <div class="plan-desc">Para testar e validar</div>
+      <div class="plan-features">
+        <div class="plan-feat">1 número WhatsApp</div>
+        <div class="plan-feat">500 mensagens IA/mês</div>
+        <div class="plan-feat">CRM básico</div>
+        <div class="plan-feat">Follow-up simples</div>
+        <div class="plan-feat">Suporte por email</div>
+      </div>
+      <a href="app.html?plan=starter" class="plan-cta" style="background:rgba(99,102,241,.12);color:var(--indigo);border:1px solid rgba(99,102,241,.2)">Começar grátis</a>
+    </div>
+    <div class="plan-card popular">
+      <div class="plan-name" style="color:var(--indigo)">Pro</div>
+      <div class="plan-price">R$197<span>/mês</span></div>
+      <div class="plan-desc">Para empresas em crescimento</div>
+      <div class="plan-features">
+        <div class="plan-feat">3 números WhatsApp</div>
+        <div class="plan-feat">5.000 mensagens IA/mês</div>
+        <div class="plan-feat">Knowledge base (RAG)</div>
+        <div class="plan-feat">Follow-up avançado</div>
+        <div class="plan-feat">Qualificação automática</div>
+        <div class="plan-feat">Suporte prioritário</div>
+      </div>
+      <a href="app.html?plan=pro" class="plan-cta" style="background:var(--indigo);color:#fff">Começar grátis</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Business</div>
+      <div class="plan-price">R$397<span>/mês</span></div>
+      <div class="plan-desc">Para operações maiores</div>
+      <div class="plan-features">
+        <div class="plan-feat">10 números WhatsApp</div>
+        <div class="plan-feat">20.000 mensagens IA/mês</div>
+        <div class="plan-feat">Google Calendar</div>
+        <div class="plan-feat">Recuperação de vendas</div>
+        <div class="plan-feat">Analytics avançado</div>
+        <div class="plan-feat">Suporte via WhatsApp</div>
+      </div>
+      <a href="app.html?plan=business" class="plan-cta" style="background:rgba(99,102,241,.12);color:var(--indigo);border:1px solid rgba(99,102,241,.2)">Começar grátis</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Agency</div>
+      <div class="plan-price">R$697<span>/mês</span></div>
+      <div class="plan-desc">Para agências e revendedores</div>
+      <div class="plan-features">
+        <div class="plan-feat">WhatsApps ilimitados</div>
+        <div class="plan-feat">Mensagens ilimitadas</div>
+        <div class="plan-feat">White-label</div>
+        <div class="plan-feat">API acesso completo</div>
+        <div class="plan-feat">Multi-clientes</div>
+        <div class="plan-feat">Suporte dedicado</div>
+      </div>
+      <a href="app.html?plan=agency" class="plan-cta" style="background:rgba(99,102,241,.12);color:var(--indigo);border:1px solid rgba(99,102,241,.2)">Falar com vendas</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="section-eyebrow">Depoimentos</div>
+    <h2 class="section-title" style="text-align:center">Quem usa não quer mais trabalhar sem</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-quote">"Em 3 semanas o WhatsFlow recuperou R$18.000 em vendas que eu achei que tinha perdido. O follow-up automático é inacreditável."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">CM</div>
+          <div><div class="testimonial-name">Carlos Mendes</div><div class="testimonial-role">Dono, Imóveis Reais SP</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-quote">"Minha clínica tem 3 atendentes e nenhuma delas aguentava responder WhatsApp 24h. O WhatsFlow resolve isso com uma IA que parece humana."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#22C55E,#16A34A)">AP</div>
+          <div><div class="testimonial-name">Dra. Ana Paula Lima</div><div class="testimonial-role">Diretora, Clínica Saúde+</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-quote">"Uso para a agência e revendo para clientes. É literalmente dinheiro no bolso todo mês. A funcionalidade de white-label é perfeita."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706)">RC</div>
+          <div><div class="testimonial-name">Roberto Castro</div><div class="testimonial-role">CEO, Digital Agency PRO</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="faq">
+  <div class="section-eyebrow">Perguntas frequentes</div>
+  <h2 class="section-title" style="text-align:center;margin-bottom:48px">Dúvidas comuns</h2>
+  <div class="faq-item open" onclick="toggleFaq(this)">
+    <div class="faq-q">Funciona com qualquer número de WhatsApp? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Sim. Você conecta qualquer número via QR Code. Funciona com WhatsApp pessoal e Business. Não precisa de aprovação da Meta.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">A IA vai responder igual a um humano? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Sim. A IA aprende sobre sua empresa, seus produtos e seu tom de voz. As respostas são contextuais e naturais — os clientes não percebem que é IA.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Posso pausar a IA e assumir a conversa manualmente? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Sim, com um clique. Você assume o controle quando quiser e pode devolver para a IA quando terminar. Perfeito para conversas mais complexas.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Posso cancelar a qualquer momento? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Sim. Sem fidelidade, sem multa. Você cancela pelo painel com um clique e não é cobrado no próximo mês.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Tem período de teste gratuito? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Sim, 14 dias grátis. Cartão de crédito só é solicitado ao fim do período de teste, se você quiser continuar.</div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-glow"></div>
+  <div style="position:relative">
+    <h2>Pronto para vender<br>no piloto automático?</h2>
+    <p>14 dias grátis. Sem cartão de crédito. Cancele quando quiser.</p>
+    <div style="display:flex;justify-content:center;gap:12px">
+      <a href="app.html?new=1" class="btn btn-primary btn-lg">Criar conta grátis</a>
+      <a href="app.html" class="btn btn-ghost btn-lg">Ver demonstração</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo" style="margin-bottom:0">
+          <div class="nav-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.07-1.35C8.44 21.51 10.18 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#fff"/></svg></div>
+          WhatsFlow AI
+        </div>
+        <p class="footer-brand-desc">A IA que transforma conversas de WhatsApp em vendas reais. 24 horas por dia, 7 dias por semana.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Produto</div>
+        <a href="#features">Funcionalidades</a>
+        <a href="#pricing">Preços</a>
+        <a href="app.html">Demo</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Empresa</div>
+        <a href="#">Sobre nós</a>
+        <a href="#">Blog</a>
+        <a href="#">Afiliados</a>
+        <a href="#">Carreiras</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Suporte</div>
+        <a href="#">Documentação</a>
+        <a href="#">Status</a>
+        <a href="#">Contato</a>
+        <a href="#">Termos de uso</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 WhatsFlow AI. Todos os direitos reservados.</span>
+      <span>Feito com IA pela Sety Studio</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el){
+  el.classList.toggle('open');
+}
+
+// Smooth scroll para links âncora
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'})}
+  });
+});
+
+// Navbar transparente → sólida ao scrollar
+window.addEventListener('scroll',()=>{
+  const nav=document.querySelector('nav');
+  if(window.scrollY>60){nav.style.borderBottomColor='rgba(28,34,51,.9)'}
+  else{nav.style.borderBottomColor='rgba(28,34,51,.8)'}
+});
+</script>
+</body>
+</html>

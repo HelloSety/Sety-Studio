@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#F2EFE9; }
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+.grid {
+  position:absolute; inset:0; z-index:1;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.022) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.ghost {
+  position:absolute; right:-30px; bottom:-70px; z-index:2; pointer-events:none;
+  font-family:'Bebas Neue',sans-serif; font-size:640px; line-height:1;
+  color:rgba(0,0,0,0.04); user-select:none;
+}
+
+.top-bar {
+  position:absolute; top:0; left:0; right:0; z-index:20;
+  height:64px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 52px; border-bottom:1px solid rgba(0,0,0,0.07);
+}
+.brand { display:flex; align-items:center; }
+.brand-bar { width:6px; height:30px; background:#E85D00; }
+.brand-txt {
+  font-family:'Barlow',sans-serif; font-weight:700; font-size:9px;
+  letter-spacing:4px; color:rgba(0,0,0,0.35); text-transform:uppercase; margin-left:12px;
+}
+.counter { font-family:'Barlow',sans-serif; font-weight:300; font-size:11px; letter-spacing:3px; color:rgba(0,0,0,0.3); }
+.counter b { color:#E85D00; font-weight:800; }
+
+.content {
+  position:absolute; left:72px; right:72px; top:96px; bottom:80px; z-index:10;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+.detail-tag { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.detail-num {
+  font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px;
+  background:#E85D00; color:#fff; padding:4px 10px; border-radius:2px;
+}
+.detail-name {
+  font-family:'Barlow',sans-serif; font-weight:700; font-size:9px;
+  letter-spacing:5px; color:rgba(0,0,0,0.4); text-transform:uppercase;
+}
+
+.headline {
+  font-family:'Barlow',sans-serif; font-weight:900; font-size:86px;
+  line-height:0.88; color:#0A0A0F; margin-bottom:40px; letter-spacing:-2.5px;
+}
+
+/* TESTIMONIALS */
+.reviews {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:36px;
+}
+
+.review-card {
+  background:#fff; border-radius:12px; padding:24px 20px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.07);
+  display:flex; flex-direction:column; gap:12px;
+  border:1px solid rgba(0,0,0,0.06);
+}
+.stars { display:flex; gap:3px; }
+.star { width:12px; height:12px; background:#F59E0B; border-radius:2px; }
+.review-text {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:12px;
+  color:rgba(0,0,0,0.6); line-height:1.6;
+  font-style:italic;
+}
+.review-author { display:flex; align-items:center; gap:10px; }
+.avatar { width:32px; height:32px; border-radius:50%; flex-shrink:0; }
+.av1 { background:linear-gradient(135deg, #E85D00, #FF8844); }
+.av2 { background:linear-gradient(135deg, #1A56DB, #60A5FA); }
+.av3 { background:linear-gradient(135deg, #16A34A, #4ADE80); }
+.author-info { display:flex; flex-direction:column; gap:2px; }
+.author-name { font-family:'Barlow',sans-serif; font-weight:700; font-size:11px; color:#0A0A0F; }
+.author-role { font-family:'Barlow',sans-serif; font-weight:300; font-size:9px; color:rgba(0,0,0,0.4); letter-spacing:0.5px; }
+
+/* Social proof row */
+.proof-row {
+  display:flex; gap:24px; margin-bottom:32px;
+}
+.proof-item {
+  display:flex; align-items:center; gap:10px;
+  background:#0A0A0F; border-radius:8px; padding:14px 20px; flex:1;
+}
+.proof-num {
+  font-family:'Bebas Neue',sans-serif; font-size:36px; line-height:1; color:#E85D00;
+}
+.proof-txt {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:11px;
+  color:rgba(255,255,255,0.5); line-height:1.4;
+}
+
+.body {
+  font-family:'Barlow',sans-serif; font-weight:300; font-size:15px;
+  color:rgba(0,0,0,0.5); line-height:1.7; letter-spacing:0.2px;
+}
+.body strong { color:#0A0A0F; font-weight:700; }
+
+.handle {
+  position:absolute; bottom:36px; right:52px; z-index:20;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(0,0,0,0.25); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="grid"></div>
+  <div class="ghost">2</div>
+
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-bar"></div>
+      <div class="brand-txt">Sety Studio</div>
+    </div>
+    <div class="counter"><b>04</b> / 07</div>
+  </div>
+
+  <div class="content">
+    <div class="detail-tag">
+      <div class="detail-num">DETALHE 02</div>
+      <div class="detail-name">O Que Convence</div>
+    </div>
+
+    <div class="headline">
+      prova<br>social.
+    </div>
+
+    <div class="reviews">
+      <div class="review-card">
+        <div class="stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div>
+          <div class="star"></div><div class="star"></div>
+        </div>
+        <div class="review-text">"O site novo trouxe 3x mais contatos em 2 semanas."</div>
+        <div class="review-author">
+          <div class="avatar av1"></div>
+          <div class="author-info">
+            <div class="author-name">Rafael M.</div>
+            <div class="author-role">Clínica Estética</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div>
+          <div class="star"></div><div class="star"></div>
+        </div>
+        <div class="review-text">"Fechamos a primeira venda pelo site em 48 horas."</div>
+        <div class="review-author">
+          <div class="avatar av2"></div>
+          <div class="author-info">
+            <div class="author-name">Camila R.</div>
+            <div class="author-role">E-commerce Fashion</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">
+          <div class="star"></div><div class="star"></div><div class="star"></div>
+          <div class="star"></div><div class="star"></div>
+        </div>
+        <div class="review-text">"Minha taxa de conversão dobrou no primeiro mês."</div>
+        <div class="review-author">
+          <div class="avatar av3"></div>
+          <div class="author-info">
+            <div class="author-name">Lucas T.</div>
+            <div class="author-role">Consultoria Jurídica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof-row">
+      <div class="proof-item">
+        <div class="proof-num">97%</div>
+        <div class="proof-txt">dos compradores<br>leem avaliações</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">3.8×</div>
+        <div class="proof-txt">mais conversões<br>com prova social</div>
+      </div>
+    </div>
+
+    <div class="body">
+      Avaliações, logos de clientes, números reais.<br>
+      <strong>Quem não tem prova social, não tem credibilidade.</strong>
+    </div>
+  </div>
+
+  <div class="handle">@setystudio</div>
+</div>
+</body>
+</html>

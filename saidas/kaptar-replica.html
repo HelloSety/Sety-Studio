@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaptar — Gerador de Leads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--sb:#0c0c0c;--card:#111;--border:rgba(255,255,255,.07);--bh:rgba(255,255,255,.14);
+  --t1:rgba(255,255,255,.9);--t2:rgba(255,255,255,.5);--td:rgba(255,255,255,.25);
+  --green:#22c55e;--yellow:#f59e0b;--blue:#3b82f6;--gray:#6b7280;--red:#ef4444;
+  --sw:220px;--ui:'Inter',sans-serif;--brand:'Montserrat',sans-serif;
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--ui);font-size:14px;min-height:100vh;display:flex;}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+/* SIDEBAR */
+.sb{width:var(--sw);min-height:100vh;background:var(--sb);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;transition:transform .25s ease}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--border)}
+.sb-logo span{font-family:var(--brand);font-weight:900;font-size:15px;letter-spacing:-.04em;color:#fff}
+.sb-logo em{color:rgba(255,255,255,.25);font-style:normal}
+.nav-s{padding:10px 8px;flex:1}
+.nav-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--td);padding:10px 10px 5px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;transition:all .15s;margin-bottom:1px;user-select:none}
+.ni:hover{background:rgba(255,255,255,.05);color:var(--t1)}
+.ni.active{background:rgba(255,255,255,.08);color:#fff}
+.ni svg{flex-shrink:0;opacity:.6}
+.ni.active svg{opacity:1}
+.nbadge{margin-left:auto;background:rgba(255,255,255,.1);color:var(--t2);font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
+.sb-foot{padding:12px 16px;border-top:1px solid var(--border)}
+.stor-bar{height:2px;background:rgba(255,255,255,.08);border-radius:1px;margin-bottom:5px;overflow:hidden}
+.stor-fill{height:100%;background:rgba(255,255,255,.3);border-radius:1px;transition:width .3s}
+.stor-txt{font-size:10px;color:var(--td)}
+
+/* MOBILE TOP BAR */
+.topbar{display:none;position:fixed;top:0;left:0;right:0;height:52px;background:var(--sb);border-bottom:1px solid var(--border);z-index:200;align-items:center;padding:0 16px;gap:12px}
+.topbar span{font-family:var(--brand);font-weight:900;font-size:14px;letter-spacing:-.04em;color:#fff;flex:1}
+.topbar em{color:rgba(255,255,255,.25);font-style:normal}
+.hamburger{background:none;border:none;color:var(--t2);cursor:pointer;padding:6px;border-radius:6px}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.view{display:none;flex-direction:column;flex:1;padding:32px 36px;max-width:1100px}
+.view.active{display:flex}
+.ph{margin-bottom:26px}
+.pe{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--td);margin-bottom:5px}
+.pt{font-family:var(--brand);font-weight:900;font-size:24px;letter-spacing:-.04em;color:#fff;line-height:1}
+.ps{margin-top:5px;color:var(--t2);font-size:13px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card+.card{margin-top:12px}
+
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.fl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--t2)}
+.fi,.fs,.fta{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:var(--ui);font-size:13px;color:var(--t1);outline:none;transition:border-color .15s;width:100%}
+.fi:focus,.fs:focus,.fta:focus{border-color:rgba(255,255,255,.2)}
+.fi::placeholder{color:var(--td)}
+.fs option{background:#1a1a1a;color:#fff}
+.fta{resize:vertical;min-height:130px;line-height:1.65}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin-bottom:16px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:8px;font-family:var(--ui);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;user-select:none}
+.bp{background:#fff;color:#000}.bp:hover{background:rgba(255,255,255,.88)}.bp:disabled{background:rgba(255,255,255,.2);color:rgba(0,0,0,.5);cursor:not-allowed}
+.bg{background:transparent;color:var(--t2);border:1px solid var(--border)}.bg:hover{background:rgba(255,255,255,.04);color:var(--t1);border-color:var(--bh)}
+.bd{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}.bd:hover{background:rgba(239,68,68,.16)}
+.bsm{padding:5px 10px;font-size:11px;border-radius:6px}
+.bico{padding:6px;border-radius:6px}
+
+/* TABS */
+.tabs{display:flex;gap:3px;margin-bottom:14px;background:rgba(255,255,255,.03);padding:3px;border-radius:10px;border:1px solid var(--border);width:fit-content;flex-wrap:wrap}
+.tab{padding:6px 13px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;color:var(--td);transition:all .15s;user-select:none;display:flex;align-items:center;gap:5px}
+.tab:hover{color:var(--t2)}
+.tab.active{background:rgba(255,255,255,.08);color:#fff}
+.tc{background:rgba(255,255,255,.08);border-radius:4px;padding:0 5px;font-size:9px;min-width:16px;text-align:center}
+
+/* TABLE */
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--td);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.tn{font-weight:600;font-size:13px;color:#fff;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ts{font-size:12px;color:var(--t2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acts{display:flex;gap:4px;align-items:center}
+
+/* DROPDOWN */
+.dd{position:relative;display:inline-block}
+.ddm{position:absolute;right:0;top:calc(100% + 4px);background:#1c1c1c;border:1px solid var(--border);border-radius:8px;min-width:155px;z-index:100;overflow:hidden;display:none}
+.ddm.open{display:block}
+.ddi{padding:8px 12px;font-size:12px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px}
+.ddi:hover{background:rgba(255,255,255,.05);color:#fff}
+
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;color:var(--td);text-align:center}
+.empty svg{margin-bottom:12px;opacity:.3}
+.empty p{font-size:13px;line-height:1.6}
+
+/* RESULT ITEM */
+.ri{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border);transition:background .1s}
+.ri:last-child{border-bottom:none}
+.ri:hover{background:rgba(255,255,255,.02)}
+.rname{font-weight:600;font-size:13px;color:#fff;margin-bottom:2px}
+.raddr{font-size:11px;color:var(--td)}
+.rmeta{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.rtag{font-size:10px;color:var(--td);display:flex;align-items:center;gap:3px}
+
+/* SCORE PILL */
+.spill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+
+/* PROGRESS */
+.pbw{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin:10px 0}
+.pbf{height:100%;background:#fff;border-radius:2px;transition:width .3s;width:0}
+
+/* TOAST */
+.tw2{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px}
+.toast{background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--t1);max-width:300px;animation:sli .2s ease;display:flex;align-items:center;gap:10px}
+.toast-success{border-color:rgba(34,197,94,.3)}
+.toast-error{border-color:rgba(239,68,68,.3)}
+@keyframes sli{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center}
+.mo.open{display:flex}
+.modal{background:#121212;border:1px solid var(--border);border-radius:14px;padding:24px;width:480px;max-width:90vw}
+.modal-t{font-family:var(--brand);font-weight:900;font-size:16px;letter-spacing:-.03em;color:#fff;margin-bottom:20px}
+.modal-f{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+
+/* VAR CHIPS */
+.vchips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.vc{font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;background:rgba(255,255,255,.06);color:var(--td);cursor:pointer;font-family:monospace;transition:all .15s}
+.vc:hover{background:rgba(255,255,255,.1);color:var(--t2)}
+
+/* CAMPAIGN LEAD */
+.cl{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;transition:background .1s}
+.cl:hover{background:rgba(255,255,255,.03)}
+.cl.sent{opacity:.35}
+.cl.current{background:rgba(255,255,255,.05)}
+.cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.12)}
+.cdot.sent{background:var(--green)}
+.cdot.current{background:var(--yellow);animation:pu 1s ease infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* SELECT ALL ROW */
+.sar{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px;color:var(--t2)}
+
+/* LOADING */
+.ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em}
+.b-ativos{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.b-qualificados{background:rgba(34,197,94,.12);color:var(--green)}
+.b-em-contato{background:rgba(245,158,11,.12);color:var(--yellow)}
+.b-limpos{background:rgba(59,130,246,.12);color:var(--blue)}
+.b-arquivados{background:rgba(107,114,128,.12);color:var(--gray)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .topbar{display:flex}
+  .sb{transform:translateX(-100%)}
+  .sb.open{transform:translateX(0)}
+  .sb-overlay.open{display:block}
+  .main{margin-left:0;padding-top:52px}
+  .view{padding:20px 16px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .camp-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- MOBILE TOPBAR -->
+<div class="topbar">
+  <button class="hamburger" onclick="toggleSidebar()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <span>KAP<em>TAR</em></span>
+</div>
+<div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sidebar">
+  <div class="sb-logo"><span>KAP<em>TAR</em></span></div>
+  <nav class="nav-s">
+    <div class="nav-lbl">Ferramentas</div>
+    <div class="ni active" data-nav="search" onclick="nav('search')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Buscar Leads
+    </div>
+    <div class="ni" data-nav="leads" onclick="nav('leads')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Leads
+      <span class="nbadge" id="nb-leads">0</span>
+    </div>
+    <div class="ni" data-nav="campaign" onclick="nav('campaign')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Campanha
+    </div>
+    <div class="nav-lbl" style="margin-top:10px">Sistema</div>
+    <div class="ni" data-nav="settings" onclick="nav('settings')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+      Configurações
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="stor-bar"><div class="stor-fill" id="stor-fill" style="width:0"></div></div>
+    <div class="stor-txt" id="stor-txt">–</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- VIEW: SEARCH -->
+<div class="view active" id="view-search">
+  <div class="ph" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+    <div>
+      <div class="pe">Prospecção</div>
+      <h1 class="pt">Buscar Leads</h1>
+      <p class="ps">Encontre empresas por nicho e cidade usando Google Maps</p>
+    </div>
+    <button class="btn bg bsm" onclick="openManual()">+ Adicionar manual</button>
+  </div>
+
+  <div class="card">
+    <div class="fgrid">
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Categoria / Nicho</label>
+        <select class="fs" id="s-cat">
+          <option>Dentistas</option>
+          <option>Clínicas de Estética</option>
+          <option>Advogados</option>
+          <option>Imobiliárias</option>
+          <option>Clínicas Médicas</option>
+          <option>Academias de Ginástica</option>
+          <option>Contabilidade</option>
+          <option>Escolas</option>
+          <option>Restaurantes</option>
+          <option>Clínicas de Fisioterapia</option>
+          <option>Psicólogos</option>
+          <option>Consultores de Energia Solar</option>
+          <option>Construtoras</option>
+          <option>Pet Shops</option>
+          <option>Farmácias</option>
+        </select>
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Cidade / Estado</label>
+        <input class="fi" type="text" id="s-loc" placeholder="Ex: Belém, PA">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Raio de busca</label>
+        <select class="fs" id="s-rad">
+          <option value="3">3 km</option>
+          <option value="5" selected>5 km</option>
+          <option value="10">10 km</option>
+          <option value="20">20 km</option>
+          <option value="50">50 km</option>
+        </select>
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Máximo de resultados</label>
+        <select class="fs" id="s-lim">
+          <option value="10">10 empresas</option>
+          <option value="20" selected>20 empresas</option>
+          <option value="40">40 empresas</option>
+          <option value="60">60 empresas</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px">
+      <button class="btn bp" id="btn-search" onclick="doSearch()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Buscar Empresas
+      </button>
+      <button class="btn bg bsm" onclick="loadDemo()">Carregar demo</button>
+      <span id="s-status" style="font-size:12px;color:var(--td)"></span>
+    </div>
+  </div>
+  <div id="s-results" style="margin-top:12px"></div>
+</div>
+
+<!-- VIEW: LEADS -->
+<div class="view" id="view-leads">
+  <div class="ph" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+    <div>
+      <div class="pe">CRM</div>
+      <h1 class="pt">Leads</h1>
+      <p class="ps">Gerencie seus contatos por status</p>
+    </div>
+    <button class="btn bg bsm" onclick="expCsv()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Exportar CSV
+    </button>
+  </div>
+  <div class="tabs" id="ltabs">
+    <div class="tab active" onclick="stab(this,'ativos')">Ativos <span class="tc" id="tc-ativos">0</span></div>
+    <div class="tab" onclick="stab(this,'qualificados')">Qualificados <span class="tc" id="tc-qualificados">0</span></div>
+    <div class="tab" onclick="stab(this,'em-contato')">Em Contato <span class="tc" id="tc-em-contato">0</span></div>
+    <div class="tab" onclick="stab(this,'limpos')">Limpos <span class="tc" id="tc-limpos">0</span></div>
+    <div class="tab" onclick="stab(this,'arquivados')">Arquivados <span class="tc" id="tc-arquivados">0</span></div>
+  </div>
+  <div id="leads-wrap"></div>
+</div>
+
+<!-- VIEW: CAMPAIGN -->
+<div class="view" id="view-campaign">
+  <div class="ph">
+    <div class="pe">Disparo</div>
+    <h1 class="pt">Campanha WhatsApp</h1>
+    <p class="ps">Envie mensagens em sequência com intervalo seguro</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="camp-grid">
+    <div class="card">
+      <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:12px">Configurar Mensagem</p>
+      <div class="fg">
+        <label class="fl">Leads para disparar</label>
+        <select class="fs" id="c-filter" onchange="refreshCamp()">
+          <option value="ativos">Ativos</option>
+          <option value="qualificados">Qualificados</option>
+          <option value="em-contato">Em Contato</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="fl">Mensagem</label>
+        <textarea class="fta" id="c-msg" placeholder="Olá {{nome}}! Vi que vocês são referência em {{categoria}} em {{cidade}}.
+
+Sou Seven, da Sety Studio — ajudamos negócios como o de vocês a atrair mais clientes pelo digital.
+
+Posso te enviar mais detalhes?"></textarea>
+        <div class="vchips">
+          <span class="vc" onclick="insVar('{{nome}}')">{{nome}}</span>
+          <span class="vc" onclick="insVar('{{cidade}}')">{{cidade}}</span>
+          <span class="vc" onclick="insVar('{{categoria}}')">{{categoria}}</span>
+          <span class="vc" onclick="insVar('{{telefone}}')">{{telefone}}</span>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Intervalo entre mensagens</label>
+        <div style="display:flex;align-items:center;gap:12px">
+          <input type="range" id="c-int" min="15" max="120" value="45" style="flex:1;accent-color:#fff" oninput="document.getElementById('c-int-v').textContent=this.value+'s'">
+          <span id="c-int-v" style="font-size:13px;font-weight:700;color:#fff;min-width:36px">45s</span>
+        </div>
+        <p style="font-size:10px;color:var(--td);margin-top:3px">Recomendado: 30–60s para evitar bloqueio</p>
+      </div>
+      <button class="btn bp" style="width:100%" id="btn-c-start" onclick="startCamp()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Iniciar Disparo
+      </button>
+      <button class="btn bg" style="width:100%;margin-top:8px;display:none" id="btn-c-stop" onclick="stopCamp()">Parar Campanha</button>
+    </div>
+    <div class="card" style="max-height:520px;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td)">Fila</p>
+        <span id="c-count" style="font-size:11px;color:var(--td)">0 leads</span>
+      </div>
+      <div class="pbw" id="c-pbw" style="display:none"><div class="pbf" id="c-pbf"></div></div>
+      <p id="c-ptxt" style="font-size:11px;color:var(--td);margin-bottom:10px;display:none"></p>
+      <div id="c-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW: SETTINGS -->
+<div class="view" id="view-settings">
+  <div class="ph">
+    <div class="pe">Sistema</div>
+    <h1 class="pt">Configurações</h1>
+    <p class="ps">Chaves de API e dados locais</p>
+  </div>
+  <div class="card" style="margin-bottom:12px">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:8px">Google Maps API</p>
+    <p style="font-size:12px;color:var(--td);margin-bottom:12px;line-height:1.6">Necessário para buscar empresas reais. Obtenha em <a href="https://console.cloud.google.com" target="_blank" style="color:var(--t2)">console.cloud.google.com</a> → APIs → Places API + Maps JavaScript API.</p>
+    <div style="display:flex;gap:10px;align-items:flex-end">
+      <div class="fg" style="flex:1;margin-bottom:0">
+        <label class="fl">Chave da API</label>
+        <input class="fi" type="password" id="set-key" placeholder="AIzaSy..." autocomplete="off">
+      </div>
+      <button class="btn bg" onclick="saveKey()">Salvar</button>
+    </div>
+    <div id="key-status" style="margin-top:8px;font-size:11px;color:var(--td)"></div>
+  </div>
+  <div class="card" style="margin-bottom:12px">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:12px">Armazenamento Local</p>
+    <div id="set-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:14px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bg bsm" onclick="expAll()">Exportar JSON</button>
+      <button class="btn bg bsm" onclick="expCsv()">Exportar CSV</button>
+      <button class="btn bd bsm" onclick="clearAll()">Apagar tudo</button>
+    </div>
+  </div>
+  <div class="card">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:8px">Sobre</p>
+    <p style="font-size:12px;color:var(--td);line-height:1.7">Todos os dados ficam salvos no <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px">localStorage</code> deste navegador. Nenhum dado vai para servidores externos.<br><strong style="color:var(--t2)">Atenção:</strong> limpar o cache do navegador apaga tudo. Exporte regularmente.</p>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL MANUAL -->
+<div class="mo" id="mo-manual">
+  <div class="modal" onclick="event.stopPropagation()">
+    <p class="modal-t">Adicionar Lead Manual</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fg" style="margin-bottom:0"><label class="fl">Nome *</label><input class="fi" id="m-nome" placeholder="Clínica Exemplo"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">WhatsApp</label><input class="fi" id="m-tel" placeholder="(91) 99999-9999"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">Endereço</label><input class="fi" id="m-end" placeholder="Rua, Bairro"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">Cidade</label><input class="fi" id="m-cid" placeholder="Belém"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">Categoria</label><input class="fi" id="m-cat" placeholder="Dentistas"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">Website</label><input class="fi" id="m-web" placeholder="https://..."></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn bg" onclick="closeManual()">Cancelar</button>
+      <button class="btn bp" onclick="saveManual()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="tw2" id="toasts"></div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────
+function loadS(){
+  return {
+    leads: JSON.parse(localStorage.getItem('kap_leads')||'[]'),
+    cfg: JSON.parse(localStorage.getItem('kap_cfg')||'{}'),
+    nid: parseInt(localStorage.getItem('kap_nid')||'1')
+  };
+}
+function saveS(){
+  localStorage.setItem('kap_leads', JSON.stringify(S.leads));
+  localStorage.setItem('kap_cfg', JSON.stringify(S.cfg));
+  localStorage.setItem('kap_nid', String(S.nid));
+}
+let S = loadS();
+let mapsReady = false, campRunning = false, campLeads = [], activeTab = 'ativos', srResults = [];
+
+// ── UTILS ──────────────────────────────────────────────
+function toast(msg, type='') {
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast toast-'+type;
+  const icon = type==='success'
+    ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    : type==='error'
+    ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' : '';
+  el.innerHTML = icon + `<span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(()=>el.remove(), 3500);
+}
+
+function score(l){
+  let s=0;
+  if(l.telefone?.trim()) s+=35;
+  if(l.website?.trim()) s+=25;
+  const r=parseFloat(l.rating)||0;
+  if(r>=4.5) s+=20; else if(r>=4) s+=14; else if(r>=3) s+=7;
+  const v=parseInt(l.reviews)||0;
+  if(v>=50) s+=20; else if(v>=20) s+=14; else if(v>=5) s+=7;
+  return Math.min(100,s);
+}
+
+function scoreClr(s){ return s>=80?'#22c55e':s>=55?'#f59e0b':'rgba(255,255,255,.35)'; }
+
+function fmtPhone(p){
+  if(!p) return '';
+  let d=p.replace(/\D/g,'');
+  if(d.startsWith('55')&&d.length>=12) d=d.slice(2);
+  return d;
+}
+
+function waLink(tel,msg){ return `https://wa.me/55${fmtPhone(tel)}${msg?'?text='+encodeURIComponent(msg):'`}`; }
+
+function dl(name,content,type){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type}));
+  a.download=name; a.click();
+}
+
+function updStor(){
+  const b=new Blob([JSON.stringify(S)]).size;
+  const kb=(b/1024).toFixed(1);
+  const pct=Math.min((b/(5*1024*1024))*100,100);
+  document.getElementById('stor-fill').style.width=pct+'%';
+  document.getElementById('stor-txt').textContent=`${kb} KB / 5 MB`;
+  document.getElementById('nb-leads').textContent=S.leads.length;
+}
+
+function updTabs(){
+  ['ativos','qualificados','em-contato','limpos','arquivados'].forEach(s=>{
+    const el=document.getElementById('tc-'+s);
+    if(el) el.textContent=S.leads.filter(l=>l.status===s).length;
+  });
+}
+
+// ── SIDEBAR / NAV ──────────────────────────────────────
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sb-overlay').classList.toggle('open');
+}
+
+function nav(v){
+  document.querySelectorAll('.ni').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.querySelector(`[data-nav="${v}"]`).classList.add('active');
+  document.getElementById('view-'+v).classList.add('active');
+  if(v==='leads'){updTabs();renderLeads(activeTab);}
+  if(v==='campaign') refreshCamp();
+  if(v==='settings') renderSettings();
+  updStor();
+  // close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('open');
+}
+
+// ── GOOGLE MAPS ────────────────────────────────────────
+function loadMaps(){
+  return new Promise((res,rej)=>{
+    if(window.google?.maps){res();return;}
+    const key=S.cfg.mapsKey;
+    if(!key){rej('Configure a chave do Google Maps em Configurações');return;}
+    const sc=document.createElement('script');
+    sc.src=`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&libraries=places&language=pt-BR`;
+    sc.onload=()=>res();
+    sc.onerror=()=>rej('Erro ao carregar Maps API — verifique a chave');
+    document.head.appendChild(sc);
+  });
+}
+
+const TYPES={
+  'Dentistas':'dentist','Clínicas de Estética':'beauty_salon','Advogados':'lawyer',
+  'Imobiliárias':'real_estate_agency','Clínicas Médicas':'doctor','Academias de Ginástica':'gym',
+  'Escolas':'school','Contabilidade':'accounting','Restaurantes':'restaurant',
+  'Farmácias':'pharmacy','Pet Shops':'pet_store','Clínicas de Fisioterapia':'physiotherapist',
+};
+
+async function doSearch(){
+  const btn=document.getElementById('btn-search');
+  const cat=document.getElementById('s-cat').value;
+  const loc=document.getElementById('s-loc').value.trim();
+  const rad=parseInt(document.getElementById('s-rad').value);
+  const lim=parseInt(document.getElementById('s-lim').value);
+  const stat=document.getElementById('s-status');
+
+  if(!loc){toast('Informe a cidade','error');return;}
+
+  btn.disabled=true;
+  btn.innerHTML='<span class="ld"></span> Buscando...';
+  stat.textContent='';
+  document.getElementById('s-results').innerHTML='';
+  srResults=[];
+
+  try{
+    stat.textContent='Carregando Maps API...';
+    await loadMaps();
+
+    stat.textContent='Localizando cidade...';
+    const geo=new window.google.maps.Geocoder();
+    const center=await new Promise((res,rej)=>{
+      geo.geocode({address:loc+', Brasil'},(results,st)=>{
+        if(st==='OK') res(results[0].geometry.location);
+        else rej('Cidade não encontrada: '+st);
+      });
+    });
+
+    stat.textContent='Buscando empresas...';
+    const svc=new window.google.maps.places.PlacesService(document.createElement('div'));
+    const req={location:center,radius:rad*1000,keyword:cat};
+    if(TYPES[cat]) req.type=TYPES[cat];
+
+    const raw=await new Promise((res,rej)=>{
+      svc.nearbySearch(req,(results,st)=>{
+        if(st==='OK') res(results.slice(0,lim));
+        else if(st==='ZERO_RESULTS') res([]);
+        else rej('Busca falhou: '+st);
+      });
+    });
+
+    stat.textContent=`${raw.length} encontrados. Buscando detalhes...`;
+
+    const detailed=[];
+    for(let i=0;i<Math.min(raw.length,20);i++){
+      const place=raw[i];
+      try{
+        const det=await new Promise((res,rej)=>{
+          svc.getDetails({placeId:place.place_id,fields:['name','formatted_phone_number','website','rating','user_ratings_total','formatted_address']},(p,st)=>{
+            if(st==='OK') res(p); else res(place);
+          });
+        });
+        const lead={
+          nome:det.name||place.name,
+          telefone:det.formatted_phone_number||'',
+          website:det.website||'',
+          endereco:det.formatted_address||place.vicinity||'',
+          rating:det.rating||place.rating||0,
+          reviews:det.user_ratings_total||place.user_ratings_total||0,
+          placeId:place.place_id,
+          categoria:cat, cidade:loc, status:'ativos',
+          adicionadoEm:new Date().toISOString(),
+        };
+        lead.score=score(lead);
+        detailed.push(lead);
+        stat.textContent=`Detalhes ${i+1}/${Math.min(raw.length,20)}...`;
+      }catch(e){}
+    }
+
+    srResults=detailed;
+    renderSResults(detailed);
+    stat.textContent='';
+
+  }catch(err){
+    stat.textContent='';
+    toast(typeof err==='string'?err:'Erro na busca. Verifique a chave da API.','error');
+  }
+
+  btn.disabled=false;
+  btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar Empresas';
+}
+
+function loadDemo(){
+  const cat=document.getElementById('s-cat').value;
+  const loc=document.getElementById('s-loc').value.trim()||'Belém, PA';
+  const demos=[
+    {nome:'Clínica Dental Premium',telefone:'(91) 3234-5678',website:'https://dentalpremium.com.br',endereco:'Av. Nazaré, 123',rating:4.8,reviews:87},
+    {nome:'Studio Sorriso',telefone:'(91) 99876-5432',website:'',endereco:'Rua dos Mundurucus, 456',rating:4.2,reviews:34},
+    {nome:'Clínica Central Saúde',telefone:'(91) 3256-7890',website:'https://centralmed.com.br',endereco:'Tv. Padre Eutíquio, 789',rating:3.9,reviews:12},
+    {nome:'Consultório Dr. Silva',telefone:'',website:'',endereco:'Av. Almirante Barroso, 1000',rating:4.6,reviews:52},
+    {nome:'Clínica Sorrir Mais',telefone:'(91) 98765-4321',website:'https://sorrirmais.com',endereco:'Rua Mundurucus, 300',rating:4.1,reviews:28},
+    {nome:'Instituto Oral',telefone:'(91) 3211-2233',website:'https://institutooral.com.br',endereco:'Av. Presidente Vargas, 500',rating:4.9,reviews:143},
+    {nome:'Dental Kids',telefone:'(91) 98888-0000',website:'',endereco:'Rua Bernal do Couto, 200',rating:4.4,reviews:19},
+    {nome:'Odontoclínica Total',telefone:'(91) 3245-6789',website:'https://odontototal.com',endereco:'Trav. 14 de Março, 77',rating:3.7,reviews:8},
+  ].map(d=>({...d,categoria:cat,cidade:loc,status:'ativos',adicionadoEm:new Date().toISOString(),score:score(d)}));
+
+  srResults=demos;
+  renderSResults(demos);
+  toast('Dados de demonstração carregados','success');
+}
+
+function renderSResults(results){
+  const wrap=document.getElementById('s-results');
+  if(!results.length){
+    wrap.innerHTML=`<div class="card"><div class="empty"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>Nenhuma empresa encontrada.<br>Tente outra localização ou categoria.</p></div></div>`;
+    return;
+  }
+  wrap.innerHTML=`<div class="card" style="padding:0;overflow:hidden">
+    <div class="sar">
+      <input type="checkbox" id="chk-all" onchange="selAll(this.checked)" style="accent-color:#fff;cursor:pointer">
+      <span><strong id="sel-cnt">0</strong> de ${results.length} selecionados</span>
+      <button class="btn bp bsm" style="margin-left:auto" onclick="addSel()">+ Adicionar selecionados</button>
+    </div>
+    <div id="rlist">
+      ${results.map((r,i)=>`
+        <div class="ri">
+          <input type="checkbox" class="rchk" data-i="${i}" onchange="updSelCnt()" style="accent-color:#fff;cursor:pointer;margin-top:2px;flex-shrink:0">
+          <div style="flex:1;min-width:0">
+            <div class="rname">${r.nome}</div>
+            <div class="raddr">${r.endereco}</div>
+            <div class="rmeta">
+              ${r.telefone?`<span class="rtag"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.36C1.63 2.14 2.54 1.13 3.73 1H6.73a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${r.telefone}</span>`:'<span class="rtag" style="color:rgba(239,68,68,.6)">Sem telefone</span>'}
+              ${r.website?`<span class="rtag"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Site</span>`:''}
+              ${r.rating?`<span class="rtag">★ ${r.rating} (${r.reviews})</span>`:''}
+            </div>
+          </div>
+          <span class="spill" style="background:${scoreClr(r.score)}22;color:${scoreClr(r.score)};flex-shrink:0">${r.score}%</span>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function updSelCnt(){
+  const c=document.querySelectorAll('.rchk:checked').length;
+  const t=srResults.length;
+  document.getElementById('sel-cnt').textContent=c;
+  const chkAll=document.getElementById('chk-all');
+  if(chkAll){chkAll.checked=c===t;chkAll.indeterminate=c>0&&c<t;}
+}
+
+function selAll(v){ document.querySelectorAll('.rchk').forEach(c=>c.checked=v); updSelCnt(); }
+
+function addSel(){
+  const checks=document.querySelectorAll('.rchk:checked');
+  if(!checks.length){toast('Selecione ao menos um lead','error');return;}
+  let n=0;
+  checks.forEach(c=>{
+    const lead={...srResults[parseInt(c.dataset.i)],id:S.nid++};
+    S.leads.push(lead); n++;
+  });
+  saveS(); updStor();
+  toast(`${n} lead${n>1?'s adicionados':'adicionado'}!`,'success');
+  document.getElementById('s-results').innerHTML='';
+  srResults=[];
+}
+
+// ── MANUAL LEAD ────────────────────────────────────────
+function openManual(){ document.getElementById('mo-manual').classList.add('open'); document.getElementById('m-nome').focus(); }
+function closeManual(){
+  document.getElementById('mo-manual').classList.remove('open');
+  ['m-nome','m-tel','m-end','m-cid','m-cat','m-web'].forEach(id=>document.getElementById(id).value='');
+}
+document.getElementById('mo-manual').addEventListener('click',function(e){if(e.target===this) closeManual();});
+
+function saveManual(){
+  const nome=document.getElementById('m-nome').value.trim();
+  if(!nome){toast('Informe o nome','error');return;}
+  const lead={
+    id:S.nid++,nome,
+    telefone:document.getElementById('m-tel').value.trim(),
+    endereco:document.getElementById('m-end').value.trim(),
+    cidade:document.getElementById('m-cid').value.trim(),
+    categoria:document.getElementById('m-cat').value.trim(),
+    website:document.getElementById('m-web').value.trim(),
+    rating:0,reviews:0,status:'ativos',adicionadoEm:new Date().toISOString(),
+  };
+  lead.score=score(lead);
+  S.leads.push(lead); saveS(); updStor();
+  closeManual();
+  toast(`"${nome}" adicionado!`,'success');
+}
+
+// ── LEADS TABLE ────────────────────────────────────────
+function stab(el,status){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  activeTab=status;
+  renderLeads(status);
+}
+
+function renderLeads(status){
+  const wrap=document.getElementById('leads-wrap');
+  const leads=S.leads.filter(l=>l.status===status);
+
+  if(!leads.length){
+    wrap.innerHTML=`<div class="empty" style="border:1px solid var(--border);border-radius:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><p>Nenhum lead aqui.<br>Busque empresas para adicionar.</p></div>`;
+    updTabs(); return;
+  }
+
+  const others=[
+    {v:'ativos',l:'Ativo'},{v:'qualificados',l:'Qualificado'},{v:'em-contato',l:'Em Contato'},
+    {v:'limpos',l:'Limpo'},{v:'arquivados',l:'Arquivado'},
+  ].filter(o=>o.v!==status);
+
+  wrap.innerHTML=`<div class="tw"><table>
+    <thead><tr>
+      <th>Empresa</th><th>Telefone</th><th>Cidade</th><th>Score</th><th>Ações</th>
+    </tr></thead>
+    <tbody>
+      ${leads.map(l=>`<tr>
+        <td>
+          <div class="tn">${l.nome}</div>
+          ${l.endereco?`<div class="ts" style="font-size:11px">${l.endereco}</div>`:''}
+        </td>
+        <td>
+          ${l.telefone
+            ?`<a href="https://wa.me/55${fmtPhone(l.telefone)}" target="_blank" style="color:var(--t2);text-decoration:none;font-size:12px" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--t2)'">${l.telefone}</a>`
+            :'<span style="font-size:11px;color:var(--td)">—</span>'}
+        </td>
+        <td class="ts">${l.cidade||'—'}</td>
+        <td><span style="font-size:11px;font-weight:700;color:${scoreClr(l.score)}">${l.score}%</span></td>
+        <td>
+          <div class="acts">
+            ${l.telefone?`<a href="https://wa.me/55${fmtPhone(l.telefone)}" target="_blank" class="btn bg bsm bico" title="WhatsApp" style="border:none" onclick="event.stopPropagation()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </a>`:''}
+            <div class="dd">
+              <button class="btn bg bsm bico" style="border:none" onclick="toggleDD(${l.id},event)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+              </button>
+              <div class="ddm" id="ddm-${l.id}">
+                ${others.map(o=>`<div class="ddi" onclick="moveLead(${l.id},'${o.v}')"><span class="badge b-${o.v}">${o.l}</span></div>`).join('')}
+                <div class="ddi" onclick="editPhone(${l.id})" style="border-top:1px solid var(--border);margin-top:2px">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Editar telefone
+                </div>
+                <div class="ddi" onclick="delLead(${l.id})" style="color:var(--red)">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+                  Excluir
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>`).join('')}
+    </tbody>
+  </table></div>`;
+  updTabs();
+}
+
+function toggleDD(id,e){
+  e.stopPropagation();
+  const menu=document.getElementById('ddm-'+id);
+  closeAllDD(menu);
+  menu.classList.toggle('open');
+}
+function closeAllDD(except){
+  document.querySelectorAll('.ddm.open').forEach(el=>{if(el!==except) el.classList.remove('open');});
+}
+document.addEventListener('click',()=>closeAllDD());
+
+function moveLead(id,status){
+  const l=S.leads.find(x=>x.id===id);
+  if(l){l.status=status;saveS();renderLeads(activeTab);toast('Lead movido','success');}
+  closeAllDD();
+}
+
+function delLead(id){
+  if(!confirm('Excluir este lead?')) return;
+  S.leads=S.leads.filter(l=>l.id!==id);
+  saveS(); updStor(); renderLeads(activeTab);
+  toast('Lead excluído');
+}
+
+function editPhone(id){
+  closeAllDD();
+  const l=S.leads.find(x=>x.id===id);
+  if(!l) return;
+  const p=prompt('Número WhatsApp (com DDD):',l.telefone||'');
+  if(p!==null){l.telefone=p;l.score=score(l);saveS();renderLeads(activeTab);}
+}
+
+function expCsv(){
+  if(!S.leads.length){toast('Nenhum lead','error');return;}
+  const h=['ID','Nome','Telefone','Endereço','Cidade','Categoria','Website','Score','Status','Adicionado Em'];
+  const rows=S.leads.map(l=>[l.id,l.nome,l.telefone,l.endereco,l.cidade,l.categoria,l.website,l.score,l.status,l.adicionadoEm].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  dl(`leads-${new Date().toISOString().slice(0,10)}.csv`,[h.join(','),...rows].join('\n'),'text/csv');
+  toast('CSV exportado!','success');
+}
+
+// ── CAMPAIGN ───────────────────────────────────────────
+function refreshCamp(){
+  const status=document.getElementById('c-filter').value;
+  const leads=S.leads.filter(l=>l.status===status&&l.telefone?.trim());
+  document.getElementById('c-count').textContent=`${leads.length} lead${leads.length!==1?'s':''} com telefone`;
+  campLeads=leads;
+
+  const list=document.getElementById('c-list');
+  if(!leads.length){
+    list.innerHTML=`<div class="empty"><p style="font-size:12px">Nenhum lead com telefone nessa lista.<br>Busque ou edite os telefones manualmente.</p></div>`;
+    return;
+  }
+  list.innerHTML=leads.map(l=>`
+    <div class="cl" id="cl-${l.id}">
+      <div class="cdot" id="cd-${l.id}"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.nome}</div>
+        <div style="font-size:10px;color:var(--td)">${l.telefone}</div>
+      </div>
+    </div>`).join('');
+}
+
+function insVar(v){
+  const ta=document.getElementById('c-msg');
+  const p=ta.selectionStart;
+  ta.value=ta.value.slice(0,p)+v+ta.value.slice(p);
+  ta.selectionStart=ta.selectionEnd=p+v.length;
+  ta.focus();
+}
+
+async function startCamp(){
+  if(!campLeads.length){toast('Carregue leads na fila','error');return;}
+  const tmpl=document.getElementById('c-msg').value.trim();
+  if(!tmpl){toast('Escreva a mensagem','error');return;}
+  const interval=parseInt(document.getElementById('c-int').value);
+
+  document.getElementById('btn-c-start').style.display='none';
+  document.getElementById('btn-c-stop').style.display='block';
+  document.getElementById('c-pbw').style.display='block';
+  document.getElementById('c-ptxt').style.display='block';
+  campRunning=true;
+
+  for(let i=0;i<campLeads.length;i++){
+    if(!campRunning) break;
+    const l=campLeads[i];
+    document.getElementById('c-pbf').style.width=((i/campLeads.length)*100)+'%';
+    document.getElementById('c-ptxt').textContent=`Enviando ${i+1}/${campLeads.length}: ${l.nome}`;
+
+    const dot=document.getElementById('cd-'+l.id);
+    const row=document.getElementById('cl-'+l.id);
+    if(dot){dot.className='cdot current';}
+    if(row){row.className='cl current';}
+
+    const msg=tmpl
+      .replace(/\{\{nome\}\}/gi,l.nome||'')
+      .replace(/\{\{cidade\}\}/gi,l.cidade||'')
+      .replace(/\{\{categoria\}\}/gi,l.categoria||'')
+      .replace(/\{\{telefone\}\}/gi,l.telefone||'');
+
+    window.open(`https://wa.me/55${fmtPhone(l.telefone)}?text=${encodeURIComponent(msg)}`,'_blank');
+
+    const sl=S.leads.find(x=>x.id===l.id);
+    if(sl){sl.status='em-contato';}
+    saveS();
+
+    if(dot){dot.className='cdot sent';}
+    if(row){row.className='cl sent';}
+
+    if(i<campLeads.length-1&&campRunning){
+      for(let t=interval;t>0&&campRunning;t--){
+        document.getElementById('c-ptxt').textContent=`Aguardando ${t}s... (próx: ${campLeads[i+1]?.nome})`;
+        await new Promise(r=>setTimeout(r,1000));
+      }
+    }
+  }
+
+  campRunning=false;
+  document.getElementById('btn-c-start').style.display='block';
+  document.getElementById('btn-c-stop').style.display='none';
+  document.getElementById('c-pbf').style.width='100%';
+  document.getElementById('c-ptxt').textContent=`Campanha concluída — ${campLeads.length} leads contatados`;
+  toast('Campanha finalizada!','success');
+  updTabs();
+}
+
+function stopCamp(){
+  campRunning=false;
+  document.getElementById('btn-c-start').style.display='block';
+  document.getElementById('btn-c-stop').style.display='none';
+  toast('Campanha interrompida');
+}
+
+// ── SETTINGS ───────────────────────────────────────────
+function renderSettings(){
+  const key=S.cfg.mapsKey||'';
+  document.getElementById('set-key').value=key?'••••••••••••••':'' ;
+  document.getElementById('key-status').innerHTML=key
+    ?'<span style="color:var(--green)">✓ Chave configurada</span>'
+    :'<span style="color:var(--td)">Chave não configurada — use o botão "Carregar demo" para testar.</span>';
+
+  const stats=['ativos','qualificados','em-contato','limpos','arquivados'];
+  const lbl={ativos:'Ativos',qualificados:'Qualificados','em-contato':'Em Contato',limpos:'Limpos',arquivados:'Arquivados'};
+  const clr={ativos:'#fff',qualificados:'#22c55e','em-contato':'#f59e0b',limpos:'#3b82f6',arquivados:'#6b7280'};
+  document.getElementById('set-stats').innerHTML=
+    stats.map(s=>`<div style="padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:${clr[s]}">${S.leads.filter(l=>l.status===s).length}</div>
+      <div style="font-size:10px;color:var(--td);margin-top:2px">${lbl[s]}</div>
+    </div>`).join('')
+    +`<div style="padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:#fff">${S.leads.length}</div>
+      <div style="font-size:10px;color:var(--td);margin-top:2px">Total</div>
+    </div>`;
+}
+
+function saveKey(){
+  const v=document.getElementById('set-key').value.trim();
+  if(v==='••••••••••••••'){toast('Chave já salva');return;}
+  if(!v){
+    if(confirm('Remover chave da API?')){S.cfg.mapsKey='';saveS();renderSettings();toast('Chave removida');}
+    return;
+  }
+  if(!v.startsWith('AIza')){toast('Chave inválida (começa com AIza...)','error');return;}
+  S.cfg.mapsKey=v; saveS(); renderSettings();
+  mapsReady=false;
+  toast('Chave salva!','success');
+}
+
+function expAll(){
+  dl(`kaptar-backup-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(S,null,2),'application/json');
+  toast('Backup exportado!','success');
+}
+
+function clearAll(){
+  if(!confirm('Apagar TODOS os leads e configurações?')) return;
+  if(!confirm('Confirmar? Esta ação é irreversível.')) return;
+  localStorage.removeItem('kap_leads');
+  localStorage.removeItem('kap_cfg');
+  localStorage.removeItem('kap_nid');
+  S=loadS(); updStor(); updTabs(); renderSettings();
+  toast('Dados apagados');
+}
+
+// ── INIT ───────────────────────────────────────────────
+document.getElementById('s-loc').addEventListener('keydown',e=>{if(e.key==='Enter') doSearch();});
+updStor();
+</script>
+</body>
+</html>

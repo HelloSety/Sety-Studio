@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "title": "PESQUISAR",
+        "placeholder": "Buscar peças...",
+        "button_text": "BUSCAR",
+        "no_results_text": "Nenhum resultado encontrado."
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,81 @@
+<section class="story-section">
+  <div class="story-image">
+    {%- if section.settings.image -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 900 }}"
+        alt="{{ section.settings.image.alt | default: section.settings.title }}"
+        width="900"
+        height="1100"
+        loading="lazy">
+    {%- endif -%}
+  </div>
+  <div class="story-text">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="story-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h2 class="story-title">{{ section.settings.title | default: 'Nossa História,<br>Nossa Promessa' | newline_to_br }}</h2>
+    <p class="story-body">{{ section.settings.body | default: 'Cada peça nasce de um processo artesanal único — fio a fio, nó a nó.' }}</p>
+    {%- if section.settings.cta_link != blank -%}
+      <a href="{{ section.settings.cta_link }}" class="btn-outline">{{ section.settings.cta_text | default: 'SAIBA MAIS' }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Story / Brand",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagem"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Foto da seção"
+    },
+    {
+      "type": "header",
+      "content": "Textos"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto acima do título (eyebrow)",
+      "default": "Nossa História"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Nossa História,\nNossa Promessa"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Texto do corpo",
+      "default": "Cada peça nasce de um processo artesanal único — fio a fio, nó a nó. Criadas à mão no Brasil com macramê de alta qualidade, nossas criações carregam a alma da arte manual e a beleza do estilo contemporâneo."
+    },
+    {
+      "type": "header",
+      "content": "Botão"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto do botão",
+      "default": "SAIBA MAIS"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link do botão"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story / Brand"
+    }
+  ]
+}
+{% endschema %}

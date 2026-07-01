@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1350px; overflow: hidden; background: #080808; font-family: 'Barlow Condensed', sans-serif; }
+  .c { width: 1080px; height: 1350px; position: relative; overflow: hidden; }
+
+  /* Imagem de fundo */
+  .bg-img {
+    position: absolute; inset: 0; z-index: 1;
+  }
+  .bg-img img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: brightness(0.45) saturate(0.9);
+  }
+
+  /* Overlay gradientes */
+  .ov-b {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 70%;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,0.85) 40%, transparent 100%);
+  }
+  .ov-t {
+    position: absolute; top: 0; left: 0; right: 0; height: 30%;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.7) 0%, transparent 100%);
+  }
+
+  /* Linha verde lateral */
+  .blade {
+    position: absolute; top: 0; left: 0; z-index: 5;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, #00c864 60%, transparent 100%);
+  }
+
+  /* Header */
+  .hdr {
+    position: absolute; top: 52px; left: 60px; right: 60px; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { font-size: 14px; font-weight: 700; letter-spacing: 5px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .handle { font-size: 12px; font-weight: 400; letter-spacing: 3px; color: #00c864; text-transform: lowercase; font-family: 'Inter', sans-serif; }
+
+  /* Conteúdo principal */
+  .main {
+    position: absolute; bottom: 180px; left: 60px; right: 60px; z-index: 20;
+  }
+
+  .tag-line {
+    font-size: 16px; font-weight: 300; letter-spacing: 7px;
+    color: #00c864; text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .tag-line::before {
+    content: ''; display: block; width: 40px; height: 1.5px; background: #00c864;
+  }
+
+  .titulo {
+    font-size: 130px; font-weight: 900; line-height: 0.88;
+    color: #fff; text-transform: uppercase; letter-spacing: -4px;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+    margin-bottom: 32px;
+  }
+  .titulo span { color: #00c864; display: block; }
+
+  .subtitulo {
+    font-size: 26px; font-weight: 300; letter-spacing: 4px;
+    color: rgba(255,255,255,0.65); text-transform: uppercase;
+    margin-bottom: 50px;
+  }
+
+  /* Preço + CTA */
+  .cta-row {
+    display: flex; align-items: center; gap: 32px;
+  }
+  .preco {
+    font-size: 48px; font-weight: 900; color: #fff;
+    letter-spacing: -1px;
+  }
+  .preco small {
+    font-size: 20px; font-weight: 300; color: rgba(255,255,255,0.5);
+    margin-right: 4px;
+  }
+  .btn {
+    background: #00c864; color: #000;
+    font-size: 18px; font-weight: 900; letter-spacing: 4px;
+    text-transform: uppercase; padding: 18px 44px; border-radius: 50px;
+  }
+
+  /* Footer */
+  .ftr {
+    position: absolute; bottom: 52px; left: 60px; right: 60px; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+  }
+  .ftr-l { font-size: 13px; font-weight: 300; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+  .ftr-r { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: #00c864; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="bg-img">
+    <img src="../../../saidas/shopify-produtos-2026/imagens/SELEÇÕES/brasil/imagem-principal.jpg" alt="Brasil">
+  </div>
+  <div class="ov-b"></div>
+  <div class="ov-t"></div>
+  <div class="blade"></div>
+
+  <div class="hdr">
+    <div class="brand">Empório Norte Belém</div>
+    <div class="handle">@emporionortebelem</div>
+  </div>
+
+  <div class="main">
+    <div class="tag-line">Seleção Brasileira</div>
+    <div class="titulo">A Camisa<br><span>Mais Amada</span><br>do Brasil.</div>
+    <div class="subtitulo">Dry-fit · Tamanhos P ao XG</div>
+    <div class="cta-row">
+      <div class="preco"><small>R$</small>179,90</div>
+      <div class="btn">Link na Bio ↗</div>
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div class="ftr-l">Belém do Pará · Entrega nacional</div>
+    <div class="ftr-r">Comprar agora</div>
+  </div>
+</div>
+</body>
+</html>

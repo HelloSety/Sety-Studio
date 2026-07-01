@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1080px; height:1350px; overflow:hidden; background:#07080d; }
+
+.slide { width:1080px; height:1350px; position:relative; overflow:hidden; }
+
+/* Background premium */
+.bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 28% 52%, rgba(18,22,46,0.85) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 65% at 82% 18%, rgba(24,14,44,0.65) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 45% at 68% 92%, rgba(10,14,28,0.9) 0%, transparent 52%),
+    linear-gradient(160deg, #0b0d18 0%, #07090f 45%, #060708 100%);
+}
+
+/* Grid sutil */
+.grid {
+  position:absolute; inset:0; z-index:1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.011) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.011) 1px, transparent 1px);
+  background-size:72px 72px;
+  -webkit-mask:linear-gradient(to right, transparent 0%, black 45%, black 55%, transparent 100%);
+  mask:linear-gradient(to right, transparent 0%, black 45%, black 55%, transparent 100%);
+}
+
+/* Glow dourado no produto */
+.glow-product {
+  position:absolute; left:-80px; top:50%; transform:translateY(-50%); z-index:2;
+  width:700px; height:900px; pointer-events:none;
+  background:radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 65%);
+}
+
+/* Grain cinematográfico */
+.grain {
+  position:absolute; inset:0; z-index:9; pointer-events:none; opacity:0.038;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* Linha ouro no topo */
+.line-top {
+  position:absolute; top:0; left:0; right:0; z-index:10; height:1px;
+  background:linear-gradient(to right, transparent 0%, rgba(201,168,76,0.3) 25%, rgba(201,168,76,0.3) 65%, transparent 100%);
+}
+
+/* Header */
+.hdr {
+  position:absolute; top:44px; left:52px; right:52px; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.hdr-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:4px; color:rgba(255,255,255,0.2); text-transform:uppercase;
+}
+
+/* ── LADO ESQUERDO: CAMISA 60% ── */
+.img-side {
+  position:absolute; left:0; top:0; bottom:0; z-index:5;
+  width:648px;
+  display:flex; align-items:center; justify-content:center;
+}
+.img-side img {
+  width:84%; object-fit:contain;
+  filter:brightness(1.06) contrast(1.06)
+         drop-shadow(0 24px 64px rgba(0,0,0,0.95))
+         drop-shadow(0 0 48px rgba(201,168,76,0.1));
+}
+
+/* Divisor vertical */
+.divider {
+  position:absolute; left:648px; top:90px; bottom:90px; z-index:10;
+  width:1px;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    rgba(255,255,255,0.07) 18%,
+    rgba(255,255,255,0.07) 82%,
+    transparent 100%
+  );
+}
+
+/* ── LADO DIREITO: TEXTO 40% ── */
+.txt-side {
+  position:absolute; right:0; top:0; bottom:0; z-index:5;
+  width:432px;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:0 52px 0 46px;
+}
+
+/* Badge */
+.badge {
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid rgba(201,168,76,0.22);
+  border-radius:2px; padding:7px 16px; margin-bottom:46px; width:fit-content;
+}
+.badge-dot { width:4px; height:4px; border-radius:50%; background:#C9A84C; flex-shrink:0; }
+.badge-txt {
+  font-family:'Barlow',sans-serif; font-size:8px; font-weight:400;
+  letter-spacing:4px; color:rgba(201,168,76,0.6); text-transform:uppercase;
+}
+
+/* Headline com ritmo quebrado */
+.hl { margin-bottom:34px; line-height:0.88; }
+.h-a { font-family:'Bebas Neue',sans-serif; font-size:80px; display:block; color:rgba(255,255,255,0.28); letter-spacing:3px; }
+.h-b { font-family:'Bebas Neue',sans-serif; font-size:112px; display:block; color:#fff; letter-spacing:-1px; }
+.h-c { font-family:'Bebas Neue',sans-serif; font-size:72px; display:block; color:#C9A84C; letter-spacing:1px; }
+.h-d { font-family:'Bebas Neue',sans-serif; font-size:112px; display:block; color:#fff; letter-spacing:-1px; }
+.h-e { font-family:'Bebas Neue',sans-serif; font-size:80px; display:block; color:rgba(255,255,255,0.45); letter-spacing:2px; }
+
+/* Régua ouro */
+.rule { width:32px; height:1px; background:#C9A84C; opacity:0.5; margin-bottom:34px; }
+
+/* Copy */
+.copy {
+  font-family:'Barlow',sans-serif; font-size:12px; font-weight:300;
+  line-height:1.9; color:rgba(255,255,255,0.36); letter-spacing:0.3px;
+  margin-bottom:54px;
+}
+
+/* CTA */
+.cta { display:flex; align-items:center; gap:14px; }
+.cta-dash { width:22px; height:1px; background:#C9A84C; opacity:0.45; flex-shrink:0; }
+.cta-txt {
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:400;
+  letter-spacing:5px; color:rgba(255,255,255,0.28); text-transform:uppercase;
+}
+
+/* Footer */
+.footer {
+  position:absolute; bottom:44px; right:52px; z-index:20;
+  font-family:'Barlow',sans-serif; font-size:9px; font-weight:300;
+  letter-spacing:3px; color:rgba(255,255,255,0.13); text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <div class="glow-product"></div>
+  <div class="grain"></div>
+  <div class="line-top"></div>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-txt">Coleção 2026</div>
+    <div class="hdr-txt">Empório Norte</div>
+  </div>
+
+  <!-- CAMISA (60%) -->
+  <div class="img-side">
+    <img src="file:///c:/Users/seven/MazyOS/marketing/esportivo/v4-content/08-camisa-premium-dark.png">
+  </div>
+
+  <!-- Divisor -->
+  <div class="divider"></div>
+
+  <!-- TEXTO (40%) -->
+  <div class="txt-side">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span class="badge-txt">Premium</span>
+    </div>
+
+    <div class="hl">
+      <span class="h-a">seu</span>
+      <span class="h-b">escudo</span>
+      <span class="h-c">conta</span>
+      <span class="h-d">sua</span>
+      <span class="h-e">história</span>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="copy">
+      Uma camisa é mais do que tecido.<br>
+      É o símbolo do que você defende,<br>
+      do time que você nunca abandona.
+    </div>
+
+    <div class="cta">
+      <div class="cta-dash"></div>
+      <div class="cta-txt">Ver coleção completa</div>
+    </div>
+  </div>
+
+  <div class="footer">@emporionortebelém</div>
+</div>
+</body>
+</html>
