@@ -10,9 +10,10 @@ export type ContactType =
   | "amigo"
   | "familiar"
   | "contato_pessoal"
-  | "spam";
+  | "spam"
+  | "inadequado";
 
-export type AutoResponseDecision = "respond" | "ignore" | "notify_human";
+export type AutoResponseDecision = "respond" | "ignore" | "notify_human" | "respond_once";
 
 export interface ContactClassification {
   contactType: ContactType;

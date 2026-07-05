@@ -90,6 +90,21 @@ export async function saveMessage(message: Omit<Message, "id">): Promise<void> {
   if (error) console.error("Erro ao salvar mensagem:", error.message);
 }
 
+// ── Debounce de mensagens rápidas em sequência ───────────────────────────────
+// Usado pra evitar que duas mensagens do cliente chegadas quase juntas gerem
+// duas respostas de IA independentes e sobrepostas (ver webhook/whatsapp/route.ts).
+
+export async function hasNewerClientMessage(leadId: string, afterTimestamp: string): Promise<boolean> {
+  const supabase = getSupabase();
+  const { count } = await supabase
+    .from("messages")
+    .select("id", { count: "exact", head: true })
+    .eq("lead_id", leadId)
+    .eq("role", "client")
+    .gt("timestamp", afterTimestamp);
+  return (count ?? 0) > 0;
+}
+
 // ── Buscar ou criar perfil de contato ────────────────────────────────────────
 
 export async function getContactProfile(phone: string): Promise<ContactProfile | null> {
@@ -141,9 +156,42 @@ export async function isContactBlocked(phone: string): Promise<boolean> {
   if (profile.isBlocked) return true;
 
   const NO_RESPOND_TYPES: ContactType[] = [
-    "amigo", "familiar", "contato_pessoal", "parceiro", "fornecedor", "spam",
+    "amigo", "familiar", "contato_pessoal", "parceiro", "fornecedor", "spam", "inadequado",
   ];
   return NO_RESPOND_TYPES.includes(profile.contactType);
+}
+
+// ── Idempotência de webhook — evita responder duas vezes à mesma mensagem ────
+// (retry da UAZAPI, reconexão, etc.). Tenta "reivindicar" o messageId: se já
+// existir (constraint unique), a mensagem já está sendo/foi processada.
+
+export async function tryClaimMessage(externalMessageId: string, phone: string): Promise<boolean> {
+  if (!externalMessageId) return true; // sem ID não dá pra deduplicar — segue processando
+  const supabase = getSupabase();
+  const { error } = await supabase
+    .from("processed_webhook_events")
+    .insert({ external_message_id: externalMessageId, phone, status: "processing" });
+
+  if (error) {
+    // 23505 = unique_violation — já reivindicado por uma execução anterior/concorrente
+    if (error.code === "23505") return false;
+    console.error("Erro ao reivindicar messageId (seguindo sem dedup):", error.message);
+    return true;
+  }
+  return true;
+}
+
+export async function markMessageProcessed(
+  externalMessageId: string,
+  status: "done" | "failed"
+): Promise<void> {
+  if (!externalMessageId) return;
+  const supabase = getSupabase();
+  const { error } = await supabase
+    .from("processed_webhook_events")
+    .update({ status })
+    .eq("external_message_id", externalMessageId);
+  if (error) console.error("Erro ao atualizar status do messageId:", error.message);
 }
 
 // ── Criar notificação no CRM ──────────────────────────────────────────────────

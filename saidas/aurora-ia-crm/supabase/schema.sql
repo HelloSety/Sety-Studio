@@ -254,3 +254,18 @@ create policy "service_role_leads"           on public.leads            for all 
 create policy "service_role_messages"        on public.messages         for all using (auth.jwt()->>'role' = 'service_role');
 create policy "service_role_notifications"   on public.notifications    for all using (auth.jwt()->>'role' = 'service_role');
 create policy "service_role_contact_profiles" on public.contact_profiles for all using (auth.jwt()->>'role' = 'service_role');
+
+-- ===========================
+-- WEBHOOK IDEMPOTENCY (evita resposta duplicada em retry da UAZAPI)
+-- ===========================
+create table if not exists public.processed_webhook_events (
+  external_message_id text primary key,
+  phone                text,
+  status               text not null default 'processing' check (status in ('processing','done','failed')),
+  created_at           timestamptz default now()
+);
+
+create index if not exists processed_webhook_events_created_idx on public.processed_webhook_events (created_at desc);
+
+alter table public.processed_webhook_events enable row level security;
+create policy "service_role_processed_webhook_events" on public.processed_webhook_events for all using (auth.jwt()->>'role' = 'service_role');
