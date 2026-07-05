@@ -1,5 +1,5 @@
 /**
- * Sistema de classificação de contatos para Aurora IA SDR
+ * Sistema de classificação de contatos para Sety Vision SDR
  * Determina se deve responder automaticamente e como classificar o contato
  */
 
@@ -13,7 +13,8 @@ import type {
 
 const COMMERCIAL_KEYWORDS = [
   // Serviços
-  "site", "sites", "loja virtual", "shopify", "nuvemshop", "vtex",
+  "site", "sites", "loja", "lojas", "loja virtual", "montar uma loja",
+  "abrir uma loja", "ter uma loja", "shopify", "nuvemshop", "vtex",
   "ecommerce", "e-commerce", "landing page", "página de vendas", "hotsite",
   "webflow", "framer", "wordpress",
   // Marketing digital
@@ -36,11 +37,56 @@ const COMMERCIAL_KEYWORDS = [
   "material gráfico", "arte", "banner", "flyer",
 ];
 
+// Sinais de urgência/prazo — não eram pontuados antes, mas indicam intenção alta
+// (cliente com pressa decide mais rápido e merece prioridade de atendimento).
+const URGENCY_KEYWORDS = [
+  "urgente", "com urgência", "pra ontem", "o quanto antes", "hoje mesmo",
+  "essa semana", "prazo apertado", "preciso rápido", "o mais rápido possível",
+];
+
+// Sinais de lead pronto pra fechar que não eram cobertos pelas keywords comerciais
+// gerais (perguntar "como funciona" ou sobre pagamento é sinal de decisão próxima,
+// não só interesse genérico).
+const CLOSING_SIGNAL_KEYWORDS = [
+  "como funciona", "vocês fazem", "vocês fazem isso", "forma de pagamento",
+  "formas de pagamento", "parcelamento", "parcela", "à vista", "a vista",
+  "já pesquisei", "já cotei", "outras empresas", "outros orçamentos", "comparando",
+];
+
+// Frases que pedem explicitamente atendimento humano — nunca dependem do LLM
+// interpretar corretamente, porque é o momento mais sensível da conversa
+// (cliente já decidiu que não quer mais falar com a automação).
+export const HUMAN_HANDOFF_KEYWORDS = [
+  "falar com humano", "falar com um humano", "falar com atendente",
+  "falar com uma pessoa", "falar com alguém", "quero um atendente",
+  "quero falar com alguém", "tem algum atendente", "quero uma pessoa real",
+  "atendimento humano", "falar com o responsável", "quero falar com o dono",
+  "falar com o seven", "isso é um robô", "você é um robô", "é um bot",
+];
+
+export function wantsHumanHandoff(message: string): boolean {
+  const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  return HUMAN_HANDOFF_KEYWORDS.some((kw) =>
+    text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
+  );
+}
+
+// Tag aplicada quando o cliente pede humano — pausa a automação pra esse lead
+// até o Seven remover a tag manualmente pelo CRM.
+export const HUMAN_TAKEOVER_TAG = "aguardando humano";
+
 const SPAM_KEYWORDS = [
   "promoção exclusiva", "ganhe dinheiro fácil", "renda extra sem sair",
   "oportunidade única", "clique aqui e ganhe", "você foi selecionado",
   "vaga de emprego", "emprego em casa", "bitcoin", "investimento garantido",
   "pirâmide", "multinível", "sorteio", "prêmio",
+];
+
+// Só xingamento/ofensa clara e direta — nunca informalidade, gíria ou mensagem confusa.
+// Objetivo é pegar abuso óbvio, não penalizar quem escreve mal ou brinca.
+const OFFENSIVE_KEYWORDS = [
+  "vai se fuder", "vai tomar no cu", "seu filho da puta", "seu merda",
+  "vtnc", "vsf", "arrombado", "corno", "vagabundo",
 ];
 
 const PERSONAL_PATTERNS = [
@@ -74,6 +120,22 @@ export function calculateIntentScore(message: string): {
     }
   }
 
+  for (const kw of URGENCY_KEYWORDS) {
+    const normalized = kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    if (text.includes(normalized)) {
+      found.push(kw);
+      score += 20;
+    }
+  }
+
+  for (const kw of CLOSING_SIGNAL_KEYWORDS) {
+    const normalized = kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    if (text.includes(normalized)) {
+      found.push(kw);
+      score += 20;
+    }
+  }
+
   return { score: Math.min(score, 100), keywords: found };
 }
 
@@ -82,6 +144,13 @@ export function calculateIntentScore(message: string): {
 function isSpam(message: string): boolean {
   const text = message.toLowerCase();
   return SPAM_KEYWORDS.some((kw) => text.includes(kw.toLowerCase()));
+}
+
+// ── Detecção de conteúdo ofensivo (xingamento/abuso claro, não gíria ou confusão) ─
+
+function isOffensive(message: string): boolean {
+  const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  return OFFENSIVE_KEYWORDS.some((kw) => text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")));
 }
 
 // ── Detecção de conversa pessoal ─────────────────────────────────────────────
@@ -100,6 +169,8 @@ export interface ClassificationInput {
   conversationHistory?: Array<{ role: string; content: string }>;
   existingContactType?: ContactType;
   existingTags?: string[];
+  /** Nome salvo pelo próprio Seven no celular conectado — sinal real de contato pessoal, diferente de "já tem lead no CRM" */
+  isSavedContact?: boolean;
 }
 
 export function classifyContact(input: ClassificationInput): ContactClassification {
@@ -149,20 +220,52 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
     };
   }
 
-  // Tags de bloqueio explícito
-  const BLOCKED_TAGS = ["amigo", "familiar", "pessoal", "ignorar", "parceiro", "fornecedor"];
-  if (existingTags.some((t) => BLOCKED_TAGS.includes(t.toLowerCase()))) {
+  // Cliente pediu atendimento humano numa mensagem anterior — automação pausada pra esse lead
+  // até o Seven remover a tag "aguardando humano" manualmente pelo CRM. Prioridade máxima:
+  // vale mesmo pra cliente_ativo, porque quem pediu humano não quer mais falar com o bot.
+  if (existingTags.some((t) => t.toLowerCase() === HUMAN_TAKEOVER_TAG)) {
     return {
-      contactType: existingContactType ?? "contato_pessoal",
+      contactType: existingContactType ?? "cliente_potencial",
       decision: "ignore",
-      confidence: 0.95,
+      confidence: 1.0,
       intentScore: 0,
       detectedKeywords: [],
-      reasoning: `Contato marcado com tag de exclusão: ${existingTags.join(", ")}`,
+      reasoning: "Lead marcado com 'aguardando humano' — automação pausada até o Seven assumir a conversa.",
     };
   }
 
-  // Se já é cliente ativo: sempre responder
+  // Conteúdo ofensivo/abusivo — já foi marcado antes como inadequado: não responde mais, nem uma vez
+  if (existingContactType === "inadequado") {
+    return {
+      contactType: "inadequado",
+      decision: "ignore",
+      confidence: 0.9,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Contato já classificado como inadequado — automação encerrada para essa conversa.",
+    };
+  }
+
+  // Ofensa clara pela primeira vez: responde educadamente UMA vez, depois encerra a automação
+  if (isOffensive(message)) {
+    return {
+      contactType: "inadequado",
+      decision: "respond_once",
+      confidence: 0.75,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Conteúdo ofensivo detectado — respondendo uma vez de forma educada e encerrando automação.",
+    };
+  }
+
+  // Tag de escape manual: Seven pode reativar automação pra qualquer contato salvo
+  // (ex: cliente antigo que voltou a falar) sem precisar remover da agenda.
+  const AUTOMATION_OVERRIDE_TAGS = ["automação ativa", "automacao ativa", "lead"];
+  const hasAutomationOverride = existingTags.some((t) =>
+    AUTOMATION_OVERRIDE_TAGS.includes(t.toLowerCase())
+  );
+
+  // Se já é cliente ativo: sempre responder (verifica antes do bloqueio, tem prioridade)
   if (existingContactType === "cliente_ativo") {
     return {
       contactType: "cliente_ativo",
@@ -174,19 +277,50 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
     };
   }
 
-  // Tipos que nunca recebem resposta automática
-  const NO_AUTO_RESPOND: ContactType[] = [
-    "amigo", "familiar", "contato_pessoal", "parceiro", "fornecedor",
-  ];
-  if (existingContactType && NO_AUTO_RESPOND.includes(existingContactType)) {
-    return {
-      contactType: existingContactType,
-      decision: "ignore",
-      confidence: 0.95,
-      intentScore: 0,
-      detectedKeywords: [],
-      reasoning: `Tipo de contato '${existingContactType}' não recebe resposta automática.`,
-    };
+  if (!hasAutomationOverride) {
+    // Tags de bloqueio explícito
+    const BLOCKED_TAGS = ["amigo", "familiar", "pessoal", "ignorar", "parceiro", "fornecedor"];
+    if (existingTags.some((t) => BLOCKED_TAGS.includes(t.toLowerCase()))) {
+      return {
+        contactType: existingContactType ?? "contato_pessoal",
+        decision: "ignore",
+        confidence: 0.95,
+        intentScore: 0,
+        detectedKeywords: [],
+        reasoning: `Contato marcado com tag de exclusão: ${existingTags.join(", ")}`,
+      };
+    }
+
+    // Tipos que nunca recebem resposta automática
+    const NO_AUTO_RESPOND: ContactType[] = [
+      "amigo", "familiar", "contato_pessoal", "parceiro", "fornecedor", "inadequado",
+    ];
+    if (existingContactType && NO_AUTO_RESPOND.includes(existingContactType)) {
+      return {
+        contactType: existingContactType,
+        decision: "ignore",
+        confidence: 0.95,
+        intentScore: 0,
+        detectedKeywords: [],
+        reasoning: `Tipo de contato '${existingContactType}' não recebe resposta automática.`,
+      };
+    }
+
+    // Contato salvo no celular conectado (nome real da agenda, via GET /contact/info da UAZAPI —
+    // nunca pushName/displayName de perfil, que qualquer um pode definir sem estar na sua agenda).
+    // Vale mesmo se já existir um contactType antigo (ex: classificado como lead antes dessa
+    // regra existir) — só não bloqueia se for cliente_ativo (já tratado acima) ou tiver a tag
+    // de exceção (já tratado pelo hasAutomationOverride).
+    if (input.isSavedContact) {
+      return {
+        contactType: "contato_pessoal",
+        decision: "ignore",
+        confidence: 0.9,
+        intentScore: 0,
+        detectedKeywords: [],
+        reasoning: "Número salvo nos contatos do WhatsApp conectado — tratado como pessoal, não como lead.",
+      };
+    }
   }
 
   // Análise de intenção comercial
@@ -201,15 +335,17 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
 
   const effectiveScore = Math.max(intentScore, historyScore * 0.7);
 
-  // Mensagem pessoal genérica sem intenção
-  if (isPersonalMessage(message) && effectiveScore < 20) {
+  // Mensagem pessoal genérica (ex: "oi", "tudo bem?") de contato JÁ conhecido como pessoal/amigo/etc:
+  // já foi filtrado acima pelo NO_AUTO_RESPOND. Se chegou até aqui, é contato novo ou já é lead —
+  // nunca ignorar só por parecer saudação, pode ser lead de anúncio esquentando a conversa.
+  if (isPersonalMessage(message) && effectiveScore < 20 && existingContactType) {
     return {
-      contactType: "contato_pessoal",
-      decision: "ignore",
-      confidence: 0.7,
+      contactType: existingContactType,
+      decision: "respond",
+      confidence: 0.6,
       intentScore: effectiveScore,
       detectedKeywords: keywords,
-      reasoning: "Mensagem pessoal sem intenção comercial detectada.",
+      reasoning: "Saudação genérica de lead já conhecido — respondendo para manter a conversa.",
     };
   }
 
@@ -239,25 +375,32 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
     };
   }
 
-  // Sem intenção clara: não responder contatos desconhecidos
+  // Sem intenção clara mas é contato NOVO/desconhecido (nunca salvo antes): responder sempre.
+  // Pode ser lead de anúncio abrindo a conversa com algo genérico — não deixar sem resposta.
   if (!existingContactType) {
     return {
-      contactType: "contato_pessoal",
-      decision: "ignore",
+      contactType: "cliente_potencial",
+      decision: "respond",
       confidence: 0.6,
       intentScore: effectiveScore,
-      detectedKeywords: [],
-      reasoning: "Contato desconhecido sem intenção comercial clara.",
+      detectedKeywords: keywords,
+      reasoning: "Contato novo/desconhecido — respondendo automaticamente para não perder lead.",
     };
   }
 
+  // Chegou até aqui = já passou por todo bloqueio legítimo (grupo, spam, ofensa repetida,
+  // tag de exclusão, tipo pessoal/amigo/parceiro/fornecedor, contato salvo pessoal).
+  // Não existe mais "ignore" por falta de palavra-chave: quem decide o teor da resposta
+  // é o próprio Claude no sdr-engine (que entende intenção de verdade), não uma lista fixa.
+  // Silêncio no meio de uma conversa é sempre pior do que responder algo de baixa confiança —
+  // foi exatamente a falta dessa regra que causou o bug de "parou do meio da conversa".
   return {
     contactType: existingContactType,
-    decision: existingContactType === "cliente_antigo" ? "respond" : "ignore",
-    confidence: 0.65,
+    decision: "respond",
+    confidence: 0.55,
     intentScore: effectiveScore,
     detectedKeywords: keywords,
-    reasoning: `Sem intenção comercial clara para '${existingContactType}'.`,
+    reasoning: `Sem palavra-chave exata para '${existingContactType}', mas nenhuma mensagem válida fica sem resposta — deixando o Claude interpretar o contexto.`,
   };
 }
 
@@ -276,4 +419,5 @@ export const CONTACT_TYPE_CONFIG: Record<
   familiar:          { label: "Familiar",      color: "text-rose-400 bg-rose-400/10",       emoji: "👨‍👩‍👧", autoRespond: false },
   contato_pessoal:   { label: "Pessoal",       color: "text-slate-400 bg-slate-400/10",     emoji: "👤", autoRespond: false },
   spam:              { label: "Spam",          color: "text-red-400 bg-red-400/10",         emoji: "🚫", autoRespond: false },
+  inadequado:        { label: "Inadequado",    color: "text-orange-400 bg-orange-400/10",   emoji: "🚩", autoRespond: false },
 };
