@@ -75,6 +75,20 @@ export function wantsHumanHandoff(message: string): boolean {
 // até o Seven remover a tag manualmente pelo CRM.
 export const HUMAN_TAKEOVER_TAG = "aguardando humano";
 
+// Confirmação de pagamento — nunca depende do Claude "lembrar" de avisar o
+// Seven; dispara notificação real e marca o lead como fechado no CRM.
+const PAYMENT_CONFIRMATION_KEYWORDS = [
+  "comprovante", "paguei", "fiz o pix", "pix feito", "transferi", "transferência feita",
+  "pagamento feito", "pagamento realizado", "segue o comprovante", "consegui pagar", "já paguei",
+];
+
+export function wantsPaymentConfirmation(message: string): boolean {
+  const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  return PAYMENT_CONFIRMATION_KEYWORDS.some((kw) =>
+    text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
+  );
+}
+
 const SPAM_KEYWORDS = [
   "promoção exclusiva", "ganhe dinheiro fácil", "renda extra sem sair",
   "oportunidade única", "clique aqui e ganhe", "você foi selecionado",

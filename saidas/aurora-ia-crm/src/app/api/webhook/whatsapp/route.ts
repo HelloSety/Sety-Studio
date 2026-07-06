@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { classifyContact } from "@/lib/contact-classifier";
+import { classifyContact, wantsPaymentConfirmation } from "@/lib/contact-classifier";
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
 import { splitIntoBubbles } from "@/lib/message-formatting";
 import { detectProofTrigger, pickProofImages, inferNiche } from "@/lib/social-proof-assets";
@@ -491,10 +491,32 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       status: "sent",
     });
 
+    // Confirmação de pagamento: nunca depende do Claude lembrar de avisar —
+    // marca fechado no CRM e notifica o Seven de verdade, pra ele criar o
+    // grupo do WhatsApp e assumir o projeto (a promessa do pós-venda só vale
+    // se um humano realmente agir).
+    const paymentConfirmed =
+      wantsPaymentConfirmation(messageText) &&
+      (lead.status === "proposta" || lead.status === "negociacao");
+
     await updateLead(lead.id, {
       ...sdrResult.leadUpdate,
+      ...(paymentConfirmed ? { status: "fechado" as const } : {}),
       name: senderName ?? lead.name,
     });
+
+    if (paymentConfirmed) {
+      const closedMsg = `💰 *Pagamento confirmado — Ação Necessária*\n\n*Cliente:* ${lead.name || phone}\n*Telefone:* ${phone}\n\nCriar o grupo do WhatsApp e assumir o projeto diretamente.`;
+      await Promise.all([
+        notifyResponsible(phone, closedMsg),
+        createCrmNotification({
+          type: "closed",
+          title: `Venda fechada — ${senderName ?? phone}`,
+          body: "Cliente enviou comprovante de pagamento. Criar grupo do WhatsApp e assumir o atendimento.",
+          lead_id: lead.id,
+        }),
+      ]);
+    }
 
     if (sdrResult.shouldNotifyHuman || classification.decision === "notify_human") {
       const notifMsg = await buildHumanTransferMessage(lead, messageText, classification.intentScore);
