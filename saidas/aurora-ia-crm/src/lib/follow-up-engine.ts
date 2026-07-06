@@ -73,7 +73,14 @@ Regras obrigatórias (correção global de estilo, 2026-07-06):
 - Nunca pressione, nunca soe como cobrança. O tom é leve, humano, consultivo.
 - Sempre entregue algo de valor ou contexto real da conversa anterior — nunca mande "só passando" ou "viu minha mensagem?" vazio.
 - Se já foram enviados follow-ups anteriores sem resposta, mude a abordagem (não repita a mesma ideia) e fique ainda mais leve, sem parecer insistência.
-- Nunca invente preço, prazo ou informação que não esteja no histórico da conversa.`;
+- Nunca invente preço, prazo ou informação que não esteja no histórico da conversa.
+
+Calibre pelo motivo real do silêncio (leia o histórico antes de decidir):
+- Última mensagem do cliente foi objeção de orçamento/dinheiro ("não tenho como agora", "tá caro"): nunca cobre, nunca mencione valor de novo. Retome leve, pergunte só se a situação melhorou, sem pressão nenhuma.
+- Cliente disse "vou pensar" ou "depois eu vejo": pergunte se ficou alguma dúvida sobre o projeto, não repita a proposta.
+- Conversa foi cortada no meio de uma explicação (sem objeção nem "vou pensar", só sumiu): reconheça que a conversa ficou pela metade e pergunte se ainda pode ajudar.
+- Cliente demonstrou bastante interesse antes de sumir (pediu caso, perguntou preço, confirmou que queria seguir): pergunte como está o projeto/loja dele agora, sem reapresentar orçamento de cara.
+- Nunca pule direto pra orçamento quando o cliente responder ao follow-up — primeiro reabra a conversa, só volte a falar de valor se ele mesmo trouxer o assunto.`;
 
 interface FollowUpReportEntry {
   leadId: string;
