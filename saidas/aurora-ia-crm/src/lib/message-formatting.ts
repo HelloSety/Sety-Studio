@@ -10,6 +10,20 @@ const MAX_CHARS_PER_BUBBLE = 250;
 const MAX_LINES_PER_BUBBLE = 2;
 const MAX_BUBBLES = 5;
 
+// Bug crítico encontrado 2026-07-06: "R$1.500" (ponto como separador de milhar)
+// tem um "." no meio sem espaço depois — o regex de frase trata isso como fim
+// de frase, mas como não tem espaço/fim-de-string logo depois, o trecho anterior
+// não casa com NENHUMA alternativa do regex e o JS descarta silenciosamente esse
+// pedaço do texto (ex: "O valor mínimo é R$1.500" perdia "O valor mínimo é R$1"
+// inteiro). Protege todo ponto entre dígitos ANTES de qualquer split de frase.
+const DIGIT_DOT_PLACEHOLDER = "‗";
+function protectDigitDots(text: string): string {
+  return text.replace(/(\d)\.(\d)/g, `$1${DIGIT_DOT_PLACEHOLDER}$2`);
+}
+function restoreDigitDots(text: string): string {
+  return text.replace(new RegExp(DIGIT_DOT_PLACEHOLDER, "g"), ".");
+}
+
 export function sanitizeMessageStyle(text: string): string {
   return text
     .replace(/\s*[—–]\s*/g, ", ")
@@ -105,7 +119,7 @@ function stripTrailingPeriod(bubble: string): string {
 // Quebra em até MAX_BUBBLES mensagens curtas, uma frase/ideia por balão —
 // nunca depende só da IA ter separado por parágrafo ou por frase.
 export function splitIntoBubbles(message: string): string[] {
-  const sanitized = sanitizeMessageStyle(message);
+  const sanitized = protectDigitDots(sanitizeMessageStyle(message));
   const paragraphs = sanitized.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   const base = paragraphs.length > 0 ? paragraphs : [sanitized];
   const expanded = base.flatMap(splitParagraphIntoSentences);
@@ -115,5 +129,5 @@ export function splitIntoBubbles(message: string): string[] {
       ? expanded
       : [...expanded.slice(0, MAX_BUBBLES - 1), expanded.slice(MAX_BUBBLES - 1).join(" ")];
 
-  return result.map(stripTrailingPeriod);
+  return result.map((b) => restoreDigitDots(stripTrailingPeriod(b)));
 }
