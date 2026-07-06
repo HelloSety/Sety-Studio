@@ -48,6 +48,22 @@ function looksLikeList(paragraph: string): boolean {
   return listLines.length >= lines.length * 0.6;
 }
 
+// Fragmento só de emoji (ex: "🙌" sobrando depois de "Perfeito! 🙌") nunca vira
+// balão próprio — gruda de volta no anterior. Sem isso "Perfeito! 🙌" virava
+// dois balões ("Perfeito!" + "🙌"), o que parece quebrado, não humano.
+const HAS_LETTER_OR_DIGIT = /[a-zA-Z0-9À-ÿ]/;
+function mergeEmojiOnlyFragments(sentences: string[]): string[] {
+  const merged: string[] = [];
+  for (const s of sentences) {
+    if (merged.length > 0 && !HAS_LETTER_OR_DIGIT.test(s)) {
+      merged[merged.length - 1] = `${merged[merged.length - 1]} ${s}`;
+    } else {
+      merged.push(s);
+    }
+  }
+  return merged;
+}
+
 // Cada FRASE vira seu próprio balão, sempre — não só quando o parágrafo fica
 // grande demais. "Boa! Isso ajuda bastante. Você já vende hoje?" precisa virar
 // 3 balões mesmo cabendo em 250 caracteres, porque são 3 ideias diferentes.
@@ -58,14 +74,26 @@ function splitParagraphIntoSentences(paragraph: string): string[] {
   if (paragraph.length <= MAX_CHARS_PER_BUBBLE && lines.length <= MAX_LINES_PER_BUBBLE) {
     const sentences = paragraph.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g)?.map((s) => s.trim()).filter(Boolean);
     if (!sentences || sentences.length <= 1) return [paragraph];
-    return sentences;
+    return mergeEmojiOnlyFragments(sentences);
   }
 
   const sentences =
     paragraph.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g)?.map((s) => s.trim()).filter(Boolean) ??
     [paragraph];
 
-  return sentences.flatMap((s) => (s.length > MAX_CHARS_PER_BUBBLE ? splitOversizedChunk(s) : [s]));
+  return mergeEmojiOnlyFragments(sentences).flatMap((s) =>
+    s.length > MAX_CHARS_PER_BUBBLE ? splitOversizedChunk(s) : [s]
+  );
+}
+
+// Ponto final em balão curto de WhatsApp é sinal de texto formal, não conversa.
+// Nunca mexe em "?", "!" (usado de propósito em reação, ex: "Perfeito! 🙌") nem
+// em "..." (reticências intencionais) nem em blocos de lista/cartão (têm \n).
+function stripTrailingPeriod(bubble: string): string {
+  if (bubble.includes("\n")) return bubble;
+  if (/\.\.\.$/.test(bubble)) return bubble;
+  if (/[^.]\.$/.test(bubble)) return bubble.slice(0, -1);
+  return bubble;
 }
 
 // Quebra em até MAX_BUBBLES mensagens curtas, uma frase/ideia por balão —
@@ -76,8 +104,10 @@ export function splitIntoBubbles(message: string): string[] {
   const base = paragraphs.length > 0 ? paragraphs : [sanitized];
   const expanded = base.flatMap(splitParagraphIntoSentences);
 
-  if (expanded.length <= MAX_BUBBLES) return expanded;
-  const head = expanded.slice(0, MAX_BUBBLES - 1);
-  const tail = expanded.slice(MAX_BUBBLES - 1).join(" ");
-  return [...head, tail];
+  const result =
+    expanded.length <= MAX_BUBBLES
+      ? expanded
+      : [...expanded.slice(0, MAX_BUBBLES - 1), expanded.slice(MAX_BUBBLES - 1).join(" ")];
+
+  return result.map(stripTrailingPeriod);
 }
