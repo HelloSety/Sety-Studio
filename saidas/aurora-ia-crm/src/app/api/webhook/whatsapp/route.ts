@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { classifyContact } from "@/lib/contact-classifier";
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
 import { splitIntoBubbles } from "@/lib/message-formatting";
+import { detectProofTrigger, pickProofImages, inferNiche } from "@/lib/social-proof-assets";
 import {
   findOrCreateLead,
   updateLead,
@@ -89,6 +90,17 @@ async function sendWhatsAppMessage(phone: string, text: string): Promise<void> {
   });
   if (!res.ok) {
     console.error("Erro ao enviar mensagem UAZAPI:", await res.text());
+  }
+}
+
+async function sendWhatsAppImage(phone: string, imageUrl: string): Promise<void> {
+  const res = await fetch(`${UAZAPI_BASE_URL}/send/image`, {
+    method: "POST",
+    headers: { token: UAZAPI_INSTANCE_TOKEN, "Content-Type": "application/json" },
+    body: JSON.stringify({ number: phone, image: imageUrl }),
+  });
+  if (!res.ok) {
+    console.error("Erro ao enviar imagem UAZAPI:", await res.text());
   }
 }
 
@@ -449,6 +461,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     for (let i = 0; i < bubbles.length; i++) {
       await simulateTyping(phone, bubbles[i], i === 0 ? (msg.type as "text" | "image") : "text", i > 0);
       await sendWhatsAppMessage(phone, bubbles[i]);
+    }
+
+    // Prova social real (portfólio/feedback/resultado), só quando o cliente pede —
+    // gatilho determinístico, nunca depende do Claude "lembrar" de mostrar imagem.
+    const proofTrigger = detectProofTrigger(messageText);
+    if (proofTrigger) {
+      let segmento: string | null = null;
+      try {
+        segmento = JSON.parse(sdrResult.leadUpdate.notes ?? lead.notes ?? "{}")?.segmento ?? null;
+      } catch {
+        segmento = null;
+      }
+      const niche = segmento ? inferNiche(segmento) ?? segmento.toLowerCase() : inferNiche(messageText);
+      const images = pickProofImages(proofTrigger, niche);
+      for (const imageUrl of images) {
+        await sendPresence(phone, "composing");
+        await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 1500));
+        await sendPresence(phone, "paused");
+        await sendWhatsAppImage(phone, imageUrl);
+      }
     }
 
     await saveMessage({
