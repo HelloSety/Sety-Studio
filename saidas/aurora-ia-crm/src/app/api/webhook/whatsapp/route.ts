@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { classifyContact } from "@/lib/contact-classifier";
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
+import { splitIntoBubbles } from "@/lib/message-formatting";
 import {
   findOrCreateLead,
   updateLead,
@@ -119,20 +120,6 @@ function typingDelayRange(message: string, incomingType: "text" | "image"): [num
   return [10_000, 16_000];
 }
 
-// Divide uma resposta em até 5 balões curtos, como alguém mandando mensagem por
-// mensagem em vez de um textão só (cada parágrafo = uma ideia = uma mensagem).
-// Só entra em ação se a resposta já vier com parágrafos separados — o prompt
-// pede pra escrever assim por padrão agora, não só em proposta longa.
-const MAX_BUBBLES = 5;
-function splitIntoBubbles(message: string): string[] {
-  const paragraphs = message.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
-  if (paragraphs.length <= 1) return [message.trim()];
-  if (paragraphs.length <= MAX_BUBBLES) return paragraphs;
-  const head = paragraphs.slice(0, MAX_BUBBLES - 1);
-  const tail = paragraphs.slice(MAX_BUBBLES - 1).join("\n\n");
-  return [...head, tail];
-}
-
 async function simulateTyping(
   phone: string,
   message: string,
@@ -219,8 +206,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const msg = body.message ?? {};
 
-    // Ignorar mensagens próprias, de grupo, ou tipos que não processamos (texto, áudio e imagem só)
-    if (msg.fromMe || msg.isGroup || (msg.type !== "text" && msg.type !== "audio" && msg.type !== "image")) {
+    // Ignorar mensagens próprias, de grupo, ou tipos que não processamos
+    const SUPPORTED_TYPES = ["text", "audio", "image", "sticker"];
+    if (msg.fromMe || msg.isGroup || !SUPPORTED_TYPES.includes(msg.type)) {
       return NextResponse.json({ ok: true, skipped: "filtered" });
     }
 
@@ -273,11 +261,53 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ ok: true, action: "audio_text_requested" });
     }
 
+    // Sticker: nunca manda pra IA, resposta canned e curta, encerra o processamento.
+    const STICKER_REPLIES = ["😂 Boa!", "Hahaha 😄", "kkkkk boa essa"];
+    if (msg.type === "sticker") {
+      const stickerReply = STICKER_REPLIES[Math.floor(Math.random() * STICKER_REPLIES.length)];
+      await simulateTyping(phone, stickerReply, "text");
+      await sendWhatsAppMessage(phone, stickerReply);
+      try {
+        const lead = await findOrCreateLead(phone, senderName);
+        await saveMessage({
+          lead_id: lead.id,
+          content: stickerReply,
+          role: "aurora",
+          timestamp: new Date().toISOString(),
+          status: "sent",
+        });
+      } catch {
+        // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
+      }
+      return NextResponse.json({ ok: true, action: "sticker_acknowledged" });
+    }
+
     let incomingImage: IncomingImage | undefined;
 
     if (msg.type === "image") {
       console.log(`[IMAGEM] Imagem recebida de ${phone}`);
       const caption = (msg.text ?? msg.content ?? "").trim();
+
+      // Imagem sem legenda nenhuma: nunca manda pra IA (visão custa tokens e o
+      // cliente não disse o que quer) — pede o texto e encerra, sem download.
+      if (!caption) {
+        const askForText = "Recebi sua imagem 😊\n\nPode me explicar rapidinho em texto o que você precisa? Assim consigo te ajudar da melhor forma.";
+        await simulateTyping(phone, askForText, "image");
+        await sendWhatsAppMessage(phone, askForText);
+        try {
+          const lead = await findOrCreateLead(phone, senderName);
+          await saveMessage({
+            lead_id: lead.id,
+            content: askForText,
+            role: "aurora",
+            timestamp: new Date().toISOString(),
+            status: "sent",
+          });
+        } catch {
+          // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
+        }
+        return NextResponse.json({ ok: true, action: "image_without_caption_text_requested" });
+      }
 
       try {
         const media = phone && messageId

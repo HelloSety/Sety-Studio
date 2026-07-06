@@ -256,6 +256,19 @@ create policy "service_role_notifications"   on public.notifications    for all 
 create policy "service_role_contact_profiles" on public.contact_profiles for all using (auth.jwt()->>'role' = 'service_role');
 
 -- ===========================
+-- FOLLOW-UP AUTOMÁTICO (leads quentes sem resposta 24h+)
+-- ===========================
+alter table public.leads
+  add column if not exists last_followup_at timestamptz,
+  add column if not exists followup_count    integer not null default 0;
+
+create index if not exists leads_followup_idx on public.leads (last_followup_at);
+
+alter table public.notifications drop constraint if exists notifications_type_check;
+alter table public.notifications add constraint notifications_type_check
+  check (type in ('new_lead','hot_lead','message','score_update','closed','inactive','human_request','reply','follow_up'));
+
+-- ===========================
 -- WEBHOOK IDEMPOTENCY (evita resposta duplicada em retry da UAZAPI)
 -- ===========================
 create table if not exists public.processed_webhook_events (

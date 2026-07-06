@@ -194,6 +194,29 @@ export async function markMessageProcessed(
   if (error) console.error("Erro ao atualizar status do messageId:", error.message);
 }
 
+// ── Candidatos a follow-up automático (leads quentes sem resposta 24h+) ──────
+
+export async function getFollowUpCandidates(minHoursSilent = 24): Promise<Lead[]> {
+  const supabase = getSupabase();
+  const cutoff = new Date(Date.now() - minHoursSilent * 3_600_000).toISOString();
+
+  const { data, error } = await supabase
+    .from("leads")
+    .select("*")
+    .not("status", "in", "(fechado,perdido)")
+    .not("last_message_at", "is", null)
+    .lte("last_message_at", cutoff)
+    .or(`last_followup_at.is.null,last_followup_at.lte.${cutoff}`)
+    .order("score", { ascending: false })
+    .limit(30);
+
+  if (error) {
+    console.error("Erro ao buscar candidatos a follow-up:", error.message);
+    return [];
+  }
+  return data as Lead[];
+}
+
 // ── Criar notificação no CRM ──────────────────────────────────────────────────
 
 export async function createCrmNotification(notification: {

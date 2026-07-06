@@ -52,6 +52,8 @@ export interface Lead {
   updated_at: string;
   last_message?: string;
   last_message_at?: string;
+  last_followup_at?: string;
+  followup_count?: number;
   avatar?: string;
   unread?: number;
 }
@@ -67,7 +69,7 @@ export interface Message {
 
 export interface Notification {
   id: string;
-  type: "new_lead" | "hot_lead" | "reply" | "inactive" | "closed" | "human_request" | "message" | "score_update";
+  type: "new_lead" | "hot_lead" | "reply" | "inactive" | "closed" | "human_request" | "message" | "score_update" | "follow_up";
   title: string;
   body: string;
   lead_id?: string;
