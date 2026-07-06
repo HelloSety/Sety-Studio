@@ -20,8 +20,14 @@ export function sanitizeMessageStyle(text: string): string {
 
 // Fallback só pra frase isolada que sozinha já estourou o limite (raro — texto
 // corrido sem pontuação). Reagrupa em pedaços que cabem no limite de caracteres.
+// Nunca separa "R$" do valor que vem depois — bug real encontrado 2026-07-06:
+// um texto longo sem pontuação podia quebrar bem entre "R$" e "500", deixando
+// um balão terminando em "R$" e o próximo começando em "500 (7-10 dias...)"
+// sem o cifrão. Protege com um joiner invisível antes de tokenizar por espaço.
+const CURRENCY_JOINER = "⁠";
 function splitOversizedChunk(text: string): string[] {
-  const words = text.split(/\s+/);
+  const protectedText = text.replace(/R\$\s+(?=\d)/g, `R$${CURRENCY_JOINER}`);
+  const words = protectedText.split(/\s+/);
   const chunks: string[] = [];
   let current = "";
   for (const word of words) {
@@ -34,7 +40,7 @@ function splitOversizedChunk(text: string): string[] {
     }
   }
   if (current) chunks.push(current.trim());
-  return chunks;
+  return chunks.map((c) => c.replace(new RegExp(CURRENCY_JOINER, "g"), " "));
 }
 
 // Lista tipo "🚀 Loja Shopify completa" / "💰 R$ 1.500" (pacote/proposta) —
