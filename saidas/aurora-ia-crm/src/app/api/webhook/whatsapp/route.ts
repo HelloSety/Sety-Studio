@@ -82,14 +82,24 @@ function normalizeImageMimeType(mimeType: string): IncomingImage["mimeType"] {
 
 // ── Enviar mensagem via UAZAPI ────────────────────────────────────────────────
 
-async function sendWhatsAppMessage(phone: string, text: string): Promise<void> {
-  const res = await fetch(`${UAZAPI_BASE_URL}/send/text`, {
-    method: "POST",
-    headers: { token: UAZAPI_INSTANCE_TOKEN, "Content-Type": "application/json" },
-    body: JSON.stringify({ number: phone, text }),
-  });
-  if (!res.ok) {
-    console.error("Erro ao enviar mensagem UAZAPI:", await res.text());
+// Retorna se o envio foi aceito pela UAZAPI — nunca assumir "entregue" sem
+// checar isso. Um envio que falha silenciosamente (token, número inválido,
+// rate limit) deixava o CRM marcado como "sent" sem o cliente receber nada.
+async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${UAZAPI_BASE_URL}/send/text`, {
+      method: "POST",
+      headers: { token: UAZAPI_INSTANCE_TOKEN, "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({ number: phone, text }),
+    });
+    if (!res.ok) {
+      console.error(`Erro ao enviar mensagem UAZAPI pra ${phone}:`, await res.text());
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error(`Exceção ao enviar mensagem UAZAPI pra ${phone}:`, e);
+    return false;
   }
 }
 
@@ -120,21 +130,23 @@ async function markChatAsRead(phone: string): Promise<void> {
   }).catch(() => {});
 }
 
-// Delay calibrado pra simular tempo humano de digitação/leitura. Áudio não entra
-// mais aqui — não transcrevemos mais, então nunca chega a gerar uma resposta pra
-// simular digitação (ver tratamento de "audio" logo no início do POST).
-function typingDelayRange(message: string, incomingType: "text" | "image"): [number, number] {
+// Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pelo
+// tamanho da mensagem do CLIENTE (o que ele mandou, não o que o bot vai responder)
+// — mensagem curta do cliente não justifica 15s de "pensando", mensagem longa sim.
+// Nunca usar sempre o mesmo intervalo (por isso o jitter): um tempo fixo é o que
+// mais entrega "isso é automático" pro cliente. Áudio não entra mais aqui — não
+// transcrevemos mais (ver tratamento de "audio" no início do POST).
+function firstReplyDelayRange(incomingClientMessage: string, incomingType: "text" | "image"): [number, number] {
   if (incomingType === "image") return [12_000, 20_000];
-  const words = message.trim().split(/\s+/).filter(Boolean).length;
-  if (words <= 15) return [2_000, 5_000];
-  if (words <= 40) return [5_000, 8_000];
-  if (words <= 80) return [8_000, 12_000];
-  return [10_000, 16_000];
+  const words = incomingClientMessage.trim().split(/\s+/).filter(Boolean).length;
+  if (words <= 5) return [6_000, 10_000];
+  if (words <= 15) return [8_000, 15_000];
+  return [10_000, 18_000];
 }
 
 async function simulateTyping(
   phone: string,
-  message: string,
+  incomingClientMessage: string,
   incomingType: "text" | "image" = "text",
   forceShort = false
 ): Promise<void> {
@@ -142,8 +154,10 @@ async function simulateTyping(
   // Balão de continuação (2º+ de uma resposta dividida): a pessoa já formulou o
   // pensamento inteiro, só está terminando de digitar — pausa bem curta (1-3s),
   // não repete o tempo de "pensar" do primeiro balão. Também limita o atraso
-  // total da função quando a resposta vem em vários balões.
-  const [min, max] = forceShort ? [1_000, 3_000] : typingDelayRange(message, incomingType);
+  // total da função quando a resposta vem em vários balões (teto de duração do
+  // Vercel — delay humano demais em cada balão pode estourar o maxDuration e
+  // cortar o envio no meio, pior do que responder rápido demais).
+  const [min, max] = forceShort ? [1_000, 3_000] : firstReplyDelayRange(incomingClientMessage, incomingType);
   const jitterRange = forceShort ? 500 : 2000;
   const jitter = (Math.random() * 2 - 1) * jitterRange;
   const delayMs = Math.max(800, Math.round(min + Math.random() * (max - min) + jitter));
@@ -422,14 +436,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ ok: true, action: "responded_once_then_stopped", classification: "inadequado" });
     }
 
-    // Debounce: se o cliente mandar mais de uma mensagem em sequência rápida, cada uma
-    // chega como um evento de webhook independente. Sem isso, duas mensagens próximas
-    // geram duas chamadas de IA em paralelo — cada uma sem ver a outra — e o cliente
-    // recebe duas perguntas parecidas mas diferentes (ex: "qual seu segmento?" +
-    // "qual seu segmento? (roupas, acessórios...)"). Espera um pouco e cede a vez pra
-    // mensagem mais nova processar o lote inteiro de uma vez.
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    if (await hasNewerClientMessage(lead.id, thisMessageTimestamp)) {
+    // Debounce: se o cliente mandar várias mensagens em sequência (comum no WhatsApp,
+    // uma ideia por balão), cada uma chega como um evento de webhook independente.
+    // Um único sleep fixo de 4s + checagem única falha quando o intervalo real entre
+    // balões passa de 4s (comum — gerou 3 respostas separadas, cada uma perguntando
+    // segmento de novo, incidente real de 2026-07-06 com a lead "Duds"). Em vez disso,
+    // espera em rounds de silêncio: só segue se não chegou nada novo por 6s seguidos.
+    // Cada mensagem do lote "cede a vez" pra próxima assim que uma mais nova aparece —
+    // só a ÚLTIMA mensagem do lote sobrevive até gerar a resposta (com o histórico
+    // inteiro do lote já disponível, via freshHistory logo abaixo).
+    const DEBOUNCE_QUIET_MS = 6000;
+    const DEBOUNCE_MAX_ROUNDS = 4;
+    let supersededByNewer = false;
+    for (let round = 0; round < DEBOUNCE_MAX_ROUNDS; round++) {
+      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE_QUIET_MS));
+      if (await hasNewerClientMessage(lead.id, thisMessageTimestamp)) {
+        supersededByNewer = true;
+        break;
+      }
+    }
+    if (supersededByNewer) {
       console.log(`[Sety Vision] Mensagem de ${phone} superada por outra mais recente — cedendo a resposta.`);
       return NextResponse.json({ ok: true, action: "superseded_by_newer_message" });
     }
@@ -456,11 +482,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     // Envia em até 5 balões (ver splitIntoBubbles) — só o primeiro carrega o delay
-    // de "processar imagem" (áudio nunca chega aqui, ver tratamento no início do POST).
+    // de leitura/raciocínio, calibrado pelo tamanho do que o CLIENTE mandou (não
+    // pela bolha de saída — ver firstReplyDelayRange).
     const bubbles = splitIntoBubbles(sdrResult.message);
+    let anySendFailed = false;
     for (let i = 0; i < bubbles.length; i++) {
-      await simulateTyping(phone, bubbles[i], i === 0 ? (msg.type as "text" | "image") : "text", i > 0);
-      await sendWhatsAppMessage(phone, bubbles[i]);
+      await simulateTyping(phone, messageText, i === 0 ? (msg.type as "text" | "image") : "text", i > 0);
+      const ok = await sendWhatsAppMessage(phone, bubbles[i]);
+      if (!ok) anySendFailed = true;
+    }
+
+    if (anySendFailed) {
+      await Promise.all([
+        notifyResponsible(phone, `⚠️ *Falha no envio* — parte da resposta pode não ter chegado pro cliente ${senderName ?? phone} (${phone}). Verificar manualmente.`),
+        createCrmNotification({
+          type: "message",
+          title: `Falha ao enviar mensagem — ${senderName ?? phone}`,
+          body: "A UAZAPI recusou/falhou ao enviar pelo menos um balão da resposta. Verificar se o cliente recebeu.",
+          lead_id: lead.id,
+        }),
+      ]);
     }
 
     // Prova social real (portfólio/feedback/resultado), só quando o cliente pede —
