@@ -3,6 +3,8 @@ import { classifyContact, wantsPaymentConfirmation } from "@/lib/contact-classif
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
 import { splitIntoBubbles } from "@/lib/message-formatting";
 import { detectProofTrigger, pickProofImages, inferNiche } from "@/lib/social-proof-assets";
+import { transcribeAudio } from "@/lib/audio-transcription";
+import { extractFirstUrl, fetchLinkContent } from "@/lib/link-preview";
 import {
   findOrCreateLead,
   updateLead,
@@ -85,7 +87,7 @@ function normalizeImageMimeType(mimeType: string): IncomingImage["mimeType"] {
 // Retorna se o envio foi aceito pela UAZAPI — nunca assumir "entregue" sem
 // checar isso. Um envio que falha silenciosamente (token, número inválido,
 // rate limit) deixava o CRM marcado como "sent" sem o cliente receber nada.
-async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean> {
+async function sendTextAttempt(phone: string, text: string): Promise<boolean> {
   try {
     const res = await fetch(`${UAZAPI_BASE_URL}/send/text`, {
       method: "POST",
@@ -101,6 +103,16 @@ async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean
     console.error(`Exceção ao enviar mensagem UAZAPI pra ${phone}:`, e);
     return false;
   }
+}
+
+// A UAZAPI pode falhar de forma transitória (ex: "host not mapped" durante uma
+// reconexão momentânea da sessão) — uma tentativa a mais recupera esses casos
+// sem precisar notificar o Seven por um blip que se resolve sozinho em segundos.
+async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean> {
+  if (await sendTextAttempt(phone, text)) return true;
+  console.log(`Retentando envio pra ${phone} após falha...`);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  return sendTextAttempt(phone, text);
 }
 
 async function sendWhatsAppImage(phone: string, imageUrl: string): Promise<void> {
@@ -134,8 +146,9 @@ async function markChatAsRead(phone: string): Promise<void> {
 // tamanho da mensagem do CLIENTE (o que ele mandou, não o que o bot vai responder)
 // — mensagem curta do cliente não justifica 15s de "pensando", mensagem longa sim.
 // Nunca usar sempre o mesmo intervalo (por isso o jitter): um tempo fixo é o que
-// mais entrega "isso é automático" pro cliente. Áudio não entra mais aqui — não
-// transcrevemos mais (ver tratamento de "audio" no início do POST).
+// mais entrega "isso é automático" pro cliente. Áudio transcrito vira texto comum
+// antes de chegar aqui (ver tratamento de "audio" no início do POST), por isso só
+// existe faixa para "text"/"image".
 function firstReplyDelayRange(incomingClientMessage: string, incomingType: "text" | "image"): [number, number] {
   if (incomingType === "image") return [12_000, 20_000];
   const words = incomingClientMessage.trim().split(/\s+/).filter(Boolean).length;
@@ -261,30 +274,41 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     let messageText: string = msg.text ?? msg.content ?? "";
 
-    // Política atual: não transcreve áudio. Tentar baixar+transcrever adicionava
-    // latência, custo de API e falha silenciosa (ex: transcrição virou "Fali" e
-    // o bot interpretou como "faliu" — respondeu errado com confiança). Mais
-    // simples e mais seguro pedir texto direto, sem travar a operação esperando
-    // download/transcrição de terceiro (Gemini).
+    // Transcreve áudio via Gemini antes de decidir o que fazer. Se a transcrição
+    // falhar, vier vazia ou estourar o timeout, cai no fallback de pedir texto —
+    // nunca manda áudio pro Claude sem confirmar que veio algo utilizável.
     if (msg.type === "audio") {
-      console.log(`[AUDIO] Áudio recebido de ${phone} — pedindo texto (sem transcrição)`);
-      const firstName = senderName?.trim().split(/\s+/)[0];
-      const fallbackMessage = `Opa${firstName ? ", " + firstName : ""}! 😄 Me manda por mensagem, por favor? Fica bem mais fácil pra eu te responder certinho.`;
-      await simulateTyping(phone, fallbackMessage, "text");
-      await sendWhatsAppMessage(phone, fallbackMessage);
-      try {
-        const lead = await findOrCreateLead(phone, senderName);
-        await saveMessage({
-          lead_id: lead.id,
-          content: fallbackMessage,
-          role: "aurora",
-          timestamp: new Date().toISOString(),
-          status: "sent",
-        });
-      } catch {
-        // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
+      console.log(`[AUDIO] Áudio recebido de ${phone} — transcrevendo`);
+      await sendPresence(phone, "composing");
+      const media = phone && messageId
+        ? await downloadMedia(phone, messageId, "audio/ogg", "AUDIO")
+        : null;
+      const transcribed = media ? await transcribeAudio(media.base64, media.mimeType) : null;
+      await sendPresence(phone, "paused");
+
+      if (transcribed) {
+        console.log(`[AUDIO] Transcrito de ${phone}: "${transcribed}"`);
+        messageText = transcribed;
+      } else {
+        console.log(`[AUDIO] Falha ao transcrever áudio de ${phone} — pedindo texto`);
+        const firstName = senderName?.trim().split(/\s+/)[0];
+        const fallbackMessage = `Opa${firstName ? ", " + firstName : ""}! 😄 Não consegui entender direito seu áudio agora. Pode me mandar por mensagem de texto, por favor? Fica bem mais fácil pra eu te responder certinho.`;
+        await simulateTyping(phone, fallbackMessage, "text");
+        await sendWhatsAppMessage(phone, fallbackMessage);
+        try {
+          const lead = await findOrCreateLead(phone, senderName);
+          await saveMessage({
+            lead_id: lead.id,
+            content: fallbackMessage,
+            role: "aurora",
+            timestamp: new Date().toISOString(),
+            status: "sent",
+          });
+        } catch {
+          // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
+        }
+        return NextResponse.json({ ok: true, action: "audio_transcription_failed_text_requested" });
       }
-      return NextResponse.json({ ok: true, action: "audio_text_requested" });
     }
 
     // Sticker: nunca manda pra IA, resposta canned e curta, encerra o processamento.
@@ -360,6 +384,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         return NextResponse.json({ ok: true, action: "image_fallback_text_requested" });
       }
     }
+
+    // Link enviado no texto: extrai o conteúdo legível via Jina Reader e injeta
+    // como contexto extra pro Claude, sem travar a conversa se a leitura falhar.
+    let extraContext: string | undefined;
+    if (msg.type === "text") {
+      const url = extractFirstUrl(messageText);
+      if (url) {
+        console.log(`[LINK] URL detectada de ${phone}: ${url}`);
+        await sendPresence(phone, "composing");
+        const linkContent = await fetchLinkContent(url);
+        await sendPresence(phone, "paused");
+        extraContext = linkContent
+          ? `CONTEÚDO EXTRAÍDO DO LINK QUE O CONTATO ENVIOU (${url}):\n"""\n${linkContent}\n"""\nUse essas informações se forem relevantes para responder. Não invente dados que não estejam aqui.`
+          : `O contato enviou um link (${url}) mas não foi possível abrir o conteúdo automaticamente. Comente isso rapidamente e com naturalidade, sem termos técnicos, e continue a conversa normalmente.`;
+      }
+    }
+
+    // Normaliza o tipo pra digitação simulada — áudio transcrito e sticker nunca
+    // chegam aqui (retornam antes), então só sobra "text" ou "image" de fato.
+    const effectiveType: "text" | "image" = incomingImage ? "image" : "text";
 
     if (!phone || !messageText) {
       return NextResponse.json({ ok: true, skipped: "empty" });
@@ -466,7 +510,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       { ...lead, ...classification },
       freshHistory,
       classification,
-      incomingImage
+      incomingImage,
+      extraContext
     );
 
     // Defesa extra: nunca reenviar uma resposta igual ou muito parecida com a última
@@ -487,7 +532,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const bubbles = splitIntoBubbles(sdrResult.message);
     let anySendFailed = false;
     for (let i = 0; i < bubbles.length; i++) {
-      await simulateTyping(phone, messageText, i === 0 ? (msg.type as "text" | "image") : "text", i > 0);
+      await simulateTyping(phone, messageText, i === 0 ? effectiveType : "text", i > 0);
       const ok = await sendWhatsAppMessage(phone, bubbles[i]);
       if (!ok) anySendFailed = true;
     }
