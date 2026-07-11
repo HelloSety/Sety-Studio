@@ -543,30 +543,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     if (classification.decision === "redirect_once") {
-      const REDIRECT_MESSAGES = [
-        "Oi! Tudo bem? 😊 Poderia me encaminhar pra quem cuida da parte comercial, por gentileza?",
-        "Oi! Tudo bem? 😊 Gostaria de falar com o responsável pelo comercial. Quem seria a melhor pessoa?",
-      ];
-      const redirectMessage = REDIRECT_MESSAGES[Math.floor(Math.random() * REDIRECT_MESSAGES.length)];
-
-      await simulateTyping(phone, 30, "text");
-      await sendWhatsAppMessage(phone, redirectMessage);
-      await saveMessage({
-        lead_id: lead.id,
-        content: redirectMessage,
-        role: "aurora",
-        timestamp: new Date().toISOString(),
-        status: "sent",
-      });
+      // Silêncio absoluto — nunca responde o bot/URA da outra empresa, nem uma
+      // vez. Só registra internamente (nunca vai pro contato) pra o Seven saber
+      // que existe uma conversa pendente aguardando um humano do outro lado.
       await createCrmNotification({
         type: "auto_reply_redirect",
         title: `Atendimento automatizado detectado — ${senderName ?? phone}`,
-        body: "Identificado como bot/recepção automática de outra empresa. Enviado pedido único pra falar com o responsável; automação pausada até revisão manual.",
+        body: "Identificado como bot/recepção automática (URA, menu, secretária virtual) de outra empresa. Automação pausada em silêncio — aguardando uma pessoa real responder antes de continuar.",
         lead_id: lead.id,
       });
 
-      console.log(`[Sety Vision] Resposta automática de outra empresa detectada em ${phone} — redirecionado uma vez, automação pausada.`);
-      return NextResponse.json({ ok: true, action: "redirected_once_then_paused", classification: "empresa_automatizada" });
+      console.log(`[Sety Vision] Resposta automática de outra empresa detectada em ${phone} — silêncio total, automação pausada.`);
+      return NextResponse.json({ ok: true, action: "silent_paused_waiting_human", classification: "empresa_automatizada" });
     }
 
     // Debounce: se o cliente mandar várias mensagens em sequência (comum no WhatsApp,

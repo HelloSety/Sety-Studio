@@ -100,9 +100,13 @@ export function wantsPaymentConfirmation(message: string): boolean {
 // como sinal comercial (a palavra "atendimento" já pontua em COMMERCIAL_KEYWORDS)
 // e ficava "qualificando" o próprio bot da outra empresa, mensagem após mensagem,
 // toda vez que ele mandava mais uma linha do fluxo automatizado dele.
+// "meu nome é" foi removido de propósito: é ambíguo demais (humano se
+// apresentando também fala assim, ver QUEM SOU EU NESSA CONVERSA no
+// sdr-engine.ts) — mantinha esse bloqueio impedindo até o modelo tentar
+// distinguir um humano real de um bot nesse caso específico.
 const BUSINESS_AUTOREPLY_KEYWORDS = [
   "seja bem-vindo", "seja bem-vinda", "bem-vindo(a)", "bem-vindo à", "bem-vinda à",
-  "meu nome é", "em instantes", "aguarde um momento", "aguarde só um instante",
+  "em instantes", "aguarde um momento", "aguarde só um instante",
   "mensagem automática", "resposta automática", "atendimento automático",
   "horário de atendimento", "fora do nosso horário", "fora do horário de atendimento",
   "obrigado pelo contato", "em breve um de nossos atendentes", "em breve iremos retornar",
