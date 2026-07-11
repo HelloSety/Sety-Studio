@@ -107,6 +107,9 @@ const BUSINESS_AUTOREPLY_KEYWORDS = [
   "horário de atendimento", "fora do nosso horário", "fora do horário de atendimento",
   "obrigado pelo contato", "em breve um de nossos atendentes", "em breve iremos retornar",
   "iremos retornar", "retornaremos em breve", "assim que possível iremos", "já vamos te atender",
+  "recebemos sua mensagem", "recebemos seu contato", "informe seu nome", "informe o motivo",
+  "secretária virtual", "assistente virtual", "atendimento exclusivo", "digite uma opção",
+  "escolha uma opção", "menu de atendimento", "para agilizar seu atendimento",
 ];
 
 export function isLikelyAutomatedBusinessReply(message: string): boolean {
