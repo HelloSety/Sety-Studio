@@ -64,6 +64,10 @@ async function sendBubbles(phone: string, bubbles: string[]): Promise<void> {
 
 const FOLLOWUP_SYSTEM_PROMPT = `Você escreve mensagens de retomada (follow-up) para leads da Sety Studio que pararam de responder no WhatsApp.
 
+A Sety Studio implanta sistemas comerciais completos (CRM + WhatsApp com IA + página de vendas + tráfego + follow-up + agenda + dashboard, tudo integrado). Nunca reduza isso a "chatbot", "automação" ou "site" na retomada — o que está em jogo é a operação comercial inteira do cliente. O objetivo do follow-up é reabrir a conversa e, quando fizer sentido, reconduzir pro diagnóstico gratuito — nunca pressionar pra fechar venda nem cobrar.
+
+Cadência de referência depois de um orçamento, reunião ou proposta (siga o tempo de silêncio real do lead): 24h retomar leve e ver se ficou dúvida; 3 dias trazer um ângulo ou valor novo; 7 dias prova social ou tratar a objeção provável; 15 dias reativar sem pressão, deixando a porta aberta. Sempre agregando valor, nunca insistente.
+
 Regras obrigatórias (correção global de estilo, 2026-07-06):
 - Escreva como uma pessoa real mandando mensagem no WhatsApp, nunca como robô ou e-mail corporativo.
 - Uma ideia por parágrafo, no máximo 1-2 linhas, idealmente até 180 caracteres (nunca mais que 250) — cada parágrafo vira uma mensagem separada. Nunca junte duas ideias no mesmo parágrafo.
@@ -71,7 +75,9 @@ Regras obrigatórias (correção global de estilo, 2026-07-06):
 - No máximo 1 emoji por mensagem, nunca em sequência.
 - Nunca copie a mesma abertura sempre — varie ("Bom dia!", "Oi, tudo bem?", "Passando aqui rapidinho...", "Vi nossa conversa aqui...").
 - Nunca pressione, nunca soe como cobrança. O tom é leve, humano, consultivo.
-- Sempre entregue algo de valor ou contexto real da conversa anterior — nunca mande "só passando" ou "viu minha mensagem?" vazio.
+- Estrutura de cada follow-up: (1) retome o contexto real da conversa anterior, (2) entregue algo de valor útil (uma dica, um ganho concreto da solução que ele queria), (3) só então faça UMA pergunta leve. Valor sempre antes da pergunta.
+- Nunca mande mensagem vazia de cobrança: proibido "Oi", "tem interesse ainda?", "vai fechar?", "posso ajudar?", "está disponível?", "só passando", "viu minha mensagem?" — todas derrubam a taxa de resposta.
+- Nunca pressione: proibido "última chance", "promoção acaba hoje", "preciso da resposta", "vou encerrar", "você vai perder" e qualquer urgência forçada.
 - Se já foram enviados follow-ups anteriores sem resposta, mude a abordagem (não repita a mesma ideia) e fique ainda mais leve, sem parecer insistência.
 - Nunca invente preço, prazo ou informação que não esteja no histórico da conversa.
 
@@ -79,8 +85,11 @@ Calibre pelo motivo real do silêncio (leia o histórico antes de decidir):
 - Última mensagem do cliente foi objeção de orçamento/dinheiro ("não tenho como agora", "tá caro"): nunca cobre, nunca mencione valor de novo. Retome leve, pergunte só se a situação melhorou, sem pressão nenhuma.
 - Cliente disse "vou pensar" ou "depois eu vejo": pergunte se ficou alguma dúvida sobre o projeto, não repita a proposta.
 - Conversa foi cortada no meio de uma explicação (sem objeção nem "vou pensar", só sumiu): reconheça que a conversa ficou pela metade e pergunte se ainda pode ajudar.
-- Cliente demonstrou bastante interesse antes de sumir (pediu caso, perguntou preço, confirmou que queria seguir): pergunte como está o projeto/loja dele agora, sem reapresentar orçamento de cara.
-- Nunca pule direto pra orçamento quando o cliente responder ao follow-up — primeiro reabra a conversa, só volte a falar de valor se ele mesmo trouxer o assunto.`;
+- Cliente demonstrou bastante interesse antes de sumir (pediu caso, perguntou preço, confirmou que queria seguir): pergunte como está a operação/o atendimento dele agora, sem reapresentar orçamento de cara.
+- Nunca pule direto pra orçamento quando o cliente responder ao follow-up — primeiro reabra a conversa, só volte a falar de valor se ele mesmo trouxer o assunto.
+- Cliente disse que está sem dinheiro/orçamento agora: responda com empatia, sem insistir ("entendo perfeitamente, o importante é fazer no momento certo pra sua empresa; quando fizer sentido, me chama que a gente continua de onde parou").
+- Cliente disse que fechou com outra empresa: responda educado e sem ressentimento, porta aberta ("fico feliz que o projeto saiu do papel; se um dia precisar de CRM, automação, tráfego, página de vendas ou qualquer solução, pode contar com a Sety Studio") e deseje sucesso.
+- Cliente voltou a demonstrar interesse: retome exatamente do ponto onde a conversa parou, usando todo o histórico — nunca recomece o atendimento do zero.`;
 
 interface FollowUpReportEntry {
   leadId: string;
@@ -122,12 +131,17 @@ async function generateFollowUpMessage(lead: Lead, history: Message[]): Promise<
     ? Math.round((Date.now() - new Date(lead.last_message_at).getTime()) / 3_600_000)
     : 0;
 
+  const coldOutbound = isColdOutboundLead(lead);
+
   const context = `LEAD: ${lead.name || lead.phone}
 STATUS NO FUNIL: ${lead.status}
 SCORE DE INTERESSE: ${lead.score}/100
 HORAS SEM RESPOSTA: ${hoursSilent}
 FOLLOW-UPS JÁ ENVIADOS ANTES: ${lead.followup_count ?? 0}
 NOTAS/FATOS CONHECIDOS: ${lead.notes || "nenhum"}
+CANAL: ${coldOutbound
+    ? "PROSPECÇÃO FRIA — foi a Sety que chamou esse contato primeiro (ex: Kaptar). NUNCA mencione orçamento/proposta/preço já enviado (provavelmente não existe). Objetivo do follow-up é reabrir a curiosidade e conduzir pra uma reunião de diagnóstico rápida, nunca cobrar resposta ou preço."
+    : "INBOUND — o contato chamou a Sety primeiro (anúncio, site, indicação). Pode retomar naturalmente o ponto da negociação/orçamento se for o caso."}
 
 HISTÓRICO DA CONVERSA (mais recente por último):
 ${historyText || "(sem histórico salvo)"}
@@ -146,6 +160,18 @@ Escreva a mensagem de follow-up de bom dia para retomar essa conversa, mencionan
     : "Bom dia! ☀️\n\nPassando pra saber se ainda faz sentido seguir com o projeto.\n\nQualquer dúvida, só me chamar 😊";
 }
 
+// Lead de prospecção fria (Kaptar e afins) — mesma marca usada no sdr-engine.ts
+// pra decidir canal. Esses leads legitimamente têm score baixo/temperatura fria
+// (é prospecção, não inbound qualificado), mas ainda assim devem receber
+// follow-up diário — sem essa exceção, isEligible() os excluía quase sempre.
+const COLD_OUTBOUND_MARKERS = ["kaptar", "prospec", "outbound", "frio"];
+function isColdOutboundLead(lead: Lead): boolean {
+  return (
+    !!lead.tags?.some((t) => t.toLowerCase().includes("prospecção fria") || t.toLowerCase().includes("prospeccao fria")) ||
+    COLD_OUTBOUND_MARKERS.some((m) => (lead.origin ?? "").toLowerCase().includes(m))
+  );
+}
+
 async function isEligible(lead: Lead): Promise<boolean> {
   if (lead.tags?.some((t) => t.toLowerCase() === HUMAN_TAKEOVER_TAG)) return false;
   if (lead.tags?.some((t) => BLOCKED_TAGS.includes(t.toLowerCase()))) return false;
@@ -153,6 +179,8 @@ async function isEligible(lead: Lead): Promise<boolean> {
   const profile = await getContactProfile(lead.phone);
   if (profile?.isBlocked) return false;
   if (profile && EXCLUDED_CONTACT_TYPES.includes(profile.contactType)) return false;
+
+  if (isColdOutboundLead(lead)) return true;
 
   const isHotOrWarm = lead.temperature === "hot" || lead.temperature === "warm";
   return isHotOrWarm || lead.score >= 30;
