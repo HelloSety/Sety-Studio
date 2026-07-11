@@ -142,6 +142,32 @@ async function markChatAsRead(phone: string): Promise<void> {
   }).catch(() => {});
 }
 
+// ── Horário comercial (gate determinístico, roda ANTES de qualquer IA) ───────
+// Segunda a sábado, 9h-18h, horário de Brasília. Domingo fechado.
+const BUSINESS_DAYS = [1, 2, 3, 4, 5, 6]; // 0=domingo
+const BUSINESS_START_HOUR = 9;
+const BUSINESS_END_HOUR = 18;
+const WEEKDAY_MAP: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+function isWithinBusinessHours(): boolean {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Sao_Paulo",
+    weekday: "short",
+    hour: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+  const day = WEEKDAY_MAP[parts.find((p) => p.type === "weekday")?.value ?? ""] ?? 0;
+  const hour = parseInt(parts.find((p) => p.type === "hour")?.value ?? "0", 10) % 24;
+  return BUSINESS_DAYS.includes(day) && hour >= BUSINESS_START_HOUR && hour < BUSINESS_END_HOUR;
+}
+
+function brazilDateKey(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
+}
+
+const OUT_OF_HOURS_MESSAGE =
+  "Olá! 😊\n\nNo momento nossa equipe está fora do horário de atendimento.\n\nNosso horário é de segunda a sábado, das 9h às 18h.\n\nAssim que retornarmos, respondemos sua mensagem o mais rápido possível. Agradecemos a compreensão!";
+
 // Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pela
 // INTENÇÃO do lead (score de compra): comprador quer resposta rápida, curioso
 // pode esperar um pouco mais. "O cliente deve sentir que existe uma pessoa
@@ -268,6 +294,33 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // Marca como lida assim que aceita pra processar — replica o comportamento humano
     // de abrir a conversa e ver a mensagem antes mesmo de começar a digitar a resposta.
     await markChatAsRead(phone);
+
+    // ── Fora do horário comercial: nunca chama a IA, nunca processa mídia. Manda
+    // o aviso UMA vez por dia (Brasil) e fica em silêncio até o próximo aviso
+    // válido — reseta sozinho no dia seguinte ou quando o horário reabrir.
+    if (!isWithinBusinessHours()) {
+      const lead = await findOrCreateLead(phone, senderName);
+      let notesObj: Record<string, unknown> = {};
+      try {
+        notesObj = JSON.parse(lead.notes ?? "{}") ?? {};
+      } catch {
+        notesObj = {};
+      }
+      const today = brazilDateKey();
+      if (notesObj.aviso_fora_horario_data === today) {
+        return NextResponse.json({ ok: true, skipped: "outside_business_hours_already_notified" });
+      }
+      await sendWhatsAppMessage(phone, OUT_OF_HOURS_MESSAGE);
+      await saveMessage({
+        lead_id: lead.id,
+        content: OUT_OF_HOURS_MESSAGE,
+        role: "aurora",
+        timestamp: new Date().toISOString(),
+        status: "sent",
+      });
+      await updateLead(lead.id, { notes: JSON.stringify({ ...notesObj, aviso_fora_horario_data: today }) });
+      return NextResponse.json({ ok: true, action: "outside_business_hours_notice_sent" });
+    }
 
     try {
 
