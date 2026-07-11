@@ -24,6 +24,11 @@ const COMMERCIAL_KEYWORDS = [
   // Automação
   "automação", "automacao", "whatsapp", "chatbot", "bot", "n8n", "crm",
   "atendimento automatizado", "disparo", "funil", "pipeline",
+  // Sistema comercial / máquina de crescimento
+  "sistema", "sistema comercial", "sistema de vendas", "máquina de vendas",
+  "gestão comercial", "organizar vendas", "qualificar leads", "qualificar lead",
+  "follow-up", "follow up", "agenda", "agendamento", "dashboard", "relatório",
+  "relatorio", "perco lead", "perco cliente", "responder rápido", "atendimento",
   // Precificação e interesse
   "orçamento", "orcamento", "valor", "preço", "preco", "quanto custa",
   "quero contratar", "precisando", "me interessa", "tenho interesse",
@@ -89,6 +94,28 @@ export function wantsPaymentConfirmation(message: string): boolean {
   );
 }
 
+// Resposta automática de OUTRA empresa (recepção/atendimento virtual de quem foi
+// contatado na prospecção) — nunca é um lead de verdade, é o bot/fluxo automático
+// deles. Sem essa detecção, o SDR tratava "seja bem-vindo ao nosso atendimento..."
+// como sinal comercial (a palavra "atendimento" já pontua em COMMERCIAL_KEYWORDS)
+// e ficava "qualificando" o próprio bot da outra empresa, mensagem após mensagem,
+// toda vez que ele mandava mais uma linha do fluxo automatizado dele.
+const BUSINESS_AUTOREPLY_KEYWORDS = [
+  "seja bem-vindo", "seja bem-vinda", "bem-vindo(a)", "bem-vindo à", "bem-vinda à",
+  "meu nome é", "em instantes", "aguarde um momento", "aguarde só um instante",
+  "mensagem automática", "resposta automática", "atendimento automático",
+  "horário de atendimento", "fora do nosso horário", "fora do horário de atendimento",
+  "obrigado pelo contato", "em breve um de nossos atendentes", "em breve iremos retornar",
+  "iremos retornar", "retornaremos em breve", "assim que possível iremos", "já vamos te atender",
+];
+
+export function isLikelyAutomatedBusinessReply(message: string): boolean {
+  const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  return BUSINESS_AUTOREPLY_KEYWORDS.some((kw) =>
+    text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
+  );
+}
+
 const SPAM_KEYWORDS = [
   "promoção exclusiva", "ganhe dinheiro fácil", "renda extra sem sair",
   "oportunidade única", "clique aqui e ganhe", "você foi selecionado",
@@ -126,7 +153,7 @@ export function calculateIntentScore(message: string): {
       // Palavras de alta intenção valem mais
       if (["orcamento", "quanto custa", "preco", "valor", "quero contratar"].includes(normalized)) {
         score += 30;
-      } else if (["site", "shopify", "loja virtual", "trafego", "automacao"].includes(normalized)) {
+      } else if (["site", "shopify", "loja virtual", "trafego", "automacao", "crm", "sistema comercial", "sistema de vendas", "maquina de vendas", "chatbot"].includes(normalized)) {
         score += 20;
       } else {
         score += 10;
@@ -147,6 +174,24 @@ export function calculateIntentScore(message: string): {
     if (text.includes(normalized)) {
       found.push(kw);
       score += 20;
+    }
+  }
+
+  // Intenção de compra explícita (lead comprador vindo de anúncio): força score alto
+  // pra ativar o MODO CLOSER (>=70) e o bot NÃO tratar quem pediu preço como lead frio.
+  const BUYER_INTENT_PHRASES = [
+    "quanto custa", "quanto fica", "qual o valor", "qual valor", "qual o investimento",
+    "quanto custa", "qnt custa", "quero contratar", "quero fechar", "pode mandar proposta",
+    "manda a proposta", "me manda a proposta", "me passa o orcamento", "me manda o orcamento",
+    "tenho interesse", "quero uma demonstracao", "quero demonstracao", "quero uma proposta",
+    "quais os planos", "qual o plano", "quais planos", "me passa o valor", "preco",
+    "orcamento", "mensalidade",
+  ];
+  for (const kw of BUYER_INTENT_PHRASES) {
+    const normalized = kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    if (text.includes(normalized)) {
+      if (!found.includes(kw)) found.push(kw);
+      score = Math.max(score, 80);
     }
   }
 
@@ -245,6 +290,34 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
       intentScore: 0,
       detectedKeywords: [],
       reasoning: "Lead marcado com 'aguardando humano' — automação pausada até o Seven assumir a conversa.",
+    };
+  }
+
+  // Já identificado antes como resposta automática de outra empresa (recepção/bot
+  // deles): nunca mais responde — evita ficar "conversando" com o bot alheio pra
+  // sempre, mensagem automática após mensagem automática.
+  if (existingContactType === "empresa_automatizada") {
+    return {
+      contactType: "empresa_automatizada",
+      decision: "ignore",
+      confidence: 0.9,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Contato já identificado como atendimento automatizado de outra empresa — não responde mais.",
+    };
+  }
+
+  // Primeira vez que detecta um fluxo automático de outra empresa (ex: prospecção
+  // ativa batendo na recepção virtual de uma clínica): responde UMA única vez
+  // pedindo pra ser encaminhado ao responsável, e nunca mais continua sozinho.
+  if (isLikelyAutomatedBusinessReply(message)) {
+    return {
+      contactType: "empresa_automatizada",
+      decision: "redirect_once",
+      confidence: 0.8,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Mensagem com indícios de atendimento automatizado de outra empresa — redirecionando uma única vez e pausando.",
     };
   }
 
@@ -434,4 +507,5 @@ export const CONTACT_TYPE_CONFIG: Record<
   contato_pessoal:   { label: "Pessoal",       color: "text-slate-400 bg-slate-400/10",     emoji: "👤", autoRespond: false },
   spam:              { label: "Spam",          color: "text-red-400 bg-red-400/10",         emoji: "🚫", autoRespond: false },
   inadequado:        { label: "Inadequado",    color: "text-orange-400 bg-orange-400/10",   emoji: "🚩", autoRespond: false },
+  empresa_automatizada: { label: "Bot de outra empresa", color: "text-gray-400 bg-gray-400/10", emoji: "🤖", autoRespond: false },
 };

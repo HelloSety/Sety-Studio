@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { classifyContact, wantsPaymentConfirmation } from "@/lib/contact-classifier";
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
 import { splitIntoBubbles } from "@/lib/message-formatting";
-import { detectProofTrigger, pickProofImages, inferNiche } from "@/lib/social-proof-assets";
+import { detectProofTrigger, pickProofImages, inferNiche, detectDemoTrigger, buildDemoMessage } from "@/lib/social-proof-assets";
 import { transcribeAudio } from "@/lib/audio-transcription";
 import { extractFirstUrl, fetchLinkContent } from "@/lib/link-preview";
 import {
@@ -142,24 +142,25 @@ async function markChatAsRead(phone: string): Promise<void> {
   }).catch(() => {});
 }
 
-// Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pelo
-// tamanho da mensagem do CLIENTE (o que ele mandou, não o que o bot vai responder)
-// — mensagem curta do cliente não justifica 15s de "pensando", mensagem longa sim.
-// Nunca usar sempre o mesmo intervalo (por isso o jitter): um tempo fixo é o que
-// mais entrega "isso é automático" pro cliente. Áudio transcrito vira texto comum
-// antes de chegar aqui (ver tratamento de "audio" no início do POST), por isso só
-// existe faixa para "text"/"image".
-function firstReplyDelayRange(incomingClientMessage: string, incomingType: "text" | "image"): [number, number] {
-  if (incomingType === "image") return [12_000, 20_000];
-  const words = incomingClientMessage.trim().split(/\s+/).filter(Boolean).length;
-  if (words <= 5) return [6_000, 10_000];
-  if (words <= 15) return [8_000, 15_000];
-  return [10_000, 18_000];
+// Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pela
+// INTENÇÃO do lead (score de compra): comprador quer resposta rápida, curioso
+// pode esperar um pouco mais. "O cliente deve sentir que existe uma pessoa
+// pensando, mas nunca esperando mais do que o necessário." Nunca tempo fixo (por
+// isso o jitter). Áudio transcrito vira texto comum antes de chegar aqui.
+function firstReplyDelayRange(
+  intentScore: number,
+  incomingType: "text" | "image"
+): [number, number] {
+  if (incomingType === "image") return [4_000, 8_000];
+  if (intentScore >= 80) return [2_000, 4_000]; // comprador
+  if (intentScore >= 60) return [3_000, 5_000]; // quente
+  if (intentScore >= 40) return [4_000, 6_000]; // interessado
+  return [5_000, 8_000];                        // curioso / frio
 }
 
 async function simulateTyping(
   phone: string,
-  incomingClientMessage: string,
+  intentScore: number,
   incomingType: "text" | "image" = "text",
   forceShort = false
 ): Promise<void> {
@@ -167,11 +168,9 @@ async function simulateTyping(
   // Balão de continuação (2º+ de uma resposta dividida): a pessoa já formulou o
   // pensamento inteiro, só está terminando de digitar — pausa bem curta (1-3s),
   // não repete o tempo de "pensar" do primeiro balão. Também limita o atraso
-  // total da função quando a resposta vem em vários balões (teto de duração do
-  // Vercel — delay humano demais em cada balão pode estourar o maxDuration e
-  // cortar o envio no meio, pior do que responder rápido demais).
-  const [min, max] = forceShort ? [1_000, 3_000] : firstReplyDelayRange(incomingClientMessage, incomingType);
-  const jitterRange = forceShort ? 500 : 2000;
+  // total quando a resposta vem em vários balões (teto de duração do Vercel).
+  const [min, max] = forceShort ? [1_000, 3_000] : firstReplyDelayRange(intentScore, incomingType);
+  const jitterRange = forceShort ? 500 : 1500;
   const jitter = (Math.random() * 2 - 1) * jitterRange;
   const delayMs = Math.max(800, Math.round(min + Math.random() * (max - min) + jitter));
   await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -246,7 +245,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const msg = body.message ?? {};
 
     // Ignorar mensagens próprias, de grupo, ou tipos que não processamos
-    const SUPPORTED_TYPES = ["text", "audio", "image", "sticker"];
+    const SUPPORTED_TYPES = ["text", "audio", "image", "sticker", "video"];
     if (msg.fromMe || msg.isGroup || !SUPPORTED_TYPES.includes(msg.type)) {
       return NextResponse.json({ ok: true, skipped: "filtered" });
     }
@@ -293,7 +292,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         console.log(`[AUDIO] Falha ao transcrever áudio de ${phone} — pedindo texto`);
         const firstName = senderName?.trim().split(/\s+/)[0];
         const fallbackMessage = `Opa${firstName ? ", " + firstName : ""}! 😄 Não consegui entender direito seu áudio agora. Pode me mandar por mensagem de texto, por favor? Fica bem mais fácil pra eu te responder certinho.`;
-        await simulateTyping(phone, fallbackMessage, "text");
+        await simulateTyping(phone, 50, "text");
         await sendWhatsAppMessage(phone, fallbackMessage);
         try {
           const lead = await findOrCreateLead(phone, senderName);
@@ -315,7 +314,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const STICKER_REPLIES = ["😂 Boa!", "Hahaha 😄", "kkkkk boa essa"];
     if (msg.type === "sticker") {
       const stickerReply = STICKER_REPLIES[Math.floor(Math.random() * STICKER_REPLIES.length)];
-      await simulateTyping(phone, stickerReply, "text");
+      await simulateTyping(phone, 40, "text");
       await sendWhatsAppMessage(phone, stickerReply);
       try {
         const lead = await findOrCreateLead(phone, senderName);
@@ -338,27 +337,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       console.log(`[IMAGEM] Imagem recebida de ${phone}`);
       const caption = (msg.text ?? msg.content ?? "").trim();
 
-      // Imagem sem legenda nenhuma: nunca manda pra IA (visão custa tokens e o
-      // cliente não disse o que quer) — pede o texto e encerra, sem download.
-      if (!caption) {
-        const askForText = "Recebi sua imagem 😊\n\nPode me explicar rapidinho em texto o que você precisa? Assim consigo te ajudar da melhor forma.";
-        await simulateTyping(phone, askForText, "image");
-        await sendWhatsAppMessage(phone, askForText);
-        try {
-          const lead = await findOrCreateLead(phone, senderName);
-          await saveMessage({
-            lead_id: lead.id,
-            content: askForText,
-            role: "aurora",
-            timestamp: new Date().toISOString(),
-            status: "sent",
-          });
-        } catch {
-          // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
-        }
-        return NextResponse.json({ ok: true, action: "image_without_caption_text_requested" });
-      }
-
+      // Imagem sem legenda: analisa mesmo assim (o cliente espera que o bot
+      // simplesmente veja e comente, sem precisar digitar nada primeiro).
       try {
         const media = phone && messageId
           ? await downloadMedia(phone, messageId, "image/jpeg", "IMAGEM")
@@ -382,6 +362,35 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           "Recebi sua imagem, mas não consegui visualizar todos os detalhes desta vez. 😊\n\nSe puder reenviar a imagem ou me explicar rapidamente o que ela mostra, continuo seu atendimento normalmente."
         );
         return NextResponse.json({ ok: true, action: "image_fallback_text_requested" });
+      }
+    }
+
+    // Vídeo: Claude não aceita vídeo como mídia de entrada (só imagem), então nunca
+    // baixa/analisa frame a frame — usa a legenda como a mensagem em si (cai no fluxo
+    // de texto normal) e, sem legenda, pede o que o cliente precisa em vez de ignorar
+    // a mensagem em silêncio (era exatamente esse silêncio que parecia "travar").
+    if (msg.type === "video") {
+      console.log(`[VIDEO] Vídeo recebido de ${phone}`);
+      const caption = (msg.text ?? msg.content ?? "").trim();
+      if (caption) {
+        messageText = `[Vídeo enviado] ${caption}`;
+      } else {
+        const askForText = "Recebi seu vídeo 😊\n\nAinda não consigo assistir vídeos por aqui, mas pode me contar rapidinho o que você precisa que eu já te ajudo.";
+        await simulateTyping(phone, 50, "text");
+        await sendWhatsAppMessage(phone, askForText);
+        try {
+          const lead = await findOrCreateLead(phone, senderName);
+          await saveMessage({
+            lead_id: lead.id,
+            content: askForText,
+            role: "aurora",
+            timestamp: new Date().toISOString(),
+            status: "sent",
+          });
+        } catch {
+          // se salvar o histórico falhar, a mensagem já foi enviada — não bloqueia a resposta
+        }
+        return NextResponse.json({ ok: true, action: "video_without_caption_text_requested" });
       }
     }
 
@@ -480,6 +489,33 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ ok: true, action: "responded_once_then_stopped", classification: "inadequado" });
     }
 
+    if (classification.decision === "redirect_once") {
+      const REDIRECT_MESSAGES = [
+        "Oi! Tudo bem? 😊 Poderia me encaminhar pra quem cuida da parte comercial, por gentileza?",
+        "Oi! Tudo bem? 😊 Gostaria de falar com o responsável pelo comercial. Quem seria a melhor pessoa?",
+      ];
+      const redirectMessage = REDIRECT_MESSAGES[Math.floor(Math.random() * REDIRECT_MESSAGES.length)];
+
+      await simulateTyping(phone, 30, "text");
+      await sendWhatsAppMessage(phone, redirectMessage);
+      await saveMessage({
+        lead_id: lead.id,
+        content: redirectMessage,
+        role: "aurora",
+        timestamp: new Date().toISOString(),
+        status: "sent",
+      });
+      await createCrmNotification({
+        type: "auto_reply_redirect",
+        title: `Atendimento automatizado detectado — ${senderName ?? phone}`,
+        body: "Identificado como bot/recepção automática de outra empresa. Enviado pedido único pra falar com o responsável; automação pausada até revisão manual.",
+        lead_id: lead.id,
+      });
+
+      console.log(`[Sety Vision] Resposta automática de outra empresa detectada em ${phone} — redirecionado uma vez, automação pausada.`);
+      return NextResponse.json({ ok: true, action: "redirected_once_then_paused", classification: "empresa_automatizada" });
+    }
+
     // Debounce: se o cliente mandar várias mensagens em sequência (comum no WhatsApp,
     // uma ideia por balão), cada uma chega como um evento de webhook independente.
     // Um único sleep fixo de 4s + checagem única falha quando o intervalo real entre
@@ -532,7 +568,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const bubbles = splitIntoBubbles(sdrResult.message);
     let anySendFailed = false;
     for (let i = 0; i < bubbles.length; i++) {
-      await simulateTyping(phone, messageText, i === 0 ? effectiveType : "text", i > 0);
+      await simulateTyping(phone, classification.intentScore, i === 0 ? effectiveType : "text", i > 0);
       const ok = await sendWhatsAppMessage(phone, bubbles[i]);
       if (!ok) anySendFailed = true;
     }
@@ -549,8 +585,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ]);
     }
 
-    // Prova social real (portfólio/feedback/resultado), só quando o cliente pede —
-    // gatilho determinístico, nunca depende do Claude "lembrar" de mostrar imagem.
+    // Prova social / demonstração — gatilho determinístico, nunca depende do Claude
+    // "lembrar" de mostrar. Portfólio (screenshots de loja) só faz sentido pra
+    // e-commerce; pra clínica/veterinário/serviço a prova certa é a DEMO do sistema.
     const proofTrigger = detectProofTrigger(messageText);
     if (proofTrigger) {
       let segmento: string | null = null;
@@ -559,14 +596,30 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       } catch {
         segmento = null;
       }
-      const niche = segmento ? inferNiche(segmento) ?? segmento.toLowerCase() : inferNiche(messageText);
-      const images = pickProofImages(proofTrigger, niche);
-      for (const imageUrl of images) {
-        await sendPresence(phone, "composing");
-        await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 1500));
-        await sendPresence(phone, "paused");
-        await sendWhatsAppImage(phone, imageUrl);
+      const recognizedNiche = (segmento ? inferNiche(segmento) : null) ?? inferNiche(messageText);
+      // Portfólio (screenshots de loja) só prova algo pra e-commerce. Pra outros
+      // segmentos NÃO manda site de loja aleatório e NÃO dispara a demo sozinho —
+      // o SDR OFERECE a demo no texto (nunca automática); quando o cliente aceitar
+      // ("pode mostrar", "quero ver"), o gatilho de demo abaixo envia o link.
+      const isIrrelevantPortfolio = proofTrigger === "portfolio" && !recognizedNiche;
+      if (!isIrrelevantPortfolio) {
+        const images = pickProofImages(proofTrigger, recognizedNiche);
+        for (const imageUrl of images) {
+          await sendPresence(phone, "composing");
+          await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 1500));
+          await sendPresence(phone, "paused");
+          await sendWhatsAppImage(phone, imageUrl);
+        }
       }
+    }
+
+    // Demo enviada SÓ quando o cliente pede pra ver / aceita a oferta ("quero ver o
+    // painel", "pode mostrar"). Nunca automática — a OFERTA é feita pelo SDR no texto.
+    if (detectDemoTrigger(messageText)) {
+      await sendPresence(phone, "composing");
+      await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 1500));
+      await sendPresence(phone, "paused");
+      await sendWhatsAppMessage(phone, buildDemoMessage());
     }
 
     await saveMessage({
@@ -576,6 +629,24 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       timestamp: new Date().toISOString(),
       status: "sent",
     });
+
+    // Dashboard de demonstração — só quando o cliente pede pra ver o sistema
+    // funcionando, e só uma vez por lead (marca demo_sent em notes pra não
+    // ficar repetindo o link toda vez que ele mencionar algo parecido).
+    let notesObj: Record<string, unknown> = {};
+    try {
+      notesObj = JSON.parse(sdrResult.leadUpdate.notes ?? lead.notes ?? "{}") ?? {};
+    } catch {
+      notesObj = {};
+    }
+    const demoTriggered = detectDemoTrigger(messageText);
+    if (demoTriggered && !notesObj.demo_sent) {
+      await sendPresence(phone, "composing");
+      await new Promise((resolve) => setTimeout(resolve, 1200 + Math.random() * 1200));
+      await sendPresence(phone, "paused");
+      await sendWhatsAppMessage(phone, buildDemoMessage());
+      notesObj.demo_sent = true;
+    }
 
     // Confirmação de pagamento: nunca depende do Claude lembrar de avisar —
     // marca fechado no CRM e notifica o Seven de verdade, pra ele criar o
@@ -587,6 +658,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     await updateLead(lead.id, {
       ...sdrResult.leadUpdate,
+      ...(demoTriggered && notesObj.demo_sent ? { notes: JSON.stringify(notesObj) } : {}),
       ...(paymentConfirmed ? { status: "fechado" as const } : {}),
       name: senderName ?? lead.name,
     });

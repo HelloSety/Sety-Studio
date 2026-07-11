@@ -8,7 +8,7 @@
 
 const MAX_CHARS_PER_BUBBLE = 250;
 const MAX_LINES_PER_BUBBLE = 2;
-const MAX_BUBBLES = 5;
+const MAX_BUBBLES = 3;
 
 // Bug crítico encontrado 2026-07-06: "R$1.500" (ponto como separador de milhar)
 // tem um "." no meio sem espaço depois — o regex de frase trata isso como fim
@@ -116,13 +116,28 @@ function stripTrailingPeriod(bubble: string): string {
   return bubble;
 }
 
+// Saudação curta sozinha ("Boa tarde!", "Oi!", "Olá 😊") nunca vira um balão
+// desperdiçado — funde no balão seguinte (F4, saudação inteligente). Sem isso a
+// saudação terminava em "!" e o split de frase a isolava, atrasando o valor.
+const GREETING_ONLY = /^(oi+|ol[aá]|opa|fala|e a[ií]|eai|bom dia|boa tarde|boa noite)[\s!,.]*$/i;
+function mergeLeadingGreeting(bubbles: string[]): string[] {
+  if (bubbles.length < 2) return bubbles;
+  const firstNoEmoji = bubbles[0]
+    .replace(/[\p{Extended_Pictographic}️‍]/gu, "")
+    .trim();
+  if (GREETING_ONLY.test(firstNoEmoji)) {
+    return [`${bubbles[0]} ${bubbles[1]}`.replace(/\s+/g, " ").trim(), ...bubbles.slice(2)];
+  }
+  return bubbles;
+}
+
 // Quebra em até MAX_BUBBLES mensagens curtas, uma frase/ideia por balão —
 // nunca depende só da IA ter separado por parágrafo ou por frase.
 export function splitIntoBubbles(message: string): string[] {
   const sanitized = protectDigitDots(sanitizeMessageStyle(message));
   const paragraphs = sanitized.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   const base = paragraphs.length > 0 ? paragraphs : [sanitized];
-  const expanded = base.flatMap(splitParagraphIntoSentences);
+  const expanded = mergeLeadingGreeting(base.flatMap(splitParagraphIntoSentences));
 
   const result =
     expanded.length <= MAX_BUBBLES

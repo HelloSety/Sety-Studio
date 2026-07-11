@@ -11,9 +11,10 @@ export type ContactType =
   | "familiar"
   | "contato_pessoal"
   | "spam"
-  | "inadequado";
+  | "inadequado"
+  | "empresa_automatizada";
 
-export type AutoResponseDecision = "respond" | "ignore" | "notify_human" | "respond_once";
+export type AutoResponseDecision = "respond" | "ignore" | "notify_human" | "respond_once" | "redirect_once";
 
 export interface ContactClassification {
   contactType: ContactType;
