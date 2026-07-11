@@ -112,15 +112,33 @@ const BUSINESS_AUTOREPLY_KEYWORDS = [
   "obrigado pelo contato", "em breve um de nossos atendentes", "em breve iremos retornar",
   "iremos retornar", "retornaremos em breve", "assim que possível iremos", "já vamos te atender",
   "recebemos sua mensagem", "recebemos seu contato", "informe seu nome", "informe o motivo",
-  "secretária virtual", "assistente virtual", "atendimento exclusivo", "digite uma opção",
-  "escolha uma opção", "menu de atendimento", "para agilizar seu atendimento",
+  "informe seu cpf", "secretária virtual", "assistente virtual", "agente virtual",
+  "atendimento exclusivo", "atendimento eletrônico", "digite uma opção", "escolha uma opção",
+  "escolha uma das opções", "menu de atendimento", "para agilizar seu atendimento",
+  // Mensagens de erro/retry de URA/menu — são as que efetivamente aparecem DURANTE
+  // um loop (a Aurora responde algo fora do menu, o bot alheio devolve isso), então
+  // são as mais importantes pra travar o loop cedo. Ver incidente 2026-07-11: a lista
+  // original só cobria a mensagem de abertura do menu, não as respostas de erro dele,
+  // então depois da primeira falha de match o restante do loop passava batido.
+  "opção inválida", "opcao invalida", "entrada inválida", "entrada invalida",
+  "número inválido", "numero invalido", "resposta inválida", "resposta invalida",
+  "opção não reconhecida", "não entendi sua resposta", "nao entendi sua resposta",
+  "tente novamente", "digite novamente", "digite o número da opção", "digite a opção",
+  "selecione uma opção", "envie o número da opção",
 ];
 
 export function isLikelyAutomatedBusinessReply(message: string): boolean {
   const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-  return BUSINESS_AUTOREPLY_KEYWORDS.some((kw) =>
+  if (BUSINESS_AUTOREPLY_KEYWORDS.some((kw) =>
     text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
-  );
+  )) {
+    return true;
+  }
+  // Menu numerado típico de URA (ex: "1 - Comercial\n2 - Suporte\n3 - Financeiro"):
+  // 3+ linhas começando com dígito seguido de separador é sempre bot, nunca humano
+  // digitando naturalmente.
+  const numberedLines = message.split("\n").filter((line) => /^\s*[\d0-9️⃣]+\s*[-.).\s]/.test(line));
+  return numberedLines.length >= 3;
 }
 
 const SPAM_KEYWORDS = [
