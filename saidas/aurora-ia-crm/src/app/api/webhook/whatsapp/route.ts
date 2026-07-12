@@ -143,30 +143,6 @@ async function markChatAsRead(phone: string): Promise<void> {
   }).catch(() => {});
 }
 
-// ── Horário comercial (gate determinístico, roda ANTES de qualquer IA) ───────
-// Segunda a sábado, 9h-18h, domingo fechado — horário de Brasília.
-const WEEKDAY_MAP: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-
-function isWithinBusinessHours(): boolean {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/Sao_Paulo",
-    weekday: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).formatToParts(new Date());
-  const day = WEEKDAY_MAP[parts.find((p) => p.type === "weekday")?.value ?? ""] ?? 0;
-  const hour = parseInt(parts.find((p) => p.type === "hour")?.value ?? "0", 10) % 24;
-  const minute = parseInt(parts.find((p) => p.type === "minute")?.value ?? "0", 10);
-  const minutesNow = hour * 60 + minute;
-
-  if (day === 0) return false; // domingo fechado
-  return minutesNow >= 9 * 60 && minutesNow < 18 * 60; // seg-sáb 9h-18h
-}
-
-const OUT_OF_HOURS_MESSAGE =
-  "Olá! 😊\n\nNo momento estamos fora do horário de atendimento.\n\n🕘 Atendimento: segunda a sábado, das 9h às 18h.\n\nAssim que voltarmos, responderemos sua mensagem o mais rápido possível. Obrigado! 💙";
-
 // Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pela
 // INTENÇÃO do lead (score de compra): comprador quer resposta rápida, curioso
 // pode esperar um pouco mais. "O cliente deve sentir que existe uma pessoa
@@ -300,36 +276,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Marca como lida assim que aceita pra processar — replica o comportamento humano
     // de abrir a conversa e ver a mensagem antes mesmo de começar a digitar a resposta.
+    // Sem gate de horário: atendimento 24h, todos os dias — decisão explícita do Seven
+    // em 2026-07-12, depois de um bug no bot antigo mandar aviso de horário errado.
     await markChatAsRead(phone);
-
-    // ── Fora do horário comercial: nunca chama a IA, nunca processa mídia. Manda
-    // o aviso UMA vez a cada 24h (não repete se já mandou recentemente) e fica em
-    // silêncio até o horário reabrir.
-    if (!isWithinBusinessHours()) {
-      const lead = await findOrCreateLead(phone, senderName);
-      let notesObj: Record<string, unknown> = {};
-      try {
-        notesObj = JSON.parse(lead.notes ?? "{}") ?? {};
-      } catch {
-        notesObj = {};
-      }
-      const lastNoticeAt = typeof notesObj.aviso_fora_horario_em === "string" ? notesObj.aviso_fora_horario_em : null;
-      const hoursSinceLastNotice = lastNoticeAt ? (Date.now() - new Date(lastNoticeAt).getTime()) / 3_600_000 : Infinity;
-      if (hoursSinceLastNotice < 24) {
-        return NextResponse.json({ ok: true, skipped: "outside_business_hours_already_notified" });
-      }
-      const nowIso = new Date().toISOString();
-      await sendWhatsAppMessage(phone, OUT_OF_HOURS_MESSAGE);
-      await saveMessage({
-        lead_id: lead.id,
-        content: OUT_OF_HOURS_MESSAGE,
-        role: "aurora",
-        timestamp: nowIso,
-        status: "sent",
-      });
-      await updateLead(lead.id, { notes: JSON.stringify({ ...notesObj, aviso_fora_horario_em: nowIso }) });
-      return NextResponse.json({ ok: true, action: "outside_business_hours_notice_sent" });
-    }
 
     try {
 
