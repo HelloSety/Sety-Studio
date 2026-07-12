@@ -7,6 +7,7 @@ import type {
   ContactType,
   AutoResponseDecision,
   ContactClassification,
+  Message,
 } from "@/types";
 
 // ── Palavras-chave por categoria ──────────────────────────────────────────────
@@ -94,6 +95,46 @@ export function wantsPaymentConfirmation(message: string): boolean {
   );
 }
 
+// ── Origem da conversa: quem mandou a primeira mensagem real ─────────────────
+// Bug real observado em 2026-07-11: o bot dizia "vi que vocês entraram em
+// contato com a gente" em leads de prospecção ativa (Kaptar) — exatamente o
+// contrário do que aconteceu, porque a empresa é quem manda a 1ª mensagem
+// nesse canal. A causa raiz não é só de frase: o webhook da UAZAPI ignora
+// mensagens com fromMe=true (ver route.ts, `if (msg.fromMe || ...) return`),
+// então o envio inicial via Kaptar NUNCA vira registro em `messages` — pra um
+// lead novo, a primeira mensagem salva no banco é sempre "client", mesmo
+// quando foi a empresa que chamou primeiro por fora da Aurora. Por isso o
+// único jeito confiável de saber a origem de um lead novo é o marcador
+// manual do lead (tag "prospecção fria" ou lead.origin contendo
+// kaptar/prospec/outbound/frio) — precisa ser aplicado no lead ANTES do
+// cliente responder, senão cai no default errado (client).
+const COLD_OUTBOUND_MARKERS = ["kaptar", "prospec", "outbound", "frio"];
+
+export function isColdOutboundLead(lead: { origin?: string; tags?: string[] }): boolean {
+  return (
+    (lead.tags ?? []).some(
+      (t) => t.toLowerCase().includes("prospecção fria") || t.toLowerCase().includes("prospeccao fria")
+    ) || COLD_OUTBOUND_MARKERS.some((m) => (lead.origin ?? "").toLowerCase().includes(m))
+  );
+}
+
+export type ConversationOrigin = "company" | "client";
+
+// Decide quem começou a conversa ANTES de qualquer resposta da IA (nunca
+// confiar só no último webhook). Precedência:
+// 1) Mensagem real já salva com role "aurora"/"human" como a 1ª da conversa
+//    → a empresa começou, não importa o que o lead diga depois disso.
+// 2) 1ª mensagem salva é "client" → decide pelo marcador do lead (única forma
+//    de capturar prospecção via Kaptar, que nunca é logada — ver acima).
+// 3) Sem nenhuma mensagem salva ainda (evento chegando agora) → só o marcador.
+export function getConversationOrigin(
+  firstMessage: Pick<Message, "role"> | null,
+  lead: { origin?: string; tags?: string[] }
+): ConversationOrigin {
+  if (firstMessage?.role === "aurora" || firstMessage?.role === "human") return "company";
+  return isColdOutboundLead(lead) ? "company" : "client";
+}
+
 // Resposta automática de OUTRA empresa (recepção/atendimento virtual de quem foi
 // contatado na prospecção) — nunca é um lead de verdade, é o bot/fluxo automático
 // deles. Sem essa detecção, o SDR tratava "seja bem-vindo ao nosso atendimento..."
@@ -125,6 +166,11 @@ const BUSINESS_AUTOREPLY_KEYWORDS = [
   "opção não reconhecida", "não entendi sua resposta", "nao entendi sua resposta",
   "tente novamente", "digite novamente", "digite o número da opção", "digite a opção",
   "selecione uma opção", "envie o número da opção",
+  // Redirecionamento burocrático genérico — real (não "meu nome é", que é ambíguo
+  // com apresentação humana): frases que só um sistema/recepção automatizada usa,
+  // nunca uma pessoa comum na conversa. Ver incidente 2026-07-12 (imobiliária).
+  "informe seu cnpj", "qual seu protocolo", "número de protocolo",
+  "assuntos comerciais devem ser tratados", "para atendimento comercial",
 ];
 
 export function isLikelyAutomatedBusinessReply(message: string): boolean {
