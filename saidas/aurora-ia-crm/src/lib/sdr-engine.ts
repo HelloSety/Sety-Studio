@@ -681,7 +681,7 @@ MENSAGEM DO CONTATO:
 
 ${isFirstMessage
   ? companyStartedConversation
-    ? "INSTRUÇÃO: É o primeiro contato, e foi A SETY quem chamou primeiro (ver QUEM COMEÇOU A CONVERSA acima). Cumprimente de forma natural, sem mencionar quem entrou em contato com quem, e siga a conversa/descoberta normalmente. Nunca use 'como posso ajudar?' (implica que o contato chamou você) nem qualquer variação de 'vi que você entrou em contato'."
+    ? "INSTRUÇÃO: É o primeiro contato, e foi A SETY quem chamou primeiro (ver QUEM COMEÇOU A CONVERSA acima). NESSA MENSAGEM, responda SÓ a saudação dele — 'Oi! Tudo bem? 😊' ou variação parecida — e PARE. PROIBIDO nessa resposta: apresentar a Sety, mencionar oportunidade, falar de serviço, fazer qualquer pitch. O objetivo dessa primeira troca é só deixar o contato confortável pra continuar respondendo — o resto (mencionar que viu a empresa e enxergou algo interessante, perguntar se pode explicar em 2 minutos, e só depois explicar e oferecer texto-ou-ligação) vem nas próximas mensagens, uma etapa por vez, sempre esperando resposta antes de avançar pra próxima. Nunca use 'como posso ajudar?' (implica que o contato chamou você) nem qualquer variação de 'vi que você entrou em contato'."
     : "INSTRUÇÃO: É o primeiro contato, e foi O CONTATO quem chamou primeiro. Cumprimente, apresente a Sety brevemente e pergunte como pode ajudar."
   : "INSTRUÇÃO: Continue a qualificação. Nunca repita algo que já está em DADOS JÁ CONFIRMADOS. Se o cliente perguntar algo fora do fluxo, responda e depois retome exatamente o ponto onde a negociação estava."}
 
