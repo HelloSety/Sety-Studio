@@ -144,7 +144,7 @@ async function markChatAsRead(phone: string): Promise<void> {
 }
 
 // ── Horário comercial (gate determinístico, roda ANTES de qualquer IA) ───────
-// Segunda a sexta 8h30-18h, sábado 9h-18h, domingo fechado — horário de Brasília.
+// Segunda a sábado, 9h-18h, domingo fechado — horário de Brasília.
 const WEEKDAY_MAP: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
 function isWithinBusinessHours(): boolean {
@@ -161,12 +161,11 @@ function isWithinBusinessHours(): boolean {
   const minutesNow = hour * 60 + minute;
 
   if (day === 0) return false; // domingo fechado
-  if (day === 6) return minutesNow >= 9 * 60 && minutesNow < 18 * 60; // sábado 9h-18h
-  return minutesNow >= 8 * 60 + 30 && minutesNow < 18 * 60; // seg-sex 8h30-18h
+  return minutesNow >= 9 * 60 && minutesNow < 18 * 60; // seg-sáb 9h-18h
 }
 
 const OUT_OF_HOURS_MESSAGE =
-  "Olá! 😊 Estamos fora do horário de atendimento no momento. Assim que retornarmos, respondemos sua mensagem. Obrigado pela compreensão!";
+  "Olá! 😊\n\nNo momento estamos fora do horário de atendimento.\n\n🕘 Atendimento: segunda a sábado, das 9h às 18h.\n\nAssim que voltarmos, responderemos sua mensagem o mais rápido possível. Obrigado! 💙";
 
 // Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pela
 // INTENÇÃO do lead (score de compra): comprador quer resposta rápida, curioso
