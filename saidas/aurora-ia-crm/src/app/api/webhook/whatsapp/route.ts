@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { classifyContact, wantsPaymentConfirmation } from "@/lib/contact-classifier";
+import { classifyContact, wantsPaymentConfirmation, getConversationOrigin } from "@/lib/contact-classifier";
 import { generateSdrResponse, buildHumanTransferMessage, type IncomingImage } from "@/lib/sdr-engine";
 import { splitIntoBubbles } from "@/lib/message-formatting";
 import { detectProofTrigger, pickProofImages, inferNiche, detectDemoTrigger, buildDemoMessage } from "@/lib/social-proof-assets";
@@ -9,6 +9,7 @@ import {
   findOrCreateLead,
   updateLead,
   getLeadHistory,
+  getFirstMessage,
   saveMessage,
   getContactProfile,
   upsertContactProfile,
@@ -143,10 +144,7 @@ async function markChatAsRead(phone: string): Promise<void> {
 }
 
 // ── Horário comercial (gate determinístico, roda ANTES de qualquer IA) ───────
-// Segunda a sábado, 9h-18h, horário de Brasília. Domingo fechado.
-const BUSINESS_DAYS = [1, 2, 3, 4, 5, 6]; // 0=domingo
-const BUSINESS_START_HOUR = 9;
-const BUSINESS_END_HOUR = 18;
+// Segunda a sexta 8h30-18h, sábado 9h-18h, domingo fechado — horário de Brasília.
 const WEEKDAY_MAP: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
 function isWithinBusinessHours(): boolean {
@@ -154,19 +152,21 @@ function isWithinBusinessHours(): boolean {
     timeZone: "America/Sao_Paulo",
     weekday: "short",
     hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   }).formatToParts(new Date());
   const day = WEEKDAY_MAP[parts.find((p) => p.type === "weekday")?.value ?? ""] ?? 0;
   const hour = parseInt(parts.find((p) => p.type === "hour")?.value ?? "0", 10) % 24;
-  return BUSINESS_DAYS.includes(day) && hour >= BUSINESS_START_HOUR && hour < BUSINESS_END_HOUR;
-}
+  const minute = parseInt(parts.find((p) => p.type === "minute")?.value ?? "0", 10);
+  const minutesNow = hour * 60 + minute;
 
-function brazilDateKey(): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
+  if (day === 0) return false; // domingo fechado
+  if (day === 6) return minutesNow >= 9 * 60 && minutesNow < 18 * 60; // sábado 9h-18h
+  return minutesNow >= 8 * 60 + 30 && minutesNow < 18 * 60; // seg-sex 8h30-18h
 }
 
 const OUT_OF_HOURS_MESSAGE =
-  "Olá! 😊\n\nNo momento nossa equipe está fora do horário de atendimento.\n\nNosso horário é de segunda a sábado, das 9h às 18h.\n\nAssim que retornarmos, respondemos sua mensagem o mais rápido possível. Agradecemos a compreensão!";
+  "Olá! 😊 Estamos fora do horário de atendimento no momento. Assim que retornarmos, respondemos sua mensagem. Obrigado pela compreensão!";
 
 // Delay do PRIMEIRO balão simula tempo de leitura + raciocínio, calibrado pela
 // INTENÇÃO do lead (score de compra): comprador quer resposta rápida, curioso
@@ -291,13 +291,21 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
     let finalStatus: "done" | "failed" = "done";
 
+    // Contato salvo na agenda do WhatsApp conectado (amigo, família, fornecedor
+    // etc.) — nunca recebe NADA automático, nem aviso de fora do horário, nem
+    // atendimento. Checa isso ANTES de qualquer outro gate, inclusive do
+    // horário comercial (senão o aviso de ausência ia pra todo mundo).
+    if (await isSavedContact(phone)) {
+      return NextResponse.json({ ok: true, skipped: "saved_contact_never_automated" });
+    }
+
     // Marca como lida assim que aceita pra processar — replica o comportamento humano
     // de abrir a conversa e ver a mensagem antes mesmo de começar a digitar a resposta.
     await markChatAsRead(phone);
 
     // ── Fora do horário comercial: nunca chama a IA, nunca processa mídia. Manda
-    // o aviso UMA vez por dia (Brasil) e fica em silêncio até o próximo aviso
-    // válido — reseta sozinho no dia seguinte ou quando o horário reabrir.
+    // o aviso UMA vez a cada 24h (não repete se já mandou recentemente) e fica em
+    // silêncio até o horário reabrir.
     if (!isWithinBusinessHours()) {
       const lead = await findOrCreateLead(phone, senderName);
       let notesObj: Record<string, unknown> = {};
@@ -306,19 +314,21 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       } catch {
         notesObj = {};
       }
-      const today = brazilDateKey();
-      if (notesObj.aviso_fora_horario_data === today) {
+      const lastNoticeAt = typeof notesObj.aviso_fora_horario_em === "string" ? notesObj.aviso_fora_horario_em : null;
+      const hoursSinceLastNotice = lastNoticeAt ? (Date.now() - new Date(lastNoticeAt).getTime()) / 3_600_000 : Infinity;
+      if (hoursSinceLastNotice < 24) {
         return NextResponse.json({ ok: true, skipped: "outside_business_hours_already_notified" });
       }
+      const nowIso = new Date().toISOString();
       await sendWhatsAppMessage(phone, OUT_OF_HOURS_MESSAGE);
       await saveMessage({
         lead_id: lead.id,
         content: OUT_OF_HOURS_MESSAGE,
         role: "aurora",
-        timestamp: new Date().toISOString(),
+        timestamp: nowIso,
         status: "sent",
       });
-      await updateLead(lead.id, { notes: JSON.stringify({ ...notesObj, aviso_fora_horario_data: today }) });
+      await updateLead(lead.id, { notes: JSON.stringify({ ...notesObj, aviso_fora_horario_em: nowIso }) });
       return NextResponse.json({ ok: true, action: "outside_business_hours_notice_sent" });
     }
 
@@ -481,7 +491,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       isSavedContact(phone),
     ]);
 
-    const history = await getLeadHistory(lead.id, 10);
+    const [history, firstMessage] = await Promise.all([
+      getLeadHistory(lead.id, 10),
+      getFirstMessage(lead.id),
+    ]);
+    // Quem começou esta conversa de verdade — calculado ANTES da mensagem
+    // atual ser salva (getFirstMessage/history acima ainda não a incluem).
+    // Passado adiante pro sdr-engine decidir a linguagem certa (ver
+    // getConversationOrigin em contact-classifier.ts pro porquê disso não
+    // poder confiar só na `history` truncada em 10 itens).
+    const conversationOrigin = getConversationOrigin(firstMessage, lead);
     const classification = classifyContact({
       phone,
       message: messageText,
@@ -588,7 +607,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       freshHistory,
       classification,
       incomingImage,
-      extraContext
+      extraContext,
+      conversationOrigin
     );
 
     // Defesa extra: nunca reenviar uma resposta igual ou muito parecida com a última
