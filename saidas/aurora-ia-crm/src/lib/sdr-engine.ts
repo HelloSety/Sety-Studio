@@ -7,7 +7,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Lead, Message } from "@/types";
 import type { ContactClassification } from "@/types";
-import { wantsHumanHandoff, HUMAN_TAKEOVER_TAG } from "@/lib/contact-classifier";
+import { wantsHumanHandoff, HUMAN_TAKEOVER_TAG, getConversationOrigin, type ConversationOrigin } from "@/lib/contact-classifier";
 import { sanitizeMessageStyle } from "@/lib/message-formatting";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
@@ -70,6 +70,10 @@ ANTES DE ENVIAR, cheque: respondi o que ele perguntou? dá pra dizer mais curto?
 Atenda TODOS os serviços da Sety, pra QUALQUER nicho, e ofereça qualquer serviço individual quando o cliente quiser. Nunca limite a conversa só a CRM/automação/sistema. Sempre responda exatamente o que o cliente pediu PRIMEIRO; só depois, se fizer sentido no contexto, apresente soluções complementares que melhorem o resultado dele — de forma natural, nunca forçando pacote, nunca tentando vender tudo de uma vez. Pra um serviço pontual que o cliente já quer, você pode entender a necessidade e passar valor/proposta normalmente (entenda antes de cotar, ver LOOP 2) — o diagnóstico gratuito é o caminho pra quando há uma operação inteira pra estruturar, não uma trava pra cotar um serviço simples.
 
 **FOQUE NO QUE FOI PEDIDO — o cross-sell abaixo é EXCEÇÃO, não hábito:** quando o cliente demonstrar interesse claro em UM serviço específico (ex: "quero um site"), conduza a conversa inteira em torno dele — não puxe tráfego, automação, CRM ou identidade visual por conta própria só porque existem no catálogo. Só mencione outro serviço se (a) o cliente perguntar diretamente ("vocês fazem tráfego também?" → responda normalmente, sem problema), ou (b) surgir uma oportunidade MUITO óbvia e explícita no que ele mesmo contou (ex: pediu site E disse que hoje atende tudo manual no WhatsApp) — nesse caso, UMA frase curta apontando o gancho, e volte na hora pro serviço original ("uma coisa que pode ajudar bastante no futuro é uma automação pro WhatsApp, mas primeiro vamos resolver o site 😊"). Nunca continue vendendo o segundo item depois dessa frase. Fora esses dois casos, fique só no que foi pedido.
+
+**QUANDO NADA ESPECÍFICO FOI PEDIDO (conversa geral tipo "quero melhorar meu negócio", ou prospecção fria sem pedido explícito), ordem de prioridade padrão pra recomendar:** 1º CRM + IA + Automação WhatsApp (o carro-chefe da Sety Vision, recorrente, resolve a dor mais comum) → 2º gestão completa de atendimento → 3º site de alta conversão → 4º loja virtual → 5º tráfego pago → 6º branding → 7º design → 8º demais serviços. Essa ordem só vale como default pra decidir POR ONDE COMEÇAR quando o cliente não pediu nada específico — não é lista pra despejar, é critério de prioridade pra qual gargalo investigar/oferecer primeiro. Se o cliente já pediu algo específico, a regra acima (FOQUE NO QUE FOI PEDIDO) sempre vence essa ordem.
+
+**OBSERVAÇÃO ESPECÍFICA ANTES DE OFERECER (quando a informação existir no contexto):** antes de apresentar qualquer solução, se houver algum detalhe concreto e específico sobre a empresa (algo do site, do Instagram, do atendimento, do perfil — não genérico de segmento), mencione isso primeiro. Faz a conversa soar consultoria personalizada, não prospecção em massa. Só use se for um detalhe real que você genuinamente sabe — nunca invente que "viu" algo que não foi informado no contexto.
 
 Ganchos de upsell consultivo por contexto (use só nas exceções acima — nunca como abertura espontânea):
 - Pediu site → "se o objetivo também for gerar mais clientes, dá pra integrar com página de alta conversão, tráfego, CRM e automação no WhatsApp pra acompanhar cada lead"
@@ -610,7 +614,11 @@ export async function generateSdrResponse(
   history: Message[],
   classification: ContactClassification,
   image?: IncomingImage,
-  extraContext?: string
+  extraContext?: string,
+  // Calculado pela rota via getFirstMessage() (mensagem real mais antiga do
+  // banco, nunca limitada como `history`) + getConversationOrigin() — passar
+  // sempre que possível, é mais confiável que o fallback local abaixo.
+  origin?: ConversationOrigin
 ): Promise<SdrResponse> {
 
   // Pedido explícito de humano: nunca depende do modelo interpretar certo — desvia
@@ -645,21 +653,17 @@ export async function generateSdrResponse(
   const greeting = greetingForHour(hourNow);
   const modoFechamento = classification.intentScore >= 70;
 
-  // Origem fria = prospecção ativa (Kaptar e afins): foi a Sety que chamou o
-  // cliente, não o contrário. Marque leads assim via tag "prospecção fria" no
-  // CRM (ou lead.origin contendo kaptar/prospec/outbound/frio) — sem essa marca,
-  // o lead é tratado como inbound (anúncio/site/indicação) por padrão.
-  const COLD_OUTBOUND_MARKERS = ["kaptar", "prospec", "outbound", "frio"];
-  const isColdOutbound =
-    lead.tags?.some((t) => t.toLowerCase().includes("prospecção fria") || t.toLowerCase().includes("prospeccao fria")) ||
-    COLD_OUTBOUND_MARKERS.some((m) => (lead.origin ?? "").toLowerCase().includes(m));
-
-  // Quem realmente mandou a primeira mensagem: nunca confia só na tag manual —
-  // checa o histórico real salvo. Se a mensagem mais antiga já registrada foi
-  // da Aurora, foi a Sety quem chamou primeiro, mesmo sem tag de prospecção
-  // fria marcada. Isso evita "vi que você entrou em contato com a gente" quando
-  // foi exatamente o contrário.
-  const companyStartedConversation = isColdOutbound || history[0]?.role === "aurora";
+  // Quem realmente mandou a primeira mensagem desta conversa. Prioridade pro
+  // `origin` calculado pela rota (getFirstMessage + getConversationOrigin —
+  // consulta a mensagem real mais antiga no banco, não a `history` truncada
+  // em 10 itens); sem isso, cai num fallback local só com o que já temos aqui
+  // (tag/origin do lead + primeiro item de `history`, que pode não ser a
+  // mensagem real mais antiga numa conversa longa — por isso `origin` deve
+  // ser sempre passado pela rota quando possível).
+  const resolvedOrigin: ConversationOrigin =
+    origin ?? getConversationOrigin(history[0] ?? null, lead);
+  const isColdOutbound = resolvedOrigin === "company";
+  const companyStartedConversation = isColdOutbound;
 
   const userContext = `
 CONTEXTO DO LEAD:
@@ -683,7 +687,9 @@ MENSAGEM DO CONTATO:
 "${incomingMessage}"
 
 ${isFirstMessage
-  ? "INSTRUÇÃO: É o primeiro contato. Cumprimente, apresente a Sety brevemente e pergunte como pode ajudar."
+  ? companyStartedConversation
+    ? "INSTRUÇÃO: É o primeiro contato, e foi A SETY quem chamou primeiro (ver QUEM COMEÇOU A CONVERSA acima). Cumprimente de forma natural, sem mencionar quem entrou em contato com quem, e siga a conversa/descoberta normalmente. Nunca use 'como posso ajudar?' (implica que o contato chamou você) nem qualquer variação de 'vi que você entrou em contato'."
+    : "INSTRUÇÃO: É o primeiro contato, e foi O CONTATO quem chamou primeiro. Cumprimente, apresente a Sety brevemente e pergunte como pode ajudar."
   : "INSTRUÇÃO: Continue a qualificação. Nunca repita algo que já está em DADOS JÁ CONFIRMADOS. Se o cliente perguntar algo fora do fluxo, responda e depois retome exatamente o ponto onde a negociação estava."}
 
 Gere a resposta em duas partes, nessa ordem exata:
