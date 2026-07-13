@@ -195,6 +195,34 @@ export function isLikelyAutomatedBusinessReply(message: string): boolean {
   return numberedLines.length >= 3;
 }
 
+// Cortesia de encerramento ("obrigado", "tenha um ótimo dia", "à disposição")
+// — sozinha, sem pergunta nem conteúdo comercial novo, é despedida, não
+// abertura de conversa. Usada pra travar loop de despedida infinita (ver
+// isClosingPleasantryLoop em route.ts): quando os dois lados já trocaram uma
+// rodada de cortesia, continuar só gera "obrigado"/"tenha um ótimo dia" pra
+// sempre — visto ao vivo 2026-07-13 com bots de recepção de escritórios de
+// advocacia (a Aurora respondia cortesia com cortesia indefinidamente).
+const CLOSING_PLEASANTRY_KEYWORDS = [
+  "tenha um ótimo dia", "tenha um otimo dia", "tenha um excelente dia",
+  "tenha um bom dia", "tenha uma ótima", "tenha uma otima",
+  "estamos à disposição", "estamos a disposicao", "estamos sempre à disposição",
+  "estamos sempre a disposicao", "fico à disposição", "fico a disposicao",
+  "ficamos à disposição", "ficamos a disposicao", "disponha",
+  "por nada", "de nada", "muito obrigado", "muito obrigada",
+  "agradeço a compreensão", "agradeco a compreensao", "sem problemas",
+  "qualquer coisa é só chamar", "qualquer coisa e so chamar",
+  "pode deixar, estaremos por aqui", "igualmente", "desejamos sucesso",
+  "desejamos o mesmo",
+];
+
+export function isClosingPleasantry(message: string): boolean {
+  const text = message.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+  if (text.includes("?")) return false; // pergunta nunca é só despedida
+  return CLOSING_PLEASANTRY_KEYWORDS.some((kw) =>
+    text.includes(kw.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
+  );
+}
+
 const SPAM_KEYWORDS = [
   "promoção exclusiva", "ganhe dinheiro fácil", "renda extra sem sair",
   "oportunidade única", "clique aqui e ganhe", "você foi selecionado",
@@ -383,6 +411,24 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
       intentScore: 0,
       detectedKeywords: [],
       reasoning: "Contato já identificado como atendimento automatizado de outra empresa — não responde mais.",
+    };
+  }
+
+  // Loop de despedida (cortesia trocada indefinidamente: "obrigado"/"tenha um
+  // ótimo dia"/"à disposição" dos dois lados, sem pergunta nem conteúdo novo).
+  // Um cliente de verdade para de responder depois de se despedir; um bot de
+  // recepção continua mandando cortesia pra sempre — visto ao vivo 2026-07-13
+  // com bots de escritórios de advocacia. Se a NOSSA última mensagem já foi
+  // despedida e a mensagem atual também é só despedida, encerra em silêncio.
+  const lastAuroraEntry = [...conversationHistory].reverse().find((m) => m.role === "aurora" || m.role === "human");
+  if (lastAuroraEntry && isClosingPleasantry(lastAuroraEntry.content) && isClosingPleasantry(message)) {
+    return {
+      contactType: "empresa_automatizada",
+      decision: "ignore",
+      confidence: 0.85,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Loop de despedida detectado (cortesia repetida dos dois lados, sem conteúdo novo) — provável bot de recepção, automação encerrada.",
     };
   }
 
