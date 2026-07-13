@@ -477,6 +477,23 @@ export function classifyContact(input: ClassificationInput): ContactClassificati
     AUTOMATION_OVERRIDE_TAGS.includes(t.toLowerCase())
   );
 
+  // Contato salvo no celular conectado (nome real da agenda, via GET /contact/info da
+  // UAZAPI — nunca pushName/displayName de perfil, que qualquer um pode definir sem
+  // estar na sua agenda). Checado ANTES do atalho de cliente_ativo abaixo — decisão
+  // confirmada por Seven em 2026-07-13 (caso Sam Tyler): contato salvo é pessoal
+  // SEMPRE, mesmo que já tenha virado cliente_ativo no CRM; automação nunca manda
+  // mensagem pra quem está na agenda dele. Só a tag de override reativa pontualmente.
+  if (input.isSavedContact && !hasAutomationOverride) {
+    return {
+      contactType: "contato_pessoal",
+      decision: "ignore",
+      confidence: 0.9,
+      intentScore: 0,
+      detectedKeywords: [],
+      reasoning: "Número salvo nos contatos do WhatsApp conectado — automação nunca responde, mesmo já sendo cliente.",
+    };
+  }
+
   // Se já é cliente ativo: sempre responder (verifica antes do bloqueio, tem prioridade)
   if (existingContactType === "cliente_ativo") {
     return {
