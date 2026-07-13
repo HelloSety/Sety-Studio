@@ -171,6 +171,14 @@ const BUSINESS_AUTOREPLY_KEYWORDS = [
   // nunca uma pessoa comum na conversa. Ver incidente 2026-07-12 (imobiliária).
   "informe seu cnpj", "qual seu protocolo", "número de protocolo",
   "assuntos comerciais devem ser tratados", "para atendimento comercial",
+  // Aviso automático anti-golpe (recepção virtual de escritórios/consultórios) —
+  // sem essa detecção, "whatsapp" e "atendimento" no texto pontuavam como
+  // interesse comercial e virava "Lead Quente" pra um aviso robótico, não um
+  // cliente de verdade. Ver incidente 2026-07-13 (escritório de advocacia).
+  "cuidado com golpistas", "cuidado com golpes", "não pedimos transferência",
+  "nao pedimos transferencia", "não utilizamos o aplicativo telegram",
+  "nao utilizamos o aplicativo telegram", "não utilizamos telegram", "nao utilizamos telegram",
+  "os únicos telefones", "os unicos telefones", "único telefone oficial", "unico telefone oficial",
 ];
 
 export function isLikelyAutomatedBusinessReply(message: string): boolean {
