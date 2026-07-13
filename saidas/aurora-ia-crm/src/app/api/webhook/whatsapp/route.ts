@@ -88,7 +88,7 @@ function normalizeImageMimeType(mimeType: string): IncomingImage["mimeType"] {
 // Retorna se o envio foi aceito pela UAZAPI — nunca assumir "entregue" sem
 // checar isso. Um envio que falha silenciosamente (token, número inválido,
 // rate limit) deixava o CRM marcado como "sent" sem o cliente receber nada.
-async function sendTextAttempt(phone: string, text: string): Promise<boolean> {
+async function sendTextAttempt(phone: string, text: string): Promise<{ ok: boolean; error?: string }> {
   try {
     const res = await fetch(`${UAZAPI_BASE_URL}/send/text`, {
       method: "POST",
@@ -96,24 +96,31 @@ async function sendTextAttempt(phone: string, text: string): Promise<boolean> {
       body: JSON.stringify({ number: phone, text }),
     });
     if (!res.ok) {
-      console.error(`Erro ao enviar mensagem UAZAPI pra ${phone}:`, await res.text());
-      return false;
+      const error = await res.text();
+      console.error(`Erro ao enviar mensagem UAZAPI pra ${phone}:`, error);
+      return { ok: false, error: `HTTP ${res.status}: ${error}`.slice(0, 300) };
     }
-    return true;
+    return { ok: true };
   } catch (e) {
+    const error = e instanceof Error ? e.message : String(e);
     console.error(`Exceção ao enviar mensagem UAZAPI pra ${phone}:`, e);
-    return false;
+    return { ok: false, error };
   }
 }
 
 // A UAZAPI pode falhar de forma transitória (ex: "host not mapped" durante uma
 // reconexão momentânea da sessão) — uma tentativa a mais recupera esses casos
 // sem precisar notificar o Seven por um blip que se resolve sozinho em segundos.
-async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean> {
-  if (await sendTextAttempt(phone, text)) return true;
+async function sendWhatsAppMessageDetailed(phone: string, text: string): Promise<{ ok: boolean; error?: string }> {
+  const first = await sendTextAttempt(phone, text);
+  if (first.ok) return first;
   console.log(`Retentando envio pra ${phone} após falha...`);
   await new Promise((resolve) => setTimeout(resolve, 3000));
   return sendTextAttempt(phone, text);
+}
+
+async function sendWhatsAppMessage(phone: string, text: string): Promise<boolean> {
+  return (await sendWhatsAppMessageDetailed(phone, text)).ok;
 }
 
 async function sendWhatsAppImage(phone: string, imageUrl: string): Promise<void> {
@@ -576,19 +583,24 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // pela bolha de saída — ver firstReplyDelayRange).
     const bubbles = splitIntoBubbles(sdrResult.message);
     let anySendFailed = false;
+    let lastSendError: string | undefined;
     for (let i = 0; i < bubbles.length; i++) {
       await simulateTyping(phone, classification.intentScore, i === 0 ? effectiveType : "text", i > 0);
-      const ok = await sendWhatsAppMessage(phone, bubbles[i]);
-      if (!ok) anySendFailed = true;
+      const result = await sendWhatsAppMessageDetailed(phone, bubbles[i]);
+      if (!result.ok) {
+        anySendFailed = true;
+        lastSendError = result.error;
+      }
     }
 
     if (anySendFailed) {
+      const errorDetail = lastSendError ? ` Motivo: ${lastSendError}` : "";
       await Promise.all([
-        notifyResponsible(phone, `⚠️ *Falha no envio* — parte da resposta pode não ter chegado pro cliente ${senderName ?? phone} (${phone}). Verificar manualmente.`),
+        notifyResponsible(phone, `⚠️ *Falha no envio* — parte da resposta pode não ter chegado pro cliente ${senderName ?? phone} (${phone}).${errorDetail}`),
         createCrmNotification({
           type: "message",
           title: `Falha ao enviar mensagem — ${senderName ?? phone}`,
-          body: "A UAZAPI recusou/falhou ao enviar pelo menos um balão da resposta. Verificar se o cliente recebeu.",
+          body: `A UAZAPI recusou/falhou ao enviar pelo menos um balão da resposta. Verificar se o cliente recebeu.${errorDetail}`,
           lead_id: lead.id,
         }),
       ]);
